@@ -79,15 +79,16 @@ to save. The game is a complete story with a real ending, not endless.
   a person in a navy-ringed CIRCLE (KEEP the circle): navy hair+eyes, pale
   off-white face (the interior showing through the hair gap, not drawn),
   gray shoulders, two small eyes, no nose/mouth. Source = assetFace.png.
-  7 avatars saved in project root: face_man, face_woman (user's exact
-  originals), plus 5 built on the user's exact base (face_bald extracted
-  by removing hair) with only the navy hair changed: face_curly,
-  face_shoulder, face_bob, face_bun, face_long. face_all.png = preview.
-  HOW to add more: reuse the exact base (circle+face+eyes+shoulders) and
-  draw a new ANTIALIASED navy hair region minus the face oval (~ellipse
-  45,45,28,32 in the 118x120 crop). Do NOT hand-redraw from scratch (that
-  was rejected for wrong proportions). Extraction/build was done in
-  .NET/PowerShell, not a browser lab.
+  6 avatars in project root: face_man, face_woman (user's exact
+  originals, untouched) + 4 variants on the exact extracted base:
+  face_man2 (crew cut), face_man3 (side-combed), face_woman2 (jaw bob),
+  face_woman3 (center part, shoulder length). face_all.png = preview.
+  HOW to add more: draw hair as whole ~4px logical grid cells (pitch
+  251/63), hard edges, NO antialiasing, on the bald base; hair never
+  below the shoulder line; normal conservative styles only. First
+  attempt used 1px antialiased shapes and was rejected as granulated;
+  full-length hair was rejected as horror-like. Built in PowerShell/.NET,
+  not a browser lab.
 - **Survivors read as SLIGHTLY depressed** (user): quiet, low mood, shown
   ONLY through subtly downcast eyes. Careful and subtle, never a frown,
   tears, or caricature. Fits the melancholy of the premise (goodbyes,
