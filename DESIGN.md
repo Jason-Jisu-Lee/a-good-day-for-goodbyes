@@ -92,9 +92,13 @@ to save. The game is a complete story with a real ending, not endless.
   toy-like eye). Keep both honest: art stays cute/minimal, audio stays
   classy. Neither side should drift toward the other and flatten it.
 - Jazz is the primary background bed (jazz noir + classical, TO-DO.md).
-- Tension with house law (procedural WebAudio only, no samples): real
-  jazz basically needs recorded/authored tracks, so the no-samples law
-  will likely BEND for music. Decide when audio work begins.
+- **RESOLVED (2026-07-07):** music ships as pre-made audio FILES (user
+  already has them: AI-generated + royalty-free). The no-samples house
+  law bends for MUSIC; sound EFFECTS stay procedural WebAudio. Apply the
+  tracks later when audio work starts (needs a small music player: load,
+  loop, crossfade, volume, mute, resume after tab-switch).
+- Keep a license/commercial-use record per track (royalty-free terms and
+  AI-generator terms vary); matters for itch/Steam release.
 
 ## Project structure
 - Root: CLAUDE.md (local), DESIGN.md, TO-DO.md, README.md.
@@ -113,4 +117,4 @@ to save. The game is a complete story with a real ending, not endless.
 - Target survivor count.
 
 ## Parked
-- Music vs procedural-audio law.
+(none)
