@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>face lab</title>
+<style>
+html,body{margin:0;height:100%;background:#060607;overflow:hidden}
+[hidden]{display:none !important}
+body{display:flex;align-items:center;justify-content:center}
+canvas{display:block;image-rendering:pixelated}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<script>
+const W=960,H=540,BG="#0a0a0c",FG="#e9e7e0",LINE="#1a1a1f";
+const cv=document.getElementById("cv"),cx=cv.getContext("2d");
+let k=1,S=1,dpr=1;
+
+const FONT={
+"A":[".X.","X.X","XXX","X.X","X.X"],"B":["XX.","X.X","XX.","X.X","XX."],
+"C":[".XX","X..","X..","X..",".XX"],"D":["XX.","X.X","X.X","X.X","XX."],
+"E":["XXX","X..","XX.","X..","XXX"],"F":["XXX","X..","XX.","X..","X.."],
+"G":[".XX","X..","X.X","X.X",".XX"],"H":["X.X","X.X","XXX","X.X","X.X"],
+"I":["XXX",".X.",".X.",".X.","XXX"],"J":["..X","..X","..X","X.X",".X."],
+"K":["X.X","X.X","XX.","X.X","X.X"],"L":["X..","X..","X..","X..","XXX"],
+"M":["X.X","XXX","X.X","X.X","X.X"],"N":["XX.","X.X","X.X","X.X","X.X"],
+"O":[".X.","X.X","X.X","X.X",".X."],"P":["XX.","X.X","XX.","X..","X.."],
+"Q":[".X.","X.X","X.X","XX.","..X"],"R":["XX.","X.X","XX.","X.X","X.X"],
+"S":[".XX","X..",".X.","..X","XX."],"T":["XXX",".X.",".X.",".X.",".X."],
+"U":["X.X","X.X","X.X","X.X","XXX"],"V":["X.X","X.X","X.X","X.X",".X."],
+"W":["X.X","X.X","X.X","XXX","X.X"],"X":["X.X","X.X",".X.","X.X","X.X"],
+"Y":["X.X","X.X",".X.",".X.",".X."],"Z":["XXX","..X",".X.","X..","XXX"],
+"0":["XXX","X.X","X.X","X.X","XXX"],"1":[".X.","XX.",".X.",".X.","XXX"],
+"2":["XXX","..X","XXX","X..","XXX"],"3":["XXX","..X","XXX","..X","XXX"],
+"4":["X.X","X.X","XXX","..X","..X"],"5":["XXX","X..","XXX","..X","XXX"],
+"6":["XXX","X..","XXX","X.X","XXX"],"7":["XXX","..X","..X","..X","..X"],
+"8":["XXX","X.X","XXX","X.X","XXX"],"9":["XXX","X.X","XXX","..X","XXX"],
+"-":["...","...","XXX","...","..."],".":["...","...","...","...",".X."]
+};
+
+const FW=16,FH=18;
+function grid(){const g=[];for(let y=0;y<FH;y++)g.push(new Array(FW).fill(0));return g;}
+function setRun(g,y,a,b){for(let x=a;x<=b;x++)g[y][x]=1;}
+function clearRow(g,y){for(let x=0;x<FW;x++)g[y][x]=0;}
+const HEAD=[
+"................",".....XXXXXX.....","....XXXXXXXX....","...XXXXXXXXXX...",
+"..XXXXXXXXXXXX..","..XXXXXXXXXXXX..","..XXXXXXXXXXXX..","..XXXXXXXXXXXX..",
+"..XXXXXXXXXXXX..","..XXXXXXXXXXXX..","..XXXXXXXXXXXX..","..XXXXXXXXXXXX..",
+"..XXXXXXXXXXXX..","...XXXXXXXXXX...","...XXXXXXXXXX...","....XXXXXXXX....",
+".....XXXXXX.....","................"];
+function head(g){for(let y=0;y<FH;y++)for(let x=0;x<FW;x++)if(HEAD[y][x]==="X")g[y][x]=1;}
+
+function hair(g,t){
+if(t==="bald"){clearRow(g,1);setRun(g,1,6,9);clearRow(g,2);setRun(g,2,5,10);clearRow(g,3);setRun(g,3,4,11);}
+else if(t==="cap"){setRun(g,1,3,12);setRun(g,2,3,12);for(let x=3;x<=12;x++)g[4][x]=0;g[5][0]=1;g[5][1]=1;g[4][1]=1;}
+else if(t==="bandana"){for(let x=3;x<=12;x++)g[4][x]=0;g[4][13]=1;g[5][13]=1;}
+else if(t==="undercut"){for(let y=1;y<=4;y++){g[y][10]=0;g[y][11]=0;g[y][12]=0;}g[0][5]=1;g[0][6]=1;}
+else if(t==="bun"){g[0][7]=1;g[0][8]=1;g[1][7]=1;g[1][8]=1;}
+else if(t==="buzz"){setRun(g,1,4,11);setRun(g,2,3,12);for(let x=4;x<=11;x+=2)g[4][x]=0;}
+else if(t==="thin"){for(let y=4;y<=13;y++){g[y][2]=0;g[y][13]=0;}}
+else if(t==="back"){}
+}
+function brow(g,t){const y=6;
+if(t==="thin"){g[y][5]=0;g[y][10]=0;}
+else if(t==="flat"){g[y][5]=0;g[y][6]=0;g[y][9]=0;g[y][10]=0;}
+else if(t==="heavy"){for(const x of[4,5,6,9,10,11]){g[y][x]=0;g[y-1][x]=0;}}
+else if(t==="raised"){g[y][5]=0;g[y][6]=0;g[y-1][9]=0;g[y-1][10]=0;}
+}
+function eyes(g,t){const L=5,R=10,y=8;
+if(t==="dot"){g[y][L]=0;g[y][R]=0;}
+else if(t==="calm"){g[y][L]=0;g[y][L+1]=0;g[y][R-1]=0;g[y][R]=0;}
+else if(t==="big"){for(let yy=7;yy<=9;yy++){g[yy][L]=0;g[yy][R]=0;}g[8][L+1]=0;g[8][R-1]=0;g[8][L-1]=0;g[8][R+1]=0;}
+else if(t==="sharp"){g[y][L]=0;g[y][R]=0;g[y-1][L-1]=0;g[y-1][R+1]=0;}
+}
+function eyesClosed(g){const y=8;for(const x of[4,5,6,9,10,11])g[y][x]=0;}
+function mouth(g,t){const y=12;
+if(t==="small"){g[y][7]=0;g[y][8]=0;}
+else if(t==="line"){for(const x of[6,7,8,9])g[y][x]=0;}
+else if(t==="smile"){g[y][6]=0;g[y][9]=0;g[y+1][7]=0;g[y+1][8]=0;}
+else if(t==="frown"){g[y+1][6]=0;g[y+1][9]=0;g[y][7]=0;g[y][8]=0;}
+else if(t==="flat"){for(const x of[6,7,8,9])g[y][x]=0;}
+}
+function ring(g,cx0,cy){for(let dx=-1;dx<=1;dx++){g[cy-1][cx0+dx]=0;g[cy+1][cx0+dx]=0;}g[cy][cx0-1]=0;g[cy][cx0+1]=0;}
+function glasses(g,t){
+if(t==="round"){ring(g,5,8);ring(g,10,8);g[8][7]=0;g[8][8]=0;}
+else if(t==="half"){for(let x=4;x<=6;x++)g[9][x]=0;for(let x=9;x<=11;x++)g[9][x]=0;g[9][7]=0;g[9][8]=0;}
+}
+function extra(g,t){
+if(t==="mustache"){for(let x=6;x<=9;x++)g[11][x]=0;}
+else if(t==="stubble"){[[5,14],[8,14],[6,15],[9,15],[7,16]].forEach(p=>{if(g[p[1]]&&g[p[1]][p[0]]!==undefined)g[p[1]][p[0]]=0;});}
+else if(t==="scar"){g[7][11]=0;g[8][11]=0;g[9][11]=0;}
+else if(t==="headphones"){for(let y=7;y<=11;y++){g[y][0]=1;g[y][1]=1;g[y][14]=1;g[y][15]=1;}for(let x=4;x<=11;x++)g[0][x]=1;for(let y=1;y<=6;y++){g[y][1]=1;g[y][14]=1;}g[0][3]=1;g[0][12]=1;}
+}
+function buildFace(sp,blink){const g=grid();head(g);hair(g,sp.hair);brow(g,sp.brow);if(blink)eyesClosed(g);else eyes(g,sp.eyes);mouth(g,sp.mouth);if(sp.glasses)glasses(g,sp.glasses);if(sp.extra)extra(g,sp.extra);return g;}
+function makeCanvas(g){const c=document.createElement("canvas");c.width=FW;c.height=FH;const gx=c.getContext("2d");gx.fillStyle=FG;for(let y=0;y<FH;y++)for(let x=0;x<FW;x++)if(g[y][x])gx.fillRect(x,y,1,1);return c;}
+
+const SURV=[
+{name:"JUNE",meta:"34 NIGHT NURSE",hair:"back",eyes:"calm",brow:"thin",mouth:"small"},
+{name:"ODELL",meta:"58 ELEVATOR MAN",hair:"bald",eyes:"dot",brow:"heavy",mouth:"small",extra:"mustache"},
+{name:"MARA",meta:"26 COURIER",hair:"cap",eyes:"dot",brow:"flat",mouth:"line"},
+{name:"CASTOR",meta:"41 LINE COOK",hair:"bandana",eyes:"dot",brow:"flat",mouth:"smile",extra:"stubble"},
+{name:"NOOR",meta:"19 DROPOUT",hair:"undercut",eyes:"sharp",brow:"raised",mouth:"flat"},
+{name:"TEO",meta:"12 KID",hair:"back",eyes:"big",brow:"thin",mouth:"smile"},
+{name:"AGNES",meta:"71 PIANO TEACHER",hair:"bun",eyes:"dot",brow:"thin",mouth:"smile",glasses:"round"},
+{name:"BRAM",meta:"47 DEMOLITION",hair:"buzz",eyes:"dot",brow:"heavy",mouth:"flat",extra:"scar"},
+{name:"VERA",meta:"30 RADIO DJ",hair:"back",eyes:"calm",brow:"flat",mouth:"smile",extra:"headphones"},
+{name:"SOL",meta:"63 TAILOR",hair:"thin",eyes:"sharp",brow:"thin",mouth:"flat",glasses:"half"}
+];
+const FACE=SURV.map(s=>makeCanvas(buildFace(s,false)));
+const BLINK=SURV.map(s=>makeCanvas(buildFace(s,true)));
+
+function fit(){dpr=window.devicePixelRatio||1;k=Math.min(innerWidth/W,innerHeight/H);if(k>=1)k=Math.floor(k);S=k*dpr;cv.style.width=W*k+"px";cv.style.height=H*k+"px";cv.width=Math.max(1,Math.round(W*S));cv.height=Math.max(1,Math.round(H*S));cx.imageSmoothingEnabled=false;}
+function rr(v){return Math.round(v*S);}
+function box(x,y,w,h,col){cx.fillStyle=col||FG;const a=rr(x),b=rr(y);cx.fillRect(a,b,rr(x+w)-a,rr(y+h)-b);}
+function edge(x,y,w,h){box(x,y,w,1,LINE);box(x,y+h-1,w,1,LINE);box(x,y,1,h,LINE);box(x+w-1,y,1,h,LINE);}
+function blit(c,x,y,n){const a=rr(x),b=rr(y);cx.drawImage(c,a,b,rr(x+c.width*n)-a,rr(y+c.height*n)-b);}
+function tw(s,n){return (s.length*4-1)*n;}
+function text(s,x,y,n,al){if(al==="c")x=Math.round(x-tw(s,n)/2);if(al==="r")x=Math.round(x-tw(s,n));for(const ch of s){const g=FONT[ch];if(g)for(let r=0;r<5;r++)for(let q=0;q<3;q++)if(g[r][q]==="X")box(x+q*n,y+r*n,n,n,FG);x+=4*n;}}
+
+let T=0;
+function draw(){
+box(0,0,W,H,BG);
+text("FACE LAB",24,18,3);
+text("SURVIVOR PORTRAITS 16X18",936,23,2,"r");
+for(let i=0;i<10;i++){
+const col=i%5,row=(i/5)|0,x=24+col*184,y=58+row*210;
+edge(x,y,172,196);
+const sv=SURV[i];
+const closed=((T+i*370)%3400)<130;
+const c=closed?BLINK[i]:FACE[i];
+blit(c,x+38,y+16,6);
+text(sv.name,x+86,y+150,2,"c");
+text(sv.meta,x+86,y+168,1,"c");
+}
+text("HERO",24,486,2);
+for(let i=0;i<5;i++){blit(FACE[i*2],150+i*150,470,3);}
+text("V"+innerWidth+"X"+innerHeight+" K"+(k>=1?k:k.toFixed(2))+" DPR"+(Math.round(dpr*100)/100),936,520,1,"r");
+}
+let last=performance.now();
+function step(t){T+=Math.min(100,t-last);last=t;draw();requestAnimationFrame(step);}
+addEventListener("resize",()=>{fit();draw();});
+fit();draw();requestAnimationFrame(step);
+</script>
+</body>
+</html>
