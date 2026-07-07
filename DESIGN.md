@@ -75,15 +75,19 @@ to save. The game is a complete story with a real ending, not endless.
   Color earned slowly.
 - House pixel-craft, animation, and 16:9 stage laws apply (see working
   agreements).
-- **Survivor FACES: LOCKED IN (2026-07-07).** Old no-faces law removed.
-  Style: simple, FLAT (no shading), NEUTRAL. Head only, cropped at the
-  chin (no neck, no shoulders). Round head, simple hair (short cap or a
-  face-framing bob), two block eyes, one flat mouth. NO nose, brows,
-  shadow, or expression. People differ by hair style + color + skin tone.
-  Industry-standard simple avatar look. No stats/labels in the art. Faces
-  stay in portraits/UI, never bodies on the play stage. Proven with 3
-  (REED/MARA/HALE) in labs/survivor-faces.html; expand to full roster
-  once the style is signed off.
+- **Survivor FACES: LOCKED to USER'S OWN ART (assetFace.png), 2026-07-07.**
+  A BUST (head + shoulders), extremely minimal, monochrome/classy (fits
+  the jazz tone). Three tones: navy hair+eyes, pale face, gray shoulders.
+  Pale rounded-square face, dark hair (cap or long columns), two tall
+  rectangle eyes, NO nose or mouth, gray shoulder trapezoid. Dark hair
+  needs a light backing to read (the reference circle is dropped; keep a
+  light UI panel behind). No stats/labels in the art. Prior flat colored-
+  hair style dropped. Proof in labs/survivor-faces.html; expand to roster
+  once signed off.
+- **Survivors read as SLIGHTLY depressed** (user): quiet, low mood, shown
+  ONLY through subtly downcast eyes. Careful and subtle, never a frown,
+  tears, or caricature. Fits the melancholy of the premise (goodbyes,
+  permadeath, rewind).
 
 ## Tone / audio direction
 - **Deliberate contrast is a PILLAR** (user, 2026-07-07): classy,

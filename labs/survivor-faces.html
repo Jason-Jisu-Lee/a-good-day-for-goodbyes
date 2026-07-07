@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>survivor faces</title>
+<title>survivor busts</title>
 <style>
 html,body{margin:0;height:100%;background:#060607;overflow:hidden}
 [hidden]{display:none !important}
@@ -40,48 +40,64 @@ const FONT={
 "-":["...","...","XXX","...","..."],".":["...","...","...","...",".X."]
 };
 
-const GW=44,GH=42;
+const GW=26,GH=30;
+const FACE="#ecede8",DARK="#2b303c",GRAY="#99a2ac";
 function grid(){return Array.from({length:GH},()=>new Array(GW).fill(0));}
 function setP(g,x,y,v){x=Math.round(x);y=Math.round(y);if(x>=0&&x<GW&&y>=0&&y<GH)g[y][x]=v;}
-function ell(g,cx0,cy0,rx,ry,v){for(let y=0;y<GH;y++){const dy=(y-cy0)/ry,t=1-dy*dy;if(t<0)continue;const hw=rx*Math.sqrt(t);for(let x=Math.ceil(cx0-hw);x<=Math.floor(cx0+hw);x++)setP(g,x,y,v);}}
 function rect(g,x0,y0,x1,y1,v){for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)setP(g,x,y,v);}
-function clean(g){for(let pass=0;pass<3;pass++){const rem=[];for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){if(!g[y][x])continue;let n=0;if(y>0&&g[y-1][x])n++;if(y<GH-1&&g[y+1][x])n++;if(x>0&&g[y][x-1])n++;if(x<GW-1&&g[y][x+1])n++;if(n<2)rem.push([x,y]);}if(!rem.length)break;for(const p of rem)g[p[0]][p[1]]=0;}}
-function flattenTop(g){for(let y=0;y<GH;y++){let c=0;for(let x=0;x<GW;x++)if(g[y][x])c++;if(c===0)continue;if(c<5){for(let x=0;x<GW;x++)g[y][x]=0;}else break;}}
-function fillHoles(g){for(let pass=0;pass<3;pass++){const add=[];for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){if(g[y][x])continue;let n=0,val=0;if(y>0&&g[y-1][x]){n++;val=g[y-1][x];}if(y<GH-1&&g[y+1][x]){n++;val=g[y+1][x];}if(x>0&&g[y][x-1]){n++;val=g[y][x-1];}if(x<GW-1&&g[y][x+1]){n++;val=g[y][x+1];}if(n>=3)add.push([x,y,val]);}if(!add.length)break;for(const a of add)g[a[1]][a[0]]=a[2];}}
-function makeCanvas(g,pal){const c=document.createElement("canvas");c.width=GW;c.height=GH;const gx=c.getContext("2d");for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){const v=g[y][x];if(v){gx.fillStyle=pal[v];gx.fillRect(x,y,1,1);}}return c;}
+function rrect(g,x0,y0,x1,y1,v){for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){if((x===x0||x===x1)&&(y===y0||y===y1))continue;setP(g,x,y,v);}}
+function makeCanvas(g){const c=document.createElement("canvas");c.width=GW;c.height=GH;const gx=c.getContext("2d");const pal={1:FACE,2:DARK,3:GRAY};for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){const v=g[y][x];if(v){gx.fillStyle=pal[v];gx.fillRect(x,y,1,1);}}return c;}
 
-function head(g){ell(g,22,20,15,16,1);}
-function face(g){rect(g,14,20,16,21,6);rect(g,28,20,30,21,6);rect(g,18,29,26,29,6);}
-function cap(g,baseY,slope){for(let y=0;y<GH;y++)for(let x=0;x<GW;x++)if(g[y][x]===1&&y<baseY+Math.abs(x-22)*slope)g[y][x]=3;}
-function bob(g,top,bot,inset){for(let y=top;y<=bot;y++)for(let x=0;x<GW;x++)if(g[y][x]===1&&(x<22-inset||x>22+inset))g[y][x]=3;}
+function shoulders(g){for(let y=23;y<GH;y++){const half=6+(y-23)*0.85;rect(g,Math.round(13-half),y,Math.round(13+half),y,3);}rect(g,10,21,16,24,1);}
+function faceShape(g){rrect(g,7,7,19,22,1);}
+function eyes(g,low){
+ if(low){
+  rect(g,11,15,11,17,2);rect(g,10,16,10,18,2);
+  rect(g,15,15,15,17,2);rect(g,16,16,16,18,2);
+ }else{
+  rect(g,10,14,11,18,2);rect(g,15,14,16,18,2);
+ }
+}
+function hairShort(g){rrect(g,6,3,20,11,2);rect(g,6,10,8,16,2);rect(g,18,10,20,16,2);}
+function hairLong(g){rrect(g,6,3,20,11,2);rect(g,6,10,8,29,2);rect(g,18,10,20,29,2);}
+function hairBald(g){rrect(g,7,5,19,10,2);rect(g,7,9,8,14,2);rect(g,18,9,19,14,2);}
+function hairMed(g){rrect(g,6,3,20,11,2);rect(g,6,10,8,22,2);rect(g,18,10,20,22,2);}
 
-function reed(g){cap(g,15,0.08);}
-function mara(g){cap(g,14,0.08);bob(g,15,32,9);}
-function hale(g){cap(g,15,0.08);}
-
+function build(spec){
+ const g=grid();
+ shoulders(g);
+ faceShape(g);
+ spec.hair(g);
+ eyes(g,spec.low);
+ return makeCanvas(g);
+}
 const PEOPLE=[
-{name:"REED",fn:reed,pal:{1:"#e8c9a8",3:"#483424",6:"#241f28"}},
-{name:"MARA",fn:mara,pal:{1:"#e8c9a8",3:"#7a3b28",6:"#241f28"}},
-{name:"HALE",fn:hale,pal:{1:"#cf9f74",3:"#cca55e",6:"#241f28"}}
+{name:"MAN",fn:hairShort,low:false,tag:"FAITHFUL"},
+{name:"WOMAN",fn:hairLong,low:false,tag:"FAITHFUL"},
+{name:"REED",fn:hairShort,low:true,tag:"VAR"},
+{name:"IVE",fn:hairLong,low:true,tag:"VAR"},
+{name:"OKON",fn:hairBald,low:true,tag:"VAR"},
+{name:"JUNE",fn:hairMed,low:true,tag:"VAR"}
 ];
-const ART=PEOPLE.map(p=>{const g=grid();head(g);p.fn(g);clean(g);flattenTop(g);fillHoles(g);face(g);return makeCanvas(g,p.pal);});
+const ART=PEOPLE.map(p=>build({hair:p.fn,low:p.low}));
 
 function fit(){dpr=window.devicePixelRatio||1;k=Math.min(innerWidth/W,innerHeight/H);if(k>=1)k=Math.floor(k);S=k*dpr;cv.style.width=W*k+"px";cv.style.height=H*k+"px";cv.width=Math.max(1,Math.round(W*S));cv.height=Math.max(1,Math.round(H*S));cx.imageSmoothingEnabled=false;}
 function rr(v){return Math.round(v*S);}
 function box(x,y,w,h,col){cx.fillStyle=col||FG;const a=rr(x),b=rr(y);cx.fillRect(a,b,rr(x+w)-a,rr(y+h)-b);}
-function edge(x,y,w,h){box(x,y,w,1,LINE);box(x,y+h-1,w,1,LINE);box(x,y,1,h,LINE);box(x+w-1,y,1,h,LINE);}
+function panel(x,y,w,h,col){cx.fillStyle=col;const a=rr(x),b=rr(y);cx.fillRect(a,b,rr(x+w)-a,rr(y+h)-b);}
 function blit(c,x,y,n){const a=rr(x),b=rr(y);cx.drawImage(c,a,b,rr(x+c.width*n)-a,rr(y+c.height*n)-b);}
 function tw(s,n){return (s.length*4-1)*n;}
 function text(s,x,y,n,al){if(al==="c")x=Math.round(x-tw(s,n)/2);if(al==="r")x=Math.round(x-tw(s,n));for(const ch of s){const g=FONT[ch];if(g)for(let r=0;r<5;r++)for(let q=0;q<3;q++)if(g[r][q]==="X")box(x+q*n,y+r*n,n,n,FG);x+=4*n;}}
 
 function draw(){
 box(0,0,W,H,BG);
-text("SURVIVOR FACES",24,22,3);
-for(let i=0;i<3;i++){
-const x=120+i*250,y=90;
-edge(x,y,200,290);
-blit(ART[i],x+12,y+28,4);
-text(PEOPLE[i].name,x+100,y+250,2,"c");
+text("SURVIVOR BUSTS",24,20,3);
+text("FAITHFUL + LOW-MOOD VARIATIONS",936,25,2,"r");
+for(let i=0;i<6;i++){
+const col=i%3,row=(i/3)|0,x=110+col*250,y=70+row*210;
+panel(x,y,180,170,"#dfe1dc");
+blit(ART[i],x+25,y+12,5);
+text(PEOPLE[i].name,x+90,y+150,2,"c");
 }
 text("V"+innerWidth+"X"+innerHeight+" K"+(k>=1?k:k.toFixed(2))+" DPR"+(Math.round(dpr*100)/100),936,520,1,"r");
 }
