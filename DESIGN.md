@@ -75,9 +75,10 @@ to save. The game is a complete story with a real ending, not endless.
 - House pixel-craft, animation, and 16:9 stage laws apply (see working
   agreements).
 - **Survivor FACES: LOCKED IN (2026-07-07).** Old no-faces law removed.
-  Style: minimal NECK-UP portrait, cream skin, dark features, HAIR IN
-  COLOR (amber/blonde/brown). Women get soft feminine cues. Hats as flat
-  accent color. Usable and clean, not novelty. Faces stay in
+  Style: VERY MINIMAL + NEUTRAL. Head only, no neck. Cream skin, two
+  simple eyes, flat neutral mouth, SAME neutral expression for all. Hair
+  color (amber/blonde/brown) distinguishes people. Hats as flat accent
+  color. No theme, no expression, no fancy detail. Faces stay in
   portraits/UI, never bodies on the play stage. See lab-portraits.html.
 
 ## Audio direction
