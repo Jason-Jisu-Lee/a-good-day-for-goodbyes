@@ -15,11 +15,17 @@ Authored at 960x540 (16:9), itch.io then Steam, desktop first.
 - Enemy: fills the zombie role but must be an original identity, explicitly not zombies. In brainstorm.
 - Title: in brainstorm.
 
+## Locked (2026-07-06, round 2)
+
+- Title register: philosophical, poetic phrase, Salinger-style. Dramatic but straightforward, The Last of Us energy. One-word minimal titles rejected.
+- Enemy constraints: actual discrete countable enemies, not abstract phenomena (noise, tides etc rejected). Not plain humans. Robots considered and scratched by user (too much lore to build around, do not revive). Zombies stay the simple fallback if nothing beats them.
+
 ## Open questions
 
-- Enemy identity.
-- Title.
-- Survivor on-screen representation vs the no-anatomy art law (abstract marks, icons, never bodies). Decide before any survivor rendering.
+- Enemy identity (round 2 brainstorm running).
+- Title (Salinger-register candidates offered).
+- Survivor avatar style: lab-survivors.html shows candidates A objects, B marks, C windows. Awaiting pick by feel.
+- Survivor roster: 10 placeholder profiles authored in the lab (names, ages, hooks, stat spreads GRIT/HANDS/NERVE/HEART). All placeholder, user personalizes later. Stat axes are placeholder too, not a locked system.
 
 ## Parked
 
