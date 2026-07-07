@@ -23,4 +23,4 @@ Authored at 960x540 (16:9), itch.io then Steam, desktop first.
 
 ## Parked
 
-(empty)
+- Music direction (user, in TO-DO.md): jazz noir + classical. Reconcile with the procedural-WebAudio-only law when audio work starts: generative jazz/classical, or the no-samples law bends for music.
