@@ -75,16 +75,19 @@ to save. The game is a complete story with a real ending, not endless.
   Color earned slowly.
 - House pixel-craft, animation, and 16:9 stage laws apply (see working
   agreements).
-- **Survivor FACES: USER'S OWN ART is canonical (2026-07-07).** The
-  actual assets are person_man.png + person_woman.png (the user's
-  assetFace.png with the circle removed programmatically, pixel-perfect).
-  Do NOT hand-redraw these; a hand recreation was rejected for wrong
-  proportions. Style = tiny BUST: navy hair+eyes, pale (now white) face,
-  gray shoulders, two small eyes, no nose/mouth. Face is the light
-  background showing through the hair gap, so busts need a LIGHT panel
-  behind them in UI. To make more survivors, produce variants in this
-  exact style/proportions (edit from the user's pixels, not from scratch).
-  labs/survivor-faces.html displays the isolated art.
+- **Survivor FACES: USER'S OWN ART is canonical (2026-07-07).** Style =
+  a person in a navy-ringed CIRCLE (KEEP the circle): navy hair+eyes, pale
+  off-white face (the interior showing through the hair gap, not drawn),
+  gray shoulders, two small eyes, no nose/mouth. Source = assetFace.png.
+  7 avatars saved in project root: face_man, face_woman (user's exact
+  originals), plus 5 built on the user's exact base (face_bald extracted
+  by removing hair) with only the navy hair changed: face_curly,
+  face_shoulder, face_bob, face_bun, face_long. face_all.png = preview.
+  HOW to add more: reuse the exact base (circle+face+eyes+shoulders) and
+  draw a new ANTIALIASED navy hair region minus the face oval (~ellipse
+  45,45,28,32 in the 118x120 crop). Do NOT hand-redraw from scratch (that
+  was rejected for wrong proportions). Extraction/build was done in
+  .NET/PowerShell, not a browser lab.
 - **Survivors read as SLIGHTLY depressed** (user): quiet, low mood, shown
   ONLY through subtly downcast eyes. Careful and subtle, never a frown,
   tears, or caricature. Fits the melancholy of the premise (goodbyes,
