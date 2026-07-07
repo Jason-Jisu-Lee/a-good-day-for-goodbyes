@@ -45,8 +45,8 @@ to save. The game is a complete story with a real ending, not endless.
   and a face.
 - **Permadeath**: anyone can die, forever.
 - Placeholder stat axes: GRIT / HANDS / NERVE / HEART (not locked).
-- Placeholder roster of 10 faces (6 men, 4 women), names only, no stats
-  yet, in labs/survivor-faces.html; user personalizes later.
+- Face style proven with 3 (labs/survivor-faces.html), names only, no
+  stats. Expand to full roster once signed off; user personalizes later.
 
 ## Prestige (the time rewind)
 - A time rewinding device. Story driven. Rewinding means saying goodbye
@@ -76,13 +76,14 @@ to save. The game is a complete story with a real ending, not endless.
 - House pixel-craft, animation, and 16:9 stage laws apply (see working
   agreements).
 - **Survivor FACES: LOCKED IN (2026-07-07).** Old no-faces law removed.
-  Style: neutral, higher-res pixel (48x52 authored), NECK-UP headshot
-  cropped at the bottom edge (no floating neck, no shoulders). Diverse:
-  varied skin tones, hair colors and styles, some with caps. SAME neutral
-  expression for everyone (small eyes, subtle nose, flat mouth, thin flat
-  brows). Subtle 2-tone shading for polish. No stats or labels baked into
-  the art. Faces stay in portraits/UI, never bodies on the play stage.
-  See labs/survivor-faces.html (10 faces, 6 men, 4 women).
+  Style: simple, FLAT (no shading), NEUTRAL. Head only, cropped at the
+  chin (no neck, no shoulders). Round head, simple hair (short cap or a
+  face-framing bob), two block eyes, one flat mouth. NO nose, brows,
+  shadow, or expression. People differ by hair style + color + skin tone.
+  Industry-standard simple avatar look. No stats/labels in the art. Faces
+  stay in portraits/UI, never bodies on the play stage. Proven with 3
+  (REED/MARA/HALE) in labs/survivor-faces.html; expand to full roster
+  once the style is signed off.
 
 ## Audio direction
 - Jazz noir + classical (user, TO-DO.md).
@@ -96,8 +97,7 @@ to save. The game is a complete story with a real ending, not endless.
 - Game source/assets folders arrive when the build starts.
 
 ## Labs (delete once locked)
-- `labs/survivor-faces.html` 10 survivor faces (6 men, 4 women), current
-  face style.
+- `labs/survivor-faces.html` face style proof (3 faces), current style.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 
