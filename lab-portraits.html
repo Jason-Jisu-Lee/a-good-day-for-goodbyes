@@ -41,44 +41,53 @@ const FONT={
 };
 
 const GW=22,GH=22;
-const SKIN="#e9ddc8",DARK="#1a1922";
+const SKIN="#e9ddc8",SKIN_S="#ccbb99",DARK="#1a1720";
 function grid(){return Array.from({length:GH},()=>new Array(GW).fill(0));}
 function setP(g,x,y,v){x=Math.round(x);y=Math.round(y);if(x>=0&&x<GW&&y>=0&&y<GH)g[y][x]=v;}
 function ell(g,cx0,cy0,rx,ry,v){for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){const dx=(x-cx0)/rx,dy=(y-cy0)/ry;if(dx*dx+dy*dy<=1)g[y][x]=v;}}
 function rect(g,x0,y0,x1,y1,v){for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)setP(g,x,y,v);}
+function shade(g,base,sh,test){for(let y=0;y<GH;y++)for(let x=0;x<GW;x++)if(g[y][x]===base&&test(x,y))g[y][x]=sh;}
 function makeCanvas(g,pal){const c=document.createElement("canvas");c.width=GW;c.height=GH;const gx=c.getContext("2d");for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){const v=g[y][x];if(v){gx.fillStyle=pal[v];gx.fillRect(x,y,1,1);}}return c;}
 
-// value: 0 bg, 1 skin, 2 dark(eyes/mouth), 3 hair, 4 hat
+// value: 0 bg, 1 skin, 2 skin-shadow, 3 hair, 4 hair-shadow, 5 hair-hi, 6 dark, 7 hat, 8 hat-shadow
+const SR=(x,y)=>((x-11)+(y-12))>=5;            // skin light upper-left
+const HR=(x,y)=>((x-11)*0.7+(y-10))>=6;        // hair shadow lower-right
+const HL=(x,y)=>((x-11)*0.7+(y-10))<=-7;       // hair highlight upper-left
+
 function neutralFace(g){
- rect(g,8,11,9,12,2);   // left eye
- rect(g,12,11,13,12,2); // right eye
- rect(g,9,16,12,16,2);  // mouth (flat, neutral)
+ rect(g,8,11,9,12,6);   // left eye
+ rect(g,12,11,13,12,6); // right eye
+ rect(g,9,16,12,16,6);  // mouth (flat neutral)
 }
 function longHair(g){
- ell(g,11,10,8,9,3);          // hair mass
- rect(g,3,10,5,20,3);         // left fall
- rect(g,16,10,18,20,3);       // right fall
- setP(g,3,20,0); setP(g,18,20,0); // soften ends
+ ell(g,11,10,8,9,3);
+ rect(g,3,10,5,20,3); rect(g,16,10,18,20,3);
+ setP(g,3,20,0); setP(g,18,20,0);
  ell(g,11,11,6,7,1);          // face
+ shade(g,1,2,SR);
+ shade(g,3,4,HR); shade(g,3,5,HL);
  neutralFace(g);
 }
 function shortHair(g){
- ell(g,11,10,9,8,3);          // hair mass (wide)
+ ell(g,11,10,9,8,3);
  ell(g,11,11,6,7,1);          // face
+ shade(g,1,2,SR);
+ shade(g,3,4,HR); shade(g,3,5,HL);
  neutralFace(g);
 }
 function hat(g){
  ell(g,11,12,6,7,1);          // face
- ell(g,11,7,10,2,4); rect(g,2,6,19,7,4);  // brim
- rect(g,6,2,15,6,4);          // crown
- ell(g,11,3,5,2,4);           // crown top
+ shade(g,1,2,SR);
+ ell(g,11,7,10,2,7); rect(g,2,6,19,7,7);   // brim
+ rect(g,6,2,15,6,7); ell(g,11,3,5,2,7);    // crown
+ shade(g,7,8,(x,y)=>((x-11)+(y-5))>=5);
  neutralFace(g);
 }
 
 const PEOPLE=[
-{name:"MARA",fn:longHair,pal:{1:SKIN,2:DARK,3:"#c8913c"}},
-{name:"IVE",fn:shortHair,pal:{1:SKIN,2:DARK,3:"#e6c86e"}},
-{name:"ODELL",fn:hat,pal:{1:SKIN,2:DARK,3:"#7d5230",4:"#4b4740"}}
+{name:"MARA",fn:longHair,pal:{1:SKIN,2:SKIN_S,3:"#c68a34",4:"#8f611f",5:"#dca94f",6:DARK}},
+{name:"IVE",fn:shortHair,pal:{1:SKIN,2:SKIN_S,3:"#e3c566",4:"#b89741",5:"#f2dc92",6:DARK}},
+{name:"ODELL",fn:hat,pal:{1:SKIN,2:SKIN_S,6:DARK,7:"#514d45",8:"#332f2a"}}
 ];
 const ART=PEOPLE.map(p=>{const g=grid();p.fn(g);return makeCanvas(g,p.pal);});
 
@@ -93,7 +102,7 @@ function text(s,x,y,n,al){if(al==="c")x=Math.round(x-tw(s,n)/2);if(al==="r")x=Ma
 function draw(){
 box(0,0,W,H,BG);
 text("PORTRAIT LAB",24,20,3);
-text("MINIMAL NEUTRAL",936,25,2,"r");
+text("MINIMAL NEUTRAL SHADED",936,25,2,"r");
 for(let i=0;i<3;i++){
 const x=90+i*280,y=80;
 edge(x,y,220,280);
