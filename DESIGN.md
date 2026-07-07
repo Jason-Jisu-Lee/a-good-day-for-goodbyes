@@ -45,7 +45,8 @@ to save. The game is a complete story with a real ending, not endless.
   and a face.
 - **Permadeath**: anyone can die, forever.
 - Placeholder stat axes: GRIT / HANDS / NERVE / HEART (not locked).
-- Placeholder roster of 10 lives in the labs; user personalizes later.
+- Placeholder roster of 10 faces (6 men, 4 women), names only, no stats
+  yet, in labs/survivor-faces.html; user personalizes later.
 
 ## Prestige (the time rewind)
 - A time rewinding device. Story driven. Rewinding means saying goodbye
@@ -75,11 +76,13 @@ to save. The game is a complete story with a real ending, not endless.
 - House pixel-craft, animation, and 16:9 stage laws apply (see working
   agreements).
 - **Survivor FACES: LOCKED IN (2026-07-07).** Old no-faces law removed.
-  Style: VERY MINIMAL + NEUTRAL. Head only, no neck. Cream skin, two
-  simple eyes, flat neutral mouth, SAME neutral expression for all. Hair
-  color (amber/blonde/brown) distinguishes people. Hats as flat accent
-  color. No theme, no expression, no fancy detail. Faces stay in
-  portraits/UI, never bodies on the play stage. See lab-portraits.html.
+  Style: neutral, higher-res pixel (48x52 authored), NECK-UP headshot
+  cropped at the bottom edge (no floating neck, no shoulders). Diverse:
+  varied skin tones, hair colors and styles, some with caps. SAME neutral
+  expression for everyone (small eyes, subtle nose, flat mouth, thin flat
+  brows). Subtle 2-tone shading for polish. No stats or labels baked into
+  the art. Faces stay in portraits/UI, never bodies on the play stage.
+  See labs/survivor-faces.html (10 faces, 6 men, 4 women).
 
 ## Audio direction
 - Jazz noir + classical (user, TO-DO.md).
@@ -87,16 +90,20 @@ to save. The game is a complete story with a real ending, not endless.
   when audio work begins: generative jazz/classical, or the law bends for
   music.
 
+## Project structure
+- Root: CLAUDE.md (local), DESIGN.md, TO-DO.md, README.md.
+- `labs/` design-by-demo HTML labs (standalone, deleted once locked).
+- Game source/assets folders arrive when the build starts.
+
 ## Labs (delete once locked)
-- `lab-icons.html` resource / enemy icon pipeline proof.
-- `lab-survivors.html` avatar styles A/B/C over 10 placeholder profiles.
-- `lab-faces.html` first face pass (poor, skull-like, superseded).
-- `lab-portraits.html` rebuilt portraits, 3 quality busts.
+- `labs/survivor-faces.html` 10 survivor faces (6 men, 4 women), current
+  face style.
+- Earlier exploratory labs (icons, avatar styles, first faces, busts)
+  deleted 2026-07-07 for a clean start.
 
 ## Open questions
 - Enemy identity (real, scientifically factual).
 - Final title.
-- Survivor identity style: avatar A/B/C vs faces.
 - Stat system (axes above are placeholder).
 - Target survivor count.
 
