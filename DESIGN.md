@@ -75,15 +75,16 @@ to save. The game is a complete story with a real ending, not endless.
   Color earned slowly.
 - House pixel-craft, animation, and 16:9 stage laws apply (see working
   agreements).
-- **Survivor FACES: LOCKED to USER'S OWN ART (assetFace.png), 2026-07-07.**
-  A BUST (head + shoulders), extremely minimal, monochrome/classy (fits
-  the jazz tone). Three tones: navy hair+eyes, pale face, gray shoulders.
-  Pale rounded-square face, dark hair (cap or long columns), two tall
-  rectangle eyes, NO nose or mouth, gray shoulder trapezoid. Dark hair
-  needs a light backing to read (the reference circle is dropped; keep a
-  light UI panel behind). No stats/labels in the art. Prior flat colored-
-  hair style dropped. Proof in labs/survivor-faces.html; expand to roster
-  once signed off.
+- **Survivor FACES: USER'S OWN ART is canonical (2026-07-07).** The
+  actual assets are person_man.png + person_woman.png (the user's
+  assetFace.png with the circle removed programmatically, pixel-perfect).
+  Do NOT hand-redraw these; a hand recreation was rejected for wrong
+  proportions. Style = tiny BUST: navy hair+eyes, pale (now white) face,
+  gray shoulders, two small eyes, no nose/mouth. Face is the light
+  background showing through the hair gap, so busts need a LIGHT panel
+  behind them in UI. To make more survivors, produce variants in this
+  exact style/proportions (edit from the user's pixels, not from scratch).
+  labs/survivor-faces.html displays the isolated art.
 - **Survivors read as SLIGHTLY depressed** (user): quiet, low mood, shown
   ONLY through subtly downcast eyes. Careful and subtle, never a frown,
   tears, or caricature. Fits the melancholy of the premise (goodbyes,
