@@ -85,11 +85,16 @@ to save. The game is a complete story with a real ending, not endless.
   (REED/MARA/HALE) in labs/survivor-faces.html; expand to full roster
   once the style is signed off.
 
-## Audio direction
-- Jazz noir + classical (user, TO-DO.md).
-- Tension with house law (procedural WebAudio only, no samples). Resolve
-  when audio work begins: generative jazz/classical, or the law bends for
-  music.
+## Tone / audio direction
+- **Deliberate contrast is a PILLAR** (user, 2026-07-07): classy,
+  understated JAZZ as the whole-game background, set against playful,
+  "silly" 1-bit pixel art. The mismatch is the point (elegant ear,
+  toy-like eye). Keep both honest: art stays cute/minimal, audio stays
+  classy. Neither side should drift toward the other and flatten it.
+- Jazz is the primary background bed (jazz noir + classical, TO-DO.md).
+- Tension with house law (procedural WebAudio only, no samples): real
+  jazz basically needs recorded/authored tracks, so the no-samples law
+  will likely BEND for music. Decide when audio work begins.
 
 ## Project structure
 - Root: CLAUDE.md (local), DESIGN.md, TO-DO.md, README.md.
