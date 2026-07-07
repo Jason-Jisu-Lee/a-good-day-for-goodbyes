@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>survivor busts</title>
+<title>bust recreate</title>
 <style>
 html,body{margin:0;height:100%;background:#060607;overflow:hidden}
 [hidden]{display:none !important}
@@ -14,95 +14,95 @@ canvas{display:block;image-rendering:pixelated}
 <body>
 <canvas id="cv"></canvas>
 <script>
-const W=960,H=540,BG="#0a0a0c",FG="#e9e7e0",LINE="#20202a";
+const W=960,H=540,BG="#0a0a0c",FG="#e9e7e0";
 const cv=document.getElementById("cv"),cx=cv.getContext("2d");
 let k=1,S=1,dpr=1;
+const NAVY="#101e29",FACE="#f8f8f8",GRAY="#909dad";
 
-const FONT={
-"A":[".X.","X.X","XXX","X.X","X.X"],"B":["XX.","X.X","XX.","X.X","XX."],
-"C":[".XX","X..","X..","X..",".XX"],"D":["XX.","X.X","X.X","X.X","XX."],
-"E":["XXX","X..","XX.","X..","XXX"],"F":["XXX","X..","XX.","X..","X.."],
-"G":[".XX","X..","X.X","X.X",".XX"],"H":["X.X","X.X","XXX","X.X","X.X"],
-"I":["XXX",".X.",".X.",".X.","XXX"],"J":["..X","..X","..X","X.X",".X."],
-"K":["X.X","X.X","XX.","X.X","X.X"],"L":["X..","X..","X..","X..","XXX"],
-"M":["X.X","XXX","X.X","X.X","X.X"],"N":["XX.","X.X","X.X","X.X","X.X"],
-"O":[".X.","X.X","X.X","X.X",".X."],"P":["XX.","X.X","XX.","X..","X.."],
-"Q":[".X.","X.X","X.X","XX.","..X"],"R":["XX.","X.X","XX.","X.X","X.X"],
-"S":[".XX","X..",".X.","..X","XX."],"T":["XXX",".X.",".X.",".X.",".X."],
-"U":["X.X","X.X","X.X","X.X","XXX"],"V":["X.X","X.X","X.X","X.X",".X."],
-"W":["X.X","X.X","X.X","XXX","X.X"],"X":["X.X","X.X",".X.","X.X","X.X"],
-"Y":["X.X","X.X",".X.",".X.",".X."],"Z":["XXX","..X",".X.","X..","XXX"],
-"0":["XXX","X.X","X.X","X.X","XXX"],"1":[".X.","XX.",".X.",".X.","XXX"],
-"2":["XXX","..X","XXX","X..","XXX"],"3":["XXX","..X","XXX","..X","XXX"],
-"4":["X.X","X.X","XXX","..X","..X"],"5":["XXX","X..","XXX","..X","XXX"],
-"6":["XXX","X..","XXX","X.X","XXX"],"7":["XXX","..X","..X","..X","..X"],
-"8":["XXX","X.X","XXX","X.X","XXX"],"9":["XXX","X.X","XXX","..X","XXX"],
-"-":["...","...","XXX","...","..."],".":["...","...","...","...",".X."]
-};
+const FONT={"A":[".X.","X.X","XXX","X.X","X.X"],"B":["XX.","X.X","XX.","X.X","XX."],"C":[".XX","X..","X..","X..",".XX"],"E":["XXX","X..","XX.","X..","XXX"],"F":["XXX","X..","XX.","X..","X.."],"I":["XXX",".X.",".X.",".X.","XXX"],"L":["X..","X..","X..","X..","XXX"],"M":["X.X","XXX","X.X","X.X","X.X"],"N":["XX.","X.X","X.X","X.X","X.X"],"O":[".X.","X.X","X.X","X.X",".X."],"R":["XX.","X.X","XX.","X.X","X.X"],"U":["X.X","X.X","X.X","X.X","XXX"],"W":["X.X","X.X","X.X","XXX","X.X"],"Y":["X.X","X.X",".X.",".X.",".X."],"S":[".XX","X..",".X.","..X","XX."],"T":["XXX",".X.",".X.",".X.",".X."],"D":["XX.","X.X","X.X","X.X","XX."],"H":["X.X","X.X","XXX","X.X","X.X"],"G":[".XX","X..","X.X","X.X",".XX"],"P":["XX.","X.X","XX.","X..","X.."],"V":["X.X","X.X","X.X","X.X",".X."]," ":["...","...","...","...","..."]};
 
-const GW=26,GH=30;
-const FACE="#ecede8",DARK="#2b303c",GRAY="#99a2ac";
-function grid(){return Array.from({length:GH},()=>new Array(GW).fill(0));}
-function setP(g,x,y,v){x=Math.round(x);y=Math.round(y);if(x>=0&&x<GW&&y>=0&&y<GH)g[y][x]=v;}
-function rect(g,x0,y0,x1,y1,v){for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)setP(g,x,y,v);}
-function rrect(g,x0,y0,x1,y1,v){for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){if((x===x0||x===x1)&&(y===y0||y===y1))continue;setP(g,x,y,v);}}
-function makeCanvas(g){const c=document.createElement("canvas");c.width=GW;c.height=GH;const gx=c.getContext("2d");const pal={1:FACE,2:DARK,3:GRAY};for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){const v=g[y][x];if(v){gx.fillStyle=pal[v];gx.fillRect(x,y,1,1);}}return c;}
+const MAN=[
+"......................",
+"......................",
+"........######........",
+".......########.......",
+"......##########......",
+"......##########......",
+"......##########......",
+"......##......##......",
+"......##.#..#.##......",
+"......##.#..#.##......",
+"......##.#..#.##......",
+"......##......##......",
+"......##......##......",
+".......#......#.......",
+".........++++.........",
+"........++++++........",
+".......++++++++.......",
+"......++++++++++......",
+"......++++++++++......",
+".....++++++++++++.....",
+".....++++++++++++.....",
+".....++++++++++++.....",
+".....++++++++++++.....",
+".....++++++++++++.....",
+".....++++++++++++.....",
+".....++++++++++++....."];
 
-function shoulders(g){for(let y=23;y<GH;y++){const half=6+(y-23)*0.85;rect(g,Math.round(13-half),y,Math.round(13+half),y,3);}rect(g,10,21,16,24,1);}
-function faceShape(g){rrect(g,7,7,19,22,1);}
-function eyes(g,low){
- if(low){
-  rect(g,11,15,11,17,2);rect(g,10,16,10,18,2);
-  rect(g,15,15,15,17,2);rect(g,16,16,16,18,2);
- }else{
-  rect(g,10,14,11,18,2);rect(g,15,14,16,18,2);
- }
-}
-function hairShort(g){rrect(g,6,3,20,11,2);rect(g,6,10,8,16,2);rect(g,18,10,20,16,2);}
-function hairLong(g){rrect(g,6,3,20,11,2);rect(g,6,10,8,29,2);rect(g,18,10,20,29,2);}
-function hairBald(g){rrect(g,7,5,19,10,2);rect(g,7,9,8,14,2);rect(g,18,9,19,14,2);}
-function hairMed(g){rrect(g,6,3,20,11,2);rect(g,6,10,8,22,2);rect(g,18,10,20,22,2);}
+const WOMAN=[
+"......................",
+"......................",
+"........######........",
+".......########.......",
+"......##########......",
+".....############.....",
+".....###......###.....",
+".....###......###.....",
+".....###.#..#.###.....",
+".....###.#..#.###.....",
+".....###.#..#.###.....",
+".....###......###.....",
+".....###......###.....",
+".....###......###.....",
+".....###.++++.###.....",
+".....###++++++###.....",
+".....###++++++###.....",
+".....###++++++###.....",
+".....###++++++###.....",
+".....###++++++###.....",
+"....####++++++####....",
+"....####++++++####....",
+"....####++++++####....",
+"....####++++++####....",
+"....####++++++####....",
+"....####++++++####...."];
 
-function build(spec){
- const g=grid();
- shoulders(g);
- faceShape(g);
- spec.hair(g);
- eyes(g,spec.low);
- return makeCanvas(g);
-}
-const PEOPLE=[
-{name:"MAN",fn:hairShort,low:false,tag:"FAITHFUL"},
-{name:"WOMAN",fn:hairLong,low:false,tag:"FAITHFUL"},
-{name:"REED",fn:hairShort,low:true,tag:"VAR"},
-{name:"IVE",fn:hairLong,low:true,tag:"VAR"},
-{name:"OKON",fn:hairBald,low:true,tag:"VAR"},
-{name:"JUNE",fn:hairMed,low:true,tag:"VAR"}
-];
-const ART=PEOPLE.map(p=>build({hair:p.fn,low:p.low}));
+const ref=new Image();let refReady=false;ref.onload=()=>{refReady=true;};ref.src="../assetFace.png";
 
 function fit(){dpr=window.devicePixelRatio||1;k=Math.min(innerWidth/W,innerHeight/H);if(k>=1)k=Math.floor(k);S=k*dpr;cv.style.width=W*k+"px";cv.style.height=H*k+"px";cv.width=Math.max(1,Math.round(W*S));cv.height=Math.max(1,Math.round(H*S));cx.imageSmoothingEnabled=false;}
 function rr(v){return Math.round(v*S);}
-function box(x,y,w,h,col){cx.fillStyle=col||FG;const a=rr(x),b=rr(y);cx.fillRect(a,b,rr(x+w)-a,rr(y+h)-b);}
-function panel(x,y,w,h,col){cx.fillStyle=col;const a=rr(x),b=rr(y);cx.fillRect(a,b,rr(x+w)-a,rr(y+h)-b);}
-function blit(c,x,y,n){const a=rr(x),b=rr(y);cx.drawImage(c,a,b,rr(x+c.width*n)-a,rr(y+c.height*n)-b);}
+function box(x,y,w,h,col){cx.fillStyle=col;const a=rr(x),b=rr(y);cx.fillRect(a,b,rr(x+w)-a,rr(y+h)-b);}
 function tw(s,n){return (s.length*4-1)*n;}
-function text(s,x,y,n,al){if(al==="c")x=Math.round(x-tw(s,n)/2);if(al==="r")x=Math.round(x-tw(s,n));for(const ch of s){const g=FONT[ch];if(g)for(let r=0;r<5;r++)for(let q=0;q<3;q++)if(g[r][q]==="X")box(x+q*n,y+r*n,n,n,FG);x+=4*n;}}
+function text(s,x,y,n,al){if(al==="c")x=Math.round(x-tw(s,n)/2);for(const ch of s){const g=FONT[ch];if(g)for(let r=0;r<5;r++)for(let q=0;q<3;q++)if(g[r][q]==="X")box(x+q*n,y+r*n,n,n,FG);x+=4*n;}}
+function drawBust(bmp,px,py,n){
+ for(let y=0;y<bmp.length;y++)for(let x=0;x<bmp[y].length;x++){const c=bmp[y][x];let col=null;if(c==="#")col=NAVY;else if(c==="+")col=GRAY;if(col)box(px+x*n,py+y*n,n,n,col);}
+}
+function drawImg(img,px,py,scale){const a=rr(px),b=rr(py);cx.drawImage(img,a,b,rr(px+img.width*scale)-a,rr(py+img.height*scale)-b);}
 
 function draw(){
 box(0,0,W,H,BG);
-text("SURVIVOR BUSTS",24,20,3);
-text("FAITHFUL + LOW-MOOD VARIATIONS",936,25,2,"r");
-for(let i=0;i<6;i++){
-const col=i%3,row=(i/3)|0,x=110+col*250,y=70+row*210;
-panel(x,y,180,170,"#dfe1dc");
-blit(ART[i],x+25,y+12,5);
-text(PEOPLE[i].name,x+90,y+150,2,"c");
-}
-text("V"+innerWidth+"X"+innerHeight+" K"+(k>=1?k:k.toFixed(2))+" DPR"+(Math.round(dpr*100)/100),936,520,1,"r");
+text("YOUR ART",250,40,3,"c");
+text("RECREATED",690,40,3,"c");
+if(refReady){box(60,70,380,210,FACE);drawImg(ref,70,75,1.5);}
+box(470,70,440,320,FACE);
+const n=8;
+drawBust(MAN,505,90,n);
+drawBust(WOMAN,710,90,n);
+text("MAN",567,320,2,"c");text("WOMAN",772,320,2,"c");
 }
 function step(){draw();requestAnimationFrame(step);}
 addEventListener("resize",()=>{fit();draw();});
+ref.onload=()=>{refReady=true;draw();};
 fit();draw();requestAnimationFrame(step);
 </script>
 </body>
