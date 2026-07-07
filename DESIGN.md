@@ -60,30 +60,24 @@ to save. The game is a complete story with a real ending, not endless.
 - Missing an event costs nothing: absence of reward, never penalty
   (progression doctrine).
 
-## Enemy (UNDECIDED, placeholder only)
-- **Placeholder**: commercial helper robots that malfunctioned and turned
-  on humans. Set after an AI collapse; only stray malfunctioning units
-  remain, no smart AI left.
-- Intent: the real enemy should be **scientifically factual** and not feel
-  lame. Robots currently feel lame to the user. Brainstorm is ongoing.
-- Hard constraints for the real enemy:
-  - discrete, countable enemies (no abstract phenomena like noise or tides)
-  - not plain humans
-  - ideally not robots
-  - zombies are the simplest accepted fallback
-- Everything else is being architected around a placeholder so the enemy
-  can be swapped in later without rework.
+## Enemy (UNDECIDED, two candidates)
+- Down to two, user picks later:
+  1. **Zombies** (simplest, cheapest to build).
+  2. **AI robots** (machines with working AI that turned on humans).
+- The scientifically-factual / swarm direction is DROPPED for now (user
+  reversed). Not "not robots" anymore; AI robots are back on the table.
+- Everything else is architected around a placeholder so the enemy swaps
+  in later without rework.
 
 ## Art and UI direction
 - **Very minimalist** (user emphasis). 1-bit black and white, dark theme.
   Color earned slowly.
 - House pixel-craft, animation, and 16:9 stage laws apply (see working
   agreements).
-- **Art-law exception under review: survivor FACES.** House law is "cute
-  without faces, nobody on screen." Faces are being introduced for
-  survivor portraits to give personality beyond names. Pending
-  confirmation after the face lab. Faces would be confined to portraits
-  (UI), not walking bodies on the play stage.
+- **Survivor FACES: LOCKED IN (2026-07-07).** The old no-faces law is
+  removed. Portraits use faces. Style: minimal 1-bit bust, dark hair vs
+  white face, white rim, real proportion. Industry-standard, usable, not
+  novelty. Faces stay in portraits/UI, not on the play stage as bodies.
 
 ## Audio direction
 - Jazz noir + classical (user, TO-DO.md).
@@ -94,7 +88,8 @@ to save. The game is a complete story with a real ending, not endless.
 ## Labs (delete once locked)
 - `lab-icons.html` resource / enemy icon pipeline proof.
 - `lab-survivors.html` avatar styles A/B/C over 10 placeholder profiles.
-- `lab-faces.html` face capability demo, 10 survivor portraits.
+- `lab-faces.html` first face pass (poor, skull-like, superseded).
+- `lab-portraits.html` rebuilt portraits, 3 quality busts.
 
 ## Open questions
 - Enemy identity (real, scientifically factual).

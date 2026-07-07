@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>portrait lab</title>
+<style>
+html,body{margin:0;height:100%;background:#060607;overflow:hidden}
+[hidden]{display:none !important}
+body{display:flex;align-items:center;justify-content:center}
+canvas{display:block;image-rendering:pixelated}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<script>
+const W=960,H=540,BG="#0a0a0c",FG="#e9e7e0",LINE="#1a1a1f";
+const cv=document.getElementById("cv"),cx=cv.getContext("2d");
+let k=1,S=1,dpr=1;
+
+const FONT={
+"A":[".X.","X.X","XXX","X.X","X.X"],"B":["XX.","X.X","XX.","X.X","XX."],
+"C":[".XX","X..","X..","X..",".XX"],"D":["XX.","X.X","X.X","X.X","XX."],
+"E":["XXX","X..","XX.","X..","XXX"],"F":["XXX","X..","XX.","X..","X.."],
+"G":[".XX","X..","X.X","X.X",".XX"],"H":["X.X","X.X","XXX","X.X","X.X"],
+"I":["XXX",".X.",".X.",".X.","XXX"],"J":["..X","..X","..X","X.X",".X."],
+"K":["X.X","X.X","XX.","X.X","X.X"],"L":["X..","X..","X..","X..","XXX"],
+"M":["X.X","XXX","X.X","X.X","X.X"],"N":["XX.","X.X","X.X","X.X","X.X"],
+"O":[".X.","X.X","X.X","X.X",".X."],"P":["XX.","X.X","XX.","X..","X.."],
+"Q":[".X.","X.X","X.X","XX.","..X"],"R":["XX.","X.X","XX.","X.X","X.X"],
+"S":[".XX","X..",".X.","..X","XX."],"T":["XXX",".X.",".X.",".X.",".X."],
+"U":["X.X","X.X","X.X","X.X","XXX"],"V":["X.X","X.X","X.X","X.X",".X."],
+"W":["X.X","X.X","X.X","XXX","X.X"],"X":["X.X","X.X",".X.","X.X","X.X"],
+"Y":["X.X","X.X",".X.",".X.",".X."],"Z":["XXX","..X",".X.","X..","XXX"],
+"0":["XXX","X.X","X.X","X.X","XXX"],"1":[".X.","XX.",".X.",".X.","XXX"],
+"2":["XXX","..X","XXX","X..","XXX"],"3":["XXX","..X","XXX","..X","XXX"],
+"4":["X.X","X.X","XXX","..X","..X"],"5":["XXX","X..","XXX","..X","XXX"],
+"6":["XXX","X..","XXX","X.X","XXX"],"7":["XXX","..X","..X","..X","..X"],
+"8":["XXX","X.X","XXX","X.X","XXX"],"9":["XXX","X.X","XXX","..X","XXX"],
+"-":["...","...","XXX","...","..."],".":["...","...","...","...",".X."]
+};
+
+const GW=28,GH=34;
+function grid(){return Array.from({length:GH},()=>new Array(GW).fill(0));}
+function setP(g,x,y,v){x=Math.round(x);y=Math.round(y);if(x>=0&&x<GW&&y>=0&&y<GH)g[y][x]=v;}
+function ell(g,cx0,cy0,rx,ry,v){for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){const dx=(x-cx0)/rx,dy=(y-cy0)/ry;if(dx*dx+dy*dy<=1)g[y][x]=v;}}
+function rect(g,x0,y0,x1,y1,v){for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)setP(g,x,y,v);}
+function rimHair(g){const c=g.map(r=>r.slice());for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){if(g[y][x]===0){let n=false;for(const d of[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]])if(g[y+d[1]]&&g[y+d[1]][x+d[0]]===2)n=true;if(n)c[y][x]=1;}}return c;}
+function makeCanvas(g){const c=document.createElement("canvas");c.width=GW;c.height=GH;const gx=c.getContext("2d");gx.fillStyle=FG;for(let y=0;y<GH;y++)for(let x=0;x<GW;x++)if(g[y][x]===1)gx.fillRect(x,y,1,1);return c;}
+
+// value key: 0 bg, 1 white(skin/rim/shoulder), 2 dark part(hair/hat/features)
+function eyesNoseMouth(g,ey,mouthW){
+ // brows
+ rect(g,8,ey-2,11,ey-2,2); rect(g,16,ey-2,19,ey-2,2);
+ // eyes (2px tall, with a highlight gap)
+ rect(g,9,ey,11,ey+1,2); rect(g,16,ey,18,ey+1,2);
+ // nose
+ setP(g,13,ey+3,2); setP(g,13,ey+4,2); setP(g,14,ey+4,2);
+ // mouth
+ const m=mouthW||2; rect(g,14-m,ey+7,13+m,ey+7,2);
+}
+
+function womanBob(g){
+ ell(g,14,31,12,7,1);            // shoulders
+ rect(g,11,21,16,26,1);          // neck
+ ell(g,14,13,10,11,1);           // solid white head+hair
+ rect(g,5,13,9,22,1);            // left lock length
+ rect(g,19,13,23,22,1);          // right lock length
+ rect(g,9,9,18,10,2);            // bangs (dark hairline)
+ rect(g,9,10,9,18,2);            // left temple line
+ rect(g,18,10,18,18,2);          // right temple line
+ rect(g,10,12,12,12,2); rect(g,15,12,17,12,2);   // brows
+ rect(g,10,14,12,15,2); rect(g,15,14,17,15,2);   // eyes
+ setP(g,13,16,2);setP(g,13,17,2);setP(g,14,17,2);// nose
+ rect(g,12,19,15,19,2);          // mouth
+ rect(g,9,27,19,27,2);           // collar
+}
+
+function womanBun(g){
+ ell(g,14,31,11,7,1);            // shoulders
+ rect(g,11,21,16,26,1);          // neck
+ ell(g,14,4,4,4,1);              // bun
+ ell(g,14,13,9,11,1);            // solid white head+hair (pulled back)
+ rect(g,8,8,19,8,2);             // hairline
+ rect(g,8,8,8,12,2);             // left temple
+ rect(g,19,8,19,12,2);           // right temple
+ setP(g,13,8,2);setP(g,14,7,2);  // center part
+ rect(g,10,11,12,11,2); rect(g,15,11,17,11,2);   // brows
+ // round glasses with eyes inside
+ rect(g,9,13,12,13,2);rect(g,9,15,12,15,2);setP(g,9,14,2);setP(g,12,14,2);
+ rect(g,15,13,18,13,2);rect(g,15,15,18,15,2);setP(g,15,14,2);setP(g,18,14,2);
+ setP(g,13,14,2);                // bridge
+ setP(g,11,14,2);setP(g,16,14,2);// pupils
+ setP(g,13,16,2);setP(g,13,17,2);setP(g,14,17,2);// nose
+ rect(g,12,19,15,19,2);          // mouth
+ rect(g,9,27,19,27,2);           // collar
+}
+
+function manHat(g){
+ ell(g,14,31,12,7,1);            // shoulders
+ rect(g,11,22,16,26,1);          // neck
+ ell(g,14,17,7,8,1);             // face
+ // hat: brim + crown
+ ell(g,14,11,11,2,2);            // brim
+ rect(g,5,10,22,11,2);           // brim solid
+ rect(g,8,3,20,10,2);            // crown block
+ ell(g,14,4,6,3,2);              // crown round top
+ rect(g,8,9,20,9,1);             // hat band (white stripe)
+ // face features (lower because hat)
+ rect(g,9,15,11,16,2); rect(g,16,15,18,16,2); // eyes
+ setP(g,13,18,2); setP(g,13,19,2); setP(g,14,19,2); // nose
+ rect(g,10,22,18,22,2);          // mustache
+ // stubble jaw
+ setP(g,9,21,2);setP(g,19,21,2);setP(g,11,24,2);setP(g,17,24,2);setP(g,14,25,2);
+}
+
+const PEOPLE=[
+{name:"MARA",meta:"26 COURIER",fn:womanBob},
+{name:"AGNES",meta:"71 PIANO TEACHER",fn:womanBun},
+{name:"ODELL",meta:"58 ELEVATOR MAN",fn:manHat}
+];
+const ART=PEOPLE.map(p=>{const g=grid();p.fn(g);return makeCanvas(rimHair(g));});
+
+function fit(){dpr=window.devicePixelRatio||1;k=Math.min(innerWidth/W,innerHeight/H);if(k>=1)k=Math.floor(k);S=k*dpr;cv.style.width=W*k+"px";cv.style.height=H*k+"px";cv.width=Math.max(1,Math.round(W*S));cv.height=Math.max(1,Math.round(H*S));cx.imageSmoothingEnabled=false;}
+function rr(v){return Math.round(v*S);}
+function box(x,y,w,h,col){cx.fillStyle=col||FG;const a=rr(x),b=rr(y);cx.fillRect(a,b,rr(x+w)-a,rr(y+h)-b);}
+function edge(x,y,w,h){box(x,y,w,1,LINE);box(x,y+h-1,w,1,LINE);box(x,y,1,h,LINE);box(x+w-1,y,1,h,LINE);}
+function blit(c,x,y,n){const a=rr(x),b=rr(y);cx.drawImage(c,a,b,rr(x+c.width*n)-a,rr(y+c.height*n)-b);}
+function tw(s,n){return (s.length*4-1)*n;}
+function text(s,x,y,n,al){if(al==="c")x=Math.round(x-tw(s,n)/2);if(al==="r")x=Math.round(x-tw(s,n));for(const ch of s){const g=FONT[ch];if(g)for(let r=0;r<5;r++)for(let q=0;q<3;q++)if(g[r][q]==="X")box(x+q*n,y+r*n,n,n,FG);x+=4*n;}}
+
+function draw(){
+box(0,0,W,H,BG);
+text("PORTRAIT LAB",24,20,3);
+text("MINIMAL 1-BIT BUST 28X34",936,25,2,"r");
+for(let i=0;i<3;i++){
+const x=70+i*300,y=70;
+edge(x,y,240,300);
+blit(ART[i],x+50,y+24,5);       // 28*5=140 wide, centered in 240
+text(PEOPLE[i].name,x+120,y+236,3,"c");
+text(PEOPLE[i].meta,x+120,y+262,2,"c");
+}
+text("SMALL",24,410,2);
+for(let i=0;i<3;i++){blit(ART[i],120+i*90,406,2);}
+text("TINY",380,410,2);
+for(let i=0;i<3;i++){blit(ART[i],460+i*44,410,1);}
+text("V"+innerWidth+"X"+innerHeight+" K"+(k>=1?k:k.toFixed(2))+" DPR"+(Math.round(dpr*100)/100),936,520,1,"r");
+}
+function step(){draw();requestAnimationFrame(step);}
+addEventListener("resize",()=>{fit();draw();});
+fit();draw();requestAnimationFrame(step);
+</script>
+</body>
+</html>
