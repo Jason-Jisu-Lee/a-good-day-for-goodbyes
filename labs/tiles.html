@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>tile lab</title>
+<style>
+html,body{margin:0;height:100%;background:#000;overflow:hidden}
+[hidden]{display:none !important}
+body{display:flex;align-items:center;justify-content:center}
+canvas{display:block;image-rendering:pixelated}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<script>
+const W=960,H=540,FG="#f2f2f0",BG="#000",DIM="#3a3a3a";
+const cv=document.getElementById("cv"),cx=cv.getContext("2d");
+let k=1,S=1,dpr=1;
+
+const FONT={
+"A":[".X.","X.X","XXX","X.X","X.X"],"B":["XX.","X.X","XX.","X.X","XX."],
+"C":[".XX","X..","X..","X..",".XX"],"D":["XX.","X.X","X.X","X.X","XX."],
+"E":["XXX","X..","XX.","X..","XXX"],"F":["XXX","X..","XX.","X..","X.."],
+"G":[".XX","X..","X.X","X.X",".XX"],"H":["X.X","X.X","XXX","X.X","X.X"],
+"I":["XXX",".X.",".X.",".X.","XXX"],"K":["X.X","X.X","XX.","X.X","X.X"],
+"L":["X..","X..","X..","X..","XXX"],"M":["X.X","XXX","X.X","X.X","X.X"],
+"N":["XX.","X.X","X.X","X.X","X.X"],"O":[".X.","X.X","X.X","X.X",".X."],
+"P":["XX.","X.X","XX.","X..","X.."],"R":["XX.","X.X","XX.","X.X","X.X"],
+"S":[".XX","X..",".X.","..X","XX."],"T":["XXX",".X.",".X.",".X.",".X."],
+"U":["X.X","X.X","X.X","X.X","XXX"],"V":["X.X","X.X","X.X","X.X",".X."],
+"W":["X.X","X.X","X.X","XXX","X.X"],"Y":["X.X","X.X",".X.",".X.",".X."],
+"D":["XX.","X.X","X.X","X.X","XX."],"X":["X.X","X.X",".X.","X.X","X.X"],
+"0":["XXX","X.X","X.X","X.X","XXX"],"1":[".X.","XX.",".X.",".X.","XXX"],
+"2":["XXX","..X","XXX","X..","XXX"],"3":["XXX","..X","XXX","..X","XXX"],
+"4":["X.X","X.X","XXX","..X","..X"],"5":["XXX","X..","XXX","..X","XXX"],
+"6":["XXX","X..","XXX","X.X","XXX"],"7":["XXX","..X","..X","..X","..X"],
+"8":["XXX","X.X","XXX","X.X","XXX"],"9":["XXX","X.X","XXX","..X","XXX"],
+".":["...","...","...","...",".X."]," ":["...","...","...","...","..."]
+};
+
+function sheet(rows){const c=document.createElement("canvas");c.width=rows[0].length;c.height=rows.length;const g=c.getContext("2d");g.fillStyle=FG;for(let y=0;y<rows.length;y++)for(let x=0;x<rows[y].length;x++)if(rows[y][x]==="X")g.fillRect(x,y,1,1);return c;}
+
+const UNIT_A=sheet([
+"....XXXXX....",
+"..XX.....XX..",
+".X.........X.",
+".X..XXXXX..X.",
+"X..XXXXXXX..X",
+"X..XX...XX..X",
+"X...........X",
+"X....XXX....X",
+".X..XXXXX..X.",
+".X.........X.",
+"..XX.....XX..",
+"....XXXXX...."
+]);
+const UNIT_B=(()=>{const c=document.createElement("canvas");c.width=9;c.height=9;const g=c.getContext("2d");g.fillStyle=FG;for(let y=0;y<9;y++){const dy=y-4,h=Math.floor(Math.sqrt(Math.max(0,16.5-dy*dy)));for(let x=4-h;x<=4+h;x++)g.fillRect(x,y,1,1);}return c;})();
+
+function tileCanvas(){const c=document.createElement("canvas");c.width=40;c.height=40;return c;}
+function pine(g,cxx,top,h){for(let i=0;i<h;i++){const half=Math.min(Math.floor(i/2),4);for(let x=cxx-half;x<=cxx+half;x++)g.fillRect(x,top+i,1,1);}g.fillRect(cxx,top+h,1,2);}
+const TILE_A=(()=>{const c=tileCanvas(),g=c.getContext("2d");g.fillStyle=FG;
+pine(g,10,15,11);pine(g,22,10,15);pine(g,31,19,9);pine(g,16,23,10);
+for(const p of [[5,36],[13,37],[26,36],[34,37],[20,38]])g.fillRect(p[0],p[1],1,1);
+return c;})();
+const TILE_B=(()=>{const c=tileCanvas(),g=c.getContext("2d");g.fillStyle=FG;
+for(let gy=0;gy<4;gy++){const y=7+gy*8;for(let gx=0;gx<5;gx++){const x=6+gx*8+((gy%2)?4:0);if(x<4||x>35)continue;
+g.fillRect(x,y-1,1,1);g.fillRect(x-1,y,3,1);g.fillRect(x-2,y+1,5,1);g.fillRect(x,y+2,1,1);}}
+return c;})();
+const TILE_C=(()=>{const c=tileCanvas(),g=c.getContext("2d");g.fillStyle=FG;
+for(let y=0;y<16;y++){const dy=y-7.5,h=Math.floor(Math.sqrt(Math.max(0,58-dy*dy*1.05)));for(let x=20-h;x<=20+h;x++)g.fillRect(x,6+y,1,1);}
+g.fillRect(19,22,2,9);
+for(const p of [[14,31],[17,32],[23,32],[26,31]])g.fillRect(p[0],p[1],1,1);
+return c;})();
+
+function fit(){dpr=window.devicePixelRatio||1;k=Math.min(innerWidth/W,innerHeight/H);if(k>=1)k=Math.floor(k);S=k*dpr;cv.style.width=W*k+"px";cv.style.height=H*k+"px";cv.width=Math.max(1,Math.round(W*S));cv.height=Math.max(1,Math.round(H*S));cx.imageSmoothingEnabled=false;}
+function rr(v){return Math.round(v*S);}
+function box(x,y,w,h,col){cx.fillStyle=col;const a=rr(x),b=rr(y);cx.fillRect(a,b,rr(x+w)-a,rr(y+h)-b);}
+function edge(x,y,w,h,col){box(x,y,w,1,col);box(x,y+h-1,w,1,col);box(x,y,1,h,col);box(x+w-1,y,1,h,col);}
+function tw(s,n){return (s.length*4-1)*n;}
+function text(s,x,y,n,al){if(al==="c")x=Math.round(x-tw(s,n)/2);if(al==="r")x=Math.round(x-tw(s,n));for(const ch of s){const g=FONT[ch];if(g){cx.fillStyle=FG;for(let r=0;r<5;r++)for(let q=0;q<3;q++)if(g[r][q]==="X"){const a=rr(x+q*n),b=rr(y+r*n);cx.fillRect(a,b,rr(x+q*n+n)-a,rr(y+r*n+n)-b);}}x+=4*n;}}
+function blit(c,x,y,n){const a=rr(x),b=rr(y);cx.drawImage(c,a,b,rr(x+c.width*n)-a,rr(y+c.height*n)-b);}
+
+const ri=n=>Math.floor(Math.random()*n);
+function makeUnit(px,py,pw,ph,name,style){return {px,py,pw,ph,name,style,x:px+pw/2,y:py+ph/2,tx:0,ty:0,vx:0,vy:0,mode:"idle",t:0,shX:0,shY:0,shT:0,workT:0};}
+function retarget(u){u.tx=u.px+18+Math.random()*(u.pw-36);u.ty=u.py+26+Math.random()*(u.ph-44);u.mode="move";}
+const units=[makeUnit(60,120,190,170,"MARA","A"),makeUnit(290,120,190,170,"REED","B")];
+units.forEach(retarget);
+
+function update(dt){
+for(const u of units){
+if(u.mode==="move"){
+const dx=u.tx-u.x,dy=u.ty-u.y,d=Math.sqrt(dx*dx+dy*dy);
+if(d<1.5){u.mode="work";u.workT=1600+Math.random()*900;}
+else{const sp=26;u.vx+=((dx/d)*sp-u.vx)*0.08;u.vy+=((dy/d)*sp-u.vy)*0.08;u.x+=u.vx*dt/1000;u.y+=u.vy*dt/1000;}
+}else if(u.mode==="work"){
+u.workT-=dt;u.shT-=dt;
+if(u.shT<=0){u.shT=40;u.shX=ri(3)-1;u.shY=ri(3)-1;}
+if(u.workT<=0){u.shX=0;u.shY=0;retarget(u);}
+}
+}
+}
+
+function draw(){
+box(0,0,W,H,BG);
+text("SURVIVOR MARKER",60,60,2);
+text("RESOURCE TILE  FOREST",560,60,2);
+for(const u of units){
+edge(u.px,u.py,u.pw,u.ph,DIM);
+text(u.style,u.px+u.pw/2,u.py+u.ph+12,2,"c");
+const ux=u.x+(u.mode==="work"?u.shX:0),uy=u.y+(u.mode==="work"?u.shY:0);
+if(u.style==="A"){blit(UNIT_A,ux-13,uy-12,2);text(u.name,ux,uy-24,1,"c");}
+else{blit(UNIT_B,ux-9,uy-9,2);text(u.name,ux,uy-21,1,"c");}
+}
+const tiles=[[TILE_A,"A",530],[TILE_B,"B",680],[TILE_C,"C",830]];
+for(const t of tiles){
+edge(t[2]-4,116,128,128,DIM);
+blit(t[0],t[2],120,3);
+text(t[1],t[2]+60,258,2,"c");
+}
+text("V"+innerWidth+"X"+innerHeight+" K"+(k>=1?k:k.toFixed(2)),936,520,1,"r");
+}
+let last=performance.now();
+function step(t){const dt=Math.min(100,t-last);last=t;update(dt);draw();requestAnimationFrame(step);}
+addEventListener("resize",()=>{fit();});
+fit();requestAnimationFrame(step);
+</script>
+</body>
+</html>

@@ -60,6 +60,36 @@ to save. The game is a complete story with a real ending, not endless.
 - Every attack damages survivors (injury / attrition).
 - Missing an event costs nothing: absence of reward, never penalty
   (progression doctrine).
+- First horde timing: TBD. The first phase should last quite a bit.
+
+## Ground phase loop (locked 2026-07-09)
+- Start: 4 survivors on a small circle of land, heavy fog of war beyond.
+- Survivors on the map are small circles with the name above the head,
+  moving around (marker style: labs/tiles.html pick pending).
+- The player ASSIGNS survivors to tasks by clicking; work then runs
+  automatically (player is never labor). Example: assign to wood, the
+  survivor gathers whatever wood is around on that tile.
+- Resource nodes do NOT run out. Throughput is the limit, not the stock.
+- The map is made of square TILES: resource tiles, survivor (rescue)
+  tiles, building tiles, more types later. Many tiles spawn with enemies
+  that must be cleared. New tiles appear after the early game.
+- Tile counts per type are FIXED per run; their placement is randomized
+  at run start. Goal: high variance run to run without it feeling like
+  pure luck.
+- Time: days. No pressure UI. Each survivor can gather only so much per
+  day (fatigue cap). Daily output is limited by the survivor, not the
+  node.
+- Zoom: slight zoom-out becomes available as the map grows; the design
+  minimizes how much the player needs it.
+- Phase arc on the ground:
+  1. Self-sustain: food, water, shelter secured.
+  2. Sustain under continuous, worsening zombie attacks (designed to
+     eventually become unholdable).
+  3. Escape to the mysterious bunker that was found (mechanic shift).
+- Expansion motive: more resources, and crucially finding more survivors
+  to combine forces, which is what makes taking the bunker possible.
+- Skill philosophy: optimization skill should matter a LOT. Perfect play
+  goes far. The deepest mechanic remains prestige (time rewind).
 
 ## Enemy (UNDECIDED, two candidates)
 - Down to two, user picks later:
@@ -79,10 +109,10 @@ to save. The game is a complete story with a real ending, not endless.
   a person in a navy-ringed CIRCLE (KEEP the circle): navy hair+eyes, pale
   off-white face (the interior showing through the hair gap, not drawn),
   gray shoulders, two small eyes, no nose/mouth. Source = assetFace.png.
-  6 avatars in project root: face_man, face_woman (user's exact
-  originals, untouched) + 4 variants on the exact extracted base:
-  face_man2 (crew cut), face_man3 (side-combed), face_woman2 (jaw bob),
-  face_woman3 (center part, shoulder length). face_all.png = preview.
+  5 avatars in project root (final set, user picked 2026-07-09):
+  face_man, face_woman (user's exact originals, untouched) + 3 variants
+  on the exact extracted base: face_man2 (crew cut), face_man3
+  (side-combed), face_woman2 (jaw bob). face_all.png = preview.
   HOW to add more: draw hair as whole ~4px logical grid cells (pitch
   251/63), hard edges, NO antialiasing, on the bald base; hair never
   below the shoulder line; normal conservative styles only. First
@@ -93,6 +123,16 @@ to save. The game is a complete story with a real ending, not endless.
   ONLY through subtly downcast eyes. Careful and subtle, never a frown,
   tears, or caricature. Fits the melancholy of the premise (goodbyes,
   permadeath, rewind).
+
+## Main menu (built 2026-07-09, index.html)
+- Pure black background, white bitmap type. Black and white theme.
+- Buttons: ENTER (starts the game, currently fades to a black placeholder
+  screen), SETTINGS (placeholder, no action yet), QUIT GAME (window
+  close).
+- Bottom row: Steam-icon WISHLIST and DISCORD buttons, intentionally
+  non-functional for now, dimmed until hover.
+- Landscape 960x540 and portrait 540x960 layouts, same stage law.
+- Esc returns from the game screen to the menu (silent, no text).
 
 ## Tone / audio direction
 - **Deliberate contrast is a PILLAR** (user, 2026-07-07): classy,
@@ -120,10 +160,17 @@ to save. The game is a complete story with a real ending, not endless.
   deleted 2026-07-07 for a clean start.
 
 ## Open questions
-- Enemy identity (real, scientifically factual).
+- Enemy identity (zombies vs AI robots; zombies currently assumed in
+  ground-phase wording).
 - Final title.
 - Stat system (axes above are placeholder).
 - Target survivor count.
+- First horde timing (first phase should last quite a bit).
+- Survivor marker style and forest tile style: labs/tiles.html, pick by
+  feel (marker A bit-style circle-person vs B plain dot; tiles A grove
+  scene vs B thicket texture vs C single emblem tree).
+- Resource types list for ground phase (wood confirmed; food, water,
+  shelter materials implied by self-sustain goal).
 
 ## Parked
 (none)
