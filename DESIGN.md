@@ -166,13 +166,25 @@ to save. The game is a complete story with a real ending, not endless.
 - Stat system (axes above are placeholder).
 - Target survivor count.
 - First horde timing (first phase should last quite a bit).
-- SURVIVOR MARKER LOCKED (user feedback 2026-07-09): a plain pencil-line
-  circle OUTLINE, never filled, nothing inside; name above the head in
-  bitmap type at scale 2 minimum (scale 1 is unreadably small).
-- Art direction demo (labs/tiles.html): chunky 1-bit + dithered fog +
-  bitmap type. Tiles: wood grove, housing block, police station (PD
-  text + roof light). Icons: fire (animated), survivor, narrow sword.
-  Awaiting user inspection.
+- SURVIVOR MARKER (refined 2026-07-09): plain pencil-line circle
+  OUTLINE, never filled, THICK stroke (~30px ring, ~5px line at map
+  scale). Name above in the 5x7 font at scale 2. NO shake or jitter on
+  units ever (user read it as a bug); movement is steady constant-speed,
+  smooth per frame.
+- FONT LAW: the 5x7 pixel font is the standard for all readable text
+  (names, buttons, labels). The old 3x5 font was too hard to read; keep
+  it only for tiny dev readouts.
+- TILES ARE TOP-DOWN (map view, player looks down on minions). No side
+  elevations on the map.
+- FOG: the white dither halo was rejected ("looks like a tile with white
+  outline"). New principle: unexplored space is pure black; fog reads as
+  the tile edge dissolving into darkness (style board candidate B).
+- Background question OPEN: black-dominant vs white-dominant world (both
+  demoed on the style board, C is the white option). Some color arrives
+  later regardless; this is about the dominant field.
+- Style board (labs/tiles.html): 8 top-down forest tile + marker styles,
+  A chunky, B dither fog edge, C ink on white, D blueprint, E geometric,
+  F pattern fill, G grayscale, H one red accent. Awaiting picks.
 - Resource types list for ground phase (wood confirmed; food, water,
   shelter materials implied by self-sustain goal).
 
