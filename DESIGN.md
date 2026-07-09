@@ -166,9 +166,13 @@ to save. The game is a complete story with a real ending, not endless.
 - Stat system (axes above are placeholder).
 - Target survivor count.
 - First horde timing (first phase should last quite a bit).
-- Survivor marker style and forest tile style: labs/tiles.html, pick by
-  feel (marker A bit-style circle-person vs B plain dot; tiles A grove
-  scene vs B thicket texture vs C single emblem tree).
+- SURVIVOR MARKER LOCKED (user feedback 2026-07-09): a plain pencil-line
+  circle OUTLINE, never filled, nothing inside; name above the head in
+  bitmap type at scale 2 minimum (scale 1 is unreadably small).
+- Art direction demo (labs/tiles.html): chunky 1-bit + dithered fog +
+  bitmap type. Tiles: wood grove, housing block, police station (PD
+  text + roof light). Icons: fire (animated), survivor, narrow sword.
+  Awaiting user inspection.
 - Resource types list for ground phase (wood confirmed; food, water,
   shelter materials implied by self-sustain goal).
 

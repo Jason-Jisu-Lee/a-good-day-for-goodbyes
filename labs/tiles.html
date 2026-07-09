@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>tile lab</title>
+<title>style demo</title>
 <style>
 html,body{margin:0;height:100%;background:#000;overflow:hidden}
 [hidden]{display:none !important}
@@ -14,7 +14,7 @@ canvas{display:block;image-rendering:pixelated}
 <body>
 <canvas id="cv"></canvas>
 <script>
-const W=960,H=540,FG="#f2f2f0",BG="#000",DIM="#3a3a3a";
+const W=960,H=540,FG="#f2f2f0",BG="#000",DIM="#2e2e2e";
 const cv=document.getElementById("cv"),cx=cv.getContext("2d");
 let k=1,S=1,dpr=1;
 
@@ -29,8 +29,8 @@ const FONT={
 "P":["XX.","X.X","XX.","X..","X.."],"R":["XX.","X.X","XX.","X.X","X.X"],
 "S":[".XX","X..",".X.","..X","XX."],"T":["XXX",".X.",".X.",".X.",".X."],
 "U":["X.X","X.X","X.X","X.X","XXX"],"V":["X.X","X.X","X.X","X.X",".X."],
-"W":["X.X","X.X","X.X","XXX","X.X"],"Y":["X.X","X.X",".X.",".X.",".X."],
-"D":["XX.","X.X","X.X","X.X","XX."],"X":["X.X","X.X",".X.","X.X","X.X"],
+"W":["X.X","X.X","X.X","XXX","X.X"],"X":["X.X","X.X",".X.","X.X","X.X"],
+"Y":["X.X","X.X",".X.",".X.",".X."],
 "0":["XXX","X.X","X.X","X.X","XXX"],"1":[".X.","XX.",".X.",".X.","XXX"],
 "2":["XXX","..X","XXX","X..","XXX"],"3":["XXX","..X","XXX","..X","XXX"],
 "4":["X.X","X.X","XXX","..X","..X"],"5":["XXX","X..","XXX","..X","XXX"],
@@ -41,50 +41,156 @@ const FONT={
 
 function sheet(rows){const c=document.createElement("canvas");c.width=rows[0].length;c.height=rows.length;const g=c.getContext("2d");g.fillStyle=FG;for(let y=0;y<rows.length;y++)for(let x=0;x<rows[y].length;x++)if(rows[y][x]==="X")g.fillRect(x,y,1,1);return c;}
 
-const UNIT_A=sheet([
+const RING=sheet([
 "....XXXXX....",
 "..XX.....XX..",
 ".X.........X.",
-".X..XXXXX..X.",
-"X..XXXXXXX..X",
-"X..XX...XX..X",
+".X.........X.",
 "X...........X",
-"X....XXX....X",
-".X..XXXXX..X.",
+"X...........X",
+"X...........X",
+"X...........X",
+".X.........X.",
 ".X.........X.",
 "..XX.....XX..",
 "....XXXXX...."
 ]);
-const UNIT_B=(()=>{const c=document.createElement("canvas");c.width=9;c.height=9;const g=c.getContext("2d");g.fillStyle=FG;for(let y=0;y<9;y++){const dy=y-4,h=Math.floor(Math.sqrt(Math.max(0,16.5-dy*dy)));for(let x=4-h;x<=4+h;x++)g.fillRect(x,y,1,1);}return c;})();
+
+const FIRE=[sheet([
+"............",
+"......X.....",
+".....XX.....",
+".....XXX....",
+"....XXXX....",
+"...XXXXXX...",
+"..XXXXXXXX..",
+"..XXX..XXX..",
+".XXX....XXX.",
+".XX......XX.",
+"..XX....XX..",
+"...XXXXXX..."
+]),sheet([
+"............",
+"....X.......",
+".....X......",
+"....XXX.....",
+"....XXXX....",
+"...XXXXXX...",
+"..XXXXXXXX..",
+"..XXXX..XX..",
+".XXX....XXX.",
+".XX......XX.",
+"..XX....XX..",
+"...XXXXXX..."
+]),sheet([
+"......X.....",
+"............",
+".....XX.....",
+".....XX.....",
+"....XXXX....",
+"...XXXXXX...",
+"..XXXXXXXX..",
+"..XXX..XXX..",
+".XXX....XXX.",
+".XX......XX.",
+"..XX....XX..",
+"...XXXXXX..."
+]),sheet([
+"............",
+".......X....",
+"......X.....",
+".....XXX....",
+"....XXXX....",
+"...XXXXXX...",
+"..XXXXXXXX..",
+"..XX..XXXX..",
+".XXX....XXX.",
+".XX......XX.",
+"..XX....XX..",
+"...XXXXXX..."
+])];
+
+const SURV=sheet([
+"............",
+".....XX.....",
+"....XXXX....",
+"....XXXX....",
+".....XX.....",
+"............",
+"....XXXX....",
+"...XXXXXX...",
+"..XXXXXXXX..",
+"..XXXXXXXX..",
+"..XXXXXXXX..",
+"............"
+]);
+
+const SWORD=sheet([
+".....X......",
+".....X......",
+".....X......",
+".....X......",
+".....X......",
+".....X......",
+".....X......",
+"...XXXXX....",
+".....X......",
+".....X......",
+"....XXX.....",
+"............"
+]);
 
 function tileCanvas(){const c=document.createElement("canvas");c.width=40;c.height=40;return c;}
 function pine(g,cxx,top,h){for(let i=0;i<h;i++){const half=Math.min(Math.floor(i/2),4);for(let x=cxx-half;x<=cxx+half;x++)g.fillRect(x,top+i,1,1);}g.fillRect(cxx,top+h,1,2);}
-const TILE_A=(()=>{const c=tileCanvas(),g=c.getContext("2d");g.fillStyle=FG;
-pine(g,10,15,11);pine(g,22,10,15);pine(g,31,19,9);pine(g,16,23,10);
-for(const p of [[5,36],[13,37],[26,36],[34,37],[20,38]])g.fillRect(p[0],p[1],1,1);
+const T_WOOD=(()=>{const c=tileCanvas(),g=c.getContext("2d");g.fillStyle=FG;
+pine(g,12,8,12);pine(g,26,5,15);pine(g,33,15,9);
+g.fillRect(7,30,9,2);g.fillRect(5,33,9,2);
+for(const p of [[20,36],[28,35],[34,36],[10,37]])g.fillRect(p[0],p[1],1,1);
 return c;})();
-const TILE_B=(()=>{const c=tileCanvas(),g=c.getContext("2d");g.fillStyle=FG;
-for(let gy=0;gy<4;gy++){const y=7+gy*8;for(let gx=0;gx<5;gx++){const x=6+gx*8+((gy%2)?4:0);if(x<4||x>35)continue;
-g.fillRect(x,y-1,1,1);g.fillRect(x-1,y,3,1);g.fillRect(x-2,y+1,5,1);g.fillRect(x,y+2,1,1);}}
+const T_HOUSE=(()=>{const c=tileCanvas(),g=c.getContext("2d");g.fillStyle=FG;
+g.fillRect(9,7,22,1);g.fillRect(10,8,20,27);
+cx2=c.getContext("2d");cx2.clearRect(13,11,3,3);cx2.clearRect(19,11,3,3);cx2.clearRect(25,11,3,3);
+cx2.clearRect(13,17,3,3);cx2.clearRect(19,17,3,3);cx2.clearRect(25,17,3,3);
+cx2.clearRect(13,23,3,3);cx2.clearRect(25,23,3,3);
+cx2.clearRect(18,28,4,7);
+g.fillRect(8,36,24,1);
 return c;})();
-const TILE_C=(()=>{const c=tileCanvas(),g=c.getContext("2d");g.fillStyle=FG;
-for(let y=0;y<16;y++){const dy=y-7.5,h=Math.floor(Math.sqrt(Math.max(0,58-dy*dy*1.05)));for(let x=20-h;x<=20+h;x++)g.fillRect(x,6+y,1,1);}
-g.fillRect(19,22,2,9);
-for(const p of [[14,31],[17,32],[23,32],[26,31]])g.fillRect(p[0],p[1],1,1);
+const T_POLICE=(()=>{const c=tileCanvas(),g=c.getContext("2d");g.fillStyle=FG;
+g.fillRect(5,16,30,19);
+g.fillRect(17,13,6,2);
+const gg=c.getContext("2d");
+gg.clearRect(8,20,5,4);gg.clearRect(27,20,5,4);
+gg.clearRect(17,26,6,9);
+const P=["XX.","X.X","XX.","X..","X.."],D=["XX.","X.X","X.X","X.X","XX."];
+for(let r=0;r<5;r++)for(let q=0;q<3;q++){if(P[r][q]==="X")gg.clearRect(15+q,19+r,1,1);if(D[r][q]==="X")gg.clearRect(21+q,19+r,1,1);}
+g.fillRect(4,35,32,1);
 return c;})();
 
 function fit(){dpr=window.devicePixelRatio||1;k=Math.min(innerWidth/W,innerHeight/H);if(k>=1)k=Math.floor(k);S=k*dpr;cv.style.width=W*k+"px";cv.style.height=H*k+"px";cv.width=Math.max(1,Math.round(W*S));cv.height=Math.max(1,Math.round(H*S));cx.imageSmoothingEnabled=false;}
 function rr(v){return Math.round(v*S);}
 function box(x,y,w,h,col){cx.fillStyle=col;const a=rr(x),b=rr(y);cx.fillRect(a,b,rr(x+w)-a,rr(y+h)-b);}
-function edge(x,y,w,h,col){box(x,y,w,1,col);box(x,y+h-1,w,1,col);box(x,y,1,h,col);box(x+w-1,y,1,h,col);}
 function tw(s,n){return (s.length*4-1)*n;}
 function text(s,x,y,n,al){if(al==="c")x=Math.round(x-tw(s,n)/2);if(al==="r")x=Math.round(x-tw(s,n));for(const ch of s){const g=FONT[ch];if(g){cx.fillStyle=FG;for(let r=0;r<5;r++)for(let q=0;q<3;q++)if(g[r][q]==="X"){const a=rr(x+q*n),b=rr(y+r*n);cx.fillRect(a,b,rr(x+q*n+n)-a,rr(y+r*n+n)-b);}}x+=4*n;}}
 function blit(c,x,y,n){const a=rr(x),b=rr(y);cx.drawImage(c,a,b,rr(x+c.width*n)-a,rr(y+c.height*n)-b);}
 
+function fog(x,y,w,h){
+const cell=3;
+for(let yy=y-18;yy<y+h+18;yy+=cell)for(let xx=x-18;xx<x+w+18;xx+=cell){
+if(xx>=x&&xx<x+w&&yy>=y&&yy<y+h)continue;
+const dx=Math.max(x-xx-cell,xx-(x+w),0),dy=Math.max(y-yy-cell,yy-(y+h),0);
+const d=Math.max(dx,dy);
+const cxi=Math.floor(xx/cell),cyi=Math.floor(yy/cell);
+let on=false;
+if(d<6)on=(cxi+cyi)%2===0;
+else if(d<12)on=cxi%2===0&&cyi%2===0;
+else on=(cxi%3===0)&&(cyi%3===0)&&((cxi+cyi)%2===0);
+if(on)box(xx,yy,cell,cell,FG);
+}}
+
 const ri=n=>Math.floor(Math.random()*n);
-function makeUnit(px,py,pw,ph,name,style){return {px,py,pw,ph,name,style,x:px+pw/2,y:py+ph/2,tx:0,ty:0,vx:0,vy:0,mode:"idle",t:0,shX:0,shY:0,shT:0,workT:0};}
-function retarget(u){u.tx=u.px+18+Math.random()*(u.pw-36);u.ty=u.py+26+Math.random()*(u.ph-44);u.mode="move";}
-const units=[makeUnit(60,120,190,170,"MARA","A"),makeUnit(290,120,190,170,"REED","B")];
+function makeUnit(px,py,pw,ph,name){return {px,py,pw,ph,name,x:px+pw/2,y:py+ph/2,tx:0,ty:0,vx:0,vy:0,mode:"idle",shX:0,shY:0,shT:0,workT:0};}
+function retarget(u){u.tx=u.px+30+Math.random()*(u.pw-60);u.ty=u.py+40+Math.random()*(u.ph-64);u.mode="move";}
+const units=[makeUnit(50,120,160,220,"MARA"),makeUnit(210,120,160,220,"REED")];
 units.forEach(retarget);
 
 function update(dt){
@@ -101,27 +207,35 @@ if(u.workT<=0){u.shX=0;u.shY=0;retarget(u);}
 }
 }
 
-function draw(){
+let fireF=0,fireT=0;
+function draw(dt){
 box(0,0,W,H,BG);
-text("SURVIVOR MARKER",60,60,2);
-text("RESOURCE TILE  FOREST",560,60,2);
+fireT+=dt;if(fireT>=95){fireT=0;let f;do{f=ri(4)}while(f===fireF);fireF=f;}
+text("SURVIVOR MARKER",50,70,2);
+box(50,120,320,1,DIM);box(50,339,320,1,DIM);box(50,120,1,220,DIM);box(369,120,1,220,DIM);
 for(const u of units){
-edge(u.px,u.py,u.pw,u.ph,DIM);
-text(u.style,u.px+u.pw/2,u.py+u.ph+12,2,"c");
 const ux=u.x+(u.mode==="work"?u.shX:0),uy=u.y+(u.mode==="work"?u.shY:0);
-if(u.style==="A"){blit(UNIT_A,ux-13,uy-12,2);text(u.name,ux,uy-24,1,"c");}
-else{blit(UNIT_B,ux-9,uy-9,2);text(u.name,ux,uy-21,1,"c");}
+blit(RING,ux-13,uy-12,2);
+text(u.name,ux,uy-32,2,"c");
 }
-const tiles=[[TILE_A,"A",530],[TILE_B,"B",680],[TILE_C,"C",830]];
+text("TILES WITH FOG",430,70,2);
+const tiles=[[T_WOOD,"WOOD",430],[T_HOUSE,"HOUSING",600],[T_POLICE,"POLICE",770]];
 for(const t of tiles){
-edge(t[2]-4,116,128,128,DIM);
+fog(t[2],120,120,120);
+box(t[2],120,120,120,BG);
 blit(t[0],t[2],120,3);
-text(t[1],t[2]+60,258,2,"c");
+text(t[1],t[2]+60,262,2,"c");
+}
+text("ICONS",430,330,2);
+const icons=[[FIRE[fireF],"FIRE",430],[SURV,"SURVIVOR",560],[SWORD,"SWORD",690]];
+for(const ic of icons){
+blit(ic[0],ic[2],370,4);
+text(ic[1],ic[2]+24,430,2,"c");
 }
 text("V"+innerWidth+"X"+innerHeight+" K"+(k>=1?k:k.toFixed(2)),936,520,1,"r");
 }
 let last=performance.now();
-function step(t){const dt=Math.min(100,t-last);last=t;update(dt);draw();requestAnimationFrame(step);}
+function step(t){const dt=Math.min(100,t-last);last=t;update(dt);draw(dt);requestAnimationFrame(step);}
 addEventListener("resize",()=>{fit();});
 fit();requestAnimationFrame(step);
 </script>
