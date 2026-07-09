@@ -160,6 +160,14 @@ to save. The game is a complete story with a real ending, not endless.
   deleted 2026-07-07 for a clean start.
 
 ## Open questions
+- GAME IDENTITY (deciding 2026-07-09): turn-based days (Rebuild) vs
+  real-time incremental ticking vs hybrids. Claude recommends
+  action-gated threat: real-time economy, hordes triggered by player
+  expansion filling a visible threat meter, never by wall clock; late
+  game flips to time-creep by design to force the bunker act. Runner-up:
+  auto-rolling day pulse with pre-announced sieges. References given:
+  A Dark Room (reveal pacing), Rusty's Retirement, Loop Hero. User
+  deciding; nothing locked.
 - Enemy identity (zombies vs AI robots; zombies currently assumed in
   ground-phase wording).
 - Final title.
