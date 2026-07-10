@@ -12,6 +12,19 @@ Never labor. Attention and decisions only. Gather a handful of survivors,
 learn who they are, keep them alive, and spend the whole game deciding who
 to save. The game is a complete story with a real ending, not endless.
 
+## Design principles (canonical guardrails, user 2026-07-10)
+Claude polices these during ALL design work: flag any violation
+immediately so the user can pull back or push further, and volunteer
+improvement suggestions along the way.
+1. FEW BUT MEANINGFUL DECISIONS. Never many decisions, never boring,
+   annoying, or mind-cluttering ones. Every player decision is
+   important and fun.
+2. DEPTH REVEALS GRADUALLY. The game constantly evolves, showing more
+   and more depth as it goes, without ever overwhelming. Lots of
+   content, zero boredom.
+3. NO EARLY PUNISHMENT. Real consequences arrive around mid game
+   (extends the missing-an-event-costs-nothing doctrine).
+
 ## Shape of a run (acts)
 1. **Early** land on open ground with almost nothing. A tiny origin plot.
    Scavenge, survive the first small attacks.
@@ -54,6 +67,13 @@ to save. The game is a complete story with a real ending, not endless.
 - Grants permanent buffs that attach to specific survivors.
 - Because a buff lives on a survivor, a later permanent death loses that
   buff. So prestige value is mostly permanent but not entirely.
+- The device is FOUND on a late-game tile (a discovery, not a purchase).
+- Buffs are MARGINAL on purpose: one point here, one point there. Small
+  bounded numbers make each +1 huge (Slice and Dice pip logic; the
+  bounded-axes doctrine keeps this true by construction).
+- A lucky, near-optimal run can reach the bunker act with ZERO
+  prestiges. Prestige is a compulsion, never a hard wall (user
+  2026-07-10).
 
 ## Pressure (the hordes)
 - Recurring attacks, progressively harder.
@@ -63,7 +83,8 @@ to save. The game is a complete story with a real ending, not endless.
 - First horde timing: TBD. The first phase should last quite a bit.
 
 ## Ground phase loop (locked 2026-07-09)
-- Start: 4 survivors on a small circle of land, heavy fog of war beyond.
+- Start: 2 survivors on a 4-tile origin plot (2x2), heavy fog of war
+  beyond (2 survivors per user 2026-07-10, supersedes the earlier 4).
 - Survivors on the map are small circles with the name above the head,
   moving around (marker style: labs/tiles.html pick pending).
 - The player ASSIGNS survivors to tasks by clicking; work then runs
@@ -90,6 +111,25 @@ to save. The game is a complete story with a real ending, not endless.
   to combine forces, which is what makes taking the bunker possible.
 - Skill philosophy: optimization skill should matter a LOT. Perfect play
   goes far. The deepest mechanic remains prestige (time rewind).
+
+## Early game flow (user 2026-07-10, brainstorm in progress)
+- Start: 4 tiles, 2 survivors. Tile 1 MATERIAL (assigned survivor earns
+  1 Material per X seconds), tile 2 RESIDENT (housing), tile 3 FOOD,
+  tile 4 OPEN (candidates: mystery fogged tile / rubble Material sink /
+  water / plain second resident; Claude recommends mystery).
+- Core early verbs: assign survivors, cover basic needs, gather
+  Materials. EXPAND + SCOUT is the main decision point of the phase.
+- SAFE FIRST RING: the first immediate expansion around the origin has
+  NO zombies. Every tile beyond it can.
+- Mid/late game wants lots of fun, exciting RNG decisions and factors
+  (Slice and Dice inspiration); parked until the early game is built.
+- OPEN: food and water as one resource or two. Claude recommends one
+  FOOD resource early (two identical drains = parallel currencies,
+  mind clutter); water returns later only if it adds a NEW decision
+  shape, e.g. locational water tiles steering expansion.
+- Early hunger suggestion (no-punishment doctrine): a hungry survivor
+  stops working and sits until fed; visible, fixable, never lethal in
+  the early phase.
 
 ## Identity: REAL-TIME, ACTION-GATED (LOCKED 2026-07-09)
 - Real time. Resources tick per second, visibly. No turn structure, no
@@ -188,8 +228,10 @@ to save. The game is a complete story with a real ending, not endless.
   everything. (Earlier HUD mock showed WOOD/WATER; those fold into
   Materials.) Assumption to confirm: shelter = housing capacity granted
   by tiles, not a consumable.
-- MID: happiness, sickness (medication, hospitals matter here).
-- LATE: defense.
+- MID: defense begins, health (sickness, medication, hospitals),
+  recruiting starts (restated 2026-07-10).
+- LATE: defense at full pressure, plus an overall HAPPINESS metric
+  (planned; happiness moved from mid to late 2026-07-10).
 - Certain tiles give random ITEMS.
 - Material tile candidates offered: scrapyard, construction site,
   hardware store, warehouse, rubble lot (doubles as destroyed-tile
@@ -327,8 +369,9 @@ to save. The game is a complete story with a real ending, not endless.
 - UNIT NAME RULE: map names get a small black backing bar so they read
   over any tile art (5x7 font, scale 1 on the map; scale 2 stays the
   minimum for menus/UI).
-- Resource types list for ground phase (wood confirmed; food, water,
-  shelter materials implied by self-sustain goal).
+- Resource list early game: MATERIALS + FOOD, shelter as housing
+  capacity (wood/water folded into Materials; food vs water split open,
+  see Early game flow).
 
 ## Parked
 (none)
