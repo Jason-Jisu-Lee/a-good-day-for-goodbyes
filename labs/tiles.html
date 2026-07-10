@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>tiles v3</title>
+<title>park variations</title>
 <style>
 html,body{margin:0;height:100%;background:#000;overflow:hidden}
 [hidden]{display:none !important}
@@ -15,7 +15,7 @@ canvas{display:block;image-rendering:pixelated}
 <canvas id="cv"></canvas>
 <script>
 const W=960,H=540,FG="#f2f2f0",BG="#000",DIM="#333333";
-const ROAD="#161616",CURB="#3d3d3d",DASH="#5a5a5a",GLINE="#4a4a4a";
+const LOT="#3a3a3a",WATER="#10161c",GLINE="#4a4a4a";
 const cv=document.getElementById("cv"),cx=cv.getContext("2d");
 let k=1,S=1,dpr=1;
 
@@ -43,6 +43,7 @@ const F7={
 "W":["X...X","X...X","X...X","X.X.X","X.X.X","XX.XX","X...X"],
 "X":["X...X","X...X",".X.X.","..X..",".X.X.","X...X","X...X"],
 "Y":["X...X","X...X",".X.X.","..X..","..X..","..X..","..X.."],
+"Z":["XXXXX","....X","...X.","..X..",".X...","X....","XXXXX"],
 "0":[".XXX.","X...X","X..XX","X.X.X","XX..X","X...X",".XXX."],
 "1":["..X..",".XX..","..X..","..X..","..X..","..X..","XXXXX"],
 "2":[".XXX.","X...X","....X","..XX.",".X...","X....","XXXXX"],
@@ -61,99 +62,67 @@ function rr(v){return Math.round(v*S);}
 function px(x,y,w,h,col){cx.fillStyle=col;const a=rr(x),b=rr(y);cx.fillRect(a,b,rr(x+w)-a,rr(y+h)-b);}
 function text7(s,x,y,n,al,col){col=col||FG;if(al==="c")x=Math.round(x-tw7(s,n)/2);if(al==="r")x=Math.round(x-tw7(s,n));for(const ch of s){const g=F7[ch];if(g)for(let r=0;r<7;r++)for(let q=0;q<5;q++)if(g[r][q]==="X")px(x+q*n,y+r*n,n,n,col);x+=6*n;}}
 
-function mk(w,h){const c=document.createElement("canvas");c.width=w;c.height=h||w;return c;}
-function ground(g){g.fillStyle=GLINE;g.fillRect(4,29,26,1);}
-function canopy(g,cx0,cy0,r){for(let y=Math.floor(cy0-r);y<=Math.ceil(cy0+r);y++){const dy=y-cy0,t=r*r-dy*dy;if(t<0)continue;const hw=Math.sqrt(t);for(let x=Math.ceil(cx0-hw);x<=Math.floor(cx0+hw);x++)g.fillRect(x,y,1,1);}}
-function pine(g,cx0,top,h,tw){for(let i=0;i<h;i++){const half=Math.min(Math.floor(i*0.55),tw);for(let x=cx0-half;x<=cx0+half;x++)g.fillRect(x,top+i,1,1);}g.fillRect(cx0,top+h,1,29-(top+h));}
+function mk(n){const c=document.createElement("canvas");c.width=n;c.height=n;return c;}
+function disc(g,cx0,cy0,r,col){if(col)g.fillStyle=col;for(let y=Math.floor(cy0-r);y<=Math.ceil(cy0+r);y++){const dy=y-cy0,t=r*r-dy*dy;if(t<0)continue;const hw=Math.sqrt(t);for(let x=Math.ceil(cx0-hw);x<=Math.floor(cx0+hw);x++)g.fillRect(x,y,1,1);}}
+function pond(g,cx0,cy0,r){disc(g,cx0,cy0,r+1,FG);disc(g,cx0,cy0,r,WATER);g.fillStyle=FG;g.fillRect(cx0-2,cy0-1,1,1);g.fillRect(cx0+1,cy0+1,1,1);}
+function ftree(g,cx0,baseY,r){disc(g,cx0,baseY-r-4,r,FG);g.fillStyle=FG;g.fillRect(cx0-1,baseY-5,2,5);}
+function fpine(g,cx0,top,h,tw){g.fillStyle=FG;for(let i=0;i<h;i++){const half=Math.min(Math.floor(i*0.55),tw);for(let x=cx0-half;x<=cx0+half;x++)g.fillRect(x,top+i,1,1);}g.fillRect(cx0,top+h,1,3);}
+function bench(g,x,y,w){g.fillStyle=FG;g.fillRect(x,y,w,1);g.fillRect(x,y+2,w,1);g.fillRect(x,y+3,1,2);g.fillRect(x+w-1,y+3,1,2);}
+function tick(g,x,y){g.fillStyle=FG;g.fillRect(x,y,1,2);}
 
 function T(fn){const c=mk(34),g=c.getContext("2d");fn(g);return c;}
 
-const HOUSE=T(g=>{
-ground(g);
-g.fillStyle=FG;
-g.fillRect(10,17,14,12);
-for(let y=9;y<=16;y++){const hw=Math.round((y-8)*1.15);for(let x=17-hw;x<=17+hw;x++)if(x>=8&&x<=26)g.fillRect(x,y,1,1);}
-g.fillRect(21,10,2,4);
-g.clearRect(14,22,3,7);
-g.clearRect(19,19,3,3);
+const TD=T(g=>{
+g.fillStyle=LOT;g.fillRect(15,20,3,14);disc(g,16,16,4,LOT);
+pond(g,26,8,4);
+for(const t of [[7,7,3],[9,15,2.5],[6,24,2.5],[25,20,3],[22,27,2]])disc(g,t[0],t[1],t[2],FG);
+g.fillStyle=FG;g.fillRect(21,14,3,1);
 });
-const WOOD=T(g=>{
-ground(g);
-g.fillStyle=FG;
-canopy(g,11,12,5.5);
-g.fillRect(10,17,2,12);
-g.clearRect(9,11,1,1);g.clearRect(13,9,1,1);
-pine(g,24,7,15,5);
-canopy(g,17,27,2);
+const FRONT=T(g=>{
+g.fillStyle=GLINE;g.fillRect(4,29,26,1);
+ftree(g,8,29,5);
+fpine(g,26,9,17,5);
+bench(g,14,23,7);
+g.fillStyle=FG;g.fillRect(20,28,1,1);g.fillRect(23,27,1,1);
 });
-const POLICE=T(g=>{
-ground(g);
-g.fillStyle=FG;
-g.fillRect(5,14,24,1);
-g.fillRect(6,15,22,14);
-g.clearRect(14,20,5,9);
-g.clearRect(8,18,3,3);g.clearRect(23,18,3,3);
-g.clearRect(14,15,5,4);
-g.fillRect(16,16,1,2);g.fillRect(15,16,3,1);
+const HYBRID=T(g=>{
+g.fillStyle=LOT;g.fillRect(14,26,3,8);disc(g,15,23,3.5,LOT);
+pond(g,8,8,3.5);
+ftree(g,25,20,4);
+ftree(g,19,29,3);
+ftree(g,6,27,3);
+bench(g,21,26,6);
+tick(g,11,30);tick(g,29,25);tick(g,30,16);
 });
-const HOSPITAL=T(g=>{
-ground(g);
-g.fillStyle=FG;
-g.fillRect(7,9,20,1);
-g.fillRect(8,10,18,19);
-g.clearRect(14,12,5,8);
-g.fillRect(16,13,1,6);g.fillRect(14,15,5,1);
-g.clearRect(14,23,5,6);
-g.clearRect(10,23,2,2);g.clearRect(22,23,2,2);
+const POND=T(g=>{
+pond(g,22,14,5.5);
+tick(g,27,7);tick(g,29,10);tick(g,16,9);
+ftree(g,7,18,4);
+ftree(g,9,31,3);
+tick(g,15,28);tick(g,27,25);
 });
-
-const APARTMENT=T(g=>{
-ground(g);
-g.fillStyle=FG;
-g.fillRect(9,7,16,1);
-g.fillRect(10,8,14,21);
-for(const y of [11,16,21])for(const x of [12,17,21]){g.clearRect(x,y,2,2);}
-g.clearRect(15,25,4,4);
+const PLAYGROUND=T(g=>{
+g.fillStyle=LOT;g.fillRect(5,22,8,6);g.fillStyle=FG;
+g.fillRect(5,22,8,1);g.fillRect(5,27,8,1);g.fillRect(5,22,1,6);g.fillRect(12,22,1,6);
+g.fillRect(14,12,13,1);
+g.fillRect(14,13,1,12);g.fillRect(26,13,1,12);
+g.fillRect(18,13,1,7);g.fillRect(22,13,1,7);
+g.fillRect(17,20,3,1);g.fillRect(21,20,3,1);
+ftree(g,8,15,3.5);
+disc(g,29,26,1.5,FG);
 });
-const PINES=T(g=>{
-ground(g);
-g.fillStyle=FG;
-pine(g,8,12,11,4);
-pine(g,17,6,16,5);
-pine(g,27,15,9,3);
+const PLAZA=T(g=>{
+disc(g,17,17,8,LOT);
+g.fillStyle=FG;disc(g,17,16,3,FG);disc(g,17,16,1.8,WATER);g.fillStyle=FG;g.fillRect(17,15,1,1);
+bench(g,5,24,6);bench(g,24,24,6);
+ftree(g,6,10,3);ftree(g,28,11,3);
+g.fillStyle=LOT;g.fillRect(15,25,4,9);
 });
-const MILITARY=T(g=>{
-ground(g);
-g.fillStyle=FG;
-g.fillRect(5,14,24,1);
-g.fillRect(6,15,22,14);
-g.clearRect(14,20,5,9);
-g.clearRect(8,18,3,3);g.clearRect(23,18,3,3);
-g.clearRect(13,15,7,4);
-g.fillRect(14,17,2,1);g.fillRect(15,16,2,1);g.fillRect(16,15,1,1);g.fillRect(17,16,2,1);g.fillRect(18,17,2,1);
-g.fillRect(24,10,1,4);g.fillRect(24,9,2,1);
+const OVERGROWN=T(g=>{
+ftree(g,8,13,4);ftree(g,17,11,3.5);ftree(g,26,14,4);
+ftree(g,5,23,3);ftree(g,13,21,3.5);ftree(g,22,24,3.5);ftree(g,29,29,3);
+tick(g,10,26);tick(g,16,28);tick(g,24,29);tick(g,30,20);tick(g,3,28);tick(g,19,30);tick(g,7,30);
 });
-const CLINIC=T(g=>{
-ground(g);
-g.fillStyle=FG;
-g.fillRect(10,17,14,1);
-g.fillRect(11,18,12,11);
-g.clearRect(15,20,4,4);
-g.fillRect(16,20,2,4);g.fillRect(15,21,4,2);
-g.clearRect(13,25,3,4);
-g.clearRect(19,25,2,2);
-});
-
-const BLOCK=(()=>{const sz=74,c=mk(sz),g=c.getContext("2d");
-g.fillStyle=ROAD;g.fillRect(34,0,6,sz);g.fillRect(0,34,sz,6);
-g.fillStyle=CURB;
-g.fillRect(34,0,1,sz);g.fillRect(39,0,1,sz);g.fillRect(0,34,sz,1);g.fillRect(0,39,sz,1);
-g.fillStyle=ROAD;g.fillRect(34,34,6,6);
-g.fillStyle=DASH;
-for(let i=2;i<30;i+=8){g.fillRect(36,i,1,4);g.fillRect(36,i+40,1,4);g.fillRect(i,36,4,1);g.fillRect(i+40,36,4,1);}
-const tiles=[[HOUSE,0,0],[WOOD,40,0],[POLICE,0,40],[HOSPITAL,40,40]];
-for(const t of tiles)g.drawImage(t[0],t[1],t[2]);
-return c;})();
 
 function fit(){dpr=window.devicePixelRatio||1;k=Math.min(innerWidth/W,innerHeight/H);if(k>=1)k=Math.floor(k);S=k*dpr;cv.style.width=W*k+"px";cv.style.height=H*k+"px";cv.width=Math.max(1,Math.round(W*S));cv.height=Math.max(1,Math.round(H*S));cx.imageSmoothingEnabled=false;}
 function blit(c,x,y,n){const a=rr(x),b=rr(y);cx.drawImage(c,a,b,rr(x+c.width*n)-a,rr(y+c.height*n)-b);}
@@ -161,22 +130,20 @@ function edgeR(x,y,w,h,col){px(x,y,w,1,col);px(x,y+h-1,w,1,col);px(x,y,1,h,col);
 
 function draw(){
 px(0,0,W,H,BG);
-text7("TILES V3  FRONT VIEW",24,14,2);
-const row1=[[HOUSE,"HOUSE",60],[WOOD,"WOOD",188],[POLICE,"POLICE",316],[HOSPITAL,"HOSPITAL",444]];
+text7("PARK VARIATIONS",24,14,2);
+const row1=[[TD,"TOP DOWN",200],[FRONT,"FRONT",380],[HYBRID,"HYBRID",560]];
 for(const t of row1){
-edgeR(t[2]-1,79,104,104,DIM);
-blit(t[0],t[2],80,3);
-text7(t[1],t[2]+51,190,1,"c",DIM);
+edgeR(t[2]-1,63,104,104,DIM);
+blit(t[0],t[2],64,3);
+text7(t[1],t[2]+51,174,1,"c",DIM);
 }
-text7("VARIATION EXAMPLES",60,232,1,null,DIM);
-const row2=[[APARTMENT,"APARTMENT",60],[PINES,"PINES",188],[MILITARY,"MILITARY",316],[CLINIC,"CLINIC",444]];
+text7("CONTENT VARIATIONS  HYBRID",140,216,1,null,DIM);
+const row2=[[POND,"POND",140],[PLAYGROUND,"PLAYGROUND",320],[PLAZA,"PLAZA",500],[OVERGROWN,"OVERGROWN",680]];
 for(const t of row2){
-edgeR(t[2]-1,251,104,104,DIM);
-blit(t[0],t[2],252,3);
-text7(t[1],t[2]+51,362,1,"c",DIM);
+edgeR(t[2]-1,235,104,104,DIM);
+blit(t[0],t[2],236,3);
+text7(t[1],t[2]+51,346,1,"c",DIM);
 }
-blit(BLOCK,620,110,4);
-text7("CONNECTED",768,420,1,"c",DIM);
 text7("V"+innerWidth+"X"+innerHeight+" K"+(k>=1?k:k.toFixed(2)),936,524,1,"r",DIM);
 }
 addEventListener("resize",()=>{fit();});

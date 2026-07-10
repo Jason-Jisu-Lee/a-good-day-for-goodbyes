@@ -279,6 +279,13 @@ to save. The game is a complete story with a real ending, not endless.
     PINES (three pines), MILITARY (chevron sign + antenna), CLINIC
     (small building, small cross). All stand on a dim ground line,
     generous margins, dark cutouts for doors/windows/signs.
+  - PARK perspective board (labs/tiles.html 2026-07-10): the same park
+    as TOP DOWN (plan: path, plaza, pond ring, canopy discs), FRONT
+    (trees + bench on ground line), HYBRID (plan ground + front-view
+    standing trees, Zelda-style), plus content variations in hybrid:
+    POND, PLAYGROUND (swing set + sandbox + ball), PLAZA (fountain +
+    benches), OVERGROWN (dense trees + tall grass, no path). Awaiting
+    perspective pick for parks/nature tiles.
 - FOG LOCKED (user 2026-07-10): the organic hash-scatter darkness
   dissolve from labs/layout.html. Never outlines, never aligned bands.
 - DARK PROFILE VARIANT: face_man_dark.png (user's man avatar remapped
