@@ -254,12 +254,23 @@ to save. The game is a complete story with a real ending, not endless.
   (diamond between bars), hospital (open cross), zombie (three claw
   slashes), magic hat (triangle on bar + spark), sword, bow (arc +
   string + arrow). Candidate use: fog-hint marks, item icons, map runes.
-- CONNECTED BLOCK demo (same lab): the 4 micro-sprite tiles combined
-  2x2 two ways: STREETS (Rebuild-like: dark road surface, curb lines,
-  center dashes, crosswalk, house path meeting the road, no per-tile
-  card borders) vs MERGED (tiles butt directly, faint seams, props
-  bridging boundaries). Sparse dim ground dots unify the ground in
-  both. User picks which connection feel the real map uses.
+- CONNECTION TREATMENT LOCKED: STREETS (user 2026-07-10). Merged is
+  dead. Streets = dark road surface #161616, 1px curb lines #3d3d3d,
+  center dash #5a5a5a, clean intersection, no crosswalk clutter.
+- TILE DESIGN RULES (from user feedback, locked):
+  - Tiles are designed FOR connection: every connector (driveway,
+    walkway, lot) is a SOLID strip that runs to the tile edge facing a
+    street and meets it through a small curb gap.
+  - NEVER dashed/broken lines inside tile art (dashes read as stray
+    street fragments and look messy). Paths, lots, driveways are solid
+    fills in the lot-gray #2a2a2a.
+  - Parking = a pavement patch with cars ON it, not floating dashes.
+  - Buildings keep a margin from tile edges; props (trees) stay 2px+
+    clear of streets.
+  - Current set (labs/tiles.html): house (roof+garage+driveway+yard
+    trees), park (entry path+plaza+bench+trees), police (building+
+    walkway to street+side lot with 2 cars), hospital (building+cross
+    pad+windows+ambulance bay driveway).
 - LAYOUT MOCK: labs/layout.html, Rebuild-emulating town grid: 3x3 block,
   streets with faint center dashes between tiles, 4 known micro-sprite
   tiles, unknown tiles as near-black cells, organic fog dissolve beyond,
