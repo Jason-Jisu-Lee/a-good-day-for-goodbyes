@@ -267,10 +267,21 @@ to save. The game is a complete story with a real ending, not endless.
   - Parking = a pavement patch with cars ON it, not floating dashes.
   - Buildings keep a margin from tile edges; props (trees) stay 2px+
     clear of streets.
-  - Current set (labs/tiles.html): house (roof+garage+driveway+yard
-    trees), park (entry path+plaza+bench+trees), police (building+
-    walkway to street+side lot with 2 cars), hospital (building+cross
-    pad+windows+ambulance bay driveway).
+  - Current set (labs/tiles.html, V2 from-scratch 2026-07-10, after the
+    v1 "redesign" was rejected for reusing old sprites): HOUSE =
+    T-shaped gabled roof with ridge + hip lines, chimney, side patio,
+    hedges, front path. PARK = pond with white shoreline + ripples, big
+    tree + smaller trees, entry path to a fountain plaza. POLICE =
+    L-shaped building with door/windows, rooftop antenna pad, WALLED
+    impound lot with 2 cruisers, gate onto the street. HOSPITAL =
+    cross-shaped building footprint, center courtyard, wing windows,
+    ground HELIPAD with an H, ambulance on the bay driveway.
+- FOG LOCKED (user 2026-07-10): the organic hash-scatter darkness
+  dissolve from labs/layout.html. Never outlines, never aligned bands.
+- DARK PROFILE VARIANT: face_man_dark.png (user's man avatar remapped
+  for black backgrounds: white ring + hair, dark slate face field,
+  white eyes, gray shoulders). Generate the rest of the cast the same
+  way once approved.
 - LAYOUT MOCK: labs/layout.html, Rebuild-emulating town grid: 3x3 block,
   streets with faint center dashes between tiles, 4 known micro-sprite
   tiles, unknown tiles as near-black cells, organic fog dissolve beyond,
