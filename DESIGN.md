@@ -235,6 +235,30 @@ to save. The game is a complete story with a real ending, not endless.
 - STYLE SELECTION MODEL (user): one MAJOR style + one MINOR style + one
   ACCENT style will be chosen. UI is a major work area and gets heavy
   attention.
+- **MAJOR WORLD STYLE LOCKED: #9 MICRO SPRITE** (user 2026-07-09). Tiles
+  are tiny top-down dioramas. Liked-style pool for minor/accent: #3
+  silhouette, #4 geometric, #5 type, #2 dither.
+- WORKFLOW SWITCH (user): build CHRONOLOGICALLY along the play timeline
+  from now on, starting with the first ~10 minutes. Assets first, then
+  slowly the game.
+- TILE CATEGORY SYSTEM: each category has multiple tile variations
+  (house: apartment / single house / ...; defense: police station /
+  military facility / ...; wood: park / forest edge / ...; hospital:
+  clinic / hospital / ...). First-asset picks: single house, city park,
+  police station, hospital with cross pad.
+- First-10-minutes asset board: labs/tiles.html (4 categories x 5
+  styles + fog column: half-scouted dissolve and known-edge unknown
+  tile). Fog = darkness dissolve, hash-scattered, never an outline.
+- LAYOUT MOCK: labs/layout.html, Rebuild-emulating town grid: 3x3 block,
+  streets with faint center dashes between tiles, 4 known micro-sprite
+  tiles, unknown tiles as near-black cells, organic fog dissolve beyond,
+  HUD top bar (resources left, DAY counter small and dim at right),
+  Rebuild-style selected-tile panel (name, UNSCOUTED, DANGER ?, SCOUT /
+  RECLAIM buttons), survivor rings with names on the map, one chat
+  bubble, avatar portrait strip bottom-left.
+- UNIT NAME RULE: map names get a small black backing bar so they read
+  over any tile art (5x7 font, scale 1 on the map; scale 2 stays the
+  minimum for menus/UI).
 - Resource types list for ground phase (wood confirmed; food, water,
   shelter materials implied by self-sustain goal).
 
