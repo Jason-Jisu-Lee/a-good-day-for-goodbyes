@@ -172,6 +172,31 @@ to save. The game is a complete story with a real ending, not endless.
 - Landscape 960x540 and portrait 540x960 layouts, same stage law.
 - Esc returns from the game screen to the menu (silent, no text).
 
+## Color plan (60-30-10, proposed 2026-07-10)
+- 60% near-black #0a0a0c (world, fog, backgrounds).
+- 30% off-white #f2f2f0 (tile art, text, survivors).
+- 10% accent: WARM AMBER ~#e0a458 for the interactive layer (selection,
+  hover, focused button, commanded survivor, prestige device), with a
+  reserved sliver of SEMANTIC RED ~#d4382c that appears ONLY for danger
+  (horde, injury, stronger-than-expected tile). Red never decorates.
+- Grays (streets, panels, fog) belong to the neutral 60/30 family.
+- Pending user confirmation; user is heavily invested in UI quality.
+
+## Survivor maintenance metrics (user, 2026-07-10)
+- EARLY: food, shelter, MATERIALS. Materials is the ONE universal
+  resource category: rebuilding tiles, empowering weapons, artifacts,
+  everything. (Earlier HUD mock showed WOOD/WATER; those fold into
+  Materials.) Assumption to confirm: shelter = housing capacity granted
+  by tiles, not a consumable.
+- MID: happiness, sickness (medication, hospitals matter here).
+- LATE: defense.
+- Certain tiles give random ITEMS.
+- Material tile candidates offered: scrapyard, construction site,
+  hardware store, warehouse, rubble lot (doubles as destroyed-tile
+  state), lumber yard. Claude's picks: scrapyard + hardware store +
+  rubble lot. Awaiting user pick before spriting.
+- Game pace and overall identity still being felt out by user.
+
 ## Tone / audio direction
 - **Deliberate contrast is a PILLAR** (user, 2026-07-07): classy,
   understated JAZZ as the whole-game background, set against playful,
