@@ -16,9 +16,9 @@ to save. The game is a complete story with a real ending, not endless.
 Claude polices these during ALL design work: flag any violation
 immediately so the user can pull back or push further, and volunteer
 improvement suggestions along the way.
-1. FEW BUT MEANINGFUL DECISIONS. Never many decisions, never boring,
-   annoying, or mind-cluttering ones. Every player decision is
-   important and fun.
+1. IMPORTANT, FUN DECISIONS. Never boring, annoying, or
+   mind-cluttering ones. Not too many decisions at once, but always
+   some real ones.
 2. DEPTH REVEALS GRADUALLY. The game constantly evolves, showing more
    and more depth as it goes, without ever overwhelming. Lots of
    content, zero boredom.
