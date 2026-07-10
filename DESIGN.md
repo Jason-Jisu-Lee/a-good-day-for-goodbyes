@@ -223,13 +223,18 @@ to save. The game is a complete story with a real ending, not endless.
 - Background question OPEN: black-dominant vs white-dominant world (both
   demoed on the style board, C is the white option). Some color arrives
   later regardless; this is about the dominant field.
-- Style set board (labs/tiles.html, 2026-07-09): STYLES.md numbers 2
-  dither, 3 silhouette, 4 geometric, 5 bitmap-type, 6 outline, each
-  rendered over the same asset set: top-down forest tile, enemy mass,
-  fire + sword icons, resource readout with bar, ENTER button. No fog,
-  no survivors (marker locked separately). #1 chunky seen earlier.
-  Awaiting style pick (mixing styles per layer is allowed, e.g. world
-  in one style, UI in another).
+- Style demos so far (labs/tiles.html is the rolling style lab):
+  #1 chunky (seen), #2 dither / #3 silhouette / #4 geometric / #5 type
+  / #6 outline over a shared asset set, then #7 emblem / #8 pattern /
+  #9 micro sprite / #10 sigil over POLICE + APARTMENT tiles
+  (2026-07-09). Forest tile read "wonky" to the user; redo the forest
+  in the final chosen style.
+- ICONS LOCKED (user): silhouette-to-geometric range (#3-#4 or between).
+  Exact blend decided later; type (#5) or dither (#2) may join as
+  accents.
+- STYLE SELECTION MODEL (user): one MAJOR style + one MINOR style + one
+  ACCENT style will be chosen. UI is a major work area and gets heavy
+  attention.
 - Resource types list for ground phase (wood confirmed; food, water,
   shelter materials implied by self-sustain goal).
 

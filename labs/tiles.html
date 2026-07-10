@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>style set</title>
+<title>style set 7 to 10</title>
 <style>
 html,body{margin:0;height:100%;background:#000;overflow:hidden}
 [hidden]{display:none !important}
@@ -28,14 +28,12 @@ const F7={
 "G":[".XXX.","X...X","X....","X.XXX","X...X","X...X",".XXXX"],
 "H":["X...X","X...X","X...X","XXXXX","X...X","X...X","X...X"],
 "I":["XXXXX","..X..","..X..","..X..","..X..","..X..","XXXXX"],
-"J":["..XXX","...X.","...X.","...X.","...X.","X..X.",".XX.."],
 "K":["X...X","X..X.","X.X..","XX...","X.X..","X..X.","X...X"],
 "L":["X....","X....","X....","X....","X....","X....","XXXXX"],
 "M":["X...X","XX.XX","X.X.X","X.X.X","X...X","X...X","X...X"],
 "N":["X...X","XX..X","X.X.X","X..XX","X...X","X...X","X...X"],
 "O":[".XXX.","X...X","X...X","X...X","X...X","X...X",".XXX."],
 "P":["XXXX.","X...X","X...X","XXXX.","X....","X....","X...."],
-"Q":[".XXX.","X...X","X...X","X...X","X.X.X","X..X.",".XX.X"],
 "R":["XXXX.","X...X","X...X","XXXX.","X.X..","X..X.","X...X"],
 "S":[".XXXX","X....","X....",".XXX.","....X","....X","XXXX."],
 "T":["XXXXX","..X..","..X..","..X..","..X..","..X..","..X.."],
@@ -44,18 +42,16 @@ const F7={
 "W":["X...X","X...X","X...X","X.X.X","X.X.X","XX.XX","X...X"],
 "X":["X...X","X...X",".X.X.","..X..",".X.X.","X...X","X...X"],
 "Y":["X...X","X...X",".X.X.","..X..","..X..","..X..","..X.."],
-"Z":["XXXXX","....X","...X.","..X..",".X...","X....","XXXXX"],
 "0":[".XXX.","X...X","X..XX","X.X.X","XX..X","X...X",".XXX."],
 "1":["..X..",".XX..","..X..","..X..","..X..","..X..","XXXXX"],
-"2":[".XXX.","X...X","....X","..XX.",".X...","X....","XXXXX"],
-"3":[".XXX.","X...X","....X","..XX.","....X","X...X",".XXX."],
-"4":["...X.","..XX.",".X.X.","X..X.","XXXXX","...X.","...X."],
-"5":["XXXXX","X....","XXXX.","....X","....X","X...X",".XXX."],
-"6":[".XXX.","X....","X....","XXXX.","X...X","X...X",".XXX."],
 "7":["XXXXX","....X","...X.","..X..",".X...",".X...",".X..."],
 "8":[".XXX.","X...X","X...X",".XXX.","X...X","X...X",".XXX."],
 "9":[".XXX.","X...X","X...X",".XXXX","....X","....X",".XXX."],
-"/":["....X","...X.","..X..","..X..",".X...","X....","X...."],
+"6":[".XXX.","X....","X....","XXXX.","X...X","X...X",".XXX."],
+"5":["XXXXX","X....","XXXX.","....X","....X","X...X",".XXX."],
+"4":["...X.","..XX.",".X.X.","X..X.","XXXXX","...X.","...X."],
+"3":[".XXX.","X...X","....X","..XX.","....X","X...X",".XXX."],
+"2":[".XXX.","X...X","....X","..XX.",".X...","X....","XXXXX"],
 ".":[".....",".....",".....",".....",".....","..X..","....."],
 " ":[".....",".....",".....",".....",".....",".....","....."]
 };
@@ -63,98 +59,80 @@ function tw7(s,n){return (s.length*6-1)*n;}
 function rr(v){return Math.round(v*S);}
 function px(x,y,w,h,col){cx.fillStyle=col;const a=rr(x),b=rr(y);cx.fillRect(a,b,rr(x+w)-a,rr(y+h)-b);}
 function text7(s,x,y,n,al,col){col=col||FG;if(al==="c")x=Math.round(x-tw7(s,n)/2);if(al==="r")x=Math.round(x-tw7(s,n));for(const ch of s){const g=F7[ch];if(g)for(let r=0;r<7;r++)for(let q=0;q<5;q++)if(g[r][q]==="X")px(x+q*n,y+r*n,n,n,col);x+=6*n;}}
-function bakeText(g,s,x,y){for(const ch of s){const gl=F7[ch];if(gl)for(let r=0;r<7;r++)for(let q=0;q<5;q++)if(gl[r][q]==="X")g.fillRect(x+q,y+r,1,1);x+=6;}}
 
-function mk(n,m){const c=document.createElement("canvas");c.width=n;c.height=m||n;return c;}
-function disc(g,cx0,cy0,r){for(let y=Math.floor(cy0-r);y<=Math.ceil(cy0+r);y++){const dy=y-cy0,t=r*r-dy*dy;if(t<0)continue;const hw=Math.sqrt(t);for(let x=Math.ceil(cx0-hw);x<=Math.floor(cx0+hw);x++)g.fillRect(x,y,1,1);}}
-function edgeOnly(src){const w=src.width,h=src.height,g=src.getContext("2d"),d=g.getImageData(0,0,w,h).data;const out=mk(w,h),og=out.getContext("2d");og.fillStyle=FG;const at=(x,y)=>x>=0&&x<w&&y>=0&&y<h&&d[(y*w+x)*4+3]>0;for(let y=0;y<h;y++)for(let x=0;x<w;x++){if(!at(x,y))continue;if(!at(x-1,y)||!at(x+1,y)||!at(x,y-1)||!at(x,y+1))og.fillRect(x,y,1,1);}return out;}
-function checkerize(src,test){const w=src.width,h=src.height,g=src.getContext("2d"),d=g.getImageData(0,0,w,h).data;const out=mk(w,h),og=out.getContext("2d");og.fillStyle=FG;for(let y=0;y<h;y++)for(let x=0;x<w;x++){if(d[(y*w+x)*4+3]===0)continue;if(test(x,y)){if((x+y)%2===0)og.fillRect(x,y,1,1);}else og.fillRect(x,y,1,1);}return out;}
+function mk(n){const c=document.createElement("canvas");c.width=n;c.height=n;return c;}
+const STAR=[
+"....X....",
+"....X....",
+"...XXX...",
+"XXXXXXXXX",
+".XXXXXXX.",
+"..XXXXX..",
+".XXX.XXX.",
+".XX...XX.",
+".X.....X."
+];
 
-const CL=[[8,9,4],[15,6,3.4],[21,11,4],[7,18,3.2],[14,15,4],[21,19,3.2],[11,22,3],[18,23,2.4]];
-function tileBase(rpad){const c=mk(28),g=c.getContext("2d");g.fillStyle=FG;for(const cl of CL)disc(g,cl[0],cl[1],cl[2]+(rpad||0));return c;}
-const TILE2=checkerize(tileBase(0),(x,y)=>(x+y)>26);
-const TILE3=tileBase(1.3);
-const TILE4=(()=>{const c=mk(28),g=c.getContext("2d");g.fillStyle=FG;for(let r=0;r<3;r++)for(let q=0;q<3;q++){const cx0=5+q*9,ty=3+r*9;for(let i=0;i<5;i++){const half=Math.floor(i*0.6);for(let x=cx0-half;x<=cx0+half;x++)g.fillRect(x,ty+i,1,1);}g.fillRect(cx0,ty+5,1,1);}return c;})();
-const TILE5=(()=>{const c=mk(28),g=c.getContext("2d");g.fillStyle=FG;
-g.fillRect(0,0,28,1);g.fillRect(0,27,28,1);g.fillRect(0,0,1,28);g.fillRect(27,0,1,28);
-bakeText(g,"WOOD",3,11);
-for(const p of [[7,4],[14,4],[21,4],[7,21],[14,21],[21,21]]){g.fillRect(p[0],p[1],1,1);g.fillRect(p[0]-1,p[1]+1,1,1);g.fillRect(p[0]+1,p[1]+1,1,1);}
+const T7P=(()=>{const c=mk(34),g=c.getContext("2d");g.fillStyle=FG;
+const inside=(x,y,pad)=>{if(y<6+pad||y>27-pad)return false;const half=y<17?8-pad:Math.max(0,8-(y-16)*0.85)-pad;return Math.abs(x-16.5)<=half;};
+for(let y=0;y<34;y++)for(let x=0;x<34;x++)if(inside(x,y,0)&&!inside(x,y,2))g.fillRect(x,y,1,1);
+for(let r=0;r<9;r++)for(let q=0;q<9;q++)if(STAR[r][q]==="X")g.fillRect(12+q,9+r,1,1);
 return c;})();
-const TILE6=edgeOnly(tileBase(0));
-
-function enemyBase(spikes){const c=mk(20),g=c.getContext("2d");g.fillStyle=FG;disc(g,7,12,5);disc(g,13,9,6);disc(g,16,14,3.5);if(spikes)for(const s of [[5,5],[10,2],[15,6]]){g.fillRect(s[0],s[1],1,2);g.fillRect(s[0],s[1]+1,2,1);}return c;}
-const EN2=checkerize(enemyBase(false),(x,y)=>(x+y)>21);
-const EN3=enemyBase(true);
-const EN4=(()=>{const c=mk(20),g=c.getContext("2d");g.fillStyle=FG;g.fillRect(8,3,3,3);g.fillRect(4,9,3,3);g.fillRect(12,9,3,3);g.fillRect(1,15,3,3);g.fillRect(8,15,3,3);g.fillRect(15,15,3,3);return c;})();
-const EN6=edgeOnly(enemyBase(false));
-
-function fireBase(){const c=mk(12),g=c.getContext("2d");g.fillStyle=FG;
-const rows=["............","......X.....",".....XX.....",".....XXX....","....XXXX....","...XXXXXX...","..XXXXXXXX..","..XXXXXXXX..",".XXXXXXXXXX.",".XXXXXXXXXX.","..XXXXXXXX..","...XXXXXX..."];
-for(let y=0;y<12;y++)for(let x=0;x<12;x++)if(rows[y][x]==="X")g.fillRect(x,y,1,1);return c;}
-const FIRE2=checkerize(fireBase(),(x,y)=>x>6);
-const FIRE3=fireBase();
-const FIRE4=(()=>{const c=mk(12),g=c.getContext("2d");g.fillStyle=FG;for(let y=1;y<11;y++){const half=Math.floor((y-1)*0.5);for(let x=5-half;x<=6+half;x++)g.fillRect(x,y,1,1);}return c;})();
-const FIRE6=edgeOnly(fireBase());
-
-function swordBase(){const c=mk(12),g=c.getContext("2d");g.fillStyle=FG;g.fillRect(5,0,2,8);g.fillRect(3,7,6,1);g.fillRect(5,8,2,3);g.fillRect(4,11,4,1);return c;}
-const SW2=checkerize(swordBase(),(x,y)=>x>5&&y<7);
-const SW3=swordBase();
-const SW4=(()=>{const c=mk(12),g=c.getContext("2d");g.fillStyle=FG;g.fillRect(5,1,1,10);g.fillRect(2,7,7,1);g.fillRect(5,11,1,1);return c;})();
-const SW6=edgeOnly(swordBase());
+const T7A=(()=>{const c=mk(34),g=c.getContext("2d");g.fillStyle=FG;
+for(let y=8;y<=14;y++){const half=(y-7)*1.3;for(let x=Math.ceil(16.5-half);x<=Math.floor(16.5+half);x++)g.fillRect(x,y,1,1);}
+g.fillRect(10,15,14,11);
+g.clearRect(15,20,4,6);
+return c;})();
+const T8P=(()=>{const c=mk(34),g=c.getContext("2d");g.fillStyle=FG;
+for(let y=4;y<30;y++)for(let x=4;x<30;x++){const band=(y-4)%9;if(band<6){const c3=Math.floor(x/3)+Math.floor(y/3);if(c3%2===0)g.fillRect(x,y,1,1);}}
+return c;})();
+const T8A=(()=>{const c=mk(34),g=c.getContext("2d");g.fillStyle=FG;
+for(let y=4;y<30;y++)for(let x=4;x<30;x++){const wx=(x-4)%6,wy=(y-4)%8;if(!(wx<3&&wy<4))g.fillRect(x,y,1,1);}
+return c;})();
+const T9P=(()=>{const c=mk(34),g=c.getContext("2d");g.fillStyle=FG;
+g.fillRect(5,5,17,13);g.clearRect(8,8,3,3);g.clearRect(16,12,2,2);
+const car=(x,y)=>{g.fillRect(x,y,7,4);g.clearRect(x+2,y+1,3,1);};
+car(23,21);car(23,27);
+g.fillRect(6,27,3,1);g.fillRect(12,27,3,1);g.fillRect(18,27,3,1);
+return c;})();
+const T9A=(()=>{const c=mk(34),g=c.getContext("2d");g.fillStyle=FG;
+g.fillRect(5,5,12,14);g.clearRect(8,8,2,2);g.clearRect(13,14,2,2);
+g.fillRect(20,8,10,10);g.clearRect(23,11,2,2);
+for(let y=-2;y<=2;y++){const hw=Math.floor(Math.sqrt(Math.max(0,6.5-y*y)));for(let x=-hw;x<=hw;x++)g.fillRect(12+x,26+y,1,1);}
+g.fillRect(21,24,7,4);g.clearRect(23,25,3,1);
+return c;})();
+const T10P=(()=>{const c=mk(34),g=c.getContext("2d");g.fillStyle=FG;
+for(let y=0;y<34;y++)for(let x=0;x<34;x++){const d=Math.abs(x-16.5)+Math.abs(y-16.5);if(d>=6&&d<=8.2)g.fillRect(x,y,1,1);}
+g.fillRect(5,11,2,12);g.fillRect(27,11,2,12);
+return c;})();
+const T10A=(()=>{const c=mk(34),g=c.getContext("2d");g.fillStyle=FG;
+g.fillRect(10,10,14,2);g.fillRect(10,22,14,2);g.fillRect(10,10,2,14);g.fillRect(22,10,2,14);
+g.clearRect(14,22,6,2);
+g.fillRect(16,16,2,2);
+return c;})();
 
 function fit(){dpr=window.devicePixelRatio||1;k=Math.min(innerWidth/W,innerHeight/H);if(k>=1)k=Math.floor(k);S=k*dpr;cv.style.width=W*k+"px";cv.style.height=H*k+"px";cv.width=Math.max(1,Math.round(W*S));cv.height=Math.max(1,Math.round(H*S));cx.imageSmoothingEnabled=false;}
 function blit(c,x,y,n){const a=rr(x),b=rr(y);cx.drawImage(c,a,b,rr(x+c.width*n)-a,rr(y+c.height*n)-b);}
 function edgeR(x,y,w,h,col){px(x,y,w,1,col);px(x,y+h-1,w,1,col);px(x,y,1,h,col);px(x+w-1,y,1,h,col);}
 
-const COLS=[70,248,426,604,782];
-const HEADS=["2 DITHER","3 SILHOUETTE","4 GEOMETRIC","5 TYPE","6 OUTLINE"];
-
-function drawResource(i,x0){
-const y=262;
-if(i===3){text7("WOOD 24/40",x0+10,y,1);return;}
-text7("WOOD 24",x0+10,y,1);
-const bx=x0+10,by=y+12,bw=100,bh=8,fill=60;
-if(i===0){edgeR(bx,by,bw,bh,FG);for(let yy=1;yy<bh-1;yy++)for(let xx=1;xx<fill;xx++)if((xx+yy)%2===0)px(bx+xx,by+yy,1,1,FG);}
-if(i===1){px(bx,by,fill,bh,FG);px(bx+fill,by+bh/2,bw-fill,1,DIM);}
-if(i===2){for(let d=0;d<4;d++){const cxp=bx+8+d*20,cyp=by+4;if(d<3){for(let yy=-3;yy<=3;yy++)for(let xx=-3;xx<=3;xx++)if(xx*xx+yy*yy<=9)px(cxp+xx,cyp+yy,1,1,FG);}else{for(let yy=-3;yy<=3;yy++)for(let xx=-3;xx<=3;xx++){const dd=xx*xx+yy*yy;if(dd<=9&&dd>=5)px(cxp+xx,cyp+yy,1,1,FG);}}}}
-if(i===4){edgeR(bx,by,bw,bh,FG);px(bx+fill,by,1,bh,FG);}
-}
-function drawButton(i,x0){
-const y=300,bw=76,bh=18,bx=x0+42;
-if(i===0){edgeR(bx,y,bw,bh,FG);for(let yy=2;yy<bh-2;yy++)for(let xx=2;xx<bw-2;xx++)if(xx%2===0&&yy%2===0)px(bx+xx,y+yy,1,1,DIM);text7("ENTER",bx+bw/2,y+6,1,"c");}
-if(i===1){px(bx,y,bw,bh,FG);text7("ENTER",bx+bw/2,y+6,1,"c","#000");}
-if(i===2){text7("ENTER",bx+bw/2+4,y+6,1,"c");const tx=bx+8;px(tx,y+6,1,5,FG);px(tx+1,y+7,1,3,FG);px(tx+2,y+8,1,1,FG);}
-if(i===3){text7("ENTER",bx+bw/2,y+6,1,"c");px(bx+10,y+2,1,14,FG);px(bx+10,y+2,4,1,FG);px(bx+10,y+15,4,1,FG);px(bx+bw-11,y+2,1,14,FG);px(bx+bw-15,y+2,4,1,FG);px(bx+bw-15,y+15,4,1,FG);}
-if(i===4){edgeR(bx,y,bw,bh,FG);text7("ENTER",bx+bw/2,y+6,1,"c");}
-}
-function by2(y){return y;}
+const COLS=[100,315,530,745];
+const HEADS=["7 EMBLEM","8 PATTERN","9 MICRO SPRITE","10 SIGIL"];
+const POL=[T7P,T8P,T9P,T10P],APT=[T7A,T8A,T9A,T10A];
 
 function draw(){
 px(0,0,W,H,BG);
-text7("STYLE SET  SAME ASSETS FIVE STYLES",24,14,2);
-const rowLabels=[["TILE",95],["ENEMY",170],["ICONS",222],["RESOURCE",266],["BUTTON",304]];
-for(const rl of rowLabels)text7(rl[0],8,rl[1],1,null,DIM);
-const TILES=[TILE2,TILE3,TILE4,TILE5,TILE6];
-const ENS=[EN2,EN3,EN4,null,EN6];
-const FIRES=[FIRE2,FIRE3,FIRE4,null,FIRE6];
-const SWS=[SW2,SW3,SW4,null,SW6];
-for(let i=0;i<5;i++){
+text7("TILE STYLES 7 8 9 10",24,14,2);
+for(let i=0;i<4;i++){
 const x0=COLS[i];
-text7(HEADS[i],x0+85,40,1,"c");
-if(i!==3)edgeR(x0+42,57,86,86,DIM);
-blit(TILES[i],x0+43,58,3);
-if(i===3){
-text7("HORDE 8",x0+45,166,1);
-for(let z=0;z<40;z+=4){px(x0+45+z,178,2,1,FG);px(x0+47+z,179,2,1,FG);}
-text7("FIRE",x0+38,214,1);text7("SWORD",x0+88,214,1);
-}else{
-blit(ENS[i],x0+65,152,2);
-blit(FIRES[i],x0+38,200,3);
-blit(SWS[i],x0+92,200,3);
+text7(HEADS[i],x0+108,46,1,"c");
+const tx=x0+57;
+edgeR(tx-2,68,106,106,DIM);
+blit(POL[i],tx,70,3);
+edgeR(tx-2,210,106,106,DIM);
+blit(APT[i],tx,212,3);
 }
-drawResource(i,x0);
-drawButton(i,x0);
-}
+text7("POLICE",8,115,1,null,DIM);
+text7("APARTMENT",8,257,1,null,DIM);
 text7("V"+innerWidth+"X"+innerHeight+" K"+(k>=1?k:k.toFixed(2)),936,522,1,"r");
 }
 addEventListener("resize",()=>{fit();});
