@@ -246,9 +246,20 @@ to save. The game is a complete story with a real ending, not endless.
   military facility / ...; wood: park / forest edge / ...; hospital:
   clinic / hospital / ...). First-asset picks: single house, city park,
   police station, hospital with cross pad.
-- First-10-minutes asset board: labs/tiles.html (4 categories x 5
-  styles + fog column: half-scouted dissolve and known-edge unknown
-  tile). Fog = darkness dissolve, hash-scattered, never an outline.
+- First-10-minutes asset board: 4 categories x 5 styles + fog column
+  (half-scouted dissolve and known-edge unknown tile). Fog = darkness
+  dissolve, hash-scattered, never an outline.
+- SIGIL SET (#10) extended (labs/tiles.html, 2026-07-09): one rune
+  family, 2px strokes: house (door square + dot), wood (branch), defense
+  (diamond between bars), hospital (open cross), zombie (three claw
+  slashes), magic hat (triangle on bar + spark), sword, bow (arc +
+  string + arrow). Candidate use: fog-hint marks, item icons, map runes.
+- CONNECTED BLOCK demo (same lab): the 4 micro-sprite tiles combined
+  2x2 two ways: STREETS (Rebuild-like: dark road surface, curb lines,
+  center dashes, crosswalk, house path meeting the road, no per-tile
+  card borders) vs MERGED (tiles butt directly, faint seams, props
+  bridging boundaries). Sparse dim ground dots unify the ground in
+  both. User picks which connection feel the real map uses.
 - LAYOUT MOCK: labs/layout.html, Rebuild-emulating town grid: 3x3 block,
   streets with faint center dashes between tiles, 4 known micro-sprite
   tiles, unknown tiles as near-black cells, organic fog dissolve beyond,
