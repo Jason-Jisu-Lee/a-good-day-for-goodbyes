@@ -113,22 +113,23 @@ improvement suggestions along the way.
 - Skill philosophy: optimization skill should matter a LOT. Perfect play
   goes far. The deepest mechanic remains prestige (time rewind).
 
-## Early game flow (LOCKED 2026-07-10; scout interaction still open)
+## Early game flow (LOCKED 2026-07-10)
 - ORIGIN (2x2, 4 tiles): FOOD, RESIDENT (shelter), MYSTERY (fogged,
-  the first scout target, randomized reveal), RUBBLE (blocked, costs
-  Materials to clear; the visible Material sink from minute one).
-  NO Material tile in the origin: Material tiles live in ring 1.
+  the natural first scout target, randomized reveal), RUBBLE (blocked,
+  costs Materials to clear; the visible Material sink from minute one).
+  NO Material tile in the origin.
+- GUARANTEES: food and shelter only. Everything else, including
+  Material tiles and recruits, is RNG from the fixed-count pool.
+  (Ring-1 floor guarantee REJECTED by user. Noted risk, accepted: a
+  roll with no ring-1 Material tile delays rubble until ring 2;
+  acceptable while rubble gates nothing critical.)
 - FOOD is the single sustenance resource. Water folds into it (locked).
-- OPENING BEAT: 2 survivors. One is already gathering food when the
-  game begins (teaches assign-work by example); the other stands idle.
-  The first player act: send the idle survivor to scout. No
-  instructional text ever; the fog and the idle survivor do the pull.
-- SAFE FIRST RING: no zombies. Contains Material tile(s) and 1 or 2
-  recruitable survivors (RNG count). Every tile beyond ring 1 can
-  hold zombies.
-- Ring-1 guarantee suggestion (Claude, pending user OK): ring 1 always
-  holds at least one Material tile and one recruit; which tiles and
-  where stays random (per-ring extension of the fixed-counts rule).
+- OPENING BEAT: 2 survivors, BOTH idle at start (no auto-assignment).
+  The player assigns one to food and sends the other to scout,
+  naturally the mystery tile first. Two real decisions at minute zero.
+  No instructional text ever; idle survivors and fog do the pull.
+- SAFE FIRST RING: no zombies; 1 or 2 recruitable survivors can appear
+  (RNG count). Every tile beyond ring 1 can hold zombies.
 - DEADLOCK GUARD: rubble needs Materials -> Materials need ring 1 ->
   ring 1 needs claiming. Therefore claiming/scouting early tiles costs
   survivor TIME only, never Materials.
@@ -137,12 +138,23 @@ improvement suggestions along the way.
 - Mystery reveal table PARKED (decide contents later).
 - Mid/late game wants lots of fun, exciting RNG decisions and factors
   (Slice and Dice inspiration); parked until the early game is built.
-- SCOUT INTERACTION OPEN (must feel fluid, minimal clicks). Candidates:
-  A. dedicated SCOUT button on the selected-tile panel;
-  B. ONE-VERB ASSIGN: click survivor, click tile; the tile type defines
-     the work (fog=scout, food=gather, rubble=clear, known=reclaim),
-     with live fog-dissolve feedback (Claude recommends B);
-  C. passive proximity reveal (rejected-leaning: weakens who-do-I-send).
+
+## Action model (LOCKED 2026-07-10, Rebuild-style)
+- One pattern for every tile action: hover/select the tile -> click the
+  action (SCOUT / GATHER / CLEAR / RECLAIM) -> choose which survivors
+  to send.
+- CREW SIZE + DIMINISHING RETURNS (applies to MOST actions): more
+  survivors = faster, each added survivor helps less. Standard form:
+  time = base / (1 + r + r^2 + ...), r tuned in playtest (~0.6-0.7).
+  4 survivors feel much faster than 1, never 4x. Exact timings parked
+  for playtest.
+- SCOUTED is not RECLAIMED: scouting clears the fog (tile art becomes
+  visible) but the tile is not yours; an at-a-glance visual state must
+  mark unreclaimed tiles. Candidate treatment lives in the Color plan
+  (mono until reclaimed).
+- PARKED: input accelerators arrive later (e.g. click-drag
+  assignment); the first slice ships the plain tile->action->crew
+  flow.
 
 ## Identity: REAL-TIME, ACTION-GATED (LOCKED 2026-07-09)
 - Real time. Resources tick per second, visibly. No turn structure, no
@@ -225,15 +237,26 @@ improvement suggestions along the way.
 - Landscape 960x540 and portrait 540x960 layouts, same stage law.
 - Esc returns from the game screen to the menu (silent, no text).
 
-## Color plan (60-30-10, proposed 2026-07-10)
+## Color plan (60-30-10, direction updated 2026-07-10)
 - 60% near-black #0a0a0c (world, fog, backgrounds).
 - 30% off-white #f2f2f0 (tile art, text, survivors).
-- 10% accent: WARM AMBER ~#e0a458 for the interactive layer (selection,
-  hover, focused button, commanded survivor, prestige device), with a
-  reserved sliver of SEMANTIC RED ~#d4382c that appears ONLY for danger
-  (horde, injury, stronger-than-expected tile). Red never decorates.
+- 10% = PER-CATEGORY TILE COLOR (user direction, Gnorp Apologist
+  reference): each tile category carries a small dose of its own hue
+  so the board reads instantly and never becomes a hard-to-parse
+  black and white wall. Hues muted/dusty, small surface per tile, few
+  categories (4-6 hues max).
+- SEMANTIC RED ~#d4382c stays reserved for danger only (horde, injury,
+  stronger-than-expected tile). Red never decorates, so no red-leaning
+  category hue.
+- Claude recommendation (pending user OK): bind color to RECLAIM.
+  Scouted tiles render mono (visible, not yours); reclaiming pours the
+  category hue in. Color is earned piece by piece (house art law made
+  mechanical) and doubles as the scouted-vs-reclaimed state read.
+- The earlier single-warm-amber accent is superseded as the 10%;
+  selection/hover treatment gets decided in the tile color lab.
 - Grays (streets, panels, fog) belong to the neutral 60/30 family.
-- Pending user confirmation; user is heavily invested in UI quality.
+- Exact hues picked by feel in a lab once tiles are sprited (design by
+  demo).
 
 ## Survivor maintenance metrics (user, 2026-07-10)
 - EARLY: food, shelter, MATERIALS. Materials is the ONE universal
