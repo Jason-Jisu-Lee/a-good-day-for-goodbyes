@@ -56,7 +56,8 @@ improvement suggestions along the way.
 - Recruiting is a major event, not a stat bump.
 - Each has a name, age, role, a short personal story, unique base stats,
   and a face.
-- **Permadeath**: anyone can die, forever.
+- **Permadeath**: anyone can die, forever. (UNDER REVIEW 2026-07-10:
+  user wants to rethink the concept; revisit before building death.)
 - Placeholder stat axes: GRIT / HANDS / NERVE / HEART (not locked).
 - Face style proven with 3 (labs/survivor-faces.html), names only, no
   stats. Expand to full roster once signed off; user personalizes later.
@@ -112,24 +113,36 @@ improvement suggestions along the way.
 - Skill philosophy: optimization skill should matter a LOT. Perfect play
   goes far. The deepest mechanic remains prestige (time rewind).
 
-## Early game flow (user 2026-07-10, brainstorm in progress)
-- Start: 4 tiles, 2 survivors. Tile 1 MATERIAL (assigned survivor earns
-  1 Material per X seconds), tile 2 RESIDENT (housing), tile 3 FOOD,
-  tile 4 OPEN (candidates: mystery fogged tile / rubble Material sink /
-  water / plain second resident; Claude recommends mystery).
-- Core early verbs: assign survivors, cover basic needs, gather
-  Materials. EXPAND + SCOUT is the main decision point of the phase.
-- SAFE FIRST RING: the first immediate expansion around the origin has
-  NO zombies. Every tile beyond it can.
+## Early game flow (LOCKED 2026-07-10; scout interaction still open)
+- ORIGIN (2x2, 4 tiles): FOOD, RESIDENT (shelter), MYSTERY (fogged,
+  the first scout target, randomized reveal), RUBBLE (blocked, costs
+  Materials to clear; the visible Material sink from minute one).
+  NO Material tile in the origin: Material tiles live in ring 1.
+- FOOD is the single sustenance resource. Water folds into it (locked).
+- OPENING BEAT: 2 survivors. One is already gathering food when the
+  game begins (teaches assign-work by example); the other stands idle.
+  The first player act: send the idle survivor to scout. No
+  instructional text ever; the fog and the idle survivor do the pull.
+- SAFE FIRST RING: no zombies. Contains Material tile(s) and 1 or 2
+  recruitable survivors (RNG count). Every tile beyond ring 1 can
+  hold zombies.
+- Ring-1 guarantee suggestion (Claude, pending user OK): ring 1 always
+  holds at least one Material tile and one recruit; which tiles and
+  where stays random (per-ring extension of the fixed-counts rule).
+- DEADLOCK GUARD: rubble needs Materials -> Materials need ring 1 ->
+  ring 1 needs claiming. Therefore claiming/scouting early tiles costs
+  survivor TIME only, never Materials.
+- Early hunger (no-punishment doctrine): a hungry survivor stops
+  working and sits until fed; visible, fixable, never lethal early.
+- Mystery reveal table PARKED (decide contents later).
 - Mid/late game wants lots of fun, exciting RNG decisions and factors
   (Slice and Dice inspiration); parked until the early game is built.
-- OPEN: food and water as one resource or two. Claude recommends one
-  FOOD resource early (two identical drains = parallel currencies,
-  mind clutter); water returns later only if it adds a NEW decision
-  shape, e.g. locational water tiles steering expansion.
-- Early hunger suggestion (no-punishment doctrine): a hungry survivor
-  stops working and sits until fed; visible, fixable, never lethal in
-  the early phase.
+- SCOUT INTERACTION OPEN (must feel fluid, minimal clicks). Candidates:
+  A. dedicated SCOUT button on the selected-tile panel;
+  B. ONE-VERB ASSIGN: click survivor, click tile; the tile type defines
+     the work (fog=scout, food=gather, rubble=clear, known=reclaim),
+     with live fog-dissolve feedback (Claude recommends B);
+  C. passive proximity reveal (rejected-leaning: weakens who-do-I-send).
 
 ## Identity: REAL-TIME, ACTION-GATED (LOCKED 2026-07-09)
 - Real time. Resources tick per second, visibly. No turn structure, no
@@ -369,9 +382,9 @@ improvement suggestions along the way.
 - UNIT NAME RULE: map names get a small black backing bar so they read
   over any tile art (5x7 font, scale 1 on the map; scale 2 stays the
   minimum for menus/UI).
-- Resource list early game: MATERIALS + FOOD, shelter as housing
-  capacity (wood/water folded into Materials; food vs water split open,
-  see Early game flow).
+- Resource list early game LOCKED: MATERIALS + FOOD, shelter as
+  housing capacity (wood folds into Materials, water folds into FOOD,
+  2026-07-10).
 
 ## Parked
 (none)
