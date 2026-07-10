@@ -91,6 +91,44 @@ to save. The game is a complete story with a real ending, not endless.
 - Skill philosophy: optimization skill should matter a LOT. Perfect play
   goes far. The deepest mechanic remains prestige (time rewind).
 
+## Identity: REAL-TIME, ACTION-GATED (LOCKED 2026-07-09)
+- Real time. Resources tick per second, visibly. No turn structure, no
+  END DAY button. Rebuild-style turns are definitively rejected.
+- Days pass automatically; a subtle, de-emphasized day counter exists
+  (time is present but never a pressure).
+- Threat is ACTION-GATED: danger triggers when the player pushes into a
+  new tile, never by wall clock (early and mid game).
+- SCOUTING: tile strength is hinted, not shown. A scout action reveals
+  info. Survivors differ in scouting ability (per-survivor metrics),
+  forcing who-do-I-send decisions.
+- ENTERING A TILE = ENCOUNTER: the camera zooms quickly into that tile.
+  Time keeps running. If the tile is much stronger than expected,
+  player control is DISABLED and survivors act autonomously: some flee
+  back to town, others rush in to help, dramatic saves, real permanent
+  losses. The game keeps going through all of it.
+- PRESTIGE COMPULSION: when the next tile feels too slow or expensive to
+  crack, that is the designed moment the player chooses to rewind.
+- TOWN GRID like Rebuild: the map is a town, tiles separated by streets.
+  Expansion = reclaiming the town tile by tile. RECLAIM becomes
+  available once a tile is fully seen/known.
+- LATE-GAME RULE-BREAKS are story beats: the action-gating promise
+  breaks before the bunker act, zombies start coming uninvited, players
+  are MEANT to be caught off guard. Rules the player believed were
+  guaranteed break on purpose: the signal that the ground cannot be
+  held forever.
+- SURVIVOR CHAT BUBBLES: survivors randomly say things in small speech
+  bubbles; players learn each personality slowly through them. No text
+  walls; the map stays minimal.
+- Reference feel confirmed by user: A Dark Room's reveal pacing ("YES
+  thats exactly what i mean"), Rebuild's town reclaim, minus turns and
+  minus text walls.
+
+## Pricing (user, 2026-07-09)
+- Deliberately odd price, e.g. 9.73, never 9.99. The number itself
+  appears in-game as a tribute / fun thing. Steam custom pricing allows
+  this (regional auto-rounds may vary); itch allows any price. Exact
+  number decided later.
+
 ## Enemy (UNDECIDED, two candidates)
 - Down to two, user picks later:
   1. **Zombies** (simplest, cheapest to build).
@@ -160,20 +198,15 @@ to save. The game is a complete story with a real ending, not endless.
   deleted 2026-07-07 for a clean start.
 
 ## Open questions
-- GAME IDENTITY (deciding 2026-07-09): turn-based days (Rebuild) vs
-  real-time incremental ticking vs hybrids. Claude recommends
-  action-gated threat: real-time economy, hordes triggered by player
-  expansion filling a visible threat meter, never by wall clock; late
-  game flips to time-creep by design to force the bunker act. Runner-up:
-  auto-rolling day pulse with pre-announced sieges. References given:
-  A Dark Room (reveal pacing), Rusty's Retirement, Loop Hero. User
-  deciding; nothing locked.
 - Enemy identity (zombies vs AI robots; zombies currently assumed in
   ground-phase wording).
 - Final title.
 - Stat system (axes above are placeholder).
 - Target survivor count.
-- First horde timing (first phase should last quite a bit).
+- Pacing tuning: threat is action-gated, so "first horde" = first
+  defended tile the player cracks; how long the safe opening lasts
+  before defended tiles dominate still needs tuning (user wants the
+  first phase to last quite a bit).
 - SURVIVOR MARKER (refined 2026-07-09): plain pencil-line circle
   OUTLINE, never filled, THICK stroke (~30px ring, ~5px line at map
   scale). Name above in the 5x7 font at scale 2. NO shake or jitter on
