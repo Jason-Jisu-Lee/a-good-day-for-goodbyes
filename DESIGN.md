@@ -215,8 +215,11 @@ to save. The game is a complete story with a real ending, not endless.
 - FONT LAW: the 5x7 pixel font is the standard for all readable text
   (names, buttons, labels). The old 3x5 font was too hard to read; keep
   it only for tiny dev readouts.
-- TILES ARE TOP-DOWN (map view, player looks down on minions). No side
-  elevations on the map.
+- TILE PERSPECTIVE (changed by user 2026-07-10): tiles are FRONT-VIEW
+  pictograms (billboard style) standing on the map; the top-down
+  requirement is lifted. Streets stay top-down; buildings face the
+  player. Priority one: the player can tell what a tile is INSTANTLY.
+  Keep tiles simple with room for variations per category.
 - FOG: the white dither halo was rejected ("looks like a tile with white
   outline"). New principle: unexplored space is pure black; fog reads as
   the tile edge dissolving into darkness (style board candidate B).
@@ -267,15 +270,15 @@ to save. The game is a complete story with a real ending, not endless.
   - Parking = a pavement patch with cars ON it, not floating dashes.
   - Buildings keep a margin from tile edges; props (trees) stay 2px+
     clear of streets.
-  - Current set (labs/tiles.html, V2 from-scratch 2026-07-10, after the
-    v1 "redesign" was rejected for reusing old sprites): HOUSE =
-    T-shaped gabled roof with ridge + hip lines, chimney, side patio,
-    hedges, front path. PARK = pond with white shoreline + ripples, big
-    tree + smaller trees, entry path to a fountain plaza. POLICE =
-    L-shaped building with door/windows, rooftop antenna pad, WALLED
-    impound lot with 2 cruisers, gate onto the street. HOSPITAL =
-    cross-shaped building footprint, center courtyard, wing windows,
-    ground HELIPAD with an H, ambulance on the bay driveway.
+  - Current set (labs/tiles.html, V3 FRONT-VIEW 2026-07-10; v1 and v2
+    top-down sets both rejected): HOUSE = classic gable house with
+    chimney, door, window. WOOD = round tree + pine + bush on a ground
+    line. POLICE = wide civic facade, central door, windows, badge sign
+    above the door. HOSPITAL = tall building with a large cross panel.
+    Variation examples proving the system: APARTMENT (window grid),
+    PINES (three pines), MILITARY (chevron sign + antenna), CLINIC
+    (small building, small cross). All stand on a dim ground line,
+    generous margins, dark cutouts for doors/windows/signs.
 - FOG LOCKED (user 2026-07-10): the organic hash-scatter darkness
   dissolve from labs/layout.html. Never outlines, never aligned bands.
 - DARK PROFILE VARIANT: face_man_dark.png (user's man avatar remapped
