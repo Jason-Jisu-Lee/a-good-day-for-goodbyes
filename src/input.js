@@ -1,0 +1,91 @@
+function toLogical(e){const r=cv.getBoundingClientRect();return {x:(e.clientX-r.left)/k,y:(e.clientY-r.top)/k};}
+cv.addEventListener("pointerdown",e=>{
+if(mode!=="game")return;
+const p=toLogical(e);
+for(const b of uiButtons){
+if((b.id==="volM"||b.id==="volF")&&p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){
+volDrag=b.id;
+if(volDrag==="volM")OPT.volM=volFromX(p.x);else OPT.volF=volFromX(p.x);
+return;
+}
+}
+});
+cv.addEventListener("pointermove",e=>{
+const p=toLogical(e);
+if(volDrag){
+if(volDrag==="volM")OPT.volM=volFromX(p.x);else OPT.volF=volFromX(p.x);
+return;
+}
+let h=null;
+if(mode==="menu"){for(const b of menuButtons)if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h)h=b.id;hoverTile=null;}
+else{
+for(const b of uiButtons)if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h)h=b.id;
+const t=h?null:(G?tileAt(p.x,p.y):null);
+if(t!==hoverTile)hoverA=0;
+hoverTile=t;
+}
+hover=h;
+cv.style.cursor=(h&&h!=="none")||hoverTile?"pointer":"default";
+});
+cv.addEventListener("pointerup",e=>{
+if(volDrag){volDrag=null;optSave();return;}
+const p=toLogical(e);
+if(mode==="menu"){
+for(const b of menuButtons){if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){
+if(b.id==="ENTER")fading=true;
+if(b.id==="QUIT GAME")window.close();
+}}
+return;
+}
+for(const b of uiButtons){
+if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){
+if(!b.en)return;
+clickUI(b.id);
+return;
+}
+}
+gearOpen=false;
+const t=tileAt(p.x,p.y);
+const l=L();
+const inPanel=sel&&p.x>=l.pnX&&p.x<=l.pnX+l.pnW&&p.y>=l.pnY&&p.y<=l.pnY+l.pnH;
+if(t){sel=t;picker=null;}
+else if(!inPanel&&p.y>40){sel=null;picker=null;}
+});
+function clickUI(id){
+if(id==="mute"){OPT.mute=!OPT.mute;optSave();return;}
+if(id==="gear"){gearOpen=!gearOpen;return;}
+if(id==="tomenu"){gearOpen=false;save();mode="menu";fade=0;fading=false;sel=null;picker=null;return;}
+if(id==="volM"||id==="volF")return;
+if(id.startsWith("act_")){
+const type=id.slice(4);
+picker={type,set:new Set(G.survivors.filter(s=>!s.task&&!s.hungry).slice(0,1))};
+return;
+}
+if(id.startsWith("pick_")){
+const rest=id.slice(5);
+if(rest==="go"){
+if(picker.set.size>0){
+for(const s of picker.set)if(s.task)s.task=null;
+assign(sel,picker.type==="gather"?"gather":picker.type,[...picker.set]);
+picker=null;
+}
+return;
+}
+if(rest==="no"){picker=null;return;}
+const s=G.survivors[parseInt(rest,10)];
+if(lockedS(s))return;
+if(picker.set.has(s))picker.set.delete(s);else picker.set.add(s);
+return;
+}
+if(id==="stop"){releaseCrew(sel);return;}
+}
+addEventListener("keydown",e=>{
+if(e.key==="`"){toggleDbg();return;}
+if(e.key==="Escape"){
+if(mode==="game"){
+if(picker){picker=null;return;}
+if(sel){sel=null;return;}
+save();mode="menu";fade=0;fading=false;sel=null;picker=null;
+}
+}
+});

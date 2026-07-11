@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>pixel vs smooth</title>
+<style>
+html,body{margin:0;background:#000;color:#888;font:12px system-ui}
+[hidden]{display:none !important}
+h1{font:600 14px system-ui;color:#ccc;letter-spacing:3px;text-align:center;margin:22px 0 12px}
+#g{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:20px;max-width:1100px;margin:0 auto;padding:10px 16px}
+.panel{text-align:center}
+canvas{display:block;margin:0 auto;width:480px;max-width:100%;border:1px solid #1a1a1a}
+#p0{image-rendering:pixelated}
+.cap{color:#ddd;font-size:13px;letter-spacing:2px;margin-top:8px}
+</style>
+</head>
+<body>
+<h1>PIXEL VS SMOOTH</h1>
+<div id="g">
+<div class="panel"><canvas id="p0"></canvas><div class="cap">PIXELATED</div></div>
+<div class="panel"><canvas id="p1"></canvas><div class="cap">SMOOTH</div></div>
+</div>
+<script>
+const CW=480,CH=360;
+const HP=new Image();HP.src="../asset/tiles/ref_house150.png";
+const AP=new Image();AP.src="../asset/tiles/ref_apt155.png";
+const TP=new Image();TP.src="../asset/tiles/ref_tile155.png";
+const HS=new Image();HS.src="../ref_house.png";
+const AS=new Image();AS.src="../ref_apt.png";
+const TS=new Image();TS.src="../ref_tileA.png";
+[HP,AP,TP,HS,AS,TS].forEach(i=>{i.onload=render;});
+setTimeout(render,600);
+function scene(g,house,apt,tile,smooth){
+g.imageSmoothingEnabled=smooth;
+g.imageSmoothingQuality="high";
+g.fillStyle="#000";g.fillRect(0,0,CW*2,CH*2);
+g.globalCompositeOperation="lighter";
+const d=(img,cxx,cyy,w,h)=>g.drawImage(img,0,0,img.width,img.height,(cxx-w/2)*2,(cyy-h/2)*2,w*2,h*2);
+d(house,240,120,150,128);
+d(apt,336,178,155,158);
+d(tile,144,170,155,158);
+d(tile,240,236,155,158);
+}
+function render(){
+const c0=document.getElementById("p0");
+c0.width=CW*2;c0.height=CH*2;
+scene(c0.getContext("2d"),HP,AP,TP,false);
+const c1=document.getElementById("p1");
+c1.width=CW*2;c1.height=CH*2;
+scene(c1.getContext("2d"),HS,AS,TS,true);
+}
+</script>
+</body>
+</html>

@@ -354,7 +354,34 @@ improvement suggestions along the way.
     scale clamped to 1 (embed look). Both ship targets are already
     served by the 16:9 stage law (authored 960x540, integer scaling
     means 1080p fullscreen = crisp 2x, 4K = 4x).
-- USER PASS 3 (2026-07-11, game.js v11): tooltips are pure figures
+- USER PASS 4 (2026-07-11, CODE REORGANIZED): game.js is dead; the
+  game is 18 small classic scripts under src/ (state, stage, font,
+  opts, assets, board, survivors, actions, sim, tiles, hud, topbar,
+  panel, menu, save, input, dev, main), loaded in order from
+  index.html (ES modules blocked on file://). Art lives under
+  asset/tiles/ (asset/soundtrack/ reserved). Standards saved to
+  memory: one component per file, no comments, organize + optimize
+  always, safeguards before bugs.
+  - FOG restored: the locked hash-scatter dissolve as a cached
+    speckle band breathing around the visible tiles, under the
+    stamps.
+  - EMPTY TILE outline rebuilt 1:1 from the APARTMENT's own base
+    edges (ref_tile155, mirrored quadrants at apartment geometry,
+    downscaled identically to the apartment stamp): corners
+    complete, every tile consistent.
+  - HOVER = LIFT (picked from the demo): the whole stamp eases up
+    4px; selection keeps the ground ring; invisible scoutable tiles
+    keep the gray ground ring on hover.
+  - TOPBAR: musical note above DAY = mute toggle (dimmed +
+    strikethrough when muted; audio flags only, no sound yet);
+    hovering it opens two drag bars (music, effects; icons only, no
+    numbers, values persisted in goodbyes_opts). Gear icon = MAIN
+    MENU option. Both inside the stage.
+  - labs/shine.html: the requested anime-glint sweep (dark contrast
+    stripes framing a bright band traveling across the whole stamp,
+    looped) in 3 intensities. labs/smooth.html: PIXELATED vs SMOOTH
+    side-by-side (same art anti-aliased from the full-res crops).
+    labs/select.html deleted (LIFT chosen). tooltips are pure figures
   ("2 X 5/MIN", "2 X 3/MIN"); show-dont-tell now covers every string
   (saved to memory). Survivor portraits strip REMOVED. Board
   centered (ox 480). Hover/selected = ground ring rendered UNDER the

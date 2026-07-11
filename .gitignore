@@ -2,9 +2,5 @@ CLAUDE.md
 .claude/settings.local.json
 diagonal view.png
 123.png
-ref_house.png
-ref_apt.png
-ref_tile.png
-ref_house150.png
-ref_apt155.png
-ref_tile150.png
+ref_*.png
+asset/tiles/ref_*.png
