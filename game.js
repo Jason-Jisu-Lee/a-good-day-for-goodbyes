@@ -76,7 +76,6 @@ function tw7(s,n){return (s.length*6-1)*n;}
 function text7(s,x,y,n,al,col){col=col||FG;if(al==="c")x=Math.round(x-tw7(s,n)/2);if(al==="r")x=Math.round(x-tw7(s,n));for(const ch of s){const g=F7[ch];if(g)for(let r=0;r<7;r++)for(let q=0;q<5;q++)if(g[r][q]==="X")px(x+q*n,y+r*n,n,n,col);x+=6*n;}}
 function blit(c,x,y,n){const a=rr(x),b=rr(y);cx.drawImage(c,a,b,rr(x+c.width*n)-a,rr(y+c.height*n)-b);}
 function blitS(img,x,y,w,h){if(!img.width)return false;const a=rr(x),b=rr(y);cx.drawImage(img,a,b,rr(x+w)-a,rr(y+h)-b);return true;}
-function blitImg(img,x,y,w){if(!img.width)return false;const a=rr(x),b=rr(y);cx.drawImage(img,a,b,rr(x+w)-a,rr(y+w)-b);return true;}
 function edgeR(x,y,w,h,col){px(x,y,w,1,col);px(x,y+h-1,w,1,col);px(x,y,1,h,col);px(x+w-1,y,1,h,col);}
 
 function mk(w,h){const c=document.createElement("canvas");c.width=w;c.height=h||w;return c;}
@@ -93,11 +92,9 @@ const IC_DISCORD=sheetRows(DISCORD),IC_STEAM=steamSheet();
 const RING=(()=>{const c=mk(15),g=c.getContext("2d");g.fillStyle=FG;for(let y=0;y<15;y++)for(let x=0;x<15;x++){const d=Math.hypot(x-7,y-7);if(d<=7.2&&d>=4.6)g.fillRect(x,y,1,1);}return c;})();
 const RING_D=(()=>{const c=mk(15),g=c.getContext("2d");g.fillStyle=MID;for(let y=0;y<15;y++)for(let x=0;x<15;x++){const d=Math.hypot(x-7,y-7);if(d<=7.2&&d>=4.6)g.fillRect(x,y,1,1);}return c;})();
 
-const FACE_FILES=["face_woman","face_man","face_man2","face_woman2","face_man3"];
-const AV=FACE_FILES.map(n=>{const i=new Image();i.src=n+".png?v=1";return i;});
-const T_HOUSE=new Image();T_HOUSE.src="ref_house.png?v=1";
-const T_APT=new Image();T_APT.src="ref_apt.png?v=1";
-const T_TILE=new Image();T_TILE.src="ref_tile.png?v=1";
+const T_HOUSE=new Image();T_HOUSE.src="ref_house150.png?v=1";
+const T_APT=new Image();T_APT.src="ref_apt155.png?v=1";
+const T_TILE=new Image();T_TILE.src="ref_tile150.png?v=1";
 
 const KIND_NAME={house:"HOUSE",house2:"APARTMENT",grocery:"FOOD",scrap:"SCRAPYARD",rubble:"RUBBLE",camp:"CAMP",cache:"SUPPLY CACHE",lot:"EMPTY LOT",mysteryroll:"UNKNOWN"};
 const KIND_LABEL={grocery:"FOOD",scrap:"SCRAP",rubble:"RUBBLE",camp:"CAMP",cache:"CACHE"};
@@ -137,8 +134,8 @@ for(let i=0;i<G.survivors.length;i++){const sp=idleSpot(G.survivors[i],i);G.surv
 }
 
 function L(){
-if(PORT)return {ox:270,oy:100,sc:0.5,pnX:45,pnY:470,pnW:450,pnH:300,avX:45,avY:860,hud:20};
-return {ox:384,oy:120,sc:1,pnX:756,pnY:60,pnW:188,pnH:392,avX:700,avY:466,hud:12};
+if(PORT)return {ox:270,oy:100,sc:0.5,pnX:45,pnY:470,pnW:450,pnH:300,hud:20};
+return {ox:480,oy:120,sc:1,pnX:756,pnY:60,pnW:188,pnH:392,hud:12};
 }
 function DXY(){const l=L();return {dx:96*l.sc,dy:60*l.sc,hw:66*l.sc,hh:42*l.sc};}
 function tpos(t){const l=L(),d=DXY();return {x:l.ox+(t.gx-t.gy)*d.dx,y:l.oy+(t.gx+t.gy)*d.dy};}
@@ -260,10 +257,11 @@ if(T_APT.width){cx.globalCompositeOperation="lighter";blitS(T_APT,x-71*l.sc,y-10
 return false;
 }
 
-function diaOutline(t,col){
-const p=tpos(t),d=DXY();
-for(let i=0;i<=d.hw;i++){
-const yy=d.hh-i*d.hh/d.hw;
+function ringUnder(p,col){
+const l=L(),d=DXY();
+const hw=d.hw+6*l.sc,hh=d.hh+4*l.sc;
+for(let i=0;i<=hw;i++){
+const yy=hh-i*hh/hw;
 px(p.x+i,p.y-yy,1,1,col);
 px(p.x-i,p.y-yy,1,1,col);
 px(p.x+i,p.y+yy,1,1,col);
@@ -291,6 +289,8 @@ uiButtons=[];
 const sorted=[...G.tiles].sort((a,b)=>(a.gx+a.gy)-(b.gx+b.gy));
 for(const t of sorted){
 const p=tpos(t);
+if(t===sel)ringUnder(p,FG);
+else if(t===hoverTile)ringUnder(p,MID);
 if(t.state==="unknown"){
 if(t.gx<1||t.gx>2||t.gy<1||t.gy>2)continue;
 cx.globalAlpha=0.45;
@@ -316,8 +316,6 @@ px(p.x-30,p.y-d.hh-16,60,4,"#262626");
 if(frac>0)px(p.x-30,p.y-d.hh-16,Math.max(1,Math.round(60*frac)),4,FG);
 }
 }
-if(hoverTile&&hoverTile!==sel){diaOutline(hoverTile,MID);}
-if(sel){diaOutline(sel,FG);}
 for(let i=0;i<G.survivors.length;i++){
 const s=G.survivors[i];
 blit(s.hungry?RING_D:RING,s.x-7.5,s.y-7.5,1);
@@ -328,7 +326,7 @@ const srcs=[];
 for(const t of G.tiles){
 if(t.state==="owned"&&!t.blocked&&t.kind==="grocery"&&!t.action){
 const n=arrived(t).length;
-if(n>0){const r=n*FOOD_PM;inc+=r;srcs.push(n+" GATHERING  +"+r+"/MIN");}
+if(n>0){const r=n*FOOD_PM;inc+=r;srcs.push(n+" X "+FOOD_PM+"/MIN");}
 }
 }
 const expn=G.survivors.length*3;
@@ -336,12 +334,11 @@ uiButtons.push({id:"inc",x:14,y:l.hud+20,w:96,h:13,en:true});
 uiButtons.push({id:"exp",x:14,y:l.hud+34,w:96,h:13,en:true});
 text7("+"+inc+"/MIN",16,l.hud+22,1,null,MID);
 text7("-"+expn+"/MIN",16,l.hud+36,1,null,MID);
-if(hover==="inc")tip(16,l.hud+52,srcs.length?srcs:["NO ONE GATHERING FOOD"]);
-if(hover==="exp")tip(16,l.hud+52,[G.survivors.length+" SURVIVORS","EACH EATS 3/MIN"]);
+if(hover==="inc")tip(16,l.hud+52,srcs.length?srcs:["0 X "+FOOD_PM+"/MIN"]);
+if(hover==="exp")tip(16,l.hud+52,[G.survivors.length+" X 3/MIN"]);
 if(G.matsSeen||G.mats>0)text7("MATERIALS "+Math.floor(G.mats),160,l.hud,2);
 text7("DAY "+G.day,W-16,l.hud+32,1,"r",MID);
 drawPanel();
-drawPortraits();
 }
 function tip(x,y,lines){
 let w=0;
@@ -415,17 +412,6 @@ y+=26;
 btn("pick_go","START",l.pnX+16,y,80,n>0);
 btn("pick_no","CANCEL",l.pnX+100,y,80);
 }
-function drawPortraits(){
-const l=L();
-text7("SURVIVORS",l.avX,l.avY-14,1,null,MID);
-for(let i=0;i<G.survivors.length;i++){
-const s=G.survivors[i];
-const x=l.avX+i*56;
-if(!blitImg(AV[s.face],x,l.avY,48)){blit(RING,x+9,l.avY+9,2);}
-if(s.hungry)edgeR(x,l.avY,48,48,MID);
-}
-}
-
 function menuLayout(){
 const port=H>W;
 const mains=["ENTER","SETTINGS","QUIT GAME"];
@@ -582,12 +568,12 @@ if(a==="wipe")wipe();
 function toggleDbg(){dbg.hidden=!dbg.hidden;if(dbg.hidden)ts=1;}
 if(location.hash.includes("debug"))dbg.hidden=false;
 
-let sizeItch=false;
+let viewItch=false;
 const szb=document.createElement("button");
+szb.textContent="VIEW: DESKTOP";
 szb.style.cssText="position:fixed;top:6px;right:70px;background:#111;border:1px solid #333;color:#888;font:11px monospace;padding:5px 9px;z-index:9;cursor:pointer";
 document.body.appendChild(szb);
-szb.addEventListener("click",()=>{sizeItch=!sizeItch;fit();});
-function szLabel(){szb.textContent=(sizeItch?"VIEW: ITCH 960":"VIEW: FULL")+(k>=1?" X"+k:"");}
+szb.addEventListener("click",()=>{viewItch=!viewItch;szb.textContent=viewItch?"VIEW: ITCH 960":"VIEW: DESKTOP";fit();});
 const rsb=document.createElement("button");
 rsb.textContent="RESET";
 rsb.style.cssText="position:fixed;top:6px;right:6px;background:#111;border:1px solid #333;color:#888;font:11px monospace;padding:5px 9px;z-index:9;cursor:pointer";
@@ -599,13 +585,11 @@ dpr=window.devicePixelRatio||1;
 PORT=innerHeight>innerWidth;
 W=PORT?540:960;H=PORT?960:540;
 k=Math.min(innerWidth/W,innerHeight/H);
-if(k>=1)k=Math.floor(k);
-if(sizeItch)k=Math.min(k,1);
+if(viewItch)k=Math.min(k,1);
 S=k*dpr;
 cv.style.width=W*k+"px";cv.style.height=H*k+"px";
 cv.width=Math.max(1,Math.round(W*S));cv.height=Math.max(1,Math.round(H*S));
 cx.imageSmoothingEnabled=false;
-szLabel();
 }
 
 let simLast=Date.now();

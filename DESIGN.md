@@ -354,6 +354,21 @@ improvement suggestions along the way.
     scale clamped to 1 (embed look). Both ship targets are already
     served by the 16:9 stage law (authored 960x540, integer scaling
     means 1080p fullscreen = crisp 2x, 4K = 4x).
+- USER PASS 3 (2026-07-11, game.js v11): tooltips are pure figures
+  ("2 X 5/MIN", "2 X 3/MIN"); show-dont-tell now covers every string
+  (saved to memory). Survivor portraits strip REMOVED. Board
+  centered (ox 480). Hover/selected = ground ring rendered UNDER the
+  stamps (never through a building; the tile+building is one unit).
+  Tile stamps pre-rendered at exact game resolution
+  (ref_house150/ref_apt155/ref_tile150, bicubic+threshold), killing
+  the runtime 1:4 decimation that broke tile outline corners; all
+  outlines now consistent. VIEW toggle simplified: DESKTOP = fill
+  the window (fractional allowed, dev preview of the
+  downloaded-fullscreen look), ITCH 960 = exact embed size; a
+  maximized browser is not true fullscreen, F11 at 1080p = the real
+  full-screen 2x. labs/select.html v2 = 3 interactive hover styles
+  (LIFT / GLOW / GROUND RING), pointer-driven with eased animation,
+  each treating the stamp as one unit. Awaiting hover pick.
 - NUMBERS PASS (2026-07-11, game.js v10): gathering has NO
   diminishing returns (linear per survivor); diminishing returns
   stay on timed actions only. FOOD = 5/min per gatherer. Eating = 3

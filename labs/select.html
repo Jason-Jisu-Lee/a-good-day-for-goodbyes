@@ -3,109 +3,91 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>hover + select styles</title>
+<title>hover styles</title>
 <style>
 html,body{margin:0;background:#000;color:#888;font:12px system-ui}
 [hidden]{display:none !important}
-h1{font:600 14px system-ui;color:#ccc;letter-spacing:3px;text-align:center;margin:18px 0 4px}
-h2{font:600 12px system-ui;color:#888;letter-spacing:2px;text-align:center;margin:16px 0 4px}
-#g1,#g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;max-width:1180px;margin:0 auto;padding:8px 16px}
+h1{font:600 14px system-ui;color:#ccc;letter-spacing:3px;text-align:center;margin:22px 0 12px}
+#g{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;max-width:1100px;margin:0 auto;padding:10px 16px}
 .panel{text-align:center}
-canvas{display:block;margin:0 auto;image-rendering:pixelated;width:220px;max-width:100%;border:1px solid #1a1a1a}
-.cap{color:#ddd;font-size:12px;letter-spacing:1px;margin-top:6px}
+canvas{display:block;margin:0 auto;image-rendering:pixelated;width:320px;max-width:100%;border:1px solid #1a1a1a;cursor:pointer}
+.cap{color:#ddd;font-size:13px;letter-spacing:2px;margin-top:8px}
 </style>
 </head>
 <body>
-<h1>HOVER + SELECT</h1>
-<h2>HOVER</h2>
-<div id="g1">
-<div class="panel"><canvas id="h0"></canvas><div class="cap">H1 THIN OUTLINE</div></div>
-<div class="panel"><canvas id="h1"></canvas><div class="cap">H2 SOFT FILL</div></div>
-<div class="panel"><canvas id="h2"></canvas><div class="cap">H3 OUTER FRAME</div></div>
-<div class="panel"><canvas id="h3"></canvas><div class="cap">H4 LIFT</div></div>
-<div class="panel"><canvas id="h4"></canvas><div class="cap">H5 CHEVRON</div></div>
-</div>
-<h2>SELECTED</h2>
-<div id="g2">
-<div class="panel"><canvas id="s0"></canvas><div class="cap">S1 MARCHING ANTS</div></div>
-<div class="panel"><canvas id="s1"></canvas><div class="cap">S2 DOUBLE LINE</div></div>
-<div class="panel"><canvas id="s2"></canvas><div class="cap">S3 GROUND PLATE</div></div>
-<div class="panel"><canvas id="s3"></canvas><div class="cap">S4 PULSE</div></div>
-<div class="panel"><canvas id="s4"></canvas><div class="cap">S5 LIFT + BASE</div></div>
+<h1>HOVER</h1>
+<div id="g">
+<div class="panel"><canvas id="c0"></canvas><div class="cap">1 LIFT</div></div>
+<div class="panel"><canvas id="c1"></canvas><div class="cap">2 GLOW</div></div>
+<div class="panel"><canvas id="c2"></canvas><div class="cap">3 GROUND RING</div></div>
 </div>
 <script>
 const FG="#f2f2f0",BG="#000000",MID="#8a8a8a";
-const CW=220,CH=180,HW=66,HH=42,CXX=110,CYY=100;
+const CW=320,CH=240,TX=160,TY=130,HW=66,HH=42;
 const HOUSE=new Image();
-HOUSE.src="../ref_house.png";
-const cvs=[];
-for(let i=0;i<5;i++)cvs.push(document.getElementById("h"+i));
-for(let i=0;i<5;i++)cvs.push(document.getElementById("s"+i));
-function diaPts(hw,hh){
-const pts=[];
-for(let i=0;i<=hw;i++){
-const yy=hh-i*hh/hw;
-pts.push([i,-yy],[-i,-yy],[i,yy],[-i,yy]);
-}
-return pts;
-}
-function outline(g,cx0,cy0,hw,hh,col,alpha){
-g.globalAlpha=alpha===undefined?1:alpha;
-g.fillStyle=col;
-for(const p of diaPts(hw,hh))g.fillRect(cx0+p[0],cy0+p[1],1,1);
-g.globalAlpha=1;
-}
-function fillDia(g,cx0,cy0,hw,hh,col,alpha){
-g.globalAlpha=alpha;
-g.fillStyle=col;
-for(let yy=-hh;yy<=hh;yy++){
-const w=hw*(1-Math.abs(yy)/hh);
-if(w>0)g.fillRect(cx0-w,cy0+yy,w*2,1);
-}
-g.globalAlpha=1;
-}
-function ants(g,cx0,cy0,hw,hh,phase){
-g.fillStyle=FG;
-const edge=(x0,y0,x1,y1,off)=>{
-const n=Math.max(Math.abs(x1-x0),Math.abs(y1-y0));
-for(let i=0;i<=n;i++){
-if(((i+off+phase)%12)<6)g.fillRect(Math.round(x0+(x1-x0)*i/n),Math.round(y0+(y1-y0)*i/n),1,1);
-}
-};
-edge(cx0,cy0-hh,cx0+hw,cy0,0);
-edge(cx0+hw,cy0,cx0,cy0+hh,6);
-edge(cx0,cy0+hh,cx0-hw,cy0,0);
-edge(cx0-hw,cy0,cx0,cy0-hh,6);
-}
-function stamp(g,cx0,cy0,lift){
+HOUSE.src="../ref_house150.png";
+const cvs=[0,1,2].map(i=>document.getElementById("c"+i));
+const st=[{h:false,a:0},{h:false,a:0},{h:false,a:0}];
+function hitTile(x,y){return Math.abs(x-TX)/(HW+8)+Math.abs(y-TY)/(HH+6)<=1;}
+cvs.forEach((c,i)=>{
+c.addEventListener("pointermove",e=>{
+const r=c.getBoundingClientRect();
+const x=(e.clientX-r.left)*CW/r.width,y=(e.clientY-r.top)*CH/r.height;
+st[i].h=hitTile(x,y);
+});
+c.addEventListener("pointerleave",()=>{st[i].h=false;});
+});
+function stamp(g,x,y,extra){
 if(!HOUSE.width)return;
 g.globalCompositeOperation="lighter";
-g.drawImage(HOUSE,0,0,600,510,cx0-71,cy0-77-(lift||0),150,128);
+if(extra){
+g.globalAlpha=extra;
+g.drawImage(HOUSE,x-72,y-77);
+g.drawImage(HOUSE,x-70,y-77);
+g.drawImage(HOUSE,x-71,y-78);
+g.drawImage(HOUSE,x-71,y-76);
+g.globalAlpha=1;
+}
+g.drawImage(HOUSE,x-71,y-77);
 g.globalCompositeOperation="source-over";
 }
+function ring(g,x,y,grow,alpha){
+g.globalAlpha=alpha;
+g.fillStyle=FG;
+const hw=HW+grow,hh=HH+grow*HH/HW;
+for(let i=0;i<=hw;i++){
+const yy=hh-i*hh/hw;
+g.fillRect(x+i,y-yy,1,1);
+g.fillRect(x-i,y-yy,1,1);
+g.fillRect(x+i,y+yy,1,1);
+g.fillRect(x-i,y+yy,1,1);
+}
+g.globalAlpha=1;
+}
 function render(t){
-for(let i=0;i<10;i++){
+for(let i=0;i<3;i++){
 const c=cvs[i];
 if(c.width!==CW*2){c.width=CW*2;c.height=CH*2;}
 const g=c.getContext("2d");
 g.setTransform(2,0,0,2,0,0);
 g.imageSmoothingEnabled=false;
 g.fillStyle=BG;g.fillRect(0,0,CW,CH);
-const sec=t/1000;
-if(i===0){stamp(g,CXX,CYY,0);outline(g,CXX,CYY,HW,HH,MID);}
-if(i===1){fillDia(g,CXX,CYY,HW,HH,FG,0.10);stamp(g,CXX,CYY,0);}
-if(i===2){stamp(g,CXX,CYY,0);outline(g,CXX,CYY,HW+8,HH+5,MID);}
-if(i===3){stamp(g,CXX,CYY,2+Math.round(1+Math.sin(sec*4)));}
-if(i===4){stamp(g,CXX,CYY,0);const by=Math.round(Math.sin(sec*5)*2);g.fillStyle=FG;const ty=CYY-HH-16+by;for(let k=0;k<4;k++){g.fillRect(CXX-4+k,ty+k,1,1);g.fillRect(CXX+4-k,ty+k,1,1);}g.fillRect(CXX,ty+4,1,1);}
-if(i===5){stamp(g,CXX,CYY,0);ants(g,CXX,CYY,HW,HH,Math.floor(sec*10));}
-if(i===6){stamp(g,CXX,CYY,0);outline(g,CXX,CYY,HW,HH,FG);outline(g,CXX,CYY,HW+5,HH+3,MID,0.5);}
-if(i===7){fillDia(g,CXX,CYY,HW+4,HH+3,"#1e1e1e",1);stamp(g,CXX,CYY,0);outline(g,CXX,CYY,HW+4,HH+3,FG);}
-if(i===8){stamp(g,CXX,CYY,0);outline(g,CXX,CYY,HW,HH,FG,0.45+0.55*Math.abs(Math.sin(sec*3)));}
-if(i===9){stamp(g,CXX,CYY,4);outline(g,CXX,CYY,HW,HH,FG);}
+const s=st[i];
+const target=s.h?1:0;
+s.a+=(target-s.a)*0.18;
+if(i===0){
+stamp(g,TX,TY-Math.round(s.a*5),0);
+}
+if(i===1){
+stamp(g,TX,TY,s.a*0.5);
+}
+if(i===2){
+if(s.a>0.02)ring(g,TX,TY,8,s.a);
+stamp(g,TX,TY,0);
+}
 }
 requestAnimationFrame(render);
 }
-HOUSE.onload=()=>requestAnimationFrame(render);
 requestAnimationFrame(render);
 </script>
 </body>
