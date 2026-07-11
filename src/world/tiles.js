@@ -29,25 +29,26 @@ g.fillRect(a,b,rr(xx+2)-a,rr(yy+2)-b);
 }
 return fogCv;
 }
-function streetLine(pa,pb,ux,uy){
-const l=L();
-const mx=(pa.x+pb.x)/2,my=(pa.y+pb.y)/2;
-const span=30*l.sc;
-for(let t=-span;t<=span;t+=2*l.sc){
-const ph=((t+span)/l.sc)%20;
-if(ph<12)px(mx+ux*t-l.sc,my+uy*t-l.sc,2*l.sc,2*l.sc,"#5a5a5a");
-}
-}
 function drawStreets(){
+const l=L();
+let n=0,ax=0,ay=0;
+for(const t of G.tiles)if(drawnTile(t)){n++;const p=tpos(t);ax+=p.x;ay+=p.y;}
+if(n<2)return;
+const cx0=ax/n,cy0=ay/n;
 const len=Math.hypot(66,42);
-const ua={x:66/len,y:-42/len};
-const ub={x:66/len,y:42/len};
-for(const t of G.tiles){
-if(!drawnTile(t))continue;
-const r=tAt(t.gx+1,t.gy);
-if(r&&drawnTile(r))streetLine(tpos(t),tpos(r),ua.x,ua.y);
-const b=tAt(t.gx,t.gy+1);
-if(b&&drawnTile(b))streetLine(tpos(t),tpos(b),ub.x,ub.y);
+const dirs=[[66/len,-42/len],[66/len,42/len]];
+const Lmax=232*l.sc;
+for(const u of dirs){
+for(let t=-Lmax;t<=Lmax;t+=2*l.sc){
+const ph=((t+Lmax)/l.sc)%20;
+if(ph>=12)continue;
+const a=Math.abs(t);
+let col="#5a5a5a";
+if(a>198*l.sc)col="#262626";
+else if(a>162*l.sc)col="#333333";
+else if(a>122*l.sc)col="#454545";
+px(cx0+u[0]*t-l.sc,cy0+u[1]*t-l.sc,2*l.sc,2*l.sc,col);
+}
 }
 }
 let shCv=null;
@@ -68,7 +69,7 @@ setCtx(main);
 og.setTransform(1,0,0,1,0,0);
 og.globalCompositeOperation="source-atop";
 const tt=(performance.now()%1500)/1500;
-const bx=(tt*2-0.5)*190*sc*S;
+const bx=(tt*340-170)*sc*S;
 og.save();
 og.translate(rr(p.x)-ox,rr(py-25*sc)-oy);
 og.rotate(-0.5);
