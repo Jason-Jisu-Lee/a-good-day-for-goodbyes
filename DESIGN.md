@@ -719,5 +719,20 @@ improvement suggestions along the way.
   housing capacity (wood folds into Materials, water folds into FOOD,
   2026-07-10).
 
+- HOVER LOCKED (user 2026-07-11): LIFT, final. Hovered visible tile
+  rises 4px with a fast ease, nothing else. SHINE REMOVED FOREVER
+  (rotated sweep stripes anti-alias and blur the pixels; the technique
+  is wrong for 1-bit art). SMOOTH (vector look) is dead as a topic;
+  never propose it again.
+- STREETS AT FOG (user 2026-07-11): street dashes end AT the fog.
+  Full gray to 95, #3a3a3a to 115, #262626 to 132 (fog band starts
+  ~118), so the line aggressively fades near the fog and is gone just
+  past its first speckles. "Way beyond the fog" rejected.
+- VIEW SCALING RESTORED (2026-07-11): default view = AUTO, the 16:9
+  law verbatim (k floored to integer when >= 1; 1080p fullscreen = x2,
+  windowed = x1). The fractional window-fill default was an
+  unrequested change and made everything look huge; reverted. Dev
+  toggle: VIEW AUTO <-> ITCH 960 (k capped at 1).
+
 ## Parked
 (none)

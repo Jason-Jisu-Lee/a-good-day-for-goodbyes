@@ -20,7 +20,9 @@ let h=null;
 if(mode==="menu"){for(const b of menuButtons)if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h)h=b.id;hoverTile=null;}
 else{
 for(const b of uiButtons)if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h)h=b.id;
-hoverTile=h?null:(G?tileAt(p.x,p.y):null);
+const tt=h?null:(G?tileAt(p.x,p.y):null);
+if(tt!==hoverTile)hoverA=0;
+hoverTile=tt;
 }
 hover=h;
 cv.style.cursor=(h&&h!=="none")||hoverTile?"pointer":"default";

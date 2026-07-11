@@ -37,51 +37,18 @@ if(n<2)return;
 const cx0=ax/n,cy0=ay/n;
 const len=Math.hypot(66,42);
 const dirs=[[66/len,-42/len],[66/len,42/len]];
-const Lmax=232*l.sc;
+const Lmax=132*l.sc;
 for(const u of dirs){
 for(let t=-Lmax;t<=Lmax;t+=2*l.sc){
 const ph=((t+Lmax)/l.sc)%20;
 if(ph>=12)continue;
 const a=Math.abs(t);
 let col="#5a5a5a";
-if(a>198*l.sc)col="#262626";
-else if(a>162*l.sc)col="#333333";
-else if(a>122*l.sc)col="#454545";
+if(a>115*l.sc)col="#262626";
+else if(a>95*l.sc)col="#3a3a3a";
 px(cx0+u[0]*t-l.sc,cy0+u[1]*t-l.sc,2*l.sc,2*l.sc,col);
 }
 }
-}
-let shCv=null;
-function shineTile(t,p,py){
-const l=L();
-const sc=l.sc;
-const ox=rr(p.x-84*sc),oy=rr(py-116*sc);
-const w=rr(p.x+88*sc)-ox,h=rr(py+58*sc)-oy;
-if(!shCv||shCv.width<w||shCv.height<h){shCv=mk(w,h);}
-const og=shCv.getContext("2d");
-og.setTransform(1,0,0,1,0,0);
-og.clearRect(0,0,shCv.width,shCv.height);
-og.setTransform(1,0,0,1,-ox,-oy);
-const main=cx;
-setCtx(og);
-drawTileVisual(t,p.x,py);
-setCtx(main);
-og.setTransform(1,0,0,1,0,0);
-og.globalCompositeOperation="source-atop";
-const tt=(performance.now()%1500)/1500;
-const bx=(tt*340-170)*sc*S;
-og.save();
-og.translate(rr(p.x)-ox,rr(py-25*sc)-oy);
-og.rotate(-0.5);
-og.fillStyle="rgba(0,0,0,0.42)";
-const bw=38*sc*S,bg=11*sc*S;
-og.fillRect(bx-bg/2-bw,-340*S,bw,680*S);
-og.fillRect(bx+bg/2,-340*S,bw,680*S);
-og.restore();
-og.globalCompositeOperation="source-over";
-cx.globalCompositeOperation="lighter";
-cx.drawImage(shCv,0,0,w,h,ox,oy,w,h);
-cx.globalCompositeOperation="source-over";
 }
 function drawTileVisual(t,x,y){
 const l=L();
@@ -104,6 +71,7 @@ if(lb)text7(lb,x,y-3,1,"c");
 cx.globalAlpha=1;
 }
 function drawTiles(){
+const l=L();
 cx.drawImage(fogLayer(),0,0);
 drawStreets();
 const sorted=[...G.tiles].sort((a,b)=>(a.gx+a.gy)-(b.gx+b.gy));
@@ -112,11 +80,9 @@ const p=tpos(t);
 if(t===sel)ringUnder(p,FG);
 else if(t===hoverTile&&!drawnTile(t))ringUnder(p,MID);
 if(t.state==="unknown"&&!drawnTile(t))continue;
-if(t===hoverTile){
-shineTile(t,p,p.y);
-}else{
-drawTileVisual(t,p.x,p.y);
-}
+const hovered=t===hoverTile&&drawnTile(t);
+const lift=hovered?Math.round(hoverA*4*Math.max(l.sc,0.5)):0;
+drawTileVisual(t,p.x,p.y-lift);
 if(t.action){
 const frac=Math.min(1,t.progress);
 const d=DXY();
