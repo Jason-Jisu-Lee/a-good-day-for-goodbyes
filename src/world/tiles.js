@@ -78,7 +78,9 @@ og.fillRect(bx-bg/2-bw,-340*S,bw,680*S);
 og.fillRect(bx+bg/2,-340*S,bw,680*S);
 og.restore();
 og.globalCompositeOperation="source-over";
+cx.globalCompositeOperation="lighter";
 cx.drawImage(shCv,0,0,w,h,ox,oy,w,h);
+cx.globalCompositeOperation="source-over";
 }
 function drawTileVisual(t,x,y){
 const l=L();
