@@ -339,22 +339,24 @@ improvement suggestions along the way.
   shared horizon / D wall to wall) REJECTED whole (user 2026-07-11,
   "really bad"; also reused existing sprites, which defeated the
   point). Deleted.
-- `labs/origin8.html` ORIGIN FOUR x STYLES 1-8 (2026-07-11): the
-  origin four (grocery, house, rubble; mystery stays the locked dark
-  cell) drawn FROM SCRATCH in each locked style-board style, connected
-  2x2 with locked streets + fog so the styles are judged as a town,
-  not as isolated stamps. #1 chunky (half-res fat pixels, full-width
-  fat baseline), #2 dither (checker-shaded roofs/awnings, chimney
-  smoke, tonal debris mound), #3 silhouette (solid masses, scalloped
-  awning slab, one door notch, jagged solid ruins), #4 geometric
-  (platonic: circle-cut square shop, triangle-on-square house, rubble
-  = the square shattered into triangles + a diamond), #5 type (FOOD /
-  HOME standing words, RUIN tumbled letters with crumbs), #6 outline
-  (1px line drawings, zigzag awning, window cross panes, gapped
-  contours + leaning beam for rubble), #7 emblem (ringed badges:
-  apple, roof chevron + door dot, broken chipped ring with crack), #8
-  pattern (shelf-dot grid with aisle, shingle chevron field, debris
-  scatter densest at the ground). Awaiting pick by feel.
+- Flat style board origin8 (styles 1-8, front-view) SUPERSEDED same
+  day by the oblique perspective change. Deleted. Standing findings
+  from it: abstract styles #5 TYPE / #7 EMBLEM / #8 PATTERN fail the
+  user's filter "minimal but something a survivor could actually
+  interact with"; #4 GEOMETRIC converges with solid once volumes
+  exist. Tile-style candidates narrowed to #1 CHUNKY / #2 DITHER /
+  #3 SOLID (silhouette adapted to volume) / #6 OUTLINE.
+- `labs/oblique.html` OBLIQUE BOARD (2026-07-11): grocery + house
+  (2 icons per style for quality, user request) in Rebuild-style
+  top-down oblique, one shared volume language (roof + facade + side
+  sliver + drop shadow), rendered in the 4 surviving styles: #1
+  CHUNKY (half-res fat pixels), #2 DITHER (checker-shaded side
+  faces, chimney smoke, dithered shadows), #3 SOLID (all planes
+  white, 1px black seams), #6 OUTLINE (wireframe volumes, black
+  interiors, no shadow). Each panel demos the BLOCK MODEL
+  connectivity: two lots + subtle lot-line seam + shared frontage
+  street dissolving into fog. Awaiting style pick + block-model
+  verdict.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 
@@ -375,11 +377,13 @@ improvement suggestions along the way.
 - FONT LAW: the 5x7 pixel font is the standard for all readable text
   (names, buttons, labels). The old 3x5 font was too hard to read; keep
   it only for tiny dev readouts.
-- TILE PERSPECTIVE (changed by user 2026-07-10): tiles are FRONT-VIEW
-  pictograms (billboard style) standing on the map; the top-down
-  requirement is lifted. Streets stay top-down; buildings face the
-  player. Priority one: the player can tell what a tile is INSTANTLY.
-  Keep tiles simple with room for variations per category.
+- TILE PERSPECTIVE (user 2026-07-11, supersedes the front-view
+  billboard direction): Rebuild-style TOP-DOWN OBLIQUE. Each building
+  shows roof plane + south facade + east side sliver (cavalier skew,
+  1px right per row of depth), glued to the ground by a black drop
+  shadow to the south-east. Minimal but volumetric: something a
+  survivor could walk up to and enter. Priority one unchanged: the
+  player can tell what a tile is INSTANTLY.
 - FOG: the white dither halo was rejected ("looks like a tile with white
   outline"). New principle: unexplored space is pure black; fog reads as
   the tile edge dissolving into darkness (style board candidate B).
@@ -417,9 +421,16 @@ improvement suggestions along the way.
   (diamond between bars), hospital (open cross), zombie (three claw
   slashes), magic hat (triangle on bar + spark), sword, bow (arc +
   string + arrow). Candidate use: fog-hint marks, item icons, map runes.
-- CONNECTION TREATMENT LOCKED: STREETS (user 2026-07-10). Merged is
-  dead. Streets = dark road surface #161616, 1px curb lines #3d3d3d,
-  center dash #5a5a5a, clean intersection, no crosswalk clutter.
+- CONNECTION TREATMENT: streets-around-EVERY-tile is UNDER REDESIGN
+  (user 2026-07-11: tiles read as unnatural stamps; streets optional
+  now, whatever makes tiles look natural). Merged stays dead.
+  Candidate BLOCK MODEL (labs/oblique.html, industry standard for
+  square-grid towns): buildings face a shared south frontage street
+  (sidewalk 7px + narrow road 16px with faint dashes); within a
+  block, tile seams are subtle LOT LINES on a continuous lot ground
+  (#1a1a1a), not streets; black drop shadows glue buildings to the
+  shared ground. Streets separate block rows, not every cell. Old
+  street palette values stay for roads (#161616 family).
 - TILE DESIGN RULES (from user feedback, locked):
   - Tiles are designed FOR connection: every connector (driveway,
     walkway, lot) is a SOLID strip that runs to the tile edge facing a
