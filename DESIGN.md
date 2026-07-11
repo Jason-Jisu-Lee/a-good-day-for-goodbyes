@@ -1,6 +1,6 @@
-# A Good Day to Say Goodbye
+# A Good Day for Goodbyes
 *(TITLE LOCKED 2026-07-11; repo
-github.com/Jason-Jisu-Lee/agooddaytosaygoodbye)*
+github.com/Jason-Jisu-Lee/a-good-day-for-goodbyes)*
 
 Third game. Survival + incremental hybrid. 1-bit minimalist house style.
 Authored at 960x540 (16:9), desktop first, itch.io then Steam.
