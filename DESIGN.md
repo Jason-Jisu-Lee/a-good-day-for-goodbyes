@@ -392,23 +392,28 @@ improvement suggestions along the way.
   same"): when the user supplies reference art, its pixels are
   EXTRACTED, never redrawn by eye. Method: measure the art pitch
   from scanline run lengths (123.png = ~12.2 img px per cell),
-  downscale with System.Drawing bicubic to the art grid (readable)
-  and to 2x the grid (transcription-grade), threshold to 1-bit, dump
-  as ASCII, crop the building component away from its base dashes,
-  bake the rows verbatim as sprite data. Hand-drawn approximations
-  of a supplied reference are banned.
-- `labs/opening.html` OPENING MOCK (2026-07-11, v8): 960x540 stage,
-  480x270 buffer x2 (art authored in half-cell units; one reference
-  art cell = 4 stage px). HOUSE and APARTMENT are the 123.png icons
-  VERBATIM (extracted pixel data, gabled house with arched door +
-  window, tower with roof ring + window floors + corner door).
-  RUBBLE is derived from the extracted house pixels: roof rows
-  blanked, right side collapsed, standing gable corner + door frame
-  kept, debris chunks added. MYSTERY = dim gray dashed diamond + fat
-  "?". Tiles = white dashed 2:1 diamonds (dash 4-on 3-off per art
-  step, solid at vertices). SURVIVORS AND FOG SPECKS REMOVED from
-  the mock (user 2026-07-11). Awaiting feel pass; then the rest of
-  the tile set in this exact language and the game wiring.
+  downscale with System.Drawing bicubic to 2x the art grid,
+  threshold to 1-bit, dump as ASCII, crop the icon away from its
+  base dashes, then QUANTIZE to whole art cells (2x2 majority vote
+  + isolated-pixel cleanup) so edges come out as clean fat-pixel
+  stairs, not ragged half-cell noise (user: "this is pixelated").
+  Sprites render with an OPAQUE BLACK per-row silhouette under the
+  white pixels so tile outlines never show through doors, windows,
+  or roof interiors. Hand-drawn approximations of supplied
+  references are banned.
+- TILE SHAPE FINAL (user, third and last time): PERFECT SQUARE
+  rotated 45 degrees, EQUAL DIAGONALS. Never 2:1, never wide. Tile
+  outline = long straight dash segments along the 45-degree edges
+  (four dashes per edge, a dash anchored at every corner so corners
+  are never cut), 2px thick.
+- `labs/opening.html` OPENING MOCK (2026-07-11, v9): 960x540 stage,
+  480x270 buffer x2. HOUSE and APARTMENT are the quantized 123.png
+  icons (gabled house with arched door + window; tower with roof
+  ring, window floors, corner door), opaque, centered on white
+  dashed square diamonds. RUBBLE OMITTED for now (user); the other
+  two tiles render as dim gray dashed diamonds with a fat "?" each.
+  No survivors, no fog specks. Awaiting feel pass; then the rest of
+  the tile set in this language and the game wiring.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 

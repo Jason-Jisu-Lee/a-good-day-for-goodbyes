@@ -153,31 +153,48 @@ const APT_D=[
 ".............XXXXXXXXXXXXXXXXX......XX...............",
 "...............XXXXXXXXXXXXXXX......................."
 ];
-function cleanHouse(){
-const rows=HOUSE_D.map(r=>r.split(""));
-for(let r=49;r<rows.length;r++)for(let c=47;c<62;c++)rows[r][c]=".";
-return rows.map(r=>r.join(""));
+function cells(arr,cleanCols){
+const H=arr.length&~1,W=arr[0].length&~1,ch=H>>1,cw=W>>1;
+const at=(y,x)=>{
+if(cleanCols&&y>=cleanCols[0]&&x>=cleanCols[1])return ".";
+return arr[y][x];
+};
+const g=[];
+for(let r=0;r<ch;r++){g.push([]);for(let c=0;c<cw;c++){
+const n=(at(2*r,2*c)==="X")+(at(2*r,2*c+1)==="X")+(at(2*r+1,2*c)==="X")+(at(2*r+1,2*c+1)==="X");
+g[r].push(n>=2?1:0);
+}}
+for(let r=0;r<ch;r++)for(let c=0;c<cw;c++){
+if(!g[r][c])continue;
+let nb=0;
+for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){
+if(!dr&&!dc)continue;
+const rr=r+dr,cc=c+dc;
+if(rr>=0&&rr<ch&&cc>=0&&cc<cw&&g[rr][cc])nb++;
 }
-function ruinRows(){
-const rows=cleanHouse().map(r=>r.split(""));
-for(let r=0;r<20;r++)for(let c=0;c<62;c++)rows[r][c]=".";
-for(let r=20;r<35;r++)for(let c=23;c<62;c++)rows[r][c]=".";
-for(let r=35;r<rows.length;r++)for(let c=34;c<62;c++)rows[r][c]=".";
-return rows.map(r=>r.join(""));
+if(nb<=1)g[r][c]=0;
 }
-function spr(arr){
-const w=arr[0].length,h=arr.length,c=mk(w,h),g=c.getContext("2d");
-g.fillStyle=FG;
-for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(arr[y][x]==="X")g.fillRect(x,y,1,1);
+return g;
+}
+function sprC(grid){
+const h=grid.length,w=grid[0].length,c=mk(w*2,h*2),g2=c.getContext("2d");
+for(let r=0;r<h;r++){
+let f=-1,l=-1;
+for(let cc=0;cc<w;cc++)if(grid[r][cc]){if(f<0)f=cc;l=cc;}
+if(f<0)continue;
+g2.fillStyle=BG;
+g2.fillRect(f*2,r*2,(l-f+1)*2,2);
+g2.fillStyle=FG;
+for(let cc=f;cc<=l;cc++)if(grid[r][cc])g2.fillRect(cc*2,r*2,2,2);
+}
 return c;
 }
-const HOUSE=spr(cleanHouse());
-const APT=spr(APT_D);
-const RUIN=spr(ruinRows());
+const HOUSE=sprC(cells(HOUSE_D,[49,47]));
+const APT=sprC(cells(APT_D,null));
 
 const Q=[".XXX.","X...X","....X","..XX.","..X..",".....","..X.."];
-const HW=58,HH=29;
-const T={h:[240,106],a:[304,138],r:[176,138],m:[240,170]};
+const HD=58;
+const T={h:[240,62],a:[304,126],q1:[176,126],q2:[240,190]};
 
 const cv=document.getElementById("cv"),cx=cv.getContext("2d");
 function render(){
@@ -186,28 +203,29 @@ cv.width=BW*2*dprI;cv.height=BH*2*dprI;
 cx.imageSmoothingEnabled=false;
 const buf=mk(BW,BH),g=buf.getContext("2d");
 g.fillStyle=BG;g.fillRect(0,0,BW,BH);
+const dashOn=i=>i<=8||(i>=17&&i<=25)||(i>=33&&i<=41)||i>=50;
 const dia=(cxx,cyy,col)=>{
 g.fillStyle=col;
-for(let i=0;i<=28;i++){
-if(i%7<4){
-const x=i*2,y=i;
-g.fillRect(cxx+x,cyy-HH+y,2,2);
-g.fillRect(cxx-x-2,cyy-HH+y,2,2);
-g.fillRect(cxx+x,cyy+HH-y-2,2,2);
-g.fillRect(cxx-x-2,cyy+HH-y-2,2,2);
-}
+for(let i=0;i<=HD;i++){
+if(!dashOn(i))continue;
+g.fillRect(cxx+i,cyy-HD+i,2,2);
+g.fillRect(cxx-i-2,cyy-HD+i,2,2);
+g.fillRect(cxx+i,cyy+HD-i-2,2,2);
+g.fillRect(cxx-i-2,cyy+HD-i-2,2,2);
 }
 };
 dia(T.h[0],T.h[1],FG);
 dia(T.a[0],T.a[1],FG);
-dia(T.r[0],T.r[1],FG);
-dia(T.m[0],T.m[1],MID);
-g.drawImage(HOUSE,T.h[0]-31,T.h[1]-45);
-g.drawImage(APT,T.a[0]-27,T.a[1]-62);
-g.drawImage(RUIN,T.r[0]-31,T.r[1]-45);
+dia(T.q1[0],T.q1[1],MID);
+dia(T.q2[0],T.q2[1],MID);
+g.drawImage(HOUSE,T.h[0]-31,T.h[1]+12-56);
+g.drawImage(APT,T.a[0]-27,T.a[1]+12-72);
 g.fillStyle=FG;
-g.fillRect(T.r[0]+2,T.r[1]+2,5,3);g.fillRect(T.r[0]+10,T.r[1]-2,4,3);g.fillRect(T.r[0]+16,T.r[1]+5,6,3);g.fillRect(T.r[0]-4,T.r[1]+8,4,2);g.fillRect(T.r[0]+8,T.r[1]+9,5,2);
-for(let r=0;r<7;r++)for(let c=0;c<5;c++)if(Q[r][c]==="X"){g.fillRect(T.m[0]-10+c*4,T.m[1]-14+r*4,4,4);}
+const qm=(cxx,cyy)=>{
+for(let r=0;r<7;r++)for(let c=0;c<5;c++)if(Q[r][c]==="X")g.fillRect(cxx-10+c*4,cyy-14+r*4,4,4);
+};
+qm(T.q1[0],T.q1[1]);
+qm(T.q2[0],T.q2[1]);
 cx.drawImage(buf,0,0,BW*2*dprI,BH*2*dprI);
 }
 addEventListener("resize",render);
