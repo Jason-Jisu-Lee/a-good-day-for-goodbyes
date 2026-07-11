@@ -102,7 +102,7 @@ const T_TILE=new Image();T_TILE.src="ref_tile.png?v=1";
 const KIND_NAME={house:"HOUSE",house2:"APARTMENT",grocery:"FOOD",scrap:"SCRAPYARD",rubble:"RUBBLE",camp:"CAMP",cache:"SUPPLY CACHE",lot:"EMPTY LOT",mysteryroll:"UNKNOWN"};
 const KIND_LABEL={grocery:"FOOD",scrap:"SCRAP",rubble:"RUBBLE",camp:"CAMP",cache:"CACHE"};
 const SCOUT_T=15,RECLAIM_T=20,RECLAIM_LOT_T=10,CLEAR_T=20,CLEAR_COST=20;
-const EAT_EVERY=40,DAY_LEN=90,FOOD_RATE=1/8,MAT_RATE=1/10,DR=0.65,SPEED=55;
+const EAT_EVERY=20,DAY_LEN=90,FOOD_PM=5,MAT_PM=6,DR=0.65,SPEED=55;
 const NAME_BAG=["JUNE","OKON","IVY","CALEB","NOOR","SAGE"];
 
 let mode="menu",fade=0,fading=false,hover=null,menuButtons=[];
@@ -132,7 +132,7 @@ const survivors=[
 {name:"MARA",face:0,x:0,y:0,task:null,arriveAt:0,eatT:EAT_EVERY*0.6,hungry:false},
 {name:"REED",face:1,x:0,y:0,task:null,arriveAt:0,eatT:EAT_EVERY,hungry:false}
 ];
-G={v:2,t:0,day:1,dayT:0,food:8,mats:0,tiles,survivors,names:shuffle(NAME_BAG.slice()),faces:[2,3,4]};
+G={v:2,t:0,day:1,dayT:0,food:8,mats:0,matsSeen:false,tiles,survivors,names:shuffle(NAME_BAG.slice()),faces:[2,3,4]};
 for(let i=0;i<G.survivors.length;i++){const sp=idleSpot(G.survivors[i],i);G.survivors[i].x=sp.x;G.survivors[i].y=sp.y;}
 }
 
@@ -203,11 +203,12 @@ if(n>0){t.progress+=dt*mult(n)/t.need;if(t.progress>=1)finish(t);}
 }else if(t.state==="owned"&&!t.blocked&&(t.kind==="grocery"||t.kind==="scrap")){
 const n=arrived(t).length;
 if(n>0){
-const r=mult(n)*(t.kind==="grocery"?FOOD_RATE:MAT_RATE)*dt;
+const r=n*(t.kind==="grocery"?FOOD_PM:MAT_PM)/60*dt;
 if(t.kind==="grocery")G.food+=r;else G.mats+=r;
 }
 }
 }
+if(G.mats>0&&!G.matsSeen)G.matsSeen=true;
 for(const s of G.survivors){
 s.eatT-=dt;
 if(s.eatT<=0){
@@ -327,22 +328,21 @@ const srcs=[];
 for(const t of G.tiles){
 if(t.state==="owned"&&!t.blocked&&t.kind==="grocery"&&!t.action){
 const n=arrived(t).length;
-if(n>0){const r=mult(n)*FOOD_RATE*60;inc+=r;srcs.push(n+" GATHERING  +"+fmt(r)+"/MIN");}
+if(n>0){const r=n*FOOD_PM;inc+=r;srcs.push(n+" GATHERING  +"+r+"/MIN");}
 }
 }
-const expn=G.survivors.length*60/EAT_EVERY;
+const expn=G.survivors.length*3;
 uiButtons.push({id:"inc",x:14,y:l.hud+20,w:96,h:13,en:true});
 uiButtons.push({id:"exp",x:14,y:l.hud+34,w:96,h:13,en:true});
-text7("+"+fmt(inc)+"/MIN",16,l.hud+22,1,null,MID);
-text7("-"+fmt(expn)+"/MIN",16,l.hud+36,1,null,MID);
+text7("+"+inc+"/MIN",16,l.hud+22,1,null,MID);
+text7("-"+expn+"/MIN",16,l.hud+36,1,null,MID);
 if(hover==="inc")tip(16,l.hud+52,srcs.length?srcs:["NO ONE GATHERING FOOD"]);
-if(hover==="exp")tip(16,l.hud+52,[G.survivors.length+" SURVIVORS","EACH EATS "+fmt(60/EAT_EVERY)+"/MIN"]);
-text7("MATERIALS "+Math.floor(G.mats),160,l.hud,2);
-text7("DAY "+G.day,W-16,l.hud+2,1,"r",MID);
+if(hover==="exp")tip(16,l.hud+52,[G.survivors.length+" SURVIVORS","EACH EATS 3/MIN"]);
+if(G.matsSeen||G.mats>0)text7("MATERIALS "+Math.floor(G.mats),160,l.hud,2);
+text7("DAY "+G.day,W-16,l.hud+32,1,"r",MID);
 drawPanel();
 drawPortraits();
 }
-function fmt(v){const r=Math.round(v*10)/10;return r%1===0?String(Math.round(r)):r.toFixed(1);}
 function tip(x,y,lines){
 let w=0;
 for(const s of lines)w=Math.max(w,tw7(s,1));
@@ -403,8 +403,8 @@ const n=picker.set.size;
 if(n>0){
 let line;
 if(picker.type==="gather"){
-const r=mult(n)*(sel.kind==="grocery"?FOOD_RATE:MAT_RATE)*60;
-line="+"+fmt(r)+"/MIN";
+const r=n*(sel.kind==="grocery"?FOOD_PM:MAT_PM);
+line="+"+r+"/MIN";
 }else{
 const need=picker.type==="scout"?SCOUT_T:(picker.type==="clear"?CLEAR_T:((sel.kind==="lot"||sel.kind==="cache")?RECLAIM_LOT_T:RECLAIM_T));
 line=Math.ceil(need/mult(n))+"S";
@@ -465,7 +465,7 @@ edgeR(0,0,W,H,"#1c1c1c");
 
 function save(){
 if(saveGag||!G)return;
-const data={v:2,t:G.t,day:G.day,dayT:G.dayT,food:G.food,mats:G.mats,names:G.names,faces:G.faces,
+const data={v:2,t:G.t,day:G.day,dayT:G.dayT,food:G.food,mats:G.mats,matsSeen:G.matsSeen,names:G.names,faces:G.faces,
 tiles:G.tiles.map(t=>({gx:t.gx,gy:t.gy,kind:t.kind,state:t.state,blocked:t.blocked,progress:t.progress,need:t.need,action:t.action})),
 survivors:G.survivors.map(s=>({name:s.name,face:s.face,x:Math.round(s.x),y:Math.round(s.y),eatT:s.eatT,hungry:s.hungry,
 task:s.task?{type:s.task.type,gx:s.task.tile.gx,gy:s.task.tile.gy}:null}))};
@@ -477,7 +477,7 @@ const raw=localStorage.getItem("goodbyes_save");
 if(!raw)return false;
 const d=JSON.parse(raw);
 if(d.v!==2)return false;
-G={v:2,t:d.t,day:d.day,dayT:d.dayT,food:d.food,mats:d.mats,names:d.names,faces:d.faces,tiles:[],survivors:[]};
+G={v:2,t:d.t,day:d.day,dayT:d.dayT,food:d.food,mats:d.mats,matsSeen:!!d.matsSeen||d.mats>0,names:d.names,faces:d.faces,tiles:[],survivors:[]};
 G.tiles=d.tiles.map(t=>({gx:t.gx,gy:t.gy,kind:t.kind,state:t.state,blocked:t.blocked,progress:t.progress,need:t.need,action:t.action}));
 G.survivors=d.survivors.map(s=>{
 const sv={name:s.name,face:s.face,x:s.x,y:s.y,eatT:s.eatT,hungry:s.hungry,task:null,arriveAt:0};
@@ -584,10 +584,15 @@ if(location.hash.includes("debug"))dbg.hidden=false;
 
 let sizeItch=false;
 const szb=document.createElement("button");
-szb.textContent="VIEW: FULL";
-szb.style.cssText="position:fixed;top:6px;right:6px;background:#111;border:1px solid #333;color:#888;font:11px monospace;padding:5px 9px;z-index:9;cursor:pointer";
+szb.style.cssText="position:fixed;top:6px;right:70px;background:#111;border:1px solid #333;color:#888;font:11px monospace;padding:5px 9px;z-index:9;cursor:pointer";
 document.body.appendChild(szb);
-szb.addEventListener("click",()=>{sizeItch=!sizeItch;szb.textContent=sizeItch?"VIEW: ITCH 960":"VIEW: FULL";fit();});
+szb.addEventListener("click",()=>{sizeItch=!sizeItch;fit();});
+function szLabel(){szb.textContent=(sizeItch?"VIEW: ITCH 960":"VIEW: FULL")+(k>=1?" X"+k:"");}
+const rsb=document.createElement("button");
+rsb.textContent="RESET";
+rsb.style.cssText="position:fixed;top:6px;right:6px;background:#111;border:1px solid #333;color:#888;font:11px monospace;padding:5px 9px;z-index:9;cursor:pointer";
+document.body.appendChild(rsb);
+rsb.addEventListener("click",()=>{wipe();});
 
 function fit(){
 dpr=window.devicePixelRatio||1;
@@ -600,6 +605,7 @@ S=k*dpr;
 cv.style.width=W*k+"px";cv.style.height=H*k+"px";
 cv.width=Math.max(1,Math.round(W*S));cv.height=Math.max(1,Math.round(H*S));
 cx.imageSmoothingEnabled=false;
+szLabel();
 }
 
 let simLast=Date.now();

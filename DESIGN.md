@@ -25,6 +25,13 @@ improvement suggestions along the way.
    content, zero boredom.
 3. NO EARLY PUNISHMENT. Real consequences arrive around mid game
    (extends the missing-an-event-costs-nothing doctrine).
+4. CONCEPTS INTRODUCE ONE BY ONE (user 2026-07-11, "this is very
+   important"). UI, metrics, and mechanics appear only when the
+   concept first becomes real for the player: MATERIALS is invisible
+   on the HUD until the first material exists. Apply this rule to
+   every future system.
+5. CLEAN NUMBERS, NO DECIMALS (user 2026-07-11). All player-facing
+   figures are integers.
 
 ## Shape of a run (acts)
 1. **Early** land on open ground with almost nothing. A tiny origin plot.
@@ -347,6 +354,19 @@ improvement suggestions along the way.
     scale clamped to 1 (embed look). Both ship targets are already
     served by the 16:9 stage law (authored 960x540, integer scaling
     means 1080p fullscreen = crisp 2x, 4K = 4x).
+- NUMBERS PASS (2026-07-11, game.js v10): gathering has NO
+  diminishing returns (linear per survivor); diminishing returns
+  stay on timed actions only. FOOD = 5/min per gatherer. Eating = 3
+  food/min per survivor (1 food per 20s). Materials = 6/min per
+  gatherer. All displayed figures integers (principle 5). MATERIALS
+  HUD entry hidden until the first material exists (principle 4,
+  matsSeen persisted). RESET button added to the page chrome top
+  right (wipe with autosave gag, per the save law). VIEW toggle
+  label now shows the live scale (X1/X2); DAY moved below the
+  chrome buttons. FINDING: in a windowed browser at 1920x1080 the
+  usable height is under 1080 so FULL clamps to X1 and matches ITCH;
+  X2 requires true fullscreen (F11). Fullscreen-first is the intent;
+  the itch embed stays fully playable at X1.
 
 ## First slice (BUILT 2026-07-10, game.js + index.html)
 - Menu -> ENTER -> live town. Origin 2x2 (grocery, house, rubble,
