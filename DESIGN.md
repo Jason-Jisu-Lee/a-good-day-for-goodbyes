@@ -351,22 +351,26 @@ improvement suggestions along the way.
   user explicitly forbids; every candidate must be its own design).
   Deleted. KEPT from it: the side view (user likes it) and the block
   model ground language.
-- `labs/blocks.html` BLOCK BOARD (2026-07-11): six style WORLDS, each
-  a connected 2x2 block (APARTMENT + HOUSE top row, GROCERY +
-  SCRAPYARD bottom row; apartment per the user's Rebuild example),
-  all four buildings designed individually per world, simpler than
-  the oblique board. Ground shared by all panels: continuous lot
-  plane per row, faint lot-line seam inside a block, frontage street
-  (sidewalk + road + dashes) south of each row, drop shadows, fog
-  dissolve. Worlds: A FLAT BOXES (modernist flat-roof boxes, window
-  grids), B GABLE VILLAGE (pitched roofs, market canopy on posts,
-  open shed), C SHADOW MASS (bold white masses, solid black side
-  wedges, ziggurat apartment, crane silhouette), D BLUEPRINT (1px
-  wireframe, fire-escape zigzag, porch house, L-shaped store, fenced
-  car stack), E ROUNDED TOY (dome tower, arch cottage, scalloped
-  shop, tire pile), F DITHERWORK (textures: brick pocks, skillion
-  roof, corrugated awning and shed, dithered scrap mound). Awaiting
-  pick by feel.
+- Block board (six worlds, 2x2) narrowed by user 2026-07-11:
+  A FLAT BOXES, C SHADOW MASS, F DITHERWORK "very promising";
+  B/D/E out. Board deleted, superseded by blocks3.
+- `labs/blocks3.html` 3X3 BLOCK BOARD (2026-07-11): the three
+  finalist worlds, each a connected 3x3 town chunk (rows: APARTMENT
+  POLICE HOUSE / GROCERY PARK CAMP / RUBBLE LOT SCRAPYARD; three
+  frontage streets). The four approved buildings per world carry
+  over verbatim; five new types added per world, every type a
+  DIFFERENT design across worlds (no shared templates): POLICE = A
+  glass-band box + antenna / C crenellated bunker with slit windows
+  / F brick station with barred windows and sign. PARK = A square
+  topiary trees + bench / C solid-disc trees with shading bite +
+  bench / F dither-foliage trees with solid cores. CAMP = A angular
+  tent + fire + crate / C bold tent with black doorway + fire / F
+  stitched canvas tent + smoke + striped bedroll. RUBBLE = A
+  standing corner + leaning slab / C cracked monoliths + shadow
+  wedge / F pocked wall fragment + dither debris fan. LOT = A
+  foundation ring + weeds / C low plinth ruin / F dirt dither patch
+  + plank. (C lot avoids corner brackets: reserved for the selection
+  UI.) Awaiting world pick.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 

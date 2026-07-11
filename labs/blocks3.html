@@ -3,30 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>block board</title>
+<title>3x3 block board</title>
 <style>
 html,body{margin:0;background:#000;color:#888;font:12px system-ui}
 [hidden]{display:none !important}
 h1{font:600 14px system-ui;color:#ccc;letter-spacing:3px;text-align:center;margin:20px 0 10px}
-#grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:26px;max-width:1680px;margin:0 auto;padding:18px}
+#grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:30px;max-width:2280px;margin:0 auto;padding:18px}
 .panel{text-align:center}
-canvas{display:block;margin:0 auto;image-rendering:pixelated;width:520px;max-width:100%}
+canvas{display:block;margin:0 auto;image-rendering:pixelated;width:724px;max-width:100%}
 .cap{color:#ddd;font-size:13px;letter-spacing:2px;margin-top:10px}
 </style>
 </head>
 <body>
-<h1>BLOCK BOARD / APARTMENT HOUSE GROCERY SCRAPYARD</h1>
+<h1>3X3 BLOCK BOARD</h1>
 <div id="grid">
 <div class="panel"><canvas id="c0"></canvas><div class="cap">A FLAT BOXES</div></div>
-<div class="panel"><canvas id="c1"></canvas><div class="cap">B GABLE VILLAGE</div></div>
-<div class="panel"><canvas id="c2"></canvas><div class="cap">C SHADOW MASS</div></div>
-<div class="panel"><canvas id="c3"></canvas><div class="cap">D BLUEPRINT</div></div>
-<div class="panel"><canvas id="c4"></canvas><div class="cap">E ROUNDED TOY</div></div>
-<div class="panel"><canvas id="c5"></canvas><div class="cap">F DITHERWORK</div></div>
+<div class="panel"><canvas id="c1"></canvas><div class="cap">C SHADOW MASS</div></div>
+<div class="panel"><canvas id="c2"></canvas><div class="cap">F DITHERWORK</div></div>
 </div>
 <script>
 const FG="#f2f2f0",BG="#000000",LOTG="#1a1a1a",SW="#232323",SWE="#2e2e2e",ROADC="#0f0f0f",DASHC="#303030",SEAM="#0d0d0d";
-const PW=260,PH=300;
+const PW=362,PH=425;
 let SS=2,q=null;
 function R(v){return Math.round(v*SS);}
 function pq(x,y,w,h,col){q.fillStyle=col;const a=R(x),b=R(y);q.fillRect(a,b,R(x+w)-a,R(y+h)-b);}
@@ -35,9 +32,6 @@ function bl(s,x,y){const a=R(x),b=R(y);q.drawImage(s,a,b,R(x+s.width*3)-a,R(y+s.
 function hash2(x,y){return Math.abs(Math.sin(x*12.9898+y*78.233)*43758.5453)%1;}
 function C34(fn){const c=mk(34),g=c.getContext("2d");g.fillStyle=FG;fn(g);return c;}
 function disc(g,cx,cy,r){for(let y=Math.floor(cy-r);y<=Math.ceil(cy+r);y++){const dy=y-cy,t=r*r-dy*dy;if(t<0)continue;const hw=Math.sqrt(t);for(let x=Math.ceil(cx-hw);x<=Math.floor(cx+hw);x++)g.fillRect(x,y,1,1);}}
-function ringO(g,cx,cy,ro,ri){for(let y=0;y<34;y++)for(let x=0;x<34;x++){const d=Math.hypot(x-cx,y-cy);if(d<=ro&&d>=ri)g.fillRect(x,y,1,1);}}
-function seg(g,x0,y0,x1,y1){const n=Math.max(Math.abs(x1-x0),Math.abs(y1-y0));for(let i=0;i<=n;i++){g.fillRect(Math.round(x0+(x1-x0)*i/n),Math.round(y0+(y1-y0)*i/n),1,1);}}
-function rect1(g,x,y,w,h){g.fillRect(x,y,w,1);g.fillRect(x,y+h-1,w,1);g.fillRect(x,y,1,h);g.fillRect(x+w-1,y,1,h);}
 
 const A_ap=C34(g=>{
 for(let r=0;r<4;r++)g.fillRect(5+r,7-r,13,1);
@@ -73,40 +67,41 @@ g.fillRect(20,27,9,1);
 g.fillRect(8,23,6,3);g.fillRect(9,21,4,2);
 g.fillRect(19,24,6,3);g.fillRect(21,22,3,2);
 });
-
-const B_ap=C34(g=>{
-for(let r=0;r<5;r++)g.fillRect(4+r,12-r,15,1);
-g.fillRect(4,13,14,16);
-for(let k=0;k<5;k++)g.fillRect(18+k,13-k,1,16);
-g.clearRect(4,13,14,1);
-g.fillRect(16,6,2,3);
-g.clearRect(6,15,3,2);g.clearRect(12,15,3,2);
-g.clearRect(6,19,3,2);g.clearRect(12,19,3,2);
-g.clearRect(6,23,3,2);g.clearRect(12,23,3,2);
-g.clearRect(8,26,4,3);
+const A_ru=C34(g=>{
+g.fillRect(4,17,2,12);
+g.fillRect(4,17,9,2);
+for(let i=0;i<6;i++)g.fillRect(11+i*2,20+i,7,2);
+g.fillRect(24,27,4,2);g.fillRect(8,27,4,2);g.fillRect(15,28,3,1);
+g.fillRect(19,28,1,1);g.fillRect(6,28,1,1);
 });
-const B_ho=C34(g=>{
-for(let y=16;y<=21;y++){const hw=y-16;g.fillRect(9-hw,y,2*hw+2,1);}
-g.fillRect(4,22,12,7);
-for(let k=0;k<3;k++)g.fillRect(16+k,22-k,1,7);
+const A_ca=C34(g=>{
+for(let y=20;y<=28;y++){const hw=Math.round((y-20)*0.85);g.fillRect(9-hw,y,2*hw+2,1);}
 g.clearRect(8,24,3,5);
-g.clearRect(8,19,3,2);
+g.fillRect(22,26,3,2);g.fillRect(23,24,1,2);g.fillRect(21,23,1,1);g.fillRect(25,23,1,1);
+g.fillRect(20,28,7,1);
+g.fillRect(27,22,4,4);g.clearRect(28,23,2,1);
 });
-const B_gr=C34(g=>{
-for(let y=13;y<=17;y++){const hw=(y-13)*2;g.fillRect(12-hw,y,2*hw+2,1);}
-g.fillRect(4,18,18,11);
-for(let k=0;k<3;k++)g.fillRect(22+k,18-k,1,11);
-g.fillRect(4,24,17,1);
-g.fillRect(6,25,1,4);g.fillRect(18,25,1,4);
-g.clearRect(11,25,4,4);
-g.clearRect(6,20,6,2);
+const A_pa=C34(g=>{
+g.fillRect(5,13,10,8);
+g.fillRect(9,21,2,5);
+g.fillRect(19,17,8,6);
+g.fillRect(22,23,2,4);
+g.fillRect(5,27,7,1);
+g.fillRect(6,28,1,1);g.fillRect(10,28,1,1);
 });
-const B_sc=C34(g=>{
-for(let y=17;y<=20;y++){const hw=y-17;g.fillRect(8-hw,y,2*hw+2,1);}
-g.fillRect(5,21,1,8);g.fillRect(12,21,1,8);
-g.fillRect(7,25,4,3);
-g.fillRect(18,24,6,4);g.fillRect(20,22,3,2);
-g.fillRect(16,28,12,1);
+const A_lo=C34(g=>{
+g.fillRect(9,21,13,7);
+g.clearRect(11,23,9,3);
+g.fillRect(5,27,1,2);g.fillRect(24,26,1,3);g.fillRect(26,28,1,1);g.fillRect(7,25,1,1);
+});
+const A_po=C34(g=>{
+for(let r=0;r<3;r++)g.fillRect(3+r,14-r,20,1);
+g.fillRect(3,15,19,14);
+for(let k=0;k<3;k++)g.fillRect(22+k,15-k,1,14);
+g.clearRect(3,15,19,1);
+g.clearRect(5,18,15,3);
+g.clearRect(10,24,6,5);
+g.fillRect(6,9,1,4);g.fillRect(5,8,3,1);
 });
 
 const C_ap=C34(g=>{
@@ -148,69 +143,51 @@ g.fillRect(19,11,8,1);
 g.fillRect(20,12,1,3);
 g.fillRect(19,15,3,1);
 });
-
-const D_ap=C34(g=>{
-rect1(g,5,7,13,22);
-seg(g,5,7,8,4);seg(g,17,7,20,4);seg(g,8,4,20,4);
-for(let gy=0;gy<5;gy++){g.fillRect(7,10+gy*4,1,1);g.fillRect(10,10+gy*4,1,1);}
-rect1(g,9,25,4,4);
-seg(g,15,9,12,12);seg(g,12,12,15,15);seg(g,15,15,12,18);seg(g,12,18,15,21);
-});
-const D_ho=C34(g=>{
-seg(g,10,14,4,20);seg(g,11,14,17,20);
-rect1(g,4,20,14,9);
-seg(g,1,22,8,22);
-g.fillRect(1,23,1,6);g.fillRect(8,23,1,6);
-rect1(g,4,24,3,5);
-rect1(g,12,22,3,3);
-});
-const D_gr=C34(g=>{
-rect1(g,3,15,15,14);
-rect1(g,17,21,11,8);
-seg(g,3,15,6,12);seg(g,17,15,20,12);seg(g,6,12,20,12);
-seg(g,4,19,16,19);
-rect1(g,20,24,4,5);
-g.fillRect(6,22,1,1);g.fillRect(10,22,1,1);g.fillRect(14,22,1,1);
-});
-const D_sc=C34(g=>{
-rect1(g,2,16,28,13);
-for(let x=2;x<30;x+=4)g.fillRect(x,15,1,1);
-g.clearRect(12,28,7,1);
-rect1(g,7,23,10,4);
-g.fillRect(9,27,2,1);g.fillRect(13,27,2,1);
-rect1(g,9,18,9,4);
-});
-
-const E_ap=C34(g=>{
-disc(g,12,10,6);
-g.fillRect(6,10,12,19);
-for(let k=0;k<2;k++)g.fillRect(18+k,11-k,1,18);
+const C_ru=C34(g=>{
+g.fillRect(4,19,7,10);g.fillRect(4,17,4,2);
+g.fillRect(15,22,10,7);g.fillRect(17,20,5,2);
+for(let i=0;i<4;i++)g.clearRect(6+i,21+i*2,1,2);
+g.fillRect(27,26,3,3);g.fillRect(12,27,2,2);
 g.fillStyle=BG;
-disc(g,9,16,1.6);disc(g,15,16,1.6);
-disc(g,9,21,1.6);disc(g,15,21,1.6);
-g.fillRect(10,25,5,4);disc(g,12,25,2);
+for(let k=0;k<3;k++)g.fillRect(25+k,22-k,1,7);
 g.fillStyle=FG;
 });
-const E_ho=C34(g=>{
-disc(g,10,20,6.5);
-g.fillRect(4,20,13,9);
-g.fillStyle=BG;
-g.fillRect(7,25,3,4);disc(g,8,25,1.5);
-disc(g,13,22,1.6);
-g.fillStyle=FG;
+const C_ca=C34(g=>{
+for(let y=18;y<=27;y++){const hw=Math.round((y-18)*0.8);g.fillRect(10-hw,y,2*hw+2,1);}
+g.clearRect(9,22,3,6);
+g.fillRect(24,24,2,2);g.fillRect(23,22,1,1);g.fillRect(26,21,1,1);
+g.fillRect(23,27,5,1);
 });
-const E_gr=C34(g=>{
-g.fillRect(3,18,20,11);
-disc(g,6,18,2.2);disc(g,11,18,2.2);disc(g,16,18,2.2);disc(g,21,18,2.2);
+const C_pa=C34(g=>{
+disc(g,9,16,5.2);
 g.fillStyle=BG;
-disc(g,7,23,1.6);disc(g,18,23,1.6);
-g.fillRect(10,25,5,4);disc(g,12,25,2);
+disc(g,12,15,2.6);
 g.fillStyle=FG;
+g.fillRect(7,21,2,6);
+disc(g,21,20,4);
+g.fillStyle=BG;
+disc(g,23,19,2);
+g.fillStyle=FG;
+g.fillRect(20,24,2,4);
+g.fillRect(27,26,5,2);g.fillRect(28,28,1,1);g.fillRect(31,28,1,1);
 });
-const E_sc=C34(g=>{
-ringO(g,8,25,3.4,1.6);
-ringO(g,14,26,2.6,1.2);
-disc(g,22,25,4);disc(g,26,26,3);
+const C_lo=C34(g=>{
+g.fillRect(9,24,14,4);
+g.fillRect(11,22,10,2);
+g.fillStyle=BG;
+for(let k=0;k<3;k++)g.fillRect(23+k,24-k,1,4);
+g.fillStyle=FG;
+g.fillRect(6,27,1,2);g.fillRect(27,27,1,2);
+});
+const C_po=C34(g=>{
+g.fillRect(4,14,18,15);
+g.clearRect(7,14,2,2);g.clearRect(12,14,2,2);g.clearRect(17,14,2,2);
+g.clearRect(7,19,2,5);g.clearRect(13,19,2,5);
+g.clearRect(16,24,4,5);
+g.fillStyle=BG;
+for(let k=0;k<4;k++)g.fillRect(22+k,14-k,1,15);
+g.fillStyle=FG;
+g.fillRect(6,10,1,4);g.fillRect(5,9,3,1);
 });
 
 const F_ap=C34(g=>{
@@ -250,24 +227,64 @@ g.clearRect(9,22,5,7);
 for(let y=22;y<=28;y++){const half=y-21;for(let x=22-half;x<=22+half;x++)if((x+y)%2===0&&x<32)g.fillRect(x,y,1,1);}
 g.fillRect(20,26,3,2);g.fillRect(24,27,2,1);
 });
+const F_ru=C34(g=>{
+g.fillRect(5,15,9,14);
+g.clearRect(5,15,3,2);g.clearRect(11,15,3,3);g.clearRect(8,15,2,1);
+g.clearRect(8,20,3,3);
+g.clearRect(6,25,1,1);g.clearRect(11,23,1,1);
+for(let y=21;y<=28;y++){const half=y-20;for(let x=19-half;x<=19+half;x++)if((x+y)%2===0&&x<33&&x>13)g.fillRect(x,y,1,1);}
+g.fillRect(16,26,3,2);g.fillRect(24,27,3,2);
+});
+const F_ca=C34(g=>{
+for(let y=19;y<=27;y++){const hw=Math.round((y-19)*0.9);g.fillRect(9-hw,y,2*hw+2,1);}
+g.clearRect(7,21,6,1);
+g.clearRect(5,24,10,1);
+g.clearRect(8,23,3,5);
+g.fillRect(22,25,3,2);
+g.fillRect(24,22,1,1);g.fillRect(25,20,1,1);g.fillRect(24,18,1,1);g.fillRect(26,16,1,1);
+g.fillRect(27,27,5,2);g.clearRect(28,27,1,2);g.clearRect(30,27,1,2);
+});
+const F_pa=C34(g=>{
+for(let y=11;y<=20;y++)for(let x=4;x<=15;x++)if(Math.hypot(x-9.5,y-15.5)<=4.8&&(x+y)%2===0)g.fillRect(x,y,1,1);
+g.fillRect(8,16,4,2);
+g.fillRect(9,20,2,6);
+for(let y=14;y<=22;y++)for(let x=17;x<=26;x++)if(Math.hypot(x-21.5,y-18.5)<=3.6&&(x+y)%2===0)g.fillRect(x,y,1,1);
+g.fillRect(20,18,3,1);
+g.fillRect(21,22,1,5);
+g.fillRect(5,28,1,1);g.fillRect(14,27,1,2);g.fillRect(27,28,1,1);
+});
+const F_lo=C34(g=>{
+for(let y=21;y<=27;y++)for(let x=7;x<=25;x++){const e=(x-16)*(x-16)/64+(y-24)*(y-24)/8;if(e<1&&(x+y)%2===0)g.fillRect(x,y,1,1);}
+g.fillRect(6,27,1,2);g.fillRect(26,26,1,3);
+g.fillRect(19,26,5,1);
+});
+const F_po=C34(g=>{
+g.fillRect(3,12,20,1);
+g.fillRect(4,13,18,16);
+for(let k=0;k<3;k++)for(let y=13-k;y<29-k;y++)if((22+k+y)%2===0)g.fillRect(22+k,y,1,1);
+g.clearRect(6,17,5,4);g.fillRect(8,17,1,4);
+g.clearRect(14,17,5,4);g.fillRect(16,17,1,4);
+g.clearRect(10,24,5,5);
+g.clearRect(11,14,4,2);
+g.clearRect(5,15,1,1);g.clearRect(19,21,1,1);g.clearRect(6,26,1,1);g.clearRect(18,26,1,1);
+g.fillRect(6,8,1,4);g.fillRect(5,7,3,1);
+});
 
 const PANELS=[
-{ap:A_ap,ho:A_ho,gr:A_gr,sc:A_sc,sh:"solid"},
-{ap:B_ap,ho:B_ho,gr:B_gr,sc:B_sc,sh:"solid"},
-{ap:C_ap,ho:C_ho,gr:C_gr,sc:C_sc,sh:"solid"},
-{ap:D_ap,ho:D_ho,gr:D_gr,sc:D_sc,sh:"none"},
-{ap:E_ap,ho:E_ho,gr:E_gr,sc:E_sc,sh:"solid"},
-{ap:F_ap,ho:F_ho,gr:F_gr,sc:F_sc,sh:"dither"}
+{grid:[[A_ap,A_po,A_ho],[A_gr,A_pa,A_ca],[A_ru,A_lo,A_sc]],sh:"solid"},
+{grid:[[C_ap,C_po,C_ho],[C_gr,C_pa,C_ca],[C_ru,C_lo,C_sc]],sh:"solid"},
+{grid:[[F_ap,F_po,F_ho],[F_gr,F_pa,F_ca],[F_ru,F_lo,F_sc]],sh:"dither"}
 ];
+const SHW=[[66,72,54],[72,0,0],[0,0,0]];
 
 function street(y){
-pq(12,y,236,1,SWE);
-pq(12,y+1,236,6,SW);
-pq(12,y+7,236,16,ROADC);
-for(let x=16;x<244;x+=24)pq(x,y+14,10,2,DASHC);
+pq(12,y,338,1,SWE);
+pq(12,y+1,338,6,SW);
+pq(12,y+7,338,16,ROADC);
+for(let x=16;x<346;x+=24)pq(x,y+14,10,2,DASHC);
 }
 function shadow(x,y,w,mode){
-if(mode==="none")return;
+if(mode==="none"||w===0)return;
 if(mode==="solid"){pq(x,y,w,5,BG);return;}
 for(let yy=y;yy<y+5;yy+=2)for(let xx=x;xx<x+w;xx+=2)if((xx+yy)%4===0)pq(xx,yy,2,2,BG);
 }
@@ -283,30 +300,30 @@ if(d===0)break;
 if(d>0&&d<23&&hash2(xx,yy)<0.45-d*0.02)pq(xx,yy,2,2,"#1e1e1e");
 }}
 
-const cvs=[0,1,2,3,4,5].map(i=>document.getElementById("c"+i));
+const cvs=[0,1,2].map(i=>document.getElementById("c"+i));
 function render(){
 SS=2*(window.devicePixelRatio||1);
-for(let i=0;i<6;i++){
+for(let i=0;i<3;i++){
 const c=cvs[i];
 c.width=Math.round(PW*SS);c.height=Math.round(PH*SS);
 q=c.getContext("2d");q.imageSmoothingEnabled=false;
 pq(0,0,PW,PH,BG);
 const p=PANELS[i];
-const rows=[22,147];
+const rows=[22,147,272];
+const rects=[];
 for(const ry of rows){
-pq(28,ry,204,102,LOTG);
+pq(28,ry,306,102,LOTG);
 pq(129,ry,2,102,SEAM);
+pq(231,ry,2,102,SEAM);
+rects.push({x:28,y:ry,w:306,h:102});
 }
-street(124);
-street(249);
-shadow(28+12,22+88,72,p.sh);
-shadow(130+12,22+88,66,p.sh);
-shadow(28+12,147+88,72,p.sh);
-bl(p.ap,28,22);
-bl(p.ho,130,22);
-bl(p.gr,28,147);
-bl(p.sc,130,147);
-scatter([{x:28,y:22,w:204,h:102},{x:12,y:124,w:236,h:23},{x:28,y:147,w:204,h:102},{x:12,y:249,w:236,h:23}]);
+for(const sy of [124,249,374]){street(sy);rects.push({x:12,y:sy,w:338,h:23});}
+for(let gy=0;gy<3;gy++)for(let gx=0;gx<3;gx++){
+const x=28+gx*102,y=rows[gy];
+shadow(x+12,y+88,SHW[gy][gx],p.sh);
+bl(p.grid[gy][gx],x,y);
+}
+scatter(rects);
 }
 }
 addEventListener("resize",render);
