@@ -406,14 +406,17 @@ improvement suggestions along the way.
   outline = long straight dash segments along the 45-degree edges
   (four dashes per edge, a dash anchored at every corner so corners
   are never cut), 2px thick.
-- `labs/opening.html` OPENING MOCK (2026-07-11, v9): 960x540 stage,
-  480x270 buffer x2. HOUSE and APARTMENT are the quantized 123.png
-  icons (gabled house with arched door + window; tower with roof
-  ring, window floors, corner door), opaque, centered on white
-  dashed square diamonds. RUBBLE OMITTED for now (user); the other
-  two tiles render as dim gray dashed diamonds with a fat "?" each.
-  No survivors, no fog specks. Awaiting feel pass; then the rest of
-  the tile set in this language and the game wiring.
+- `labs/opening.html` (2026-07-11, v10, PURE 1:1 PROOF after all
+  resampled versions were rejected): the two 123.png icons are
+  LOSSLESS CROPS (ref_house.png 600x510, ref_apt.png 620x630, repo
+  root, gitignored with the reference), blitted side by side on the
+  960x540 stage at exact 1:2 nearest-neighbor (= native pixels on a
+  2x display). NO board, NO tiles, NO extras: nothing on screen but
+  the copied icons pending user approval. These two crops are the
+  CANONICAL ART SOURCE from here on: future tiles must be built at
+  this exact scale and language, and any programmatic use of the
+  icons blits these files (or exact pixel dumps of them), never a
+  redrawn or resampled version.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 
