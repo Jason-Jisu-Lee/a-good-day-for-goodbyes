@@ -1,0 +1,231 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>tile connection lab</title>
+<style>
+html,body{margin:0;background:#000;color:#888;font:12px system-ui}
+[hidden]{display:none !important}
+h1{font:600 14px system-ui;color:#ccc;letter-spacing:3px;text-align:center;margin:20px 0 6px}
+#bar{text-align:center;margin:12px 0 4px}
+button{background:#000;border:1px solid #444;color:#aaa;font:12px system-ui;letter-spacing:1px;padding:10px 22px;min-height:44px;min-width:44px;cursor:pointer}
+button.on{background:#f2f2f0;color:#000;border-color:#f2f2f0}
+#grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:26px;max-width:1330px;margin:0 auto;padding:18px}
+.panel{text-align:center}
+canvas{display:block;margin:0 auto;image-rendering:pixelated;width:600px;max-width:100%}
+.cap{color:#ddd;font-size:13px;letter-spacing:2px;margin-top:10px}
+.sub{color:#666;margin-top:3px;font-size:12px}
+</style>
+</head>
+<body>
+<h1>TILE CONNECTION LAB</h1>
+<div id="bar"><button id="b0" class="on">OPENING</button> <button id="b1">LATER</button></div>
+<div id="grid">
+<div class="panel"><canvas id="c0"></canvas><div class="cap">A PLUG-IN PLOTS</div><div class="sub">each lot runs its own walkway, driveway or parking apron to the street</div></div>
+<div class="panel"><canvas id="c1"></canvas><div class="cap">B SIDEWALK RIBBON</div><div class="sub">one public sidewalk band wraps every block, buildings stand on it</div></div>
+<div class="panel"><canvas id="c2"></canvas><div class="cap">C SHARED HORIZON</div><div class="sub">one ground line at one height runs the whole town</div></div>
+<div class="panel"><canvas id="c3"></canvas><div class="cap">D WALL TO WALL</div><div class="sub">buildings fill the block edge to edge, streets are carved gaps</div></div>
+</div>
+<script>
+const FG="#f2f2f0",BG="#000000",ROAD="#161616",CURB="#3d3d3d",DASH="#5a5a5a",GLINE="#4a4a4a",LOT="#2a2a2a",SW="#232323",SWE="#303030";
+const TS=102,ST=14,M=27,CW=300;
+let SS=2,mode=0,q=null;
+function R(v){return Math.round(v*SS);}
+function pq(x,y,w,h,col){q.fillStyle=col;const a=R(x),b=R(y);q.fillRect(a,b,R(x+w)-a,R(y+h)-b);}
+function blit3(s,x,y){const a=R(x),b=R(y);q.drawImage(s,a,b,R(x+s.width*3)-a,R(y+s.height*3)-b);}
+function mk(w,h){const c=document.createElement("canvas");c.width=w;c.height=h||w;return c;}
+function S34(fn){const c=mk(34),g=c.getContext("2d");g.fillStyle=FG;fn(g);return c;}
+function hash2(x,y){return Math.abs(Math.sin(x*12.9898+y*78.233)*43758.5453)%1;}
+
+const houseS=S34(g=>{
+for(let y=9;y<=16;y++){const hw=Math.round((y-8)*1.15);for(let x=17-hw;x<=17+hw;x++)if(x>=8&&x<=26)g.fillRect(x,y,1,1);}
+g.fillRect(10,17,14,12);
+g.fillRect(21,10,2,4);
+g.clearRect(14,22,3,7);
+g.clearRect(19,19,3,3);
+});
+const grocS=S34(g=>{
+g.fillRect(5,12,24,2);
+g.fillRect(6,14,22,15);
+g.clearRect(9,13,8,1);
+g.clearRect(9,18,9,7);
+g.clearRect(21,19,4,10);
+g.fillRect(22,24,1,1);
+});
+const rubbleS=S34(g=>{
+g.fillRect(5,23,4,6);g.fillRect(5,21,2,2);
+g.fillRect(12,26,9,3);g.fillRect(14,24,4,2);g.fillRect(19,25,2,1);
+g.fillRect(24,24,5,5);g.fillRect(26,22,2,2);
+g.fillRect(10,28,1,1);g.fillRect(22,28,1,1);g.fillRect(17,22,1,1);
+g.clearRect(25,26,2,1);
+});
+const weedsS=S34(g=>{
+g.fillRect(6,27,1,2);g.fillRect(11,28,1,1);g.fillRect(17,26,1,3);g.fillRect(23,28,1,1);g.fillRect(28,27,1,2);
+g.fillRect(14,28,2,1);
+});
+const carS=(()=>{const c=mk(9,4),g=c.getContext("2d");g.fillStyle=FG;g.fillRect(0,1,9,3);g.fillRect(2,0,5,1);g.clearRect(3,1,3,1);g.clearRect(0,3,1,1);g.clearRect(8,3,1,1);g.clearRect(2,3,1,1);g.clearRect(6,3,1,1);return c;})();
+const grocD=S34(g=>{
+g.fillRect(0,8,34,24);
+g.fillRect(11,4,12,4);
+g.clearRect(13,5,8,2);
+g.clearRect(1,15,32,1);
+for(let x=1;x<33;x+=4)g.clearRect(x,16,2,1);
+g.clearRect(3,20,8,5);g.clearRect(14,20,6,5);g.clearRect(23,20,8,5);
+g.clearRect(15,26,4,6);
+g.fillRect(17,29,1,1);
+});
+const houseD=S34(g=>{
+for(let y=12;y<=17;y++){const hw=Math.round((y-11)*1.4);for(let x=8-hw;x<=8+hw;x++)if(x>=0&&x<=16)g.fillRect(x,y,1,1);}
+for(let y=12;y<=17;y++){const hw=Math.round((y-11)*1.4);for(let x=25-hw;x<=25+hw;x++)if(x>=17&&x<=33)g.fillRect(x,y,1,1);}
+g.fillRect(0,18,34,14);
+g.fillRect(15,7,3,11);
+g.clearRect(16,18,1,14);
+g.clearRect(5,25,3,7);g.clearRect(26,25,3,7);
+g.clearRect(10,21,3,3);g.clearRect(21,21,3,3);
+});
+const rubbleD=S34(g=>{
+g.fillRect(0,13,4,19);
+g.clearRect(2,13,2,2);g.clearRect(0,19,1,2);g.clearRect(3,25,1,3);
+g.fillRect(30,13,4,19);
+g.clearRect(30,13,2,2);g.clearRect(33,21,1,3);
+g.fillRect(9,27,7,5);g.fillRect(18,29,6,3);g.fillRect(14,24,3,3);g.fillRect(25,28,4,4);
+g.fillRect(7,30,1,1);g.fillRect(23,26,1,1);g.fillRect(12,22,1,1);
+});
+const lotD=S34(g=>{
+g.fillRect(0,26,3,6);g.fillRect(31,26,3,6);
+g.fillRect(8,30,1,2);g.fillRect(14,31,1,1);g.fillRect(20,29,1,3);g.fillRect(26,31,1,1);
+});
+
+function tiles(){
+const my=mode?{kind:"lot",ex:true}:{kind:"mystery",ex:false};
+return [[{kind:"grocery",ex:true},{kind:"house",ex:true}],[{kind:"rubble",ex:true},my]];
+}
+function tp(g){return M+ST+g*(TS+ST);}
+function ex(tt,gx,gy){return gx>=0&&gx<2&&gy>=0&&gy<2&&tt[gy][gx].ex;}
+
+function streets(tt,rects){
+for(let i=0;i<3;i++)for(let j=0;j<2;j++){
+if(ex(tt,i-1,j)||ex(tt,i,j)){
+const x=M+i*(TS+ST),y=tp(j);
+pq(x,y,ST,TS,ROAD);rects.push({x,y,w:ST,h:TS});
+pq(x,y,1,TS,CURB);pq(x+ST-1,y,1,TS,CURB);
+for(let yy=tp(0)+4;yy+8<=y+TS;yy+=24)if(yy>=y)pq(x+6,yy,2,8,DASH);
+}}
+for(let j=0;j<3;j++)for(let i=0;i<2;i++){
+if(ex(tt,i,j-1)||ex(tt,i,j)){
+const y=M+j*(TS+ST),x=tp(i);
+pq(x,y,TS,ST,ROAD);rects.push({x,y,w:TS,h:ST});
+pq(x,y,TS,1,CURB);pq(x,y+ST-1,TS,1,CURB);
+for(let xx=tp(0)+4;xx+8<=x+TS;xx+=24)if(xx>=x)pq(xx,y+6,8,2,DASH);
+}}
+for(let i=0;i<3;i++)for(let j=0;j<3;j++){
+if(ex(tt,i-1,j-1)||ex(tt,i,j-1)||ex(tt,i-1,j)||ex(tt,i,j)){
+const x=M+i*(TS+ST),y=M+j*(TS+ST);
+pq(x,y,ST,ST,ROAD);rects.push({x,y,w:ST,h:ST});
+}}
+}
+function erode(x,y,edges){
+for(let yy=0;yy<TS;yy+=2)for(let xx=0;xx<TS;xx+=2){
+let d=1e9;
+if(edges.l)d=Math.min(d,xx);
+if(edges.r)d=Math.min(d,TS-2-xx);
+if(edges.t)d=Math.min(d,yy);
+if(edges.b)d=Math.min(d,TS-2-yy);
+if(d<14&&hash2(x+xx,y+yy)<0.55-d*0.04)pq(x+xx,y+yy,2,2,BG);
+}}
+function scatter(rects){
+for(let yy=0;yy<CW;yy+=2)for(let xx=0;xx<CW;xx+=2){
+let d=1e9;
+for(const r of rects){
+const dx=Math.max(r.x-xx,xx-(r.x+r.w),0),dy=Math.max(r.y-yy,yy-(r.y+r.h),0);
+const dd=Math.max(dx,dy);
+if(dd<d)d=dd;
+if(d===0)break;
+}
+if(d>0&&d<23&&hash2(xx,yy)<0.45-d*0.02)pq(xx,yy,2,2,"#1e1e1e");
+}}
+
+function darkA(x,y,e){pq(x,y,TS,TS,"#0e0e0e");erode(x,y,e);}
+const SYS=[
+{tile(k,x,y){
+if(k==="grocery"){pq(x+12,y+87,78,1,GLINE);pq(x+18,y+88,66,15,LOT);blit3(carS,x+24,y+90);blit3(carS,x+57,y+90);blit3(grocS,x,y);}
+if(k==="house"){pq(x+12,y+87,78,1,GLINE);pq(x+42,y+88,9,15,LOT);blit3(houseS,x,y);}
+if(k==="rubble"){pq(x+15,y+48,72,45,LOT);pq(x+15,y+48,12,9,BG);pq(x+75,y+84,12,9,BG);blit3(rubbleS,x,y);}
+if(k==="lot"){pq(x+12,y+87,78,1,GLINE);pq(x+30,y+57,42,30,LOT);pq(x+45,y+88,12,15,LOT);blit3(weedsS,x,y);}
+},dark(x,y,e){darkA(x,y,e);}},
+{tile(k,x,y){
+pq(x,y,102,9,SW);pq(x,y+93,102,9,SW);pq(x,y,9,102,SW);pq(x+93,y,9,102,SW);
+pq(x,y+8,102,1,SWE);pq(x,y+93,102,1,SWE);pq(x+8,y,1,102,SWE);pq(x+93,y,1,102,SWE);
+if(k==="grocery"){pq(x+18,y+88,66,5,SW);blit3(grocS,x,y);}
+if(k==="house"){pq(x+42,y+88,9,5,LOT);blit3(houseS,x,y);}
+if(k==="rubble"){
+pq(x+30,y+93,18,9,BG);pq(x+66,y+93,15,9,BG);pq(x,y+42,9,21,BG);
+pq(x+33,y+96,3,3,FG);pq(x+70,y+95,4,3,FG);pq(x+2,y+48,3,4,FG);
+blit3(rubbleS,x,y);}
+if(k==="lot"){blit3(weedsS,x,y);}
+},dark(x,y,e){
+darkA(x,y,e);
+pq(x,y,21,9,"#141414");pq(x,y,9,21,"#141414");
+}},
+{tile(k,x,y){
+pq(x,y+87,102,1,GLINE);
+if(k==="grocery"){
+pq(x+9,y+69,3,18,FG);pq(x+3,y+60,15,9,FG);pq(x+6,y+63,9,3,BG);
+pq(x+87,y+78,9,9,FG);pq(x+90,y+81,3,1,BG);
+blit3(grocS,x,y);}
+if(k==="house"){
+pq(x+3,y+82,22,1,FG);pq(x+3,y+81,3,6,FG);pq(x+12,y+81,3,6,FG);pq(x+21,y+81,3,6,FG);
+pq(x+78,y+82,21,1,FG);pq(x+78,y+81,3,6,FG);pq(x+87,y+81,3,6,FG);pq(x+96,y+81,3,6,FG);
+blit3(houseS,x,y);}
+if(k==="rubble"){blit3(rubbleS,x,y);}
+if(k==="lot"){blit3(weedsS,x,y);}
+},dark(x,y,e){
+darkA(x,y,e);
+if(!e.l)pq(x,y+87,18,1,GLINE);
+if(!e.r)pq(x+84,y+87,18,1,GLINE);
+}},
+{tile(k,x,y){
+pq(x,y+96,102,6,SW);pq(x,y+96,102,1,SWE);
+if(k==="grocery")blit3(grocD,x,y);
+if(k==="house")blit3(houseD,x,y);
+if(k==="rubble"){pq(x+12,y+81,78,15,LOT);blit3(rubbleD,x,y);}
+if(k==="lot")blit3(lotD,x,y);
+},dark(x,y,e){
+pq(x,y+27,36,69,"#101010");pq(x+36,y+15,33,81,"#101010");pq(x+69,y+33,33,63,"#101010");
+pq(x,y+96,102,6,"#141414");
+erode(x,y,e);
+}}
+];
+
+const cvs=[0,1,2,3].map(i=>document.getElementById("c"+i));
+function render(){
+SS=2*(window.devicePixelRatio||1);
+const tt=tiles();
+for(let i=0;i<4;i++){
+const c=cvs[i];
+c.width=Math.round(CW*SS);c.height=Math.round(CW*SS);
+q=c.getContext("2d");q.imageSmoothingEnabled=false;
+pq(0,0,CW,CW,BG);
+const rects=[];
+streets(tt,rects);
+for(let gy=0;gy<2;gy++)for(let gx=0;gx<2;gx++){
+const t=tt[gy][gx],x=tp(gx),y=tp(gy);
+if(t.ex){rects.push({x,y,w:TS,h:TS});SYS[i].tile(t.kind,x,y);}
+else{
+const e={l:!ex(tt,gx-1,gy),r:!ex(tt,gx+1,gy),t:!ex(tt,gx,gy-1),b:!ex(tt,gx,gy+1)};
+SYS[i].dark(x,y,e);
+}
+}
+scatter(rects);
+}
+}
+function setMode(m){mode=m;document.getElementById("b0").className=m?"":"on";document.getElementById("b1").className=m?"on":"";render();}
+document.getElementById("b0").addEventListener("click",()=>setMode(0));
+document.getElementById("b1").addEventListener("click",()=>setMode(1));
+addEventListener("resize",render);
+if(location.hash.includes("later"))mode=1;
+setMode(mode);
+</script>
+</body>
+</html>

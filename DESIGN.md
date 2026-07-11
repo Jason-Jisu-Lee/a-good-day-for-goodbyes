@@ -313,6 +313,15 @@ improvement suggestions along the way.
 - Save: localStorage, autosave 10s + visibilitychange, wipe guarded by
   autosave gag. Debug panel (backtick / #debug): grants, time scale
   x1/x5/x20 (resets on hide), save/wipe. #game hash skips menu (dev).
+- FOG VISIBILITY FIXED (2026-07-11, was: whole 4x4 board + streets
+  visible at minute zero): unexplored space renders pure black;
+  streets exist only beside explored tiles (stubs grow with the town);
+  scoutable frontier tiles show as near-black slabs eroding into the
+  dark, no borders (checker-edge treatment dead, aligned-band
+  violation); the hash dissolve wraps the explored silhouette only;
+  deep-fog tiles ignore hover/click. Scout adjacency tightened to
+  EDGE-adjacent (was 8-way with diagonals), so board corners stay
+  invisible until a neighboring tile is owned.
 - Dual orientation per stage law; 44px buttons and rows.
 - NOT in slice (parked): fatigue caps, park tiles (perspective pick
   pending), SFX, player-facing reset (debug wipe only), shelter
@@ -326,6 +335,20 @@ improvement suggestions along the way.
 
 ## Labs (delete once locked)
 - `labs/survivor-faces.html` face style proof (3 faces), current style.
+- `labs/connect.html` TILE CONNECTION LAB (2026-07-11): four systems
+  for making the origin four (grocery, house, rubble, mystery; LATER
+  view swaps mystery for a reclaimed lot) read as one town across the
+  streets. A PLUG-IN PLOTS: the locked tile rules played straight,
+  each lot runs its own walkway / driveway / parking apron to the
+  street. B SIDEWALK RIBBON: a public sidewalk band wraps every block,
+  buildings stand on it, rubble breaks it, it runs into the dark on
+  unscouted edges. C SHARED HORIZON: one full-width ground line at one
+  height crosses the whole town; props (fences, sign, crate) enrich
+  it; the line pokes into unscouted darkness. D WALL TO WALL:
+  edge-to-edge facades, streets read as carved gaps, rubble = missing
+  tooth between standing party walls, unscouted = unlit building mass
+  (deliberately breaks the building-margin rule). Awaiting pick by
+  feel.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 

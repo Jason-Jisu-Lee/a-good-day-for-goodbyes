@@ -191,9 +191,9 @@ if(PORT)return {mapX:45,mapY:64,pnX:45,pnY:548,pnW:450,pnH:300,avX:45,avY:880,hu
 return {mapX:60,mapY:52,pnX:700,pnY:60,pnW:244,pnH:392,avX:700,avY:466,hud:12};
 }
 function tileXY(t){const l=L();return {x:l.mapX+t.gx*(TS+ST),y:l.mapY+t.gy*(TS+ST)};}
-function tileAt(mx,my){const l=L();for(const t of G.tiles){const p=tileXY(t);if(mx>=p.x&&mx<p.x+TS&&my>=p.y&&my<p.y+TS)return t;}return null;}
+function tileAt(mx,my){const l=L();for(const t of G.tiles){const p=tileXY(t);if(mx>=p.x&&mx<p.x+TS&&my>=p.y&&my<p.y+TS)return (t.state!=="unknown"||ownedAdjacent(t))?t:null;}return null;}
 function workSpot(t,i){const p=tileXY(t);const off=[[30,68],[72,34],[52,82],[26,38]][i%4];return {x:p.x+off[0],y:p.y+off[1]};}
-function ownedAdjacent(t){for(const o of G.tiles){if(o.state!=="owned")continue;if(Math.abs(o.gx-t.gx)<=1&&Math.abs(o.gy-t.gy)<=1&&o!==t)return true;}return false;}
+function ownedAdjacent(t){for(const o of G.tiles){if(o.state!=="owned")continue;if(Math.abs(o.gx-t.gx)+Math.abs(o.gy-t.gy)===1)return true;}return false;}
 function crew(t){return G.survivors.filter(s=>s.task&&s.task.tile===t);}
 function arrived(t){return crew(t).filter(s=>G.t>=s.arriveAt&&(!s.hungry||t.kind==="grocery"));}
 function idleSpot(s,i){const l=L();const cx0=l.mapX+2*TS+1.5*ST,cy0=l.mapY+2*TS+1.5*ST;const off=[[-26,12],[26,-12],[-10,-32],[12,32],[-38,-10],[38,12]][i%6];return {x:cx0+off[0],y:cy0+off[1]};}
@@ -278,33 +278,66 @@ if(d>1){const step=Math.min(d,SPEED*dt*ts);s.x+=(target.x-s.x)/d*step;s.y+=(targ
 function hash2(x,y){return Math.abs(Math.sin(x*12.9898+y*78.233)*43758.5453)%1;}
 function unknownTile(x,y,amt){
 for(let yy=0;yy<TS;yy+=2)for(let xx=0;xx<TS;xx+=2){
-const d=Math.min(xx,yy,TS-2-xx,TS-2-yy);
-if(d<8&&((xx+yy)/2)%2===0)px(x+xx,y+yy,2,2,"#242424");
-else if(amt>0&&hash2(xx,yy)<amt)px(x+xx,y+yy,2,2,"#101010");
+if(amt>0&&hash2(xx,yy)<amt)px(x+xx,y+yy,2,2,"#101010");
 }}
-function fogEdge(x,y,w,h){
-for(let yy=y-22;yy<y+h+22;yy+=2)for(let xx=x-22;xx<x+w+22;xx+=2){
-if(xx>=x&&xx<x+w&&yy>=y&&yy<y+h)continue;
-const dx=Math.max(x-xx,xx-(x+w),0),dy=Math.max(y-yy,yy-(y+h),0),d=Math.max(dx,dy);
-if(hash2(xx,yy)<0.45-d*0.02)px(xx,yy,2,2,"#1e1e1e");
-}}
-function streets(){
+function tAt(gx,gy){return gx>=0&&gx<4&&gy>=0&&gy<4?G.tiles[gy*4+gx]:null;}
+function explored(t){return !!t&&t.state!=="unknown";}
+let fogCv=null,fogKey="";
+function fogLayer(){
 const l=L();
-for(let i=0;i<3;i++){
-const x=l.mapX+TS+i*(TS+ST),y=l.mapY;
-px(x,y,ST,4*TS+3*ST,ROAD);
-px(x,y,1,4*TS+3*ST,CURB);px(x+ST-1,y,1,4*TS+3*ST,CURB);
-for(let yy=4;yy<4*TS+3*ST-8;yy+=24)px(x+6,y+yy,2,8,DASH);
-}
-for(let i=0;i<3;i++){
-const y=l.mapY+TS+i*(TS+ST),x=l.mapX;
-px(x,y,4*TS+3*ST,ST,ROAD);
-px(x,y,4*TS+3*ST,1,CURB);px(x,y+ST-1,4*TS+3*ST,1,CURB);
-for(let xx=4;xx<4*TS+3*ST-8;xx+=24)px(x+xx,y+6,8,2,DASH);
-}
+const key=G.tiles.map(t=>t.state!=="unknown"?"e":(ownedAdjacent(t)?"a":"u")).join("")+"|"+S+"|"+W+"|"+cv.width;
+if(key===fogKey&&fogCv)return fogCv;
+fogKey=key;
+fogCv=mk(cv.width,cv.height);
+const g=fogCv.getContext("2d");
+const P=(x,y,w,h,col)=>{g.fillStyle=col;const a=rr(x),b=rr(y);g.fillRect(a,b,rr(x+w)-a,rr(y+h)-b);};
+const rects=[];
+const road=(x,y,w,h)=>{P(x,y,w,h,ROAD);rects.push({x,y,w,h});};
+for(let i=0;i<3;i++)for(let gy=0;gy<4;gy++){
+if(explored(tAt(i,gy))||explored(tAt(i+1,gy))){
+const x=l.mapX+TS+i*(TS+ST),y=l.mapY+gy*(TS+ST);
+road(x,y,ST,TS);
+P(x,y,1,TS,CURB);P(x+ST-1,y,1,TS,CURB);
+for(let yy=l.mapY+4;yy+8<=y+TS;yy+=24)if(yy>=y)P(x+6,yy,2,8,DASH);
+}}
+for(let j=0;j<3;j++)for(let gx=0;gx<4;gx++){
+if(explored(tAt(gx,j))||explored(tAt(gx,j+1))){
+const y=l.mapY+TS+j*(TS+ST),x=l.mapX+gx*(TS+ST);
+road(x,y,TS,ST);
+P(x,y,TS,1,CURB);P(x,y+ST-1,TS,1,CURB);
+for(let xx=l.mapX+4;xx+8<=x+TS;xx+=24)if(xx>=x)P(xx,y+6,8,2,DASH);
+}}
 for(let i=0;i<3;i++)for(let j=0;j<3;j++){
-px(l.mapX+TS+i*(TS+ST),l.mapY+TS+j*(TS+ST),ST,ST,ROAD);
+if(explored(tAt(i,j))||explored(tAt(i+1,j))||explored(tAt(i,j+1))||explored(tAt(i+1,j+1))){
+road(l.mapX+TS+i*(TS+ST),l.mapY+TS+j*(TS+ST),ST,ST);
+}}
+for(const t of G.tiles){
+const tx=l.mapX+t.gx*(TS+ST),ty=l.mapY+t.gy*(TS+ST);
+if(t.state!=="unknown"){rects.push({x:tx,y:ty,w:TS,h:TS});continue;}
+if(!ownedAdjacent(t))continue;
+P(tx,ty,TS,TS,"#0e0e0e");
+const eL=!explored(tAt(t.gx-1,t.gy)),eR=!explored(tAt(t.gx+1,t.gy)),eT=!explored(tAt(t.gx,t.gy-1)),eB=!explored(tAt(t.gx,t.gy+1));
+for(let yy=0;yy<TS;yy+=2)for(let xx=0;xx<TS;xx+=2){
+let d=1e9;
+if(eL)d=Math.min(d,xx);
+if(eR)d=Math.min(d,TS-2-xx);
+if(eT)d=Math.min(d,yy);
+if(eB)d=Math.min(d,TS-2-yy);
+if(d<14&&hash2(tx+xx,ty+yy)<0.55-d*0.04)P(tx+xx,ty+yy,2,2,BG);
 }
+}
+const x0=l.mapX-24,y0=l.mapY-24,x1=l.mapX+4*TS+3*ST+24,y1=l.mapY+4*TS+3*ST+24;
+for(let yy=y0;yy<y1;yy+=2)for(let xx=x0;xx<x1;xx+=2){
+let d=1e9;
+for(const r of rects){
+const ddx=Math.max(r.x-xx,xx-(r.x+r.w),0),ddy=Math.max(r.y-yy,yy-(r.y+r.h),0);
+const dd=Math.max(ddx,ddy);
+if(dd<d)d=dd;
+if(d===0)break;
+}
+if(d>0&&d<23&&hash2(xx,yy)<0.45-d*0.02)P(xx,yy,2,2,"#1e1e1e");
+}
+return fogCv;
 }
 function bubble(x,y,s){
 const wdt=tw7(s,1)+10;
@@ -332,12 +365,10 @@ else{edgeR(x,y,w,44,en===false?DIM:FG);text7(label,x+w/2,y+15,2,"c",en===false?D
 function drawGame(){
 const l=L();
 uiButtons=[];
-streets();
-fogEdge(l.mapX,l.mapY,4*TS+3*ST,4*TS+3*ST);
+cx.drawImage(fogLayer(),0,0);
 for(const t of G.tiles){
 const p=tileXY(t);
-if(t.state==="unknown"){unknownTile(p.x,p.y,0);}
-else{
+if(t.state!=="unknown"){
 px(p.x-1,p.y-1,TS+2,TS+2,BG);
 edgeR(p.x-1,p.y-1,TS+2,TS+2,t.state==="owned"?DIM:"#262626");
 const set=t.state==="owned"?SPR_W:SPR_G;
