@@ -351,26 +351,18 @@ improvement suggestions along the way.
   user explicitly forbids; every candidate must be its own design).
   Deleted. KEPT from it: the side view (user likes it) and the block
   model ground language.
-- Block board (six worlds, 2x2) narrowed by user 2026-07-11:
-  A FLAT BOXES, C SHADOW MASS, F DITHERWORK "very promising";
-  B/D/E out. Board deleted, superseded by blocks3.
-- `labs/blocks3.html` 3X3 BLOCK BOARD (2026-07-11): the three
-  finalist worlds, each a connected 3x3 town chunk (rows: APARTMENT
-  POLICE HOUSE / GROCERY PARK CAMP / RUBBLE LOT SCRAPYARD; three
-  frontage streets). The four approved buildings per world carry
-  over verbatim; five new types added per world, every type a
-  DIFFERENT design across worlds (no shared templates): POLICE = A
-  glass-band box + antenna / C crenellated bunker with slit windows
-  / F brick station with barred windows and sign. PARK = A square
-  topiary trees + bench / C solid-disc trees with shading bite +
-  bench / F dither-foliage trees with solid cores. CAMP = A angular
-  tent + fire + crate / C bold tent with black doorway + fire / F
-  stitched canvas tent + smoke + striped bedroll. RUBBLE = A
-  standing corner + leaning slab / C cracked monoliths + shadow
-  wedge / F pocked wall fragment + dither debris fan. LOT = A
-  foundation ring + weeds / C low plinth ruin / F dirt dither patch
-  + plank. (C lot avoids corner brackets: reserved for the selection
-  UI.) Awaiting world pick.
+- Block board (six worlds, 2x2) narrowed by user 2026-07-11 to
+  A FLAT BOXES / C SHADOW MASS / F DITHERWORK; then the 3x3 finalist
+  board settled it: A FLAT BOXES locked (see WORLD STYLE LOCKED).
+  Both boards deleted. Kept findings: C-lot learned that corner
+  brackets are reserved for the selection UI; the block/lot-seam
+  connection experiment is dead (Rebuild street grid re-locked).
+- `labs/opening.html` OPENING MOCK (2026-07-11): the real early-game
+  2x2 (grocery, house, rubble, one MYSTERY dark cell at a corner) in
+  the locked flat-box world, angled Rebuild view, streets between
+  all tiles (absent on the mystery's unexplored sides), per-category
+  accent colors live, fog dissolve hugging the sheared silhouette.
+  Awaiting feel pass; then wire the treatment into game.js.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 
@@ -435,16 +427,37 @@ improvement suggestions along the way.
   (diamond between bars), hospital (open cross), zombie (three claw
   slashes), magic hat (triangle on bar + spark), sword, bow (arc +
   string + arrow). Candidate use: fog-hint marks, item icons, map runes.
-- CONNECTION TREATMENT: streets-around-EVERY-tile is UNDER REDESIGN
-  (user 2026-07-11: tiles read as unnatural stamps; streets optional
-  now, whatever makes tiles look natural). Merged stays dead.
-  Candidate BLOCK MODEL (labs/oblique.html, industry standard for
-  square-grid towns): buildings face a shared south frontage street
-  (sidewalk 7px + narrow road 16px with faint dashes); within a
-  block, tile seams are subtle LOT LINES on a continuous lot ground
-  (#1a1a1a), not streets; black drop shadows glue buildings to the
-  shared ground. Streets separate block rows, not every cell. Old
-  street palette values stay for roads (#161616 family).
+- CONNECTION TREATMENT RE-LOCKED (user 2026-07-11): LIKE REBUILD.
+  The block/lot-seam model was rejected ("connecting them a little
+  weird"). Streets run between EVERY tile (locked palette: road
+  #161616, curbs #3d3d3d, dash #5a5a5a), lots are #1a1a1a ground
+  planes, black drop shadows glue buildings down. Merged stays dead.
+- ANGLED VIEW (user 2026-07-11, labs/opening.html candidate): the
+  whole ground plane is drawn from Rebuild's tilted viewpoint: a
+  uniform shear (x shifts right ~0.3 per y up, quantized to 2px
+  steps) applied to the ground layer per row, so tiles are
+  PARALLELOGRAMS, vertical streets slant, horizontal streets stay
+  horizontal, dashes and shadows shear with the ground. Buildings
+  render UPRIGHT on the sheared lots, anchored at their feet row;
+  their roofs already skew the same direction, so the scene shares
+  one viewpoint. Fog scatter tests against inverse-sheared space so
+  the dissolve hugs the slanted silhouette.
+- WORLD STYLE LOCKED: A FLAT BOXES (user 2026-07-11 "use flatbox
+  only"), high-res pass: sprites re-authored at 51px, blitted x2
+  (was 34px x3): grocery = flat-roof store, skylight + AC unit on
+  the roof, mullioned display window, glass door; house = flat-roof
+  box, chimney pipe, cross-mullion window, stoop; rubble = floor
+  slab, tall standing corner wall, window-holed wall fragment,
+  leaning slate slab, mixed debris.
+- ACCENT COLOR APPLIED (user 2026-07-11: each tile type gets a
+  distinct accent; variations within a type share it): FOOD green
+  #7fa06a = grocery awning band. RESIDENT tan #b98e5f = house door +
+  roof fascia line. RUBBLE slate #7a8894 (candidate hue) = fallen
+  slab + debris bits. MYSTERY stays the accentless dark cell. Muted
+  doses on mono buildings per the 60-30-10 plan; red stays reserved
+  for danger. Origin tiles are owned from minute zero, so this obeys
+  the color-on-reclaim candidate (scouted-not-owned tiles would
+  render mono).
 - TILE DESIGN RULES (from user feedback, locked):
   - Tiles are designed FOR connection: every connector (driveway,
     walkway, lot) is a SOLID strip that runs to the tile edge facing a

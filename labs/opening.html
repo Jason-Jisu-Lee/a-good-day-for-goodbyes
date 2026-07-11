@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>opening 2x2, angled</title>
+<style>
+html,body{margin:0;background:#000;color:#888;font:12px system-ui}
+[hidden]{display:none !important}
+h1{font:600 14px system-ui;color:#ccc;letter-spacing:3px;text-align:center;margin:20px 0 10px}
+.panel{text-align:center;padding:10px 0 30px}
+canvas{display:block;margin:0 auto;image-rendering:pixelated;width:800px;max-width:100%}
+.cap{color:#666;font-size:12px;letter-spacing:1px;margin-top:10px}
+</style>
+</head>
+<body>
+<h1>OPENING / FLAT BOXES / ANGLED</h1>
+<div class="panel">
+<canvas id="cv"></canvas>
+<div class="cap">grocery, house, rubble, mystery</div>
+</div>
+<script>
+const FG="#f2f2f0",BG="#000000",LOTG="#1a1a1a",ROAD="#161616",CURB="#3d3d3d",DASH="#5a5a5a";
+const GREEN="#7fa06a",TAN="#b98e5f",SLATE="#7a8894";
+const PW=400,PH=300,TS=102,ST=14,X0=30,Y0=26,BASE=272;
+let SS=2;
+function mk(w,h){const c=document.createElement("canvas");c.width=w;c.height=h||w;return c;}
+function hash2(x,y){return Math.abs(Math.sin(x*12.9898+y*78.233)*43758.5453)%1;}
+function C51(fn){const c=mk(51),g=c.getContext("2d");g.fillStyle=FG;fn(g);return c;}
+function shift(y){return Math.floor((BASE-y)*0.3/2)*2;}
+
+const GROC=C51(g=>{
+for(let r=18;r<=26;r++)g.fillRect(3+(26-r),r,39,1);
+g.fillRect(3,27,39,20);
+for(let k=1;k<=9;k++)g.fillRect(41+k,27-k,1,20);
+for(let k=1;k<=9;k++)g.clearRect(41+k,27-k,1,1);
+g.clearRect(3,27,39,1);
+g.clearRect(20,20,8,2);
+g.clearRect(33,22,6,3);g.fillRect(34,23,4,1);
+g.fillStyle=GREEN;
+g.fillRect(1,28,43,5);
+g.fillStyle=FG;
+g.clearRect(1,33,43,1);
+g.clearRect(6,37,14,7);g.fillRect(12,37,1,7);
+g.clearRect(28,36,9,11);g.fillRect(35,41,1,3);
+});
+const HOUSE=C51(g=>{
+for(let r=24;r<=29;r++)g.fillRect(6+(29-r),r,25,1);
+g.fillRect(6,30,25,17);
+for(let k=1;k<=6;k++)g.fillRect(30+k,30-k,1,17);
+for(let k=1;k<=6;k++)g.clearRect(30+k,30-k,1,1);
+g.clearRect(6,30,25,1);
+g.fillRect(29,19,2,5);
+g.fillStyle=TAN;
+g.fillRect(6,29,25,1);
+g.fillRect(11,37,6,10);
+g.fillStyle=FG;
+g.fillRect(15,42,1,1);
+g.clearRect(21,35,7,7);
+g.fillRect(24,35,1,7);g.fillRect(21,38,7,1);
+g.fillRect(10,47,8,1);
+});
+const RUB=C51(g=>{
+g.fillRect(4,40,41,7);
+g.clearRect(4,40,3,2);g.clearRect(20,40,4,1);g.clearRect(42,45,3,2);g.clearRect(10,46,3,1);
+g.fillRect(6,20,4,20);
+g.fillRect(6,20,14,3);
+g.clearRect(13,20,3,2);
+g.fillRect(36,26,7,14);
+g.clearRect(38,29,3,3);
+g.clearRect(36,26,2,2);
+g.fillStyle=SLATE;
+for(let i=0;i<=7;i++)g.fillRect(12+i*2,33+i,7,2);
+g.fillStyle=FG;
+for(let i=0;i<=7;i++)g.fillRect(12+i*2,32+i,7,1);
+g.fillRect(29,42,5,3);g.fillRect(24,44,4,2);
+g.fillStyle=SLATE;
+g.fillRect(19,44,3,2);g.fillRect(40,42,3,2);
+g.fillStyle=FG;
+g.fillRect(46,46,1,1);g.fillRect(2,45,1,1);
+});
+
+const EXPL=[[true,true],[true,false]];
+function ex(gx,gy){return gx>=0&&gx<2&&gy>=0&&gy<2&&EXPL[gy][gx];}
+function lotX(gx){return X0+ST+gx*(TS+ST);}
+function lotY(gy){return Y0+ST+gy*(TS+ST);}
+
+function buildGround(){
+const gc=mk(PW,PH),g=gc.getContext("2d");
+const P=(x,y,w,h,col)=>{g.fillStyle=col;g.fillRect(x,y,w,h);};
+const rects=[];
+for(let gy=0;gy<2;gy++)for(let gx=0;gx<2;gx++){
+const x=lotX(gx),y=lotY(gy);
+if(ex(gx,gy)){P(x,y,TS,TS,LOTG);rects.push({x,y,w:TS,h:TS});}
+else{
+P(x,y,TS,TS,"#0e0e0e");
+for(let yy=0;yy<TS;yy+=2)for(let xx=0;xx<TS;xx+=2){
+const d=Math.min(TS-2-xx,TS-2-yy);
+if(d<14&&hash2(x+xx,y+yy)<0.55-d*0.04)P(x+xx,y+yy,2,2,BG);
+}
+}
+}
+for(let c=0;c<3;c++)for(let j=0;j<2;j++){
+if(ex(c-1,j)||ex(c,j)){
+const x=X0+c*(TS+ST),y=lotY(j);
+P(x,y,ST,TS,ROAD);rects.push({x,y,w:ST,h:TS});
+P(x,y,1,TS,CURB);P(x+ST-1,y,1,TS,CURB);
+for(let yy=lotY(0)+4;yy+8<=y+TS;yy+=24)if(yy>=y)P(x+6,yy,2,8,DASH);
+}}
+for(let r=0;r<3;r++)for(let i=0;i<2;i++){
+if(ex(i,r-1)||ex(i,r)){
+const y=Y0+r*(TS+ST),x=lotX(i);
+P(x,y,TS,ST,ROAD);rects.push({x,y,w:TS,h:ST});
+P(x,y,TS,1,CURB);P(x,y+ST-1,TS,1,CURB);
+for(let xx=lotX(0)+4;xx+8<=x+TS;xx+=24)if(xx>=x)P(xx,y+6,8,2,DASH);
+}}
+for(let c=0;c<3;c++)for(let r=0;r<3;r++){
+if(ex(c-1,r-1)||ex(c,r-1)||ex(c-1,r)||ex(c,r)){
+const x=X0+c*(TS+ST),y=Y0+r*(TS+ST);
+P(x,y,ST,ST,ROAD);rects.push({x,y,w:ST,h:ST});
+}}
+P(lotX(0)+16,lotY(0)+96,78,5,BG);
+P(lotX(1)+18,lotY(0)+96,62,5,BG);
+return {gc,rects};
+}
+
+const cv=document.getElementById("cv"),cx=cv.getContext("2d");
+function render(){
+SS=2*(window.devicePixelRatio||1);
+cv.width=Math.round(PW*SS);cv.height=Math.round(PH*SS);
+cx.imageSmoothingEnabled=false;
+cx.fillStyle=BG;cx.fillRect(0,0,cv.width,cv.height);
+const {gc,rects}=buildGround();
+for(let y=0;y<PH;y++){
+const s=shift(y);
+cx.drawImage(gc,0,y,PW,1,Math.round(s*SS),Math.round(y*SS),Math.round(PW*SS),Math.max(1,Math.round(SS)));
+}
+const B=(spr,gx,gy)=>{
+const x=lotX(gx)+shift(lotY(gy)+94),y=lotY(gy);
+cx.drawImage(spr,Math.round(x*SS),Math.round(y*SS),Math.round(102*SS),Math.round(102*SS));
+};
+B(GROC,0,0);
+B(HOUSE,1,0);
+B(RUB,0,1);
+cx.fillStyle="#1e1e1e";
+for(let yy=0;yy<PH;yy+=2)for(let xx=0;xx<PW;xx+=2){
+const xs=xx-shift(yy);
+let d=1e9;
+for(const r of rects){
+const dx=Math.max(r.x-xs,xs-(r.x+r.w),0),dy=Math.max(r.y-yy,yy-(r.y+r.h),0);
+const dd=Math.max(dx,dy);
+if(dd<d)d=dd;
+if(d===0)break;
+}
+if(d>0&&d<23&&hash2(xx,yy)<0.45-d*0.02)cx.fillRect(Math.round(xx*SS),Math.round(yy*SS),Math.round(2*SS),Math.round(2*SS));
+}
+}
+addEventListener("resize",render);
+render();
+</script>
+</body>
+</html>
