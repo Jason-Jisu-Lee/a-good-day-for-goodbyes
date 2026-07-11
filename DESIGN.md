@@ -335,20 +335,26 @@ improvement suggestions along the way.
 
 ## Labs (delete once locked)
 - `labs/survivor-faces.html` face style proof (3 faces), current style.
-- `labs/connect.html` TILE CONNECTION LAB (2026-07-11): four systems
-  for making the origin four (grocery, house, rubble, mystery; LATER
-  view swaps mystery for a reclaimed lot) read as one town across the
-  streets. A PLUG-IN PLOTS: the locked tile rules played straight,
-  each lot runs its own walkway / driveway / parking apron to the
-  street. B SIDEWALK RIBBON: a public sidewalk band wraps every block,
-  buildings stand on it, rubble breaks it, it runs into the dark on
-  unscouted edges. C SHARED HORIZON: one full-width ground line at one
-  height crosses the whole town; props (fences, sign, crate) enrich
-  it; the line pokes into unscouted darkness. D WALL TO WALL:
-  edge-to-edge facades, streets read as carved gaps, rubble = missing
-  tooth between standing party walls, unscouted = unlit building mass
-  (deliberately breaks the building-margin rule). Awaiting pick by
-  feel.
+- Connection-systems lab (A plug-in plots / B sidewalk ribbon / C
+  shared horizon / D wall to wall) REJECTED whole (user 2026-07-11,
+  "really bad"; also reused existing sprites, which defeated the
+  point). Deleted.
+- `labs/origin8.html` ORIGIN FOUR x STYLES 1-8 (2026-07-11): the
+  origin four (grocery, house, rubble; mystery stays the locked dark
+  cell) drawn FROM SCRATCH in each locked style-board style, connected
+  2x2 with locked streets + fog so the styles are judged as a town,
+  not as isolated stamps. #1 chunky (half-res fat pixels, full-width
+  fat baseline), #2 dither (checker-shaded roofs/awnings, chimney
+  smoke, tonal debris mound), #3 silhouette (solid masses, scalloped
+  awning slab, one door notch, jagged solid ruins), #4 geometric
+  (platonic: circle-cut square shop, triangle-on-square house, rubble
+  = the square shattered into triangles + a diamond), #5 type (FOOD /
+  HOME standing words, RUIN tumbled letters with crumbs), #6 outline
+  (1px line drawings, zigzag awning, window cross panes, gapped
+  contours + leaning beam for rubble), #7 emblem (ringed badges:
+  apple, roof chevron + door dot, broken chipped ring with crack), #8
+  pattern (shelf-dot grid with aisle, shingle chevron field, debris
+  scatter densest at the ground). Awaiting pick by feel.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 
