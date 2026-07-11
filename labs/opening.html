@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>opening 2x2 iso</title>
+<title>opening 2x2 diagonal</title>
 <style>
 html,body{margin:0;background:#000;color:#888;font:12px system-ui}
 [hidden]{display:none !important}
@@ -19,7 +19,7 @@ canvas{display:block;margin:0 auto;image-rendering:pixelated;width:1080px;max-wi
 </div>
 <script>
 const FG="#f2f2f0",BG="#000000";
-const PW=540,PH=300,TS=102,ST=14,WORLD=246,OX=270,OY=24;
+const PW=540,PH=540,TS=102,ST=14,WORLD=246,OX=270,OY=24;
 let SS=2;
 function mk(w,h){const c=document.createElement("canvas");c.width=w;c.height=h||w;return c;}
 function hash2(x,y){return Math.abs(Math.sin(x*12.9898+y*78.233)*43758.5453)%1;}
@@ -72,53 +72,55 @@ for(let r=0;r<3;r++)for(let i=0;i<2;i++)if(ex(i,r-1)||ex(i,r))RECTS.push({x:lotS
 for(let c=0;c<3;c++)for(let r=0;r<3;r++)if(ex(c-1,r-1)||ex(c,r-1)||ex(c-1,r)||ex(c,r))RECTS.push({x:bandStart(c),y:bandStart(r),w:ST,h:ST});
 RECTS.push({x:lotStart(1),y:lotStart(1),w:TS,h:TS});
 
-const GROC=CS(96,62,g=>{
-for(let r=0;r<44;r++){const hw=2*Math.min(r,43-r)+2;g.fillRect(48-hw,r,hw*2,1);}
-const yE=x=>x<48?22+Math.floor((x-4)/2):22+Math.floor((91-x)/2);
-for(let x=4;x<=91;x++)g.fillRect(x,yE(x),1,14);
-for(let x=4;x<=91;x++)g.clearRect(x,yE(x),1,1);
-g.clearRect(47,44,2,13);
-for(let x=6;x<=45;x++)g.clearRect(x,yE(x)+5,1,1);
-for(let x=10;x<=28;x++)g.clearRect(x,yE(x)+6,1,6);
-g.fillRect(16,yE(16)+6,1,6);g.fillRect(23,yE(23)+6,1,6);
-for(let x=33;x<=42;x++)g.clearRect(x,yE(x)+5,1,9);
-g.fillRect(41,yE(41)+9,1,2);
-for(let x=62;x<=70;x++)g.clearRect(x,yE(x)+5,1,3);
-for(let i=0;i<8;i++)g.clearRect(26+i,13+Math.floor(i/2),1,2);
-g.clearRect(58,10,8,5);
-g.fillRect(59,11,6,3);
+const HOUSE=CS(50,58,g=>{
+for(let r=0;r<=22;r++)g.fillRect(24-r,2+r,2*r+1,1);
+for(let r=1;r<=22;r++)g.fillRect(24-(22-r),24+r,2*(22-r)+1,1);
+const yE=x=>x<=24?22+x:70-x;
+for(let x=2;x<=46;x++)g.fillRect(x,yE(x),1,11);
+for(let x=2;x<=46;x++)g.clearRect(x,yE(x),1,1);
+g.clearRect(24,46,1,11);
+for(let x=10;x<=14;x++)g.clearRect(x,yE(x)+4,1,7);
+g.fillRect(13,yE(13)+8,1,1);
+for(let x=30;x<=35;x++)g.clearRect(x,yE(x)+3,1,4);
+g.fillRect(29,3,5,2);g.fillRect(30,5,3,6);
 });
-const HOUSE=CS(72,56,g=>{
-for(let r=0;r<32;r++){const hw=2*Math.min(r,31-r)+2;g.fillRect(36-hw,r,hw*2,1);}
-const yE=x=>x<36?16+Math.floor((x-4)/2):16+Math.floor((67-x)/2);
-for(let x=4;x<=67;x++)g.fillRect(x,yE(x),1,18);
-for(let x=4;x<=67;x++)g.clearRect(x,yE(x),1,1);
-g.clearRect(35,32,2,17);
-for(let x=14;x<=23;x++)g.clearRect(x,yE(x)+7,1,11);
-g.fillRect(21,yE(21)+12,1,1);
-for(let x=45;x<=49;x++)g.clearRect(x,yE(x)+5,1,5);
-for(let x=52;x<=56;x++)g.clearRect(x,yE(x)+5,1,5);
-g.fillRect(41,3,10,2);
-g.fillRect(43,5,6,7);
+const APT=CS(50,82,g=>{
+for(let r=0;r<=21;r++)g.fillRect(24-r,2+r,2*r+1,1);
+for(let r=1;r<=21;r++)g.fillRect(24-(21-r),23+r,2*(21-r)+1,1);
+const yE=x=>x<=24?20+x:68-x;
+for(let x=3;x<=45;x++)g.fillRect(x,yE(x),1,36);
+for(let x=3;x<=45;x++)g.clearRect(x,yE(x),1,1);
+g.clearRect(24,44,1,36);
+for(let f=0;f<4;f++){
+const o=4+f*8;
+for(let x=7;x<=10;x++)g.clearRect(x,yE(x)+o,1,4);
+for(let x=16;x<=19;x++)g.clearRect(x,yE(x)+o,1,4);
+for(let x=30;x<=33;x++)g.clearRect(x,yE(x)+o,1,4);
+for(let x=37;x<=40;x++)g.clearRect(x,yE(x)+o,1,4);
+}
+for(let x=11;x<=15;x++)g.clearRect(x,yE(x)+29,1,7);
+g.fillRect(26,12,5,4);
 });
-const RUB=CS(52,42,g=>{
-g.fillRect(4,32,44,7);
-g.fillRect(10,27,31,5);
-g.fillRect(17,23,17,4);
-g.fillRect(21,20,8,3);
-g.clearRect(4,32,2,2);g.clearRect(45,32,2,3);g.clearRect(10,27,2,1);g.clearRect(38,27,2,2);g.clearRect(17,23,2,1);
-g.clearRect(12,31,8,1);g.clearRect(26,31,9,1);g.clearRect(20,26,6,1);
-g.clearRect(8,35,6,1);g.clearRect(22,36,8,1);g.clearRect(33,34,5,1);
-g.clearRect(15,32,1,3);g.clearRect(28,33,1,4);g.clearRect(23,27,1,3);g.clearRect(35,32,1,3);
-for(let i=0;i<4;i++)g.fillRect(33+i*2,21-i*2,3,2);
-g.fillRect(1,36,3,3);g.fillRect(48,35,3,3);
+const RUB=CS(54,60,g=>{
+for(let x=2;x<=26;x++){g.fillRect(x,34-x,1,1);g.fillRect(x,30+x,1,1);}
+for(let x=27;x<=50;x++){g.fillRect(x,x-18,1,1);g.fillRect(x,82-x,1,1);}
+for(let x=2;x<=50;x++)g.fillRect(x,(x<=26?30+x:82-x)+1,1,1);
+for(let x=4;x<=8;x++)g.fillRect(x,24-x,1,10);
+for(let x=11;x<=17;x++)g.fillRect(x,21-x,1,13);
+for(let x=13;x<=15;x++)g.clearRect(x,25-x,1,3);
+for(let x=31;x<=36;x++)g.fillRect(x,x-27,1,9);
+for(let x=39;x<=42;x++)g.fillRect(x,x-24,1,6);
+g.fillRect(21,28,4,3);g.fillRect(29,33,3,2);g.fillRect(17,36,3,2);g.fillRect(33,39,4,3);g.fillRect(25,43,3,2);g.fillRect(30,24,2,2);
+g.fillRect(15,31,1,1);g.fillRect(37,35,1,1);g.fillRect(23,47,1,1);
+for(let i=0;i<4;i++)g.fillRect(31+i*2,25-i*2,3,2);
 });
 
 function isoX(wx,wy){return OX+(wx-wy);}
-function isoY(wx,wy){return OY+(wx+wy)/2;}
+function isoY(wx,wy){return OY+(wx+wy);}
 
 const cv=document.getElementById("cv"),cx=cv.getContext("2d");
 function shadowDiamond(sx,sy,w,h){
+if(w<=0)return;
 cx.fillStyle=BG;
 for(let r=0;r<h;r++){
 const hw=Math.round(w/2*(1-Math.abs(2*r/h-1)));
@@ -133,7 +135,7 @@ cx.fillStyle=BG;cx.fillRect(0,0,cv.width,cv.height);
 const off=mk(PW,PH),og=off.getContext("2d");
 const id=og.createImageData(PW,PH),px=id.data;
 for(let sy=0;sy<PH;sy++)for(let sx=0;sx<PW;sx++){
-const wx=Math.floor((sy-OY)+(sx-OX)/2),wy=Math.floor((sy-OY)-(sx-OX)/2);
+const wx=Math.floor(((sy-OY)+(sx-OX))/2),wy=Math.floor(((sy-OY)-(sx-OX))/2);
 let c=worldColor(wx,wy);
 if(!c){
 let d=1e9;
@@ -157,9 +159,9 @@ const sx=isoX(wcx,wcy),sy=isoY(wcx,wcy);
 shadowDiamond(sx+3,sy+3,fw,fh);
 cx.drawImage(spr,Math.round((sx-ax*2)*SS),Math.round((sy-ay*2)*SS),Math.round(spr.width*2*SS),Math.round(spr.height*2*SS));
 };
-place(GROC,48,35,65,65,182,91);
-place(HOUSE,36,34,181,65,134,67);
-place(RUB,26,33,65,181,120,60);
+place(HOUSE,24,35,65,65,96,96);
+place(APT,24,59,181,65,88,88);
+place(RUB,26,34,65,181,0,0);
 }
 addEventListener("resize",render);
 render();

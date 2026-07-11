@@ -357,16 +357,22 @@ improvement suggestions along the way.
   Both boards deleted. Kept findings: C-lot learned that corner
   brackets are reserved for the selection UI; the block/lot-seam
   connection experiment is dead (Rebuild street grid re-locked).
-- `labs/opening.html` OPENING MOCK (2026-07-11, v3 ISO): the real
-  early-game 2x2 (grocery, house, rubble, one MYSTERY dark diamond)
-  in the locked flat-box world and the locked diagonal view: diamond
-  lots, diagonal streets with curbs and dashes (absent on the
-  mystery's unexplored sides), iso prism buildings (grocery:
-  storefront windows + door on the down-left wall, skylight + AC
-  unit on the roof; house: door, two right-wall windows, chimney
-  pipe; rubble: the proven stepped debris pyramid with block joints
-  and a protruding beam), fog dissolve hugging the diamond
-  silhouette. Awaiting feel pass; then wire into game.js.
+- `labs/opening.html` OPENING MOCK (2026-07-11, v4, "i can live with
+  that" on the diagonal direction): 2x2 in the locked flat-box world
+  and locked true-square diagonal view. Tiles: HOUSE (normal single
+  house: flat-roof cube, door, right-wall window, chimney pipe
+  breaking the roof silhouette), APARTMENT (tall tower, four floors
+  of window pairs on both visible walls, ground door, roof unit;
+  user asked for a normal house + relatively tall apartment after
+  the oversized grocery was rejected), RUBBLE (reads as a destroyed
+  building: 1px foundation rim, dark exposed floor, white debris
+  chunks inside, jagged standing back-wall fragments with a window
+  hole, leaning beam; the pyramid-pile and two mound attempts are
+  dead), MYSTERY dark diamond. Streets with curbs/dashes absent on
+  the mystery's unexplored sides; fog hugs the rotated silhouette.
+  Grocery sprite retired with the size complaint; food tile gets
+  designed later in this system. Awaiting feel pass; then wire into
+  game.js.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 
@@ -436,20 +442,23 @@ improvement suggestions along the way.
   weird"). Streets run between EVERY tile (locked palette: road
   #161616, curbs #3d3d3d, dash #5a5a5a), lots are #1a1a1a ground
   planes, black drop shadows glue buildings down. Merged stays dead.
-- VIEW LOCKED: DIAGONAL / ISOMETRIC (user 2026-07-11, settled by the
-  user's Rebuild screenshot "diagonal view.png", kept LOCAL in the
-  repo root, gitignored, never pushed): the square world grid is
-  drawn rotated 45 degrees with 2:1 foreshortening. Screen mapping
-  sx = wx - wy, sy = (wx + wy) / 2; the ground (lots, streets,
+- VIEW LOCKED: DIAGONAL, TILES STAY TRUE SQUARES (user 2026-07-11,
+  settled by the user's Rebuild screenshot "diagonal view.png", kept
+  LOCAL in the repo root, gitignored, never pushed; then corrected
+  once more: 2:1 foreshortening REJECTED, "the tiles are still not
+  squares"): the square world grid is drawn rotated 45 degrees with
+  EQUAL DIAGONALS (military projection, no vertical squash). Screen
+  mapping sx = wx - wy, sy = wx + wy; the ground (lots, streets,
   curbs, dashes, dark cells, fog erosion) is rendered by
   inverse-mapping every screen pixel back to world space, so all
   ground detail follows the diagonal automatically. Tiles read as
-  DIAMONDS, streets run diagonally, blocks like Rebuild. Buildings
-  are iso prisms: roof diamond on top + two visible walls facing
-  down-left and down-right, 1px dark seams between planes, mono,
-  centered on their diamond lots, dark shadow diamond underneath.
-  Two earlier misreads (ground shear, then square grid + 3/4
-  billboard sprites) are dead.
+  rotated SQUARES, streets run diagonally like Rebuild. Buildings
+  are prisms: rotated-square roof on top + two visible walls facing
+  down-left and down-right with 45-degree base edges, verticals
+  straight down, 1px dark seams between planes, mono, centered on
+  their lots, dark shadow diamond underneath. Three earlier misreads
+  (ground shear; square grid + billboard 3/4 sprites; 2:1 diamonds)
+  are dead.
 - WORLD STYLE LOCKED: A FLAT BOXES (user 2026-07-11 "use flatbox
   only"), minimalistic and impactful, sprites authored at 51px
   blitted x2, mono, CENTERED in the tile: grocery = flat-roof store
