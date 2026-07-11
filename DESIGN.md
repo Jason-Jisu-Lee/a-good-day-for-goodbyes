@@ -354,6 +354,11 @@ improvement suggestions along the way.
     scale clamped to 1 (embed look). Both ship targets are already
     served by the 16:9 stage law (authored 960x540, integer scaling
     means 1080p fullscreen = crisp 2x, 4K = 4x).
+- SMOOTH REJECTED (user 2026-07-11): the game STAYS PIXEL. Demo labs
+  deleted; topic closed. Shine hover fixed same day: the offscreen
+  pass now blits additively, so the hovered tile no longer paints an
+  opaque black box over fog, streets, and survivors; only the white
+  art carries the sweep.
 - USER PASS 6 (2026-07-11, on v.3): FOG only outside the CONNECTED
   town (band pushed past the cluster: no speckles in corridors; the
   four are one town). STREETS added, classic Rebuild: gray dashed
