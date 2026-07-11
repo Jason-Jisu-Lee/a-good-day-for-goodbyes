@@ -361,32 +361,43 @@ improvement suggestions along the way.
   bigger with every request"): mocks render on the REAL GAME STAGE,
   960x540 logical, displayed 1:1 (dpr-integer backing). Never
   inflate lab canvases again.
-- FAT PIXEL LAW (final density ruling, user 2026-07-11: v4 "awfully
-  pixelated" = mixed densities, v5 "these are not pixelated" = too
-  fine; STYLES.md #1 CHUNKY 1-BIT fat pixels is the house default):
-  the WORLD renders to a 480x270 buffer and integer-scales x2 onto
-  the 960x540 stage. Ground, streets, fog, and sprites are ALL
-  authored at buffer density, so every pixel is uniformly fat. Curbs
-  are 2 world px (1 world px features alias at this sampling); fog
-  and erosion speckle in 4-world-px cells so specks stay chunky.
+- FAT PIXEL LAW v3 (settled by the user's reference image 123.png,
+  root, gitignored, never pushed; supersedes the 480x270 x2 ruling):
+  the WORLD renders to a 240x135 buffer and integer-scales x4 onto
+  the 960x540 stage. One art pixel = 4 stage pixels, for EVERYTHING:
+  tiles, buildings, survivors, rings, names, icons, fog. No mixed
+  densities anywhere, ever.
+- TILE + ICON LANGUAGE (from 123.png, user: "make it look like
+  that"): a tile is a DASHED DIAMOND OUTLINE (2:1 wide, ~56x28 art
+  px, chunky dashes) on pure black. No filled lot planes, no visible
+  street bands, no shadows. Buildings are chunky 2:1 iso icon
+  volumes: solid white faces, 1px black seams between planes and at
+  the front corner, black cutout windows/doors (arched house door),
+  gabled house with chimney, window-grid apartment tower, low ruin
+  walls + debris for rubble. Mystery tile = dimmer gray dashed
+  diamond + fat "?" glyph. Fog = sparse gray specks drifting off the
+  unknown side. Survivor = chunky ring + 5x7 name with black backing
+  bar at the same art scale (names sit below rings in the crowded
+  origin mock). NOTE: the reference diamonds are 2:1 WIDE, which
+  supersedes the earlier equal-diagonal square-tile ruling; flagged
+  to the user. Street bands are gone VISUALLY; the logical grid and
+  Rebuild-style adjacency stay.
 - PIXEL CRAFT for the diagonal world: shadow-side walls (down-right)
   get 50 percent checker dither; lit walls stay white; 1px dark
   seams between planes; windows and doors are UPRIGHT rectangles
   stepped along the 45-degree wall bases (the per-column slanted
   window strips read "angled and weird" and are dead); windows get
   1px mullion crosses on lit walls and 1px lintels on shaded walls.
-- `labs/opening.html` OPENING MOCK (2026-07-11, v6 = v5 compositions
-  re-authored at fat-pixel density under the FAT PIXEL LAW): 960x540
-  stage showing the 480x270 world x2. HOUSE = L-shaped massing: main
-  flat-roof volume + attached garage wing (garage door, handle
-  line), entry door with knob, two shaded-wall lintel windows,
-  chimney breaking the roofline, parapet inset tracing the roof.
-  APARTMENT = stepped tower: main shaft + setback top floor, three
-  stepped window floors per visible wall, entrance with canopy and
-  recessed dark skirt, rooftop antenna, AC box on the ledge. RUBBLE
-  = foundation rim, dark exposed floor, shaded debris chunks, dust
-  patches, jagged back walls with window hole, fallen beam. MYSTERY
-  dark diamond. Awaiting feel pass; then wire into game.js.
+- `labs/opening.html` OPENING MOCK (2026-07-11, v7, matched to
+  123.png): 960x540 stage showing the 240x135 world x4. Four dashed
+  diamonds (house, apartment, rubble, dim mystery with "?"), gabled
+  house icon (arched door, side window, chimney), apartment tower
+  icon (2x3 window grid per face, corner door), ruin (low broken
+  perimeter walls, tall corner with notch, debris chunks, fallen
+  slab), two survivor rings with MARA / REED name bars, fog specks
+  off the mystery side. All checker/shading dropped per the
+  reference: pure white on black. Awaiting feel pass; then wire into
+  game.js.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 
