@@ -290,6 +290,34 @@ improvement suggestions along the way.
 - Keep a license/commercial-use record per track (royalty-free terms and
   AI-generator terms vary); matters for itch/Steam release.
 
+## First slice (BUILT 2026-07-10, game.js + index.html)
+- Menu -> ENTER -> live town. Origin 2x2 (grocery, house, rubble,
+  mystery cell, arrangement randomized per run) + safe ring 1 (12
+  tiles: 2 scrapyard, 1 grocery, 1 house, 1-2 camps, rest empty lots,
+  shuffled) + fog dissolve beyond. Streets per locked treatment.
+- Actions live: SCOUT (15s base), RECLAIM (20s, lots/caches 10s),
+  CLEAR rubble (20s, costs 20 Materials, refunds on stop), GATHER
+  (persistent; food 1 per 8s, materials 1 per 10s per effective
+  worker). Crew picker with diminishing returns r=0.65.
+- Mystery reveal v1: grocery 40 / cache 35 / lot 25. Cache pays 25
+  Materials on reclaim. Camp reclaim = recruit joins (bag: JUNE OKON
+  IVY CALEB NOOR SAGE; face variants), tile becomes lot.
+- Color-on-reclaim IS IMPLEMENTED as the candidate treatment: owned
+  tiles get a category-hue ground line (food green, house tan,
+  materials ochre), scouted tiles render gray on dark. Reclaim pours
+  the line left to right. Awaiting user feel-test.
+- Hunger: eat 1 food per 40s; at zero food a survivor pauses work and
+  sits (never dies); hungry survivors still work grocery tiles so
+  starvation can always be dug out of. Day = 90s, dim counter.
+- Save: localStorage, autosave 10s + visibilitychange, wipe guarded by
+  autosave gag. Debug panel (backtick / #debug): grants, time scale
+  x1/x5/x20 (resets on hide), save/wipe. #game hash skips menu (dev).
+- Dual orientation per stage law; 44px buttons and rows.
+- NOT in slice (parked): fatigue caps, park tiles (perspective pick
+  pending), SFX, player-facing reset (debug wipe only), shelter
+  capacity effect, zombies/ring 2. Menu still uses the old 3x5 face.
+- All numbers are first-pass; tune by feel with the debug time scale.
+
 ## Project structure
 - Root: CLAUDE.md (local), DESIGN.md, TO-DO.md, README.md.
 - `labs/` design-by-demo HTML labs (standalone, deleted once locked).
