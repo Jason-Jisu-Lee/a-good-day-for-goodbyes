@@ -1,5 +1,6 @@
-# A Good Day for Goodbyes
-*(working title, placeholder)*
+# A Good Day to Say Goodbye
+*(TITLE LOCKED 2026-07-11; repo
+github.com/Jason-Jisu-Lee/agooddaytosaygoodbye)*
 
 Third game. Survival + incremental hybrid. 1-bit minimalist house style.
 Authored at 960x540 (16:9), desktop first, itch.io then Steam.
@@ -331,7 +332,6 @@ improvement suggestions along the way.
 ## Open questions
 - Enemy identity (zombies vs AI robots; zombies currently assumed in
   ground-phase wording).
-- Final title.
 - Stat system (axes above are placeholder).
 - Target survivor count.
 - Pacing tuning: threat is action-gated, so "first horde" = first

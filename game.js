@@ -455,7 +455,7 @@ return bs;
 function drawMenu(){
 const bs=menuLayout();
 cx.globalAlpha=1-fade;
-text3("A GOOD DAY FOR GOODBYES",W/2,bs.ty,bs.ts,"c");
+text3("A GOOD DAY TO SAY GOODBYE",W/2,bs.ty,bs.ts,"c");
 for(const b of menuButtons){
 if(b.dead){
 cx.globalAlpha=(hover===b.id?1:0.55)*(1-fade);
