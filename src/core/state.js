@@ -6,7 +6,7 @@ const EAT_EVERY=20,DAY_LEN=90,FOOD_PM=5,MAT_PM=6,DR=0.65,SPEED=55;
 const NAME_BAG=["JUNE","OKON","IVY","CALEB","NOOR","SAGE"];
 
 let mode="menu",fade=0,fading=false,hover=null,menuButtons=[];
-let G=null,sel=null,picker=null,uiButtons=[],hoverTile=null,hoverA=0,ts=1,fps=0,frames=0,fpsT=0;
+let G=null,sel=null,picker=null,uiButtons=[],hoverTile=null,ts=1,fps=0,frames=0,fpsT=0;
 let saveGag=false,viewItch=false;
 
 function mult(n){let m=0,f=1;for(let i=0;i<n;i++){m+=f;f*=DR;}return m;}

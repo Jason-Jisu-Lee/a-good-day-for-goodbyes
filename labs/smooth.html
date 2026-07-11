@@ -3,124 +3,162 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>pixel vs smooth</title>
+<title>smooth</title>
 <style>
 html,body{margin:0;background:#000;color:#888;font:12px system-ui}
 [hidden]{display:none !important}
 h1{font:600 14px system-ui;color:#ccc;letter-spacing:3px;text-align:center;margin:22px 0 12px}
-#g{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px;max-width:1400px;margin:0 auto;padding:10px 16px}
-.panel{text-align:center}
-canvas{display:block;margin:0 auto;width:420px;max-width:100%;border:1px solid #1a1a1a}
-#p0{image-rendering:pixelated}
-.cap{color:#ddd;font-size:13px;letter-spacing:2px;margin-top:8px}
+.panel{text-align:center;padding-bottom:30px}
+canvas{display:block;margin:0 auto;width:880px;max-width:96vw;border:1px solid #1a1a1a}
 </style>
 </head>
 <body>
-<h1>PIXEL VS SMOOTH</h1>
-<div id="g">
-<div class="panel"><canvas id="p0"></canvas><div class="cap">1 PIXEL</div></div>
-<div class="panel"><canvas id="p1"></canvas><div class="cap">2 SMOOTH</div></div>
-<div class="panel"><canvas id="p2"></canvas><div class="cap">3 SMOOTH PLUS</div></div>
-</div>
+<h1>SMOOTH</h1>
+<div class="panel"><canvas id="cv"></canvas></div>
 <script>
-const CW=420,CH=330;
-const HP=new Image();HP.src="../asset/tiles/ref_house150.png";
-const AP=new Image();AP.src="../asset/tiles/ref_apt155.png";
-const TP=new Image();TP.src="../asset/tiles/ref_tile155.png";
-const FGC="#f2f2f0";
-function dia(g,cxx,cyy,hw,hh,plus){
+const CW=880,CH=560,FGC="#f2f2f0";
+const HW=118,HH=75,DX=172,DY=108;
+const T={h:[440,150],a:[612,258],e1:[268,258],e2:[440,366]};
+function lerp(a,b,t){return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];}
+function sub(a,b){return [a[0]-b[0],a[1]-b[1]];}
+function add(a,b){return [a[0]+b[0],a[1]+b[1]];}
+function edge(g,a,b){
+g.beginPath();
+g.moveTo(a[0],a[1]);
+g.lineTo(b[0],b[1]);
+g.stroke();
+}
+function dia(g,cxx,cyy){
 g.save();
 g.strokeStyle=FGC;
+g.lineWidth=3;
+g.lineCap="round";
+g.setLineDash([20,13]);
+g.lineDashOffset=0;
+const vT=[cxx,cyy-HH],vR=[cxx+HW,cyy],vB=[cxx,cyy+HH],vL=[cxx-HW,cyy];
+edge(g,vT,vR);
+edge(g,vR,vB);
+edge(g,vB,vL);
+edge(g,vL,vT);
+g.restore();
+}
+function street(g,pa,pb,u){
+g.save();
+g.strokeStyle="#6a6a6a";
 g.lineWidth=2.5;
-g.lineCap=plus?"round":"butt";
-g.setLineDash([16,10]);
+g.lineCap="round";
+g.setLineDash([15,11]);
+const m=[(pa[0]+pb[0])/2,(pa[1]+pb[1])/2];
 g.beginPath();
-g.moveTo(cxx,cyy-hh);
-g.lineTo(cxx+hw,cyy);
-g.lineTo(cxx,cyy+hh);
-g.lineTo(cxx-hw,cyy);
-g.closePath();
+g.moveTo(m[0]-u[0]*44,m[1]-u[1]*44);
+g.lineTo(m[0]+u[0]*44,m[1]+u[1]*44);
 g.stroke();
 g.restore();
 }
-function poly(g,pts,fill,stroke){
+function shadow(g,x,y,rx,ry){
+const gr=g.createRadialGradient(x,y,2,x,y,rx);
+gr.addColorStop(0,"rgba(255,255,255,0.09)");
+gr.addColorStop(1,"rgba(255,255,255,0)");
+g.save();
+g.translate(x,y);
+g.scale(1,ry/rx);
+g.translate(-x,-y);
+g.fillStyle=gr;
+g.beginPath();
+g.arc(x,y,rx,0,7);
+g.fill();
+g.restore();
+}
+function poly(g,pts,fill){
 g.beginPath();
 g.moveTo(pts[0][0],pts[0][1]);
 for(let i=1;i<pts.length;i++)g.lineTo(pts[i][0],pts[i][1]);
 g.closePath();
-if(fill){g.fillStyle=fill;g.fill();}
-if(stroke){g.strokeStyle=stroke;g.lineWidth=2;g.lineJoin="round";g.stroke();}
+g.fillStyle=fill;
+g.fill();
 }
-function house(g,X,Y,plus){
-const P=(x,y)=>[X+x,Y+y];
-if(plus){g.save();g.fillStyle="rgba(255,255,255,0.05)";g.beginPath();g.ellipse(X,Y+22,52,14,0,0,7);g.fill();g.restore();}
-poly(g,[P(0,18),P(44,-4),P(44,-34),P(0,-12)],FGC,"#000");
-poly(g,[P(-44,-4),P(0,18),P(0,-12),P(-22,-42),P(-44,-34)],FGC,"#000");
-poly(g,[P(-22,-42),P(22,-64),P(44,-34),P(0,-12)],FGC,"#000");
+function seam(g,a,b){
+g.save();
+g.strokeStyle="#000";
+g.lineWidth=3;
+g.lineJoin="round";
+g.lineCap="round";
+edge(g,a,b);
+g.restore();
+}
+function house(g,X,Y){
+const F=[X,Y+34],L=[X-74,Y-3],R=[X+74,Y-3];
+const h=44;
+const Fp=[F[0],F[1]-h],Lp=[L[0],L[1]-h],Rp=[R[0],R[1]-h];
+const A=[X-37,Y-92];
+const A2=add(A,sub(R,F));
+shadow(g,X,Y+18,95,34);
+poly(g,[F,R,Rp,Fp],FGC);
+poly(g,[L,F,Fp,A,Lp],FGC);
+poly(g,[A,A2,Rp,Fp],FGC);
+seam(g,F,Fp);
+seam(g,Fp,A);
+seam(g,Fp,Rp);
+const dbl=lerp(L,F,0.42),dbr=lerp(L,F,0.62);
+const dtl=[dbl[0],dbl[1]-26],dtr=[dbr[0],dbr[1]-26];
 g.fillStyle="#000";
-if(plus){
-g.beginPath();g.moveTo(X-32,Y+2);g.lineTo(X-32,Y-14);g.arc(X-27,Y-14,5,Math.PI,0);g.lineTo(X-22,Y+7);g.closePath();g.fill();
-}else{
-poly(g,[P(-32,2),P(-32,-16),P(-22,-21),P(-22,7)],"#000",null);
+g.beginPath();
+g.moveTo(dbl[0],dbl[1]);
+g.lineTo(dtl[0],dtl[1]);
+g.quadraticCurveTo((dtl[0]+dtr[0])/2,(dtl[1]+dtr[1])/2-11,dtr[0],dtr[1]);
+g.lineTo(dbr[0],dbr[1]);
+g.closePath();
+g.fill();
+const w1=lerp(F,R,0.34),w2=lerp(F,R,0.62);
+poly(g,[[w1[0],w1[1]-15],[w2[0],w2[1]-15],[w2[0],w2[1]-31],[w1[0],w1[1]-31]],"#000");
 }
-poly(g,[P(14,-10),P(30,-18),P(30,-30),P(14,-22)],"#000",null);
-}
-function apt(g,X,Y,plus){
-const P=(x,y)=>[X+x,Y+y];
-if(plus){g.save();g.fillStyle="rgba(255,255,255,0.05)";g.beginPath();g.ellipse(X,Y+18,46,13,0,0,7);g.fill();g.restore();}
-poly(g,[P(0,14),P(36,-4),P(36,-66),P(0,-48)],FGC,"#000");
-poly(g,[P(-36,-4),P(0,14),P(0,-48),P(-36,-66)],FGC,"#000");
-poly(g,[P(0,-48),P(36,-66),P(0,-84),P(-36,-66)],FGC,"#000");
+function apt(g,X,Y){
+const F=[X,Y+26],L=[X-62,Y-5],R=[X+62,Y-5],B=[X,Y-36];
+const h=96;
+const Fp=[F[0],F[1]-h],Lp=[L[0],L[1]-h],Rp=[R[0],R[1]-h],Bp=[B[0],B[1]-h];
+shadow(g,X,Y+14,82,30);
+poly(g,[F,R,Rp,Fp],FGC);
+poly(g,[L,F,Fp,Lp],FGC);
+poly(g,[Fp,Rp,Bp,Lp],FGC);
+seam(g,F,Fp);
+seam(g,Fp,Rp);
+seam(g,Fp,Lp);
 g.fillStyle="#000";
-const win=(x,y,mir)=>{
-const s=mir?-1:1;
-poly(g,[P(s*x,y),P(s*(x+11),y-5.5*s*(mir?-1:1)*0+ -5.5),P(s*(x+11),y-5.5-11),P(s*x,y-11)],"#000",null);
+const win=(a,b,t1,t2,u1,u2)=>{
+const p1=lerp(a,b,t1),p2=lerp(a,b,t2);
+poly(g,[[p1[0],p1[1]-u1],[p2[0],p2[1]-u1],[p2[0],p2[1]-u2],[p1[0],p1[1]-u2]],"#000");
 };
 for(let f=0;f<3;f++){
-const yy=-2-f*16;
-poly(g,[P(6,yy),P(16,yy-5),P(16,yy-16),P(6,yy-11)],"#000",null);
-poly(g,[P(21,yy-7.5),P(31,yy-12.5),P(31,yy-23.5),P(21,yy-18.5)],"#000",null);
-poly(g,[P(-6,yy),P(-16,yy-5),P(-16,yy-16),P(-6,yy-11)],"#000",null);
-poly(g,[P(-21,yy-7.5),P(-31,yy-12.5),P(-31,yy-23.5),P(-21,yy-18.5)],"#000",null);
+const u1=20+f*26,u2=u1+16;
+win(F,L,0.2,0.44,u1,u2);
+win(F,L,0.58,0.82,u1,u2);
+win(F,R,0.2,0.44,u1,u2);
+win(F,R,0.58,0.82,u1,u2);
 }
-poly(g,[P(-14,7),P(-4,12),P(-4,-8),P(-14,-13)],"#000",null);
+win(F,L,0.08,0.3,0,16);
 }
-function scenePixel(g){
-g.imageSmoothingEnabled=false;
-g.fillStyle="#000";g.fillRect(0,0,CW*2,CH*2);
-g.globalCompositeOperation="lighter";
-const d=(img,cxx,cyy,w,h)=>g.drawImage(img,(cxx-w/2)*2,(cyy-h/2)*2,w*2,h*2);
-d(HP,210,96,150,128);
-d(AP,306,154,155,158);
-d(TP,114,146,155,158);
-d(TP,210,212,155,158);
-g.globalCompositeOperation="source-over";
-}
-function sceneSmooth(g,plus){
-g.setTransform(2,0,0,2,0,0);
-g.imageSmoothingEnabled=true;
-g.fillStyle="#000";g.fillRect(0,0,CW,CH);
-dia(g,210,110,66,42,plus);
-dia(g,114,158,66,42,plus);
-dia(g,210,206,66,42,plus);
-dia(g,306,158,66,42,plus);
-house(g,210,92,plus);
-apt(g,306,140,plus);
-}
-let n=0;
 function render(){
-const c0=document.getElementById("p0");
-c0.width=CW*2;c0.height=CH*2;
-scenePixel(c0.getContext("2d"));
-const c1=document.getElementById("p1");
-c1.width=CW*2;c1.height=CH*2;
-sceneSmooth(c1.getContext("2d"),false);
-const c2=document.getElementById("p2");
-c2.width=CW*2;c2.height=CH*2;
-sceneSmooth(c2.getContext("2d"),true);
+const c=document.getElementById("cv");
+const d=Math.max(1,Math.round(window.devicePixelRatio||1));
+c.width=CW*d;c.height=CH*d;
+const g=c.getContext("2d");
+g.setTransform(d,0,0,d,0,0);
+g.fillStyle="#000";g.fillRect(0,0,CW,CH);
+dia(g,T.h[0],T.h[1]);
+dia(g,T.a[0],T.a[1]);
+dia(g,T.e1[0],T.e1[1]);
+dia(g,T.e2[0],T.e2[1]);
+const len=Math.hypot(HW,HH);
+const ua=[HW/len,-HH/len],ub=[HW/len,HH/len];
+street(g,T.h,T.a,ua);
+street(g,T.h,T.e1,ub);
+street(g,T.e1,T.e2,ua);
+street(g,T.a,T.e2,ub);
+house(g,T.h[0],T.h[1]-16);
+apt(g,T.a[0],T.a[1]-14);
 }
-[HP,AP,TP].forEach(i=>i.onload=render);
-setTimeout(render,600);
+render();
+addEventListener("resize",render);
 </script>
 </body>
 </html>

@@ -354,6 +354,18 @@ improvement suggestions along the way.
     scale clamped to 1 (embed look). Both ship targets are already
     served by the 16:9 stage law (authored 960x540, integer scaling
     means 1080p fullscreen = crisp 2x, 4K = 4x).
+- USER PASS 6 (2026-07-11, on v.3): FOG only outside the CONNECTED
+  town (band pushed past the cluster: no speckles in corridors; the
+  four are one town). STREETS added, classic Rebuild: gray dashed
+  centerlines in every corridor between adjacent drawn tiles,
+  stopping short of intersections so the meeting reads clean. LIFT
+  hover REMOVED (shine only). SHINE fixed: rendered through an
+  offscreen mask of the tile's own pixels (source-atop), so the
+  sweep touches nothing but the hovered tile. labs/smooth.html
+  rebuilt as ONE crafted panel: vector house (gable, arched door,
+  window), vector tower (window grids, door), anchored-corner
+  dashed diamonds, streets, soft ground glows; verdict decides an
+  in-game smooth switch.
 - USER PASS 5 (2026-07-11, on v.3): src/ now has DIRECTORIES (core/
   stage state font opts save input dev; assets/images; world/board
   tiles; survivors/; game/actions sim; ui/hud topbar panel menu;
