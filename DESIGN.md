@@ -406,17 +406,20 @@ improvement suggestions along the way.
   outline = long straight dash segments along the 45-degree edges
   (four dashes per edge, a dash anchored at every corner so corners
   are never cut), 2px thick.
-- `labs/opening.html` (2026-07-11, v10, PURE 1:1 PROOF after all
-  resampled versions were rejected): the two 123.png icons are
-  LOSSLESS CROPS (ref_house.png 600x510, ref_apt.png 620x630, repo
-  root, gitignored with the reference), blitted side by side on the
-  960x540 stage at exact 1:2 nearest-neighbor (= native pixels on a
-  2x display). NO board, NO tiles, NO extras: nothing on screen but
-  the copied icons pending user approval. These two crops are the
-  CANONICAL ART SOURCE from here on: future tiles must be built at
-  this exact scale and language, and any programmatic use of the
-  icons blits these files (or exact pixel dumps of them), never a
-  redrawn or resampled version.
+- `labs/opening.html` (2026-07-11, v11 = the four together, user
+  approved the 1:1 crops first): 2x2 board on the 960x540 stage, all
+  art traceable to 123.png pixels. HOUSE tile = ref_house.png
+  verbatim (crop carries its own dashed diamond base). APARTMENT
+  tile = ref_apt.png verbatim. The two unknown tiles = ref_tile.png:
+  an empty dashed diamond built purely from the reference's own
+  clean bottom-left edge pixels, mirrored into four quadrants (no
+  drawn pixels), plus a fat "?" glyph. Stamps composited additively
+  (white-on-black art, black contributes nothing) so opaque crop
+  backgrounds cannot erase neighbors. Lattice offset (284,177)
+  source px = diamond half-size + small gap; everything blitted at
+  1:2 nearest (native on 2x displays). ref_house/ref_apt/ref_tile
+  are the CANONICAL ART: all future tiles built at this exact scale
+  and language, blitting files, never redrawing.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 
