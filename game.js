@@ -1,6 +1,4 @@
-const FG="#f2f2f0",BG="#000000",DIM="#333333",MID="#777777",GRAY="#9a9a9a";
-const ROAD="#161616",CURB="#3d3d3d",DASH="#5a5a5a",GLINE="#4a4a4a";
-const HUE_FOOD="#7fa06a",HUE_HOME="#b98e5f",HUE_MAT="#c9a83d";
+const FG="#f2f2f0",BG="#000000",DIM="#333333",MID="#777777";
 const cv=document.getElementById("cv"),cx=cv.getContext("2d");
 let W=960,H=540,k=1,S=1,dpr=1,PORT=false;
 
@@ -74,6 +72,7 @@ function text3(s,x,y,n,al,col){col=col||FG;if(al==="c")x=Math.round(x-tw3(s,n)/2
 function tw7(s,n){return (s.length*6-1)*n;}
 function text7(s,x,y,n,al,col){col=col||FG;if(al==="c")x=Math.round(x-tw7(s,n)/2);if(al==="r")x=Math.round(x-tw7(s,n));for(const ch of s){const g=F7[ch];if(g)for(let r=0;r<7;r++)for(let q=0;q<5;q++)if(g[r][q]==="X")px(x+q*n,y+r*n,n,n,col);x+=6*n;}}
 function blit(c,x,y,n){const a=rr(x),b=rr(y);cx.drawImage(c,a,b,rr(x+c.width*n)-a,rr(y+c.height*n)-b);}
+function blitS(img,x,y,w,h){if(!img.width)return false;const a=rr(x),b=rr(y);cx.drawImage(img,a,b,rr(x+w)-a,rr(y+h)-b);return true;}
 function blitImg(img,x,y,w){if(!img.width)return false;const a=rr(x),b=rr(y);cx.drawImage(img,a,b,rr(x+w)-a,rr(y+w)-b);return true;}
 function edgeR(x,y,w,h,col){px(x,y,w,1,col);px(x,y+h-1,w,1,col);px(x,y,1,h,col);px(x+w-1,y,1,h,col);}
 
@@ -88,70 +87,19 @@ for(let t=0;t<=1;t+=0.05){const x=6.2-4.2*t,y=7.4+3.9*t;on(Math.round(x),Math.ro
 return c;}
 const IC_DISCORD=sheetRows(DISCORD),IC_STEAM=steamSheet();
 
-function disc(g,cx0,cy0,r){for(let y=Math.floor(cy0-r);y<=Math.ceil(cy0+r);y++){const dy=y-cy0,t=r*r-dy*dy;if(t<0)continue;const hw=Math.sqrt(t);for(let x=Math.ceil(cx0-hw);x<=Math.floor(cx0+hw);x++)g.fillRect(x,y,1,1);}}
-function SPRSET(col){
-function T(fn){const c=mk(34),g=c.getContext("2d");g.fillStyle=GLINE;g.fillRect(4,29,26,1);g.fillStyle=col;fn(g);return c;}
-const house=T(g=>{
-g.fillRect(10,17,14,12);
-for(let y=9;y<=16;y++){const hw=Math.round((y-8)*1.15);for(let x=17-hw;x<=17+hw;x++)if(x>=8&&x<=26)g.fillRect(x,y,1,1);}
-g.fillRect(21,10,2,4);
-g.clearRect(14,22,3,7);
-g.clearRect(19,19,3,3);
-});
-const grocery=T(g=>{
-g.fillRect(5,12,24,2);
-g.fillRect(6,14,22,15);
-g.clearRect(9,13,8,1);
-g.clearRect(9,18,9,7);
-g.clearRect(21,19,4,10);
-g.fillRect(22,24,1,1);
-});
-const scrap=T(g=>{
-g.fillRect(4,20,13,1);
-g.fillRect(4,20,1,9);g.fillRect(10,20,1,9);g.fillRect(16,20,1,9);
-g.fillRect(20,23,4,6);
-g.fillRect(24,21,5,8);
-g.fillRect(21,20,3,3);
-disc(g,19,27,2);g.clearRect(19,27,1,1);
-});
-const rubble=T(g=>{
-g.fillRect(5,23,4,6);g.fillRect(5,21,2,2);
-g.fillRect(12,26,9,3);g.fillRect(14,24,4,2);g.fillRect(19,25,2,1);
-g.fillRect(24,24,5,5);g.fillRect(26,22,2,2);
-g.fillRect(10,28,1,1);g.fillRect(22,28,1,1);g.fillRect(17,22,1,1);
-g.clearRect(25,26,2,1);
-});
-const camp=T(g=>{
-for(let i=0;i<14;i++){const half=Math.min(Math.floor(i*0.75),9);for(let x=11-half;x<=11+half;x++)if(x>=2)g.fillRect(x,15+i,1,1);}
-g.clearRect(10,24,3,5);
-g.fillRect(24,28,5,1);
-g.fillRect(26,25,1,3);g.fillRect(25,26,1,2);g.fillRect(27,26,1,2);
-g.fillRect(26,21,1,1);g.fillRect(27,19,1,1);
-});
-const cache=T(g=>{
-g.fillRect(8,21,8,8);g.clearRect(9,24,6,1);
-g.fillRect(18,23,6,6);g.clearRect(19,25,4,1);
-g.fillRect(12,15,6,6);g.clearRect(13,17,4,1);
-g.fillRect(26,27,2,2);
-});
-const lot=T(g=>{
-g.fillRect(6,27,1,2);g.fillRect(11,28,1,1);g.fillRect(17,26,1,3);g.fillRect(23,28,1,1);g.fillRect(28,27,1,2);
-g.fillRect(14,28,2,1);
-});
-return {house,grocery,scrap,rubble,camp,cache,lot};
-}
-const SPR_W=SPRSET(FG),SPR_G=SPRSET(GRAY);
 const RING=(()=>{const c=mk(15),g=c.getContext("2d");g.fillStyle=FG;for(let y=0;y<15;y++)for(let x=0;x<15;x++){const d=Math.hypot(x-7,y-7);if(d<=7.2&&d>=4.6)g.fillRect(x,y,1,1);}return c;})();
 const RING_D=(()=>{const c=mk(15),g=c.getContext("2d");g.fillStyle=MID;for(let y=0;y<15;y++)for(let x=0;x<15;x++){const d=Math.hypot(x-7,y-7);if(d<=7.2&&d>=4.6)g.fillRect(x,y,1,1);}return c;})();
 
 const FACE_FILES=["face_woman","face_man","face_man2","face_woman2","face_man3"];
 const AV=FACE_FILES.map(n=>{const i=new Image();i.src=n+".png?v=1";return i;});
+const T_HOUSE=new Image();T_HOUSE.src="ref_house.png?v=1";
+const T_APT=new Image();T_APT.src="ref_apt.png?v=1";
+const T_TILE=new Image();T_TILE.src="ref_tile.png?v=1";
 
-const KIND_NAME={house:"HOUSE",grocery:"GROCERY",scrap:"SCRAPYARD",rubble:"RUBBLE",camp:"CAMP",cache:"SUPPLY CACHE",lot:"EMPTY LOT",mystery:"UNKNOWN"};
-const HUES={grocery:HUE_FOOD,house:HUE_HOME,scrap:HUE_MAT};
-const TS=102,ST=14,SPEED=55;
+const KIND_NAME={house:"HOUSE",house2:"APARTMENT",grocery:"GROCERY",scrap:"SCRAPYARD",rubble:"RUBBLE",camp:"CAMP",cache:"SUPPLY CACHE",lot:"EMPTY LOT",mysteryroll:"UNKNOWN"};
+const KIND_LABEL={grocery:"GROCERY",scrap:"SCRAP",rubble:"RUBBLE",camp:"CAMP",cache:"CACHE"};
 const SCOUT_T=15,RECLAIM_T=20,RECLAIM_LOT_T=10,CLEAR_T=20,CLEAR_COST=20;
-const EAT_EVERY=40,DAY_LEN=90,FOOD_RATE=1/8,MAT_RATE=1/10,DR=0.65;
+const EAT_EVERY=40,DAY_LEN=90,FOOD_RATE=1/8,MAT_RATE=1/10,DR=0.65,SPEED=55;
 const NAME_BAG=["JUNE","OKON","IVY","CALEB","NOOR","SAGE"];
 const BUBBLES=["COLD TONIGHT.","QUIET OUT THERE.","STILL STANDING.","SMELLS LIKE RAIN.","I MISS MUSIC."];
 
@@ -166,14 +114,14 @@ function newGame(){
 const tiles=[];
 const originKinds=shuffle(["grocery","house","rubble","mystery"]);
 let oi=0;
-const bag=["scrap","scrap","grocery","house","camp"];
+const bag=["scrap","scrap","grocery","house2","camp"];
 if(Math.random()<0.5)bag.push("camp");
 while(bag.length<12)bag.push("lot");
 shuffle(bag);
 let bi=0;
 for(let gy=0;gy<4;gy++)for(let gx=0;gx<4;gx++){
 const origin=(gx===1||gx===2)&&(gy===1||gy===2);
-const t={gx,gy,kind:origin?originKinds[oi++]:bag[bi++],state:"unknown",blocked:false,progress:0,need:0,action:null,reveal:0,pour:0};
+const t={gx,gy,kind:origin?originKinds[oi++]:bag[bi++],state:"unknown",blocked:false,progress:0,need:0,action:null};
 if(origin&&t.kind!=="mystery"){t.state="owned";if(t.kind==="rubble")t.blocked=true;}
 if(t.kind==="mystery")t.kind="mysteryroll";
 tiles.push(t);
@@ -182,21 +130,32 @@ const survivors=[
 {name:"MARA",face:0,x:0,y:0,task:null,arriveAt:0,eatT:EAT_EVERY*0.6,hungry:false,bubble:null,bubT:20+Math.random()*20},
 {name:"REED",face:1,x:0,y:0,task:null,arriveAt:0,eatT:EAT_EVERY,hungry:false,bubble:null,bubT:30+Math.random()*20}
 ];
-G={v:1,t:0,day:1,dayT:0,food:8,mats:0,tiles,survivors,names:shuffle(NAME_BAG.slice()),faces:[2,3,4]};
+G={v:2,t:0,day:1,dayT:0,food:8,mats:0,tiles,survivors,names:shuffle(NAME_BAG.slice()),faces:[2,3,4]};
 for(let i=0;i<G.survivors.length;i++){const sp=idleSpot(G.survivors[i],i);G.survivors[i].x=sp.x;G.survivors[i].y=sp.y;}
 }
 
 function L(){
-if(PORT)return {mapX:45,mapY:64,pnX:45,pnY:548,pnW:450,pnH:300,avX:45,avY:880,hud:20};
-return {mapX:60,mapY:52,pnX:700,pnY:60,pnW:244,pnH:392,avX:700,avY:466,hud:12};
+if(PORT)return {ox:270,oy:100,sc:0.5,pnX:45,pnY:470,pnW:450,pnH:300,avX:45,avY:860,hud:20};
+return {ox:384,oy:120,sc:1,pnX:756,pnY:60,pnW:188,pnH:392,avX:700,avY:466,hud:12};
 }
-function tileXY(t){const l=L();return {x:l.mapX+t.gx*(TS+ST),y:l.mapY+t.gy*(TS+ST)};}
-function tileAt(mx,my){const l=L();for(const t of G.tiles){const p=tileXY(t);if(mx>=p.x&&mx<p.x+TS&&my>=p.y&&my<p.y+TS)return (t.state!=="unknown"||ownedAdjacent(t))?t:null;}return null;}
-function workSpot(t,i){const p=tileXY(t);const off=[[30,68],[72,34],[52,82],[26,38]][i%4];return {x:p.x+off[0],y:p.y+off[1]};}
+function DXY(){const l=L();return {dx:96*l.sc,dy:60*l.sc,hw:66*l.sc,hh:42*l.sc};}
+function tpos(t){const l=L(),d=DXY();return {x:l.ox+(t.gx-t.gy)*d.dx,y:l.oy+(t.gx+t.gy)*d.dy};}
+function tAt(gx,gy){return gx>=0&&gx<4&&gy>=0&&gy<4?G.tiles[gy*4+gx]:null;}
 function ownedAdjacent(t){for(const o of G.tiles){if(o.state!=="owned")continue;if(Math.abs(o.gx-t.gx)+Math.abs(o.gy-t.gy)===1)return true;}return false;}
+function visibleTile(t){return t.state!=="unknown"||ownedAdjacent(t);}
+function tileAt(mx,my){
+const d=DXY();
+for(const t of G.tiles){
+const p=tpos(t);
+const m=Math.abs(mx-p.x)/d.hw+Math.abs(my-p.y)/d.hh;
+if(m<=1)return visibleTile(t)?t:null;
+}
+return null;
+}
+function workSpot(t,i){const p=tpos(t),l=L();const off=[[0,-26],[30,10],[-30,10],[0,26]][i%4];return {x:p.x+off[0]*l.sc,y:p.y+off[1]*l.sc};}
+function idleSpot(s,i){const l=L(),d=DXY();const cx0=l.ox,cy0=l.oy+3*d.dy;const off=[[-30,6],[30,-6],[-10,-20],[12,20],[-44,-8],[44,8]][i%6];return {x:cx0+off[0]*l.sc,y:cy0+off[1]*l.sc};}
 function crew(t){return G.survivors.filter(s=>s.task&&s.task.tile===t);}
 function arrived(t){return crew(t).filter(s=>G.t>=s.arriveAt&&(!s.hungry||t.kind==="grocery"));}
-function idleSpot(s,i){const l=L();const cx0=l.mapX+2*TS+1.5*ST,cy0=l.mapY+2*TS+1.5*ST;const off=[[-26,12],[26,-12],[-10,-32],[12,32],[-38,-10],[38,12]][i%6];return {x:cx0+off[0],y:cy0+off[1]};}
 
 function assign(t,type,members){
 for(const s of members){s.task={type,tile:t};const sp=workSpot(t,G.survivors.indexOf(s));const d=Math.hypot(sp.x-s.x,sp.y-s.y);s.arriveAt=G.t+d/SPEED;}
@@ -211,12 +170,12 @@ function finish(t){
 const type=t.action;
 t.action=null;t.progress=0;
 if(type==="scout"){
-t.state="scouted";t.reveal=1;
+t.state="scouted";
 if(t.kind==="mysteryroll"){const r=Math.random();t.kind=r<0.4?"grocery":(r<0.75?"cache":"lot");}
 for(const s of crew(t))s.task=null;
 }
 if(type==="reclaim"){
-t.state="owned";t.pour=1;
+t.state="owned";
 if(t.kind==="camp"){t.kind="lot";recruit(t);}
 else if(t.kind==="cache"){G.mats+=25;t.kind="lot";}
 for(const s of crew(t))s.task=null;
@@ -227,8 +186,8 @@ function recruit(t){
 if(G.survivors.length>=6)return;
 const name=G.names.pop()||"ASH";
 const face=G.faces.length?G.faces.shift():1;
-const p=tileXY(t);
-const s={name,face,x:p.x+51,y:p.y+51,task:null,arriveAt:0,eatT:EAT_EVERY,hungry:false,bubble:{text:"THANK YOU.",t:4},bubT:30};
+const p=tpos(t);
+const s={name,face,x:p.x,y:p.y,task:null,arriveAt:0,eatT:EAT_EVERY,hungry:false,bubble:{text:"THANK YOU.",t:4},bubT:30};
 G.survivors.push(s);
 }
 
@@ -246,8 +205,6 @@ const r=mult(n)*(t.kind==="grocery"?FOOD_RATE:MAT_RATE)*dt;
 if(t.kind==="grocery")G.food+=r;else G.mats+=r;
 }
 }
-if(t.reveal>0)t.reveal=Math.max(0,t.reveal-dt*2);
-if(t.pour>0)t.pour=Math.max(0,t.pour-dt*2.5);
 }
 for(const s of G.survivors){
 s.eatT-=dt;
@@ -275,77 +232,40 @@ if(d>1){const step=Math.min(d,SPEED*dt*ts);s.x+=(target.x-s.x)/d*step;s.y+=(targ
 }
 }
 
-function hash2(x,y){return Math.abs(Math.sin(x*12.9898+y*78.233)*43758.5453)%1;}
-function unknownTile(x,y,amt){
-for(let yy=0;yy<TS;yy+=2)for(let xx=0;xx<TS;xx+=2){
-if(amt>0&&hash2(xx,yy)<amt)px(x+xx,y+yy,2,2,"#101010");
-}}
-function tAt(gx,gy){return gx>=0&&gx<4&&gy>=0&&gy<4?G.tiles[gy*4+gx]:null;}
-function explored(t){return !!t&&t.state!=="unknown";}
-let fogCv=null,fogKey="";
-function fogLayer(){
+function diaDashFallback(x,y,col){
+const d=DXY();
+cx.fillStyle=col;
+for(let i=0;i<=28;i++){
+if(i%7>=4)continue;
+const xx=i*d.hw/28,yy=i*d.hh/28;
+px(x+xx,y-d.hh+yy,2,2,col);
+px(x-xx-2,y-d.hh+yy,2,2,col);
+px(x+xx,y+d.hh-yy-2,2,2,col);
+px(x-xx-2,y+d.hh-yy-2,2,2,col);
+}
+}
+function stampTile(x,y){
 const l=L();
-const key=G.tiles.map(t=>t.state!=="unknown"?"e":(ownedAdjacent(t)?"a":"u")).join("")+"|"+S+"|"+W+"|"+cv.width;
-if(key===fogKey&&fogCv)return fogCv;
-fogKey=key;
-fogCv=mk(cv.width,cv.height);
-const g=fogCv.getContext("2d");
-const P=(x,y,w,h,col)=>{g.fillStyle=col;const a=rr(x),b=rr(y);g.fillRect(a,b,rr(x+w)-a,rr(y+h)-b);};
-const rects=[];
-const road=(x,y,w,h)=>{P(x,y,w,h,ROAD);rects.push({x,y,w,h});};
-for(let i=0;i<3;i++)for(let gy=0;gy<4;gy++){
-if(explored(tAt(i,gy))||explored(tAt(i+1,gy))){
-const x=l.mapX+TS+i*(TS+ST),y=l.mapY+gy*(TS+ST);
-road(x,y,ST,TS);
-P(x,y,1,TS,CURB);P(x+ST-1,y,1,TS,CURB);
-for(let yy=l.mapY+4;yy+8<=y+TS;yy+=24)if(yy>=y)P(x+6,yy,2,8,DASH);
-}}
-for(let j=0;j<3;j++)for(let gx=0;gx<4;gx++){
-if(explored(tAt(gx,j))||explored(tAt(gx,j+1))){
-const y=l.mapY+TS+j*(TS+ST),x=l.mapX+gx*(TS+ST);
-road(x,y,TS,ST);
-P(x,y,TS,1,CURB);P(x,y+ST-1,TS,1,CURB);
-for(let xx=l.mapX+4;xx+8<=x+TS;xx+=24)if(xx>=x)P(xx,y+6,8,2,DASH);
-}}
-for(let i=0;i<3;i++)for(let j=0;j<3;j++){
-if(explored(tAt(i,j))||explored(tAt(i+1,j))||explored(tAt(i,j+1))||explored(tAt(i+1,j+1))){
-road(l.mapX+TS+i*(TS+ST),l.mapY+TS+j*(TS+ST),ST,ST);
-}}
-for(const t of G.tiles){
-const tx=l.mapX+t.gx*(TS+ST),ty=l.mapY+t.gy*(TS+ST);
-if(t.state!=="unknown"){rects.push({x:tx,y:ty,w:TS,h:TS});continue;}
-if(!ownedAdjacent(t))continue;
-P(tx,ty,TS,TS,"#0e0e0e");
-const eL=!explored(tAt(t.gx-1,t.gy)),eR=!explored(tAt(t.gx+1,t.gy)),eT=!explored(tAt(t.gx,t.gy-1)),eB=!explored(tAt(t.gx,t.gy+1));
-for(let yy=0;yy<TS;yy+=2)for(let xx=0;xx<TS;xx+=2){
-let d=1e9;
-if(eL)d=Math.min(d,xx);
-if(eR)d=Math.min(d,TS-2-xx);
-if(eT)d=Math.min(d,yy);
-if(eB)d=Math.min(d,TS-2-yy);
-if(d<14&&hash2(tx+xx,ty+yy)<0.55-d*0.04)P(tx+xx,ty+yy,2,2,BG);
+if(T_TILE.width){cx.globalCompositeOperation="lighter";blitS(T_TILE,x-71*l.sc,y-77*l.sc,150*l.sc,128*l.sc);cx.globalCompositeOperation="source-over";}
+else diaDashFallback(x,y,FG);
 }
+function stampHouse(x,y){
+const l=L();
+if(T_HOUSE.width){cx.globalCompositeOperation="lighter";blitS(T_HOUSE,x-71*l.sc,y-77*l.sc,150*l.sc,128*l.sc);cx.globalCompositeOperation="source-over";return true;}
+return false;
 }
-const x0=l.mapX-24,y0=l.mapY-24,x1=l.mapX+4*TS+3*ST+24,y1=l.mapY+4*TS+3*ST+24;
-for(let yy=y0;yy<y1;yy+=2)for(let xx=x0;xx<x1;xx+=2){
-let d=1e9;
-for(const r of rects){
-const ddx=Math.max(r.x-xx,xx-(r.x+r.w),0),ddy=Math.max(r.y-yy,yy-(r.y+r.h),0);
-const dd=Math.max(ddx,ddy);
-if(dd<d)d=dd;
-if(d===0)break;
+function stampApt(x,y){
+const l=L();
+if(T_APT.width){cx.globalCompositeOperation="lighter";blitS(T_APT,x-71*l.sc,y-108*l.sc,155*l.sc,158*l.sc);cx.globalCompositeOperation="source-over";return true;}
+return false;
 }
-if(d>0&&d<23&&hash2(xx,yy)<0.45-d*0.02)P(xx,yy,2,2,"#1e1e1e");
-}
-return fogCv;
-}
-function bubble(x,y,s){
-const wdt=tw7(s,1)+10;
-let bx=Math.min(Math.max(4,x),W-wdt-4);
-px(bx,y,wdt,13,BG);
-edgeR(bx,y,wdt,13,FG);
-text7(s,bx+5,y+3,1);
-px(x+1,y+13,1,1,FG);px(x,y+14,1,1,FG);
+
+function vertexMarks(t,col){
+const p=tpos(t),d=DXY();
+px(p.x-4,p.y-d.hh-8,8,3,col);
+px(p.x-4,p.y+d.hh+5,8,3,col);
+px(p.x-d.hw-10,p.y-1,8,3,col);
+px(p.x+d.hw+2,p.y-1,8,3,col);
 }
 
 function statusOf(s){
@@ -365,56 +285,65 @@ else{edgeR(x,y,w,44,en===false?DIM:FG);text7(label,x+w/2,y+15,2,"c",en===false?D
 function drawGame(){
 const l=L();
 uiButtons=[];
-cx.drawImage(fogLayer(),0,0);
-for(const t of G.tiles){
-const p=tileXY(t);
-if(t.state!=="unknown"){
-px(p.x-1,p.y-1,TS+2,TS+2,BG);
-edgeR(p.x-1,p.y-1,TS+2,TS+2,t.state==="owned"?DIM:"#262626");
-const set=t.state==="owned"?SPR_W:SPR_G;
-const kind=t.kind==="mysteryroll"?"lot":t.kind;
-blit(set[kind]||set.lot,p.x,p.y,3);
-if(t.state==="owned"&&!t.blocked&&HUES[t.kind]){
-const full=78,wdt=t.pour>0?Math.round(full*(1-t.pour)):full;
-px(p.x+12,p.y+87,wdt,3,HUES[t.kind]);
+const sorted=[...G.tiles].sort((a,b)=>(a.gx+a.gy)-(b.gx+b.gy));
+for(const t of sorted){
+const p=tpos(t);
+if(t.state==="unknown"){
+if(!ownedAdjacent(t))continue;
+cx.globalAlpha=0.45;
+stampTile(p.x,p.y);
+cx.globalAlpha=0.9;
+text7("?",p.x,p.y-10*l.sc,l.sc>0.6?3:2,"c");
+cx.globalAlpha=1;
+}else{
+cx.globalAlpha=t.state==="owned"?1:0.55;
+if(t.kind==="house"){if(!stampHouse(p.x,p.y)){stampTile(p.x,p.y);text7("HOUSE",p.x,p.y-3,1,"c");}}
+else if(t.kind==="house2"){if(!stampApt(p.x,p.y)){stampTile(p.x,p.y);text7("APT",p.x,p.y-3,1,"c");}}
+else{
+stampTile(p.x,p.y);
+const lb=KIND_LABEL[t.kind];
+if(lb)text7(lb,p.x,p.y-3,1,"c");
 }
-if(t.reveal>0){unknownTile(p.x,p.y,t.reveal*0.9);}
+cx.globalAlpha=1;
 }
 if(t.action){
 const frac=Math.min(1,t.progress);
-px(p.x+21,p.y+6,60,4,"#262626");
-if(frac>0)px(p.x+21,p.y+6,Math.max(1,Math.round(60*frac)),4,FG);
+const d=DXY();
+px(p.x-30,p.y-d.hh-16,60,4,"#262626");
+if(frac>0)px(p.x-30,p.y-d.hh-16,Math.max(1,Math.round(60*frac)),4,FG);
 }
 }
-if(hoverTile&&hoverTile!==sel){cornerMarks(hoverTile,DIM);}
-if(sel){cornerMarks(sel,FG);}
+if(hoverTile&&hoverTile!==sel){vertexMarks(hoverTile,DIM);}
+if(sel){vertexMarks(sel,FG);}
+const rn=l.sc>0.6?2:1;
 for(let i=0;i<G.survivors.length;i++){
 const s=G.survivors[i];
-blit(s.hungry?RING_D:RING,s.x-15,s.y-15,2);
+blit(s.hungry?RING_D:RING,s.x-7.5*rn,s.y-7.5*rn,rn);
 const nw=tw7(s.name,1);
-px(s.x-nw/2-2,s.y-30,nw+4,11,BG);
-text7(s.name,s.x,s.y-28,1,"c");
+px(s.x-nw/2-2,s.y-15*rn-14,nw+4,11,BG);
+text7(s.name,s.x,s.y-15*rn-12,1,"c");
 }
-for(const s of G.survivors)if(s.bubble)bubble(s.x+6,s.y-48,s.bubble.text);
+for(const s of G.survivors)if(s.bubble)bubble(s.x+6,s.y-15*rn-32,s.bubble.text);
 text7("FOOD "+Math.floor(G.food),16,l.hud,2);
 text7("MATERIALS "+Math.floor(G.mats),160,l.hud,2);
 text7("DAY "+G.day,W-16,l.hud+2,1,"r",MID);
 drawPanel();
 drawPortraits();
 }
-function cornerMarks(t,col){
-const p=tileXY(t);
-px(p.x-3,p.y-3,8,2,col);px(p.x-3,p.y-3,2,8,col);
-px(p.x+TS-5,p.y-3,8,2,col);px(p.x+TS+1,p.y-3,2,8,col);
-px(p.x-3,p.y+TS-5,2,8,col);px(p.x-3,p.y+TS+1,8,2,col);
-px(p.x+TS-5,p.y+TS+1,8,2,col);px(p.x+TS+1,p.y+TS-5,2,8,col);
+function bubble(x,y,s){
+const wdt=tw7(s,1)+10;
+let bx=Math.min(Math.max(4,x),W-wdt-4);
+px(bx,y,wdt,13,BG);
+edgeR(bx,y,wdt,13,FG);
+text7(s,bx+5,y+3,1);
+px(x+1,y+13,1,1,FG);px(x,y+14,1,1,FG);
 }
 function drawPanel(){
 const l=L();
 if(!sel){edgeR(l.pnX,l.pnY,l.pnW,64,DIM);text7("TOWN",l.pnX+16,l.pnY+14,2,null,MID);text7(G.survivors.length+" SURVIVORS",l.pnX+16,l.pnY+38,1,null,MID);return;}
 const t=sel;
 edgeR(l.pnX,l.pnY,l.pnW,l.pnH,DIM);
-const name=t.state==="unknown"?"UNKNOWN":KIND_NAME[t.kind==="mysteryroll"?"mystery":t.kind];
+const name=t.state==="unknown"?"UNKNOWN":KIND_NAME[t.kind];
 text7(name,l.pnX+16,l.pnY+14,2);
 let status=t.state.toUpperCase();
 if(t.state==="owned"&&t.blocked)status="BLOCKED";
@@ -457,8 +386,8 @@ text7(statusOf(s),l.pnX+42,y+20,1,null,MID);
 y+=48;
 }
 y+=4;
-btn("pick_go","START",l.pnX+16,y,110,picker.set.size>0);
-btn("pick_no","CANCEL",l.pnX+140,y,110);
+btn("pick_go","START",l.pnX+16,y,80,picker.set.size>0);
+btn("pick_no","CANCEL",l.pnX+100,y,80);
 }
 function drawPortraits(){
 const l=L();
@@ -509,7 +438,7 @@ else drawGame();
 
 function save(){
 if(saveGag||!G)return;
-const data={v:1,t:G.t,day:G.day,dayT:G.dayT,food:G.food,mats:G.mats,names:G.names,faces:G.faces,
+const data={v:2,t:G.t,day:G.day,dayT:G.dayT,food:G.food,mats:G.mats,names:G.names,faces:G.faces,
 tiles:G.tiles.map(t=>({gx:t.gx,gy:t.gy,kind:t.kind,state:t.state,blocked:t.blocked,progress:t.progress,need:t.need,action:t.action})),
 survivors:G.survivors.map(s=>({name:s.name,face:s.face,x:Math.round(s.x),y:Math.round(s.y),eatT:s.eatT,hungry:s.hungry,
 task:s.task?{type:s.task.type,gx:s.task.tile.gx,gy:s.task.tile.gy}:null}))};
@@ -520,9 +449,9 @@ try{
 const raw=localStorage.getItem("goodbyes_save");
 if(!raw)return false;
 const d=JSON.parse(raw);
-if(d.v!==1)return false;
-G={v:1,t:d.t,day:d.day,dayT:d.dayT,food:d.food,mats:d.mats,names:d.names,faces:d.faces,tiles:[],survivors:[]};
-G.tiles=d.tiles.map(t=>({gx:t.gx,gy:t.gy,kind:t.kind,state:t.state,blocked:t.blocked,progress:t.progress,need:t.need,action:t.action,reveal:0,pour:0}));
+if(d.v!==2)return false;
+G={v:2,t:d.t,day:d.day,dayT:d.dayT,food:d.food,mats:d.mats,names:d.names,faces:d.faces,tiles:[],survivors:[]};
+G.tiles=d.tiles.map(t=>({gx:t.gx,gy:t.gy,kind:t.kind,state:t.state,blocked:t.blocked,progress:t.progress,need:t.need,action:t.action}));
 G.survivors=d.survivors.map(s=>{
 const sv={name:s.name,face:s.face,x:s.x,y:s.y,eatT:s.eatT,hungry:s.hungry,task:null,arriveAt:0,bubble:null,bubT:20+Math.random()*20};
 if(s.task){const tile=G.tiles.find(t=>t.gx===s.task.gx&&t.gy===s.task.gy);if(tile)sv.task={type:s.task.type,tile};}
@@ -569,7 +498,7 @@ const t=tileAt(p.x,p.y);
 const l=L();
 const inPanel=sel&&p.x>=l.pnX&&p.x<=l.pnX+l.pnW&&p.y>=l.pnY&&p.y<=l.pnY+l.pnH;
 if(t){sel=t;picker=null;}
-else if(!inPanel&&p.y>l.mapY-20){sel=null;picker=null;}
+else if(!inPanel&&p.y>40){sel=null;picker=null;}
 });
 function clickUI(id){
 if(id.startsWith("act_")){

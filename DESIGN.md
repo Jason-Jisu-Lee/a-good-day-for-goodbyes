@@ -291,6 +291,27 @@ improvement suggestions along the way.
 - Keep a license/commercial-use record per track (royalty-free terms and
   AI-generator terms vary); matters for itch/Steam release.
 
+## First phase v2 (REBUILT 2026-07-11 on the diamond board, game.js v7)
+- Same locked mechanics as the first slice below (scout / reclaim /
+  clear / gather, crew picker r=0.65, mystery table, recruits from
+  camps, hunger pause, localStorage save, debug panel, menu -> ENTER).
+- World rendered in the canonical reference art: 4x4 grid as a
+  diamond lattice, offsets (96,60) px landscape (32px street
+  corridors), half scale in portrait, same commit.
+- Tile visuals: HOUSE = ref_house.png stamp verbatim; ring-1 resident
+  variety = house2 kind using ref_apt.png (apartment); all other
+  kinds = ref_tile.png empty dashed diamond + 5x7 label (GROCERY,
+  SCRAP, RUBBLE, CAMP, CACHE; empty lot = bare tile). Scoutable
+  frontier and the origin mystery = dim tile + fat "?". Deep fog =
+  pure black, nothing drawn, unclickable. Scouted-not-owned = 0.55
+  alpha until reclaimed. Stamps composite additively; graceful
+  fallbacks (code-drawn dashes + labels) when the gitignored art
+  files are absent (public repo runs without them).
+- Selection = ticks at the diamond's four vertices. Survivor rings at
+  2x landscape / 1x portrait, names above, bubbles kept. Old streets,
+  fog speckles, checker edges, hue lines: all gone.
+- Save format v2; v1 saves discarded on load.
+
 ## First slice (BUILT 2026-07-10, game.js + index.html)
 - Menu -> ENTER -> live town. Origin 2x2 (grocery, house, rubble,
   mystery cell, arrangement randomized per run) + safe ring 1 (12
