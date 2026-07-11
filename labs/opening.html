@@ -16,92 +16,185 @@ canvas{display:block;margin:0 auto;image-rendering:pixelated;width:960px;max-wid
 <canvas id="cv"></canvas>
 </div>
 <script>
-const FG="#f2f2f0",BG="#000000",MID="#8a8a8a",FOG="#3a3a3a";
-const BW=240,BH=135;
+const FG="#f2f2f0",BG="#000000",MID="#8a8a8a";
+const BW=480,BH=270;
 function mk(w,h){const c=document.createElement("canvas");c.width=w;c.height=h||w;return c;}
-function hash2(x,y){return Math.abs(Math.sin(x*12.9898+y*78.233)*43758.5453)%1;}
-function CS(w,h,fn){const c=mk(w,h),g=c.getContext("2d");g.fillStyle=FG;fn(g);return c;}
 
-const HOUSE=CS(30,30,g=>{
-const b=x=>28-Math.floor(Math.abs(x-16)/2);
-for(let x=6;x<=26;x++)g.fillRect(x,b(x)-7,1,8);
-g.clearRect(16,22,1,7);
-for(let x=16;x<=26;x++){const t=9+2*Math.abs(x-21);const bb=b(x)-7;if(t<bb)g.fillRect(x,t,1,bb-t);}
-for(let x=6;x<=21;x++){
-const top=x<11?Math.round(16+(x-6)*(4-16)/5):Math.round(4+(x-11)*0.5);
-const bot=x<=16?16+Math.round((x-6)*0.5):Math.round(21+(x-16)*(9-21)/5);
-if(top<bot)g.fillRect(x,top,1,bot-top);
+const HOUSE_D=[
+"................................XXXX..........................",
+".............................XXXXXXX..........................",
+"............................XXXXXXXXXX........................",
+"..........................XXXXXXXXXXXX........................",
+"........................XXXXXXXXXXXXXX........................",
+".......................XXXXXXXXXXXXXXXX.......................",
+".....................XXXXXXXXXXXXXXXXXXX......................",
+"..................XXXXXXXXXXXXXXXXXXXXXX......................",
+"..................XXXXXXXXXXXXXXXXXXXXXX......................",
+"...............XXXXXXXXXXXXXXXXXXXXXXXXXXX....................",
+".............XXXXXXXXXXXXXXXXXXXXXXXXXXXXX....................",
+".............XXXXXXXXXXXXXXXXXXXXXXXXXXXXX....................",
+"..........XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX..................",
+"........XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX..................",
+".......XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX..................",
+".....XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX................",
+".....XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX................",
+"...XXXXX....XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX................",
+".XXXXX......XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX................",
+"XXXXXX......XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX..............",
+"XXX....XXXXX..XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.............",
+"X....XXXXXXX...XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.............",
+"....XXXXXXXX....XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX..............",
+"..XXXXXXXXXXXX..XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX................",
+"..XXXXXXXXXXXX..XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX................",
+"..XXXXXXXXXXXX....XXXXXXXXXXXXXXXXXXXXXXXXXX..................",
+"..XXXXXXXXXXXXX...XXXXXXXXXXXXXXXXXXXXXXXX....................",
+"..XXXXXXXXXXXXXX....XXXXXXXXXXXXXXXXXXXX......................",
+"..XXXXXXXXXXXXXXXX..XXXXXXXXXXXXXXXXXX......XX................",
+"..XXXXXXXXXXXXXXXX..XXXXXXXXXXXXXXXXXX....XXXX................",
+"..XXXXXXXXXXXXXXXX...XXXXXXXXXXXXXX.....XXXXXX................",
+"..XXXXXXXXXXXXXXXXX...XXXXXXXXXXX.....XXXXXXXX................",
+"..XXXXXXXXXXXXXXXXXX..XXXXXXXXXX.....XXXXXXXXX................",
+"..XXXXXXXXXXXXXXXXXX....XXXXXX.....XXXXXXXXXXX..XX............",
+"..XXXXXXXXXXXXXXXXXX....XXXXXX....XXXXXXXXXXXX..XXX...........",
+"..XXXXXX..XXXXXXXXXXXX..........XXXXXX..XXXXXX..XXXXX.........",
+"..XXXXXX...XXXXXXXXXXX.......XXXXXXX....XXXXXX....XXXXXX......",
+"..XXXXXX....XXXXXXXXXXX......XXXXXX.....XXXXXX.....XXXXX......",
+"..XXXXXX......XXXXXXXXXX..XXXXXXX.......XXXXXX.......XXXXX....",
+"..XXXXXX.......XXXXXXXXX..XXXXXXX.......XXXXXX.........XXXXXX.",
+"..XXXXXX........XXXXXXXX..XXXXXXX.......XXXXXX..........XXXXXX",
+"..XXXXXX.......XXXXXXXXX..XXXXXXX.......XXXXXX............XXXX",
+"..XXXXXX.......XXXXXXXXX..XXXXXXX.....XXXXXXXX..............XX",
+"..XXXXXX.......XXXXXXXXX..XXXXXXX...XXXXXXXXXX...............X",
+"....XXXX.......XXXXXXXXX..XXXXXXX..XXXXXXXXX..................",
+"......XX.......XXXXXXXXX..XXXXXXXXXXXXXXXX....................",
+"...............XXXXXXXXX..XXXXXXXXXXXXXX......................",
+"...............XXXXXXXXX..XXXXXXXXXXXXXX......................",
+"...............XXXXXXXXX..XXXXXXXXXXXX........................",
+"...............XXXXXXXXX..XXXXXXXXXX..........................",
+"................XXXXXXXX..XXXXXXXXX...........................",
+"..................XXXXXX..XXXXXXX.............................",
+"....................XXXX..XXXXX...............................",
+"......................XX..XXX.................................",
+"......................XX..XX..................................",
+".............................................................."
+];
+const APT_D=[
+".......................XXXXX.........................",
+".......................XXXXX.........................",
+"....................XXXXXXXXXXX......................",
+"...................XXXXXXXXXXXX......................",
+"................XXXXXXXX...XXXXXXX...................",
+"..............XXXXXXXXX.....XXXXXXXX.................",
+".............XXXXXXXX.........XXXXXX.................",
+"...........XXXXXXX...............XXXXXX..............",
+".........XXXXXXXXX...............XXXXXXXXX...........",
+"........XXXXXXX.....................XXXXXXX..........",
+".......XXXXXX.........................XXXXXX.........",
+"....XXXXXXX.............................XXXXXXX......",
+"..XXXXXXXX...............................XXXXXXXX....",
+"..XXXXXX....................................XXXXX....",
+"XXXXX.........................................XXXXX..",
+"XXXXX.........................................XXXXXX.",
+"XXXXXXXX....................................XXXXXXX..",
+"XXXXXXXXXX...............................XXXXXXXXXX..",
+"XXXXXXXXXXX..............................XXXXXXXXXX..",
+"XXXXXXXXXXXXX.........................XXXXXXXXXXXXX..",
+"XXXXXXXXXXXXXXX.....................XXXXXXXXXXXXXXX..",
+"XXXXXXXXXXXXXXXX....................XXXXXXXXXXXXXXX..",
+"XXXXXXXXXXXXXXXXXX................XXXXXXXXXXXXXXXXX..",
+"XXXXXXXXXXXXXXXXXXXXX..........XXXXXXXXXXXXXXXXXXXX..",
+"XXXXXXXXXXXXXXXXXXXXX..........XXXXXXXXXXXXXXXXXXXX..",
+"XXXXX.XXXXXXXXXXXXXXXXX.....XXXXXXXXXXXXXXXXX..XXXX..",
+"XXXXX...XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX....XXXX..",
+"XXXXX....XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.....XXXX..",
+"XXXXX......XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX......XXXX..",
+"XXXXX......XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX......XXXX..",
+"XXXXX......XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX......XXXX..",
+"XXXXX......XXXXX.XXXXXXXXXXXXXXXXX..XXXXX.....XXXXX..",
+"XXXXXXX....XXXXX...XXXXXXXXXXXXX....XXXXX....XXXXXX..",
+"XXXXXXXXX..XXXXX.....XXXXXXXXX......XXXXX..XXXXXXXX..",
+"XXXXXXXXXXXXXXXX......XXXXXXXX......XXXXXXXXXXXXXXX..",
+"XXXXXXXXXXXXXXXX......XXXXXXXX......XXXXXXXXXXXXXXX..",
+"XXXXXXXXXXXXXXXX......XXXXXXXX......XXXXXXXXXXXXXXX..",
+"XXXXXXXXXXXXXXXXX.....XXXXXXXX....XXXXXXXXXXXXXXXXX..",
+"XXXXX.XXXXXXXXXXXX....XXXXXXXX....XXXXXXXXXXX..XXXX..",
+"XXXXX...XXXXXXXXXXXX..XXXXXXXX..XXXXXXXXXXX....XXXX..",
+"XXXXX....XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.....XXXX..",
+"XXXXX......XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX......XXXX..",
+"XXXXX......XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX......XXXX..",
+"XXXXX......XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX......XXXX..",
+"XXXXX......XXXXX.XXXXXXXXXXXXXXXXX..XXXXX......XXXX..",
+"XXXXXXX....XXXXX...XXXXXXXXXXXXX....XXXXX....XXXXXX..",
+"XXXXXXXX...XXXXX.....XXXXXXXXXX.....XXXXX..XXXXXXXX..",
+"XXXXXXXXX.XXXXXX......XXXXXXXX......XXXXX.XXXXXXXXX..",
+"XXXXXXXXXXXXXXXX.....XXXXXXXXX......XXXXXXXXXXXXXXX..",
+"XXXXXXXXXXXXXXXX......XXXXXXXX......XXXXXXXXXXXXXXX..",
+"XXXXXXXXXXXXXXXXX.....XXXXXXXX.....XXXXXXXXXXXXXXXX..",
+"XXXXXXXXXXXXXXXXXX...XXXXXXXXX....XXXXXXXXXXXXXXXXX..",
+"XXXXX..XXXXXXXXXXXXX..XXXXXXXX..XXXXXXXXXXXX...XXXX..",
+"XXXXX....XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX....XXXX..",
+"XXXXX......XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX......XXXX..",
+"XXXXX......XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX......XXXX..",
+"XXXXX......XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX......XXXX..",
+"XXXXX......XXXXX.XXXXXXXXXXXXXXXXX..XXXXX......XXXX..",
+"XXXXXX.....XXXXX...XXXXXXXXXXXXX....XXXXX....XXXXXX..",
+"XXXXXXX....XXXXX....XXXXXXXXXXX.....XXXXX...XXXXXXX..",
+"XXXXXXXXX.XXXXXX......XXXXXXXX......XXXXX..XXXXXXXX..",
+"XXXXXXXXXXXXXXXX......XXXXXXXX......XXXXXXXXXXXXXXX..",
+"XXXXXXXXXXXXXXXX......XXXXXXXX......XXXXXXXXXXXXXXX..",
+"XXXXXXXXXXXXXXXXX.....XXXXXXXX......XXXXXXXXXXXXXXXX.",
+"XXXXXXXXXXXXXXXXXX...XXXXXXXXX......XXXXXXXXXXXXXXX..",
+"..XXXXXXXXXXXXXXXXXX.XXXXXXXXX......XXXXXXXXXXXXX....",
+"....XXXXXXXXXXXXXXXXXXXXXXXXXX......XXXXXXXXXXX......",
+".....XXXXXXXXXXXXXXXXXXXXXXXXX......XXXXXXXXXXX......",
+"........XXXXXXXXXXXXXXXXXXXXXX......XXXXXXX..........",
+"..........XXXXXXXXXXXXXXXXXXXX......XXXXX............",
+"...........XXXXXXXXXXXXXXXXXXX......XXXXX............",
+".............XXXXXXXXXXXXXXXXX......XX...............",
+"...............XXXXXXXXXXXXXXX......................."
+];
+function cleanHouse(){
+const rows=HOUSE_D.map(r=>r.split(""));
+for(let r=49;r<rows.length;r++)for(let c=47;c<62;c++)rows[r][c]=".";
+return rows.map(r=>r.join(""));
 }
-for(let i=0;i<=5;i++)g.clearRect(21-i,9+Math.round(i*12/5),1,1);
-for(let x=6;x<=16;x++)g.clearRect(x,16+Math.round((x-6)*0.5),1,1);
-g.fillRect(13,0,2,4);
-g.clearRect(9,22,4,5);
-g.fillRect(9,22,1,1);g.fillRect(12,22,1,1);
-g.clearRect(20,22,3,3);
-});
-const APT=CS(30,36,g=>{
-const b=x=>34-Math.floor(Math.abs(x-14)/2);
-for(let x=2;x<=26;x++)g.fillRect(x,b(x)-18,1,19);
-for(let dy=-5;dy<=5;dy++){const hw=2*(6-Math.abs(dy));g.fillRect(14-hw,10+dy,hw*2,1);}
-g.fillRect(13,4,2,1);g.fillRect(13,16,2,1);
-for(let i=0;i<=12;i++){g.clearRect(2+i,10+Math.round(i/2),1,1);g.clearRect(26-i,10+Math.round(i/2),1,1);}
-g.clearRect(14,17,1,17);
-g.clearRect(4,13,3,4);g.clearRect(4,19,3,4);g.clearRect(4,25,3,4);
-g.clearRect(9,15,3,4);g.clearRect(9,21,3,4);g.clearRect(9,27,3,4);
-g.clearRect(17,15,3,4);g.clearRect(17,21,3,4);g.clearRect(17,27,3,4);
-g.clearRect(22,13,3,4);g.clearRect(22,19,3,4);g.clearRect(22,25,3,4);
-g.clearRect(15,28,3,6);
-});
-const RUB=CS(36,26,g=>{
-const b=x=>22-Math.round(Math.abs(x-17)/2);
-for(let x=4;x<=30;x++){
-if((x>=10&&x<=13)||(x>=21&&x<=24))continue;
-g.fillRect(x,b(x)-2,1,3);
+function ruinRows(){
+const rows=cleanHouse().map(r=>r.split(""));
+for(let r=0;r<20;r++)for(let c=0;c<62;c++)rows[r][c]=".";
+for(let r=20;r<35;r++)for(let c=23;c<62;c++)rows[r][c]=".";
+for(let r=35;r<rows.length;r++)for(let c=34;c<62;c++)rows[r][c]=".";
+return rows.map(r=>r.join(""));
 }
-for(let x=26;x<=30;x++)g.fillRect(x,b(x)-7,1,8);
-g.clearRect(27,b(27)-5,2,2);
-g.fillRect(12,14,3,2);g.fillRect(16,17,4,2);g.fillRect(20,13,3,2);g.fillRect(14,19,3,2);
-for(let i=0;i<4;i++)g.fillRect(8+2*i,11+i,4,2);
-g.fillRect(24,18,2,2);g.fillRect(10,16,2,1);
-});
+function spr(arr){
+const w=arr[0].length,h=arr.length,c=mk(w,h),g=c.getContext("2d");
+g.fillStyle=FG;
+for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(arr[y][x]==="X")g.fillRect(x,y,1,1);
+return c;
+}
+const HOUSE=spr(cleanHouse());
+const APT=spr(APT_D);
+const RUIN=spr(ruinRows());
 
-const F7={
-"M":["X...X","XX.XX","X.X.X","X.X.X","X...X","X...X","X...X"],
-"A":[".XXX.","X...X","X...X","XXXXX","X...X","X...X","X...X"],
-"R":["XXXX.","X...X","X...X","XXXX.","X.X..","X..X.","X...X"],
-"E":["XXXXX","X....","X....","XXXX.","X....","X....","XXXXX"],
-"D":["XXXX.","X...X","X...X","X...X","X...X","X...X","XXXX."],
-"?":[".XXX.","X...X","....X","..XX.","..X..",".....","..X.."]
-};
-function word(g,s,x,y,n,col){
-g.fillStyle=col||FG;
-for(const ch of s){
-const gl=F7[ch];
-for(let r=0;r<7;r++)for(let c=0;c<5;c++)if(gl[r][c]==="X")g.fillRect(x+c*n,y+r*n,n,n);
-x+=6*n;
-}
-}
-function wordW(s,n){return (s.length*6-1)*n;}
-
-const HW=28,HH=14;
-const T={h:[120,56],a:[152,72],r:[88,72],m:[120,88]};
+const Q=[".XXX.","X...X","....X","..XX.","..X..",".....","..X.."];
+const HW=58,HH=29;
+const T={h:[240,106],a:[304,138],r:[176,138],m:[240,170]};
 
 const cv=document.getElementById("cv"),cx=cv.getContext("2d");
 function render(){
 const dprI=Math.max(1,Math.round(window.devicePixelRatio||1));
-cv.width=BW*4*dprI;cv.height=BH*4*dprI;
+cv.width=BW*2*dprI;cv.height=BH*2*dprI;
 cx.imageSmoothingEnabled=false;
 const buf=mk(BW,BH),g=buf.getContext("2d");
 g.fillStyle=BG;g.fillRect(0,0,BW,BH);
 const dia=(cxx,cyy,col)=>{
 g.fillStyle=col;
-for(let i=0;i<=HW;i++){
-const dy=Math.round(i*HH/HW);
-if(i%9<5){
-g.fillRect(cxx+i,cyy-HH+dy,1,1);
-g.fillRect(cxx-i,cyy-HH+dy,1,1);
-g.fillRect(cxx+i,cyy+HH-dy,1,1);
-g.fillRect(cxx-i,cyy+HH-dy,1,1);
+for(let i=0;i<=28;i++){
+if(i%7<4){
+const x=i*2,y=i;
+g.fillRect(cxx+x,cyy-HH+y,2,2);
+g.fillRect(cxx-x-2,cyy-HH+y,2,2);
+g.fillRect(cxx+x,cyy+HH-y-2,2,2);
+g.fillRect(cxx-x-2,cyy+HH-y-2,2,2);
 }
 }
 };
@@ -109,35 +202,13 @@ dia(T.h[0],T.h[1],FG);
 dia(T.a[0],T.a[1],FG);
 dia(T.r[0],T.r[1],FG);
 dia(T.m[0],T.m[1],MID);
-g.fillStyle=FOG;
-for(let y=T.m[1]-HH-6;y<=T.m[1]+HH+10;y++)for(let x=T.m[0]-HW-10;x<=T.m[0]+HW+10;x++){
-const m=Math.abs(x-T.m[0])/HW+Math.abs(y-T.m[1])/HH;
-if(m<1.12||m>1.8)continue;
-const mh=Math.abs(x-T.h[0])/HW+Math.abs(y-T.h[1])/HH;
-const ma=Math.abs(x-T.a[0])/HW+Math.abs(y-T.a[1])/HH;
-const mr=Math.abs(x-T.r[0])/HW+Math.abs(y-T.r[1])/HH;
-if(mh<1.05||ma<1.05||mr<1.05)continue;
-if(hash2(x*3,y*3)<0.13)g.fillRect(x,y,1,1);
-}
-g.drawImage(HOUSE,T.h[0]-16,T.h[1]+4-28);
-g.drawImage(APT,T.a[0]-14,T.a[1]+4-34);
-g.drawImage(RUB,T.r[0]-17,T.r[1]+4-22);
-word(g,"?",T.m[0]-4,T.m[1],2,FG);
-const ring=(cxx,cyy)=>{
+g.drawImage(HOUSE,T.h[0]-31,T.h[1]-45);
+g.drawImage(APT,T.a[0]-27,T.a[1]-62);
+g.drawImage(RUIN,T.r[0]-31,T.r[1]-45);
 g.fillStyle=FG;
-for(let y=-5;y<=5;y++)for(let x=-5;x<=5;x++){
-const d=Math.hypot(x,y);
-if(d<=4.6&&d>=3.2)g.fillRect(cxx+x,cyy+y,1,1);
-}
-};
-const name=(s,cxx,cyy)=>{
-const w=wordW(s,1);
-g.fillStyle=BG;g.fillRect(cxx-Math.floor(w/2)-1,cyy-1,w+2,9);
-word(g,s,cxx-Math.floor(w/2),cyy,1,FG);
-};
-ring(104,72);name("MARA",104,80);
-ring(130,70);name("REED",136,80);
-cx.drawImage(buf,0,0,BW*4*dprI,BH*4*dprI);
+g.fillRect(T.r[0]+2,T.r[1]+2,5,3);g.fillRect(T.r[0]+10,T.r[1]-2,4,3);g.fillRect(T.r[0]+16,T.r[1]+5,6,3);g.fillRect(T.r[0]-4,T.r[1]+8,4,2);g.fillRect(T.r[0]+8,T.r[1]+9,5,2);
+for(let r=0;r<7;r++)for(let c=0;c<5;c++)if(Q[r][c]==="X"){g.fillRect(T.m[0]-10+c*4,T.m[1]-14+r*4,4,4);}
+cx.drawImage(buf,0,0,BW*2*dprI,BH*2*dprI);
 }
 addEventListener("resize",render);
 render();

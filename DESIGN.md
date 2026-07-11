@@ -388,16 +388,27 @@ improvement suggestions along the way.
   stepped along the 45-degree wall bases (the per-column slanted
   window strips read "angled and weird" and are dead); windows get
   1px mullion crosses on lit walls and 1px lintels on shaded walls.
-- `labs/opening.html` OPENING MOCK (2026-07-11, v7, matched to
-  123.png): 960x540 stage showing the 240x135 world x4. Four dashed
-  diamonds (house, apartment, rubble, dim mystery with "?"), gabled
-  house icon (arched door, side window, chimney), apartment tower
-  icon (2x3 window grid per face, corner door), ruin (low broken
-  perimeter walls, tall corner with notch, debris chunks, fallen
-  slab), two survivor rings with MARA / REED name bars, fog specks
-  off the mystery side. All checker/shading dropped per the
-  reference: pure white on black. Awaiting feel pass; then wire into
-  game.js.
+- ART EXTRACTION PIPELINE (2026-07-11, the fix for "art is not the
+  same"): when the user supplies reference art, its pixels are
+  EXTRACTED, never redrawn by eye. Method: measure the art pitch
+  from scanline run lengths (123.png = ~12.2 img px per cell),
+  downscale with System.Drawing bicubic to the art grid (readable)
+  and to 2x the grid (transcription-grade), threshold to 1-bit, dump
+  as ASCII, crop the building component away from its base dashes,
+  bake the rows verbatim as sprite data. Hand-drawn approximations
+  of a supplied reference are banned.
+- `labs/opening.html` OPENING MOCK (2026-07-11, v8): 960x540 stage,
+  480x270 buffer x2 (art authored in half-cell units; one reference
+  art cell = 4 stage px). HOUSE and APARTMENT are the 123.png icons
+  VERBATIM (extracted pixel data, gabled house with arched door +
+  window, tower with roof ring + window floors + corner door).
+  RUBBLE is derived from the extracted house pixels: roof rows
+  blanked, right side collapsed, standing gable corner + door frame
+  kept, debris chunks added. MYSTERY = dim gray dashed diamond + fat
+  "?". Tiles = white dashed 2:1 diamonds (dash 4-on 3-off per art
+  step, solid at vertices). SURVIVORS AND FOG SPECKS REMOVED from
+  the mock (user 2026-07-11). Awaiting feel pass; then the rest of
+  the tile set in this exact language and the game wiring.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 
