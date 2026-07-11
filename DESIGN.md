@@ -25,6 +25,13 @@ improvement suggestions along the way.
    content, zero boredom.
 3. NO EARLY PUNISHMENT. Real consequences arrive around mid game
    (extends the missing-an-event-costs-nothing doctrine).
+4. CONCEPTS INTRODUCE ONE BY ONE (user 2026-07-11, "this is very
+   important"). UI, metrics, and mechanics appear only when the
+   concept first becomes real for the player: MATERIALS is invisible
+   on the HUD until the first material exists. Apply this rule to
+   every future system.
+5. CLEAN NUMBERS, NO DECIMALS (user 2026-07-11). All player-facing
+   figures are integers.
 
 ## Shape of a run (acts)
 1. **Early** land on open ground with almost nothing. A tiny origin plot.
@@ -291,6 +298,118 @@ improvement suggestions along the way.
 - Keep a license/commercial-use record per track (royalty-free terms and
   AI-generator terms vary); matters for itch/Steam release.
 
+## First phase v2 (REBUILT 2026-07-11 on the diamond board, game.js v7)
+- Same locked mechanics as the first slice below (scout / reclaim /
+  clear / gather, crew picker r=0.65, mystery table, recruits from
+  camps, hunger pause, localStorage save, debug panel, menu -> ENTER).
+- World rendered in the canonical reference art: 4x4 grid as a
+  diamond lattice, offsets (96,60) px landscape (32px street
+  corridors), half scale in portrait, same commit.
+- Tile visuals: HOUSE = ref_house.png stamp verbatim; ring-1 resident
+  variety = house2 kind using ref_apt.png (apartment); all other
+  kinds = ref_tile.png empty dashed diamond + 5x7 label (GROCERY,
+  SCRAP, RUBBLE, CAMP, CACHE; empty lot = bare tile). Scoutable
+  frontier and the origin mystery = dim tile + fat "?". Deep fog =
+  pure black, nothing drawn, unclickable. Scouted-not-owned = 0.55
+  alpha until reclaimed. Stamps composite additively; graceful
+  fallbacks (code-drawn dashes + labels) when the gitignored art
+  files are absent (public repo runs without them).
+- Selection = ticks at the diamond's four vertices. Old streets, fog
+  speckles, checker edges, hue lines: all gone.
+- Save format v2; v1 saves discarded on load.
+- USER PASS (2026-07-11, game.js v8): stage edge gets a barely
+  visible #1c1c1c outline. ONLY the origin four render at start (the
+  mystery "?" included); ring-1 stays pure black until scouted
+  (still hover/clickable for the scout flow). "TOWN / N SURVIVORS"
+  idle panel REMOVED. Speech bubbles REMOVED. Map names over
+  survivors REMOVED (identity lives in the portraits). Survivor
+  rings shrunk to 15px so they fit the street corridors; idle spots
+  clamped to corridors; WORK SPOTS moved to the street in front of a
+  tile (bottom vertex side), survivors stand there, never inside the
+  tile art; recruits also spawn in front. The FOOD tile label is
+  FOOD (the "grocery" naming was never the user's; dead). HUD: under
+  FOOD, "+x/MIN" (all food income combined) and "-y/MIN" (every
+  survivor eats 60/EAT_EVERY = 1.5/min); hovering either shows a
+  plain breakdown tooltip (who gathers what / N survivors x rate).
+  F7 font gained + - / glyphs.
+- USER PASS 2 (2026-07-11, game.js v9):
+  - Crew picker shows the task LIVE: with n selected, timed tasks
+    display ceil(need / mult(n)) seconds, gather displays +rate/MIN;
+    the figure updates in real time as survivors are added/removed.
+  - TEMP TASK COMMITMENT: scout / reclaim / clear lock the survivor
+    in: the STOP button is gone for running temp tasks and locked
+    survivors appear dimmed and unpickable in other pickers until
+    the task completes (or, later, they die). Gather stays
+    interruptible (permanent task).
+  - Corner vertex ticks on hover/select are dead ("weird stuff").
+    INTERIM: hover = thin gray diamond outline, selected = thin
+    white diamond outline, until the user picks from
+    labs/select.html: HOVER candidates H1 thin outline / H2 soft
+    fill / H3 outer frame / H4 lift / H5 bouncing chevron; SELECT
+    candidates S1 marching ants / S2 double line / S3 ground plate /
+    S4 pulsing outline / S5 lift + base outline. All shown on the
+    real house stamp at game scale, animated live.
+  - DEV VIEW TOGGLE (page chrome, top right, outside the stage
+    frame): FULL = normal integer upscale (Steam look), ITCH 960 =
+    scale clamped to 1 (embed look). Both ship targets are already
+    served by the 16:9 stage law (authored 960x540, integer scaling
+    means 1080p fullscreen = crisp 2x, 4K = 4x).
+- USER PASS 4 (2026-07-11, CODE REORGANIZED): game.js is dead; the
+  game is 18 small classic scripts under src/ (state, stage, font,
+  opts, assets, board, survivors, actions, sim, tiles, hud, topbar,
+  panel, menu, save, input, dev, main), loaded in order from
+  index.html (ES modules blocked on file://). Art lives under
+  asset/tiles/ (asset/soundtrack/ reserved). Standards saved to
+  memory: one component per file, no comments, organize + optimize
+  always, safeguards before bugs.
+  - FOG restored: the locked hash-scatter dissolve as a cached
+    speckle band breathing around the visible tiles, under the
+    stamps.
+  - EMPTY TILE outline rebuilt 1:1 from the APARTMENT's own base
+    edges (ref_tile155, mirrored quadrants at apartment geometry,
+    downscaled identically to the apartment stamp): corners
+    complete, every tile consistent.
+  - HOVER = LIFT (picked from the demo): the whole stamp eases up
+    4px; selection keeps the ground ring; invisible scoutable tiles
+    keep the gray ground ring on hover.
+  - TOPBAR: musical note above DAY = mute toggle (dimmed +
+    strikethrough when muted; audio flags only, no sound yet);
+    hovering it opens two drag bars (music, effects; icons only, no
+    numbers, values persisted in goodbyes_opts). Gear icon = MAIN
+    MENU option. Both inside the stage.
+  - labs/shine.html: the requested anime-glint sweep (dark contrast
+    stripes framing a bright band traveling across the whole stamp,
+    looped) in 3 intensities. labs/smooth.html: PIXELATED vs SMOOTH
+    side-by-side (same art anti-aliased from the full-res crops).
+    labs/select.html deleted (LIFT chosen). tooltips are pure figures
+  ("2 X 5/MIN", "2 X 3/MIN"); show-dont-tell now covers every string
+  (saved to memory). Survivor portraits strip REMOVED. Board
+  centered (ox 480). Hover/selected = ground ring rendered UNDER the
+  stamps (never through a building; the tile+building is one unit).
+  Tile stamps pre-rendered at exact game resolution
+  (ref_house150/ref_apt155/ref_tile150, bicubic+threshold), killing
+  the runtime 1:4 decimation that broke tile outline corners; all
+  outlines now consistent. VIEW toggle simplified: DESKTOP = fill
+  the window (fractional allowed, dev preview of the
+  downloaded-fullscreen look), ITCH 960 = exact embed size; a
+  maximized browser is not true fullscreen, F11 at 1080p = the real
+  full-screen 2x. labs/select.html v2 = 3 interactive hover styles
+  (LIFT / GLOW / GROUND RING), pointer-driven with eased animation,
+  each treating the stamp as one unit. Awaiting hover pick.
+- NUMBERS PASS (2026-07-11, game.js v10): gathering has NO
+  diminishing returns (linear per survivor); diminishing returns
+  stay on timed actions only. FOOD = 5/min per gatherer. Eating = 3
+  food/min per survivor (1 food per 20s). Materials = 6/min per
+  gatherer. All displayed figures integers (principle 5). MATERIALS
+  HUD entry hidden until the first material exists (principle 4,
+  matsSeen persisted). RESET button added to the page chrome top
+  right (wipe with autosave gag, per the save law). VIEW toggle
+  label now shows the live scale (X1/X2); DAY moved below the
+  chrome buttons. FINDING: in a windowed browser at 1920x1080 the
+  usable height is under 1080 so FULL clamps to X1 and matches ITCH;
+  X2 requires true fullscreen (F11). Fullscreen-first is the intent;
+  the itch embed stays fully playable at X1.
+
 ## First slice (BUILT 2026-07-10, game.js + index.html)
 - Menu -> ENTER -> live town. Origin 2x2 (grocery, house, rubble,
   mystery cell, arrangement randomized per run) + safe ring 1 (12
@@ -313,6 +432,15 @@ improvement suggestions along the way.
 - Save: localStorage, autosave 10s + visibilitychange, wipe guarded by
   autosave gag. Debug panel (backtick / #debug): grants, time scale
   x1/x5/x20 (resets on hide), save/wipe. #game hash skips menu (dev).
+- FOG VISIBILITY FIXED (2026-07-11, was: whole 4x4 board + streets
+  visible at minute zero): unexplored space renders pure black;
+  streets exist only beside explored tiles (stubs grow with the town);
+  scoutable frontier tiles show as near-black slabs eroding into the
+  dark, no borders (checker-edge treatment dead, aligned-band
+  violation); the hash dissolve wraps the explored silhouette only;
+  deep-fog tiles ignore hover/click. Scout adjacency tightened to
+  EDGE-adjacent (was 8-way with diagonals), so board corners stay
+  invisible until a neighboring tile is owned.
 - Dual orientation per stage law; 44px buttons and rows.
 - NOT in slice (parked): fatigue caps, park tiles (perspective pick
   pending), SFX, player-facing reset (debug wipe only), shelter
@@ -326,6 +454,92 @@ improvement suggestions along the way.
 
 ## Labs (delete once locked)
 - `labs/survivor-faces.html` face style proof (3 faces), current style.
+- Connection-systems lab (A plug-in plots / B sidewalk ribbon / C
+  shared horizon / D wall to wall) REJECTED whole (user 2026-07-11,
+  "really bad"; also reused existing sprites, which defeated the
+  point). Deleted.
+- Flat style board origin8 (styles 1-8, front-view) SUPERSEDED same
+  day by the oblique perspective change. Deleted. Standing findings
+  from it: abstract styles #5 TYPE / #7 EMBLEM / #8 PATTERN fail the
+  user's filter "minimal but something a survivor could actually
+  interact with"; #4 GEOMETRIC converges with solid once volumes
+  exist. Tile-style candidates narrowed to #1 CHUNKY / #2 DITHER /
+  #3 SOLID (silhouette adapted to volume) / #6 OUTLINE.
+- Oblique board REJECTED same day (user: too complicated, and it
+  re-skinned ONE shared building geometry across styles, which the
+  user explicitly forbids; every candidate must be its own design).
+  Deleted. KEPT from it: the side view (user likes it) and the block
+  model ground language.
+- Block board (six worlds, 2x2) narrowed by user 2026-07-11 to
+  A FLAT BOXES / C SHADOW MASS / F DITHERWORK; then the 3x3 finalist
+  board settled it: A FLAT BOXES locked (see WORLD STYLE LOCKED).
+  Both boards deleted. Kept findings: C-lot learned that corner
+  brackets are reserved for the selection UI; the block/lot-seam
+  connection experiment is dead (Rebuild street grid re-locked).
+- LAB PRESENTATION LAW (user 2026-07-11, "why is the size getting
+  bigger with every request"): mocks render on the REAL GAME STAGE,
+  960x540 logical, displayed 1:1 (dpr-integer backing). Never
+  inflate lab canvases again.
+- FAT PIXEL LAW v3 (settled by the user's reference image 123.png,
+  root, gitignored, never pushed; supersedes the 480x270 x2 ruling):
+  the WORLD renders to a 240x135 buffer and integer-scales x4 onto
+  the 960x540 stage. One art pixel = 4 stage pixels, for EVERYTHING:
+  tiles, buildings, survivors, rings, names, icons, fog. No mixed
+  densities anywhere, ever.
+- TILE + ICON LANGUAGE (from 123.png, user: "make it look like
+  that"): a tile is a DASHED DIAMOND OUTLINE (2:1 wide, ~56x28 art
+  px, chunky dashes) on pure black. No filled lot planes, no visible
+  street bands, no shadows. Buildings are chunky 2:1 iso icon
+  volumes: solid white faces, 1px black seams between planes and at
+  the front corner, black cutout windows/doors (arched house door),
+  gabled house with chimney, window-grid apartment tower, low ruin
+  walls + debris for rubble. Mystery tile = dimmer gray dashed
+  diamond + fat "?" glyph. Fog = sparse gray specks drifting off the
+  unknown side. Survivor = chunky ring + 5x7 name with black backing
+  bar at the same art scale (names sit below rings in the crowded
+  origin mock). NOTE: the reference diamonds are 2:1 WIDE, which
+  supersedes the earlier equal-diagonal square-tile ruling; flagged
+  to the user. Street bands are gone VISUALLY; the logical grid and
+  Rebuild-style adjacency stay.
+- PIXEL CRAFT for the diagonal world: shadow-side walls (down-right)
+  get 50 percent checker dither; lit walls stay white; 1px dark
+  seams between planes; windows and doors are UPRIGHT rectangles
+  stepped along the 45-degree wall bases (the per-column slanted
+  window strips read "angled and weird" and are dead); windows get
+  1px mullion crosses on lit walls and 1px lintels on shaded walls.
+- ART EXTRACTION PIPELINE (2026-07-11, the fix for "art is not the
+  same"): when the user supplies reference art, its pixels are
+  EXTRACTED, never redrawn by eye. Method: measure the art pitch
+  from scanline run lengths (123.png = ~12.2 img px per cell),
+  downscale with System.Drawing bicubic to 2x the art grid,
+  threshold to 1-bit, dump as ASCII, crop the icon away from its
+  base dashes, then QUANTIZE to whole art cells (2x2 majority vote
+  + isolated-pixel cleanup) so edges come out as clean fat-pixel
+  stairs, not ragged half-cell noise (user: "this is pixelated").
+  Sprites render with an OPAQUE BLACK per-row silhouette under the
+  white pixels so tile outlines never show through doors, windows,
+  or roof interiors. Hand-drawn approximations of supplied
+  references are banned.
+- TILE SHAPE FINAL (user, third and last time): PERFECT SQUARE
+  rotated 45 degrees, EQUAL DIAGONALS. Never 2:1, never wide. Tile
+  outline = long straight dash segments along the 45-degree edges
+  (four dashes per edge, a dash anchored at every corner so corners
+  are never cut), 2px thick.
+- `labs/opening.html` (2026-07-11, v12 GAME SCALE, user approved the
+  tiles and asked for walking space + smaller): 2x2 board on the
+  960x540 stage, all art traceable to 123.png pixels. HOUSE tile =
+  ref_house.png verbatim, APARTMENT = ref_apt.png verbatim, unknown
+  tiles = ref_tile.png (empty diamond mirrored from the crop's own
+  clean edge) + fat "?" glyphs. Additive compositing (black
+  contributes nothing). GAME SCALE SPEC (locked by feel): stamps
+  blit at 1:4 of source (tile diamond ~132x83 px on stage; house
+  150x128, apartment 155x158); LATTICE OFFSET (96,60) px, which
+  leaves ~32px diagonal STREET CORRIDORS between tile edges where
+  survivors walk. Building-to-tile ratio untouched (uniform
+  scaling), per user: keep it consistent forever. A full 4x4
+  origin+ring board at this scale spans ~672x425, fitting the stage
+  with HUD room. ref_house/ref_apt/ref_tile remain CANONICAL ART:
+  blit files, never redraw, never resample.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 
@@ -346,11 +560,13 @@ improvement suggestions along the way.
 - FONT LAW: the 5x7 pixel font is the standard for all readable text
   (names, buttons, labels). The old 3x5 font was too hard to read; keep
   it only for tiny dev readouts.
-- TILE PERSPECTIVE (changed by user 2026-07-10): tiles are FRONT-VIEW
-  pictograms (billboard style) standing on the map; the top-down
-  requirement is lifted. Streets stay top-down; buildings face the
-  player. Priority one: the player can tell what a tile is INSTANTLY.
-  Keep tiles simple with room for variations per category.
+- TILE PERSPECTIVE (user 2026-07-11, supersedes the front-view
+  billboard direction): Rebuild-style TOP-DOWN OBLIQUE. Each building
+  shows roof plane + south facade + east side sliver (cavalier skew,
+  1px right per row of depth), glued to the ground by a black drop
+  shadow to the south-east. Minimal but volumetric: something a
+  survivor could walk up to and enter. Priority one unchanged: the
+  player can tell what a tile is INSTANTLY.
 - FOG: the white dither halo was rejected ("looks like a tile with white
   outline"). New principle: unexplored space is pure black; fog reads as
   the tile edge dissolving into darkness (style board candidate B).
@@ -388,9 +604,41 @@ improvement suggestions along the way.
   (diamond between bars), hospital (open cross), zombie (three claw
   slashes), magic hat (triangle on bar + spark), sword, bow (arc +
   string + arrow). Candidate use: fog-hint marks, item icons, map runes.
-- CONNECTION TREATMENT LOCKED: STREETS (user 2026-07-10). Merged is
-  dead. Streets = dark road surface #161616, 1px curb lines #3d3d3d,
-  center dash #5a5a5a, clean intersection, no crosswalk clutter.
+- CONNECTION TREATMENT RE-LOCKED (user 2026-07-11): LIKE REBUILD.
+  The block/lot-seam model was rejected ("connecting them a little
+  weird"). Streets run between EVERY tile (locked palette: road
+  #161616, curbs #3d3d3d, dash #5a5a5a), lots are #1a1a1a ground
+  planes, black drop shadows glue buildings down. Merged stays dead.
+- VIEW LOCKED: DIAGONAL, TILES STAY TRUE SQUARES (user 2026-07-11,
+  settled by the user's Rebuild screenshot "diagonal view.png", kept
+  LOCAL in the repo root, gitignored, never pushed; then corrected
+  once more: 2:1 foreshortening REJECTED, "the tiles are still not
+  squares"): the square world grid is drawn rotated 45 degrees with
+  EQUAL DIAGONALS (military projection, no vertical squash). Screen
+  mapping sx = wx - wy, sy = wx + wy; the ground (lots, streets,
+  curbs, dashes, dark cells, fog erosion) is rendered by
+  inverse-mapping every screen pixel back to world space, so all
+  ground detail follows the diagonal automatically. Tiles read as
+  rotated SQUARES, streets run diagonally like Rebuild. Buildings
+  are prisms: rotated-square roof on top + two visible walls facing
+  down-left and down-right with 45-degree base edges, verticals
+  straight down, 1px dark seams between planes, mono, centered on
+  their lots, dark shadow diamond underneath. Three earlier misreads
+  (ground shear; square grid + billboard 3/4 sprites; 2:1 diamonds)
+  are dead.
+- WORLD STYLE LOCKED: A FLAT BOXES (user 2026-07-11 "use flatbox
+  only"), minimalistic and impactful, sprites authored at 51px
+  blitted x2, mono, CENTERED in the tile: grocery = flat-roof store
+  (awning slab, mullioned display window, glass door, skylight + AC
+  on the roof); house = flat-roof box (chimney pipe, cross-mullion
+  window, stoop); rubble = one OBVIOUS stepped debris mound with
+  block joints, a protruding beam, outlier chunks (user rejected the
+  earlier "collapsed structure" composition as unreadable; rubble =
+  simple pile, full stop).
+- ACCENT COLOR REJECTED (user 2026-07-11: "dont do accent color. go
+  back"). Tiles render MONO. The 60-30-10 per-category color plan
+  remains an open question for a later dedicated lab; it does not
+  live on the buildings for now.
 - TILE DESIGN RULES (from user feedback, locked):
   - Tiles are designed FOR connection: every connector (driveway,
     walkway, lot) is a SOLID strip that runs to the tile edge facing a
