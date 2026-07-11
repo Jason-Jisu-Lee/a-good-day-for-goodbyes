@@ -357,12 +357,12 @@ improvement suggestions along the way.
   Both boards deleted. Kept findings: C-lot learned that corner
   brackets are reserved for the selection UI; the block/lot-seam
   connection experiment is dead (Rebuild street grid re-locked).
-- `labs/opening.html` OPENING MOCK (2026-07-11): the real early-game
-  2x2 (grocery, house, rubble, one MYSTERY dark cell at a corner) in
-  the locked flat-box world, angled Rebuild view, streets between
-  all tiles (absent on the mystery's unexplored sides), per-category
-  accent colors live, fog dissolve hugging the sheared silhouette.
-  Awaiting feel pass; then wire the treatment into game.js.
+- `labs/opening.html` OPENING MOCK (2026-07-11, v2 after the shear +
+  accent rejection): the real early-game 2x2 (grocery, house,
+  rubble, one MYSTERY dark cell at a corner) in the locked flat-box
+  world: square tiles, straight Rebuild street grid (absent on the
+  mystery's unexplored sides), mono 3/4 buildings centered with drop
+  shadows, fog dissolve. Awaiting feel pass; then wire into game.js.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 
@@ -432,32 +432,27 @@ improvement suggestions along the way.
   weird"). Streets run between EVERY tile (locked palette: road
   #161616, curbs #3d3d3d, dash #5a5a5a), lots are #1a1a1a ground
   planes, black drop shadows glue buildings down. Merged stays dead.
-- ANGLED VIEW (user 2026-07-11, labs/opening.html candidate): the
-  whole ground plane is drawn from Rebuild's tilted viewpoint: a
-  uniform shear (x shifts right ~0.3 per y up, quantized to 2px
-  steps) applied to the ground layer per row, so tiles are
-  PARALLELOGRAMS, vertical streets slant, horizontal streets stay
-  horizontal, dashes and shadows shear with the ground. Buildings
-  render UPRIGHT on the sheared lots, anchored at their feet row;
-  their roofs already skew the same direction, so the scene shares
-  one viewpoint. Fog scatter tests against inverse-sheared space so
-  the dissolve hugs the slanted silhouette.
+- VIEW ANGLE LOCKED (user 2026-07-11, after one wrong attempt):
+  TILES STAY SQUARE. The ground-shear/parallelogram experiment is
+  REJECTED ("i said angle the view, not the tile itself"). The
+  diagonal-from-above camera lives ONLY in how buildings are drawn:
+  every building is a 3/4 volume showing roof plane (skewed up-right
+  1px per row of depth) + front facade facing the player (south) +
+  east side sliver, centered in its square tile, glued down by a
+  black drop shadow. Grid, streets, and fog all stay straight.
 - WORLD STYLE LOCKED: A FLAT BOXES (user 2026-07-11 "use flatbox
-  only"), high-res pass: sprites re-authored at 51px, blitted x2
-  (was 34px x3): grocery = flat-roof store, skylight + AC unit on
-  the roof, mullioned display window, glass door; house = flat-roof
-  box, chimney pipe, cross-mullion window, stoop; rubble = floor
-  slab, tall standing corner wall, window-holed wall fragment,
-  leaning slate slab, mixed debris.
-- ACCENT COLOR APPLIED (user 2026-07-11: each tile type gets a
-  distinct accent; variations within a type share it): FOOD green
-  #7fa06a = grocery awning band. RESIDENT tan #b98e5f = house door +
-  roof fascia line. RUBBLE slate #7a8894 (candidate hue) = fallen
-  slab + debris bits. MYSTERY stays the accentless dark cell. Muted
-  doses on mono buildings per the 60-30-10 plan; red stays reserved
-  for danger. Origin tiles are owned from minute zero, so this obeys
-  the color-on-reclaim candidate (scouted-not-owned tiles would
-  render mono).
+  only"), minimalistic and impactful, sprites authored at 51px
+  blitted x2, mono, CENTERED in the tile: grocery = flat-roof store
+  (awning slab, mullioned display window, glass door, skylight + AC
+  on the roof); house = flat-roof box (chimney pipe, cross-mullion
+  window, stoop); rubble = one OBVIOUS stepped debris mound with
+  block joints, a protruding beam, outlier chunks (user rejected the
+  earlier "collapsed structure" composition as unreadable; rubble =
+  simple pile, full stop).
+- ACCENT COLOR REJECTED (user 2026-07-11: "dont do accent color. go
+  back"). Tiles render MONO. The 60-30-10 per-category color plan
+  remains an open question for a later dedicated lab; it does not
+  live on the buildings for now.
 - TILE DESIGN RULES (from user feedback, locked):
   - Tiles are designed FOR connection: every connector (driveway,
     walkway, lot) is a SOLID strip that runs to the tile edge facing a
