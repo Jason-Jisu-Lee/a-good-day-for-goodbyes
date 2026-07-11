@@ -406,20 +406,21 @@ improvement suggestions along the way.
   outline = long straight dash segments along the 45-degree edges
   (four dashes per edge, a dash anchored at every corner so corners
   are never cut), 2px thick.
-- `labs/opening.html` (2026-07-11, v11 = the four together, user
-  approved the 1:1 crops first): 2x2 board on the 960x540 stage, all
-  art traceable to 123.png pixels. HOUSE tile = ref_house.png
-  verbatim (crop carries its own dashed diamond base). APARTMENT
-  tile = ref_apt.png verbatim. The two unknown tiles = ref_tile.png:
-  an empty dashed diamond built purely from the reference's own
-  clean bottom-left edge pixels, mirrored into four quadrants (no
-  drawn pixels), plus a fat "?" glyph. Stamps composited additively
-  (white-on-black art, black contributes nothing) so opaque crop
-  backgrounds cannot erase neighbors. Lattice offset (284,177)
-  source px = diamond half-size + small gap; everything blitted at
-  1:2 nearest (native on 2x displays). ref_house/ref_apt/ref_tile
-  are the CANONICAL ART: all future tiles built at this exact scale
-  and language, blitting files, never redrawing.
+- `labs/opening.html` (2026-07-11, v12 GAME SCALE, user approved the
+  tiles and asked for walking space + smaller): 2x2 board on the
+  960x540 stage, all art traceable to 123.png pixels. HOUSE tile =
+  ref_house.png verbatim, APARTMENT = ref_apt.png verbatim, unknown
+  tiles = ref_tile.png (empty diamond mirrored from the crop's own
+  clean edge) + fat "?" glyphs. Additive compositing (black
+  contributes nothing). GAME SCALE SPEC (locked by feel): stamps
+  blit at 1:4 of source (tile diamond ~132x83 px on stage; house
+  150x128, apartment 155x158); LATTICE OFFSET (96,60) px, which
+  leaves ~32px diagonal STREET CORRIDORS between tile edges where
+  survivors walk. Building-to-tile ratio untouched (uniform
+  scaling), per user: keep it consistent forever. A full 4x4
+  origin+ring board at this scale spans ~672x425, fitting the stage
+  with HUD room. ref_house/ref_apt/ref_tile remain CANONICAL ART:
+  blit files, never redraw, never resample.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 

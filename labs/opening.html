@@ -32,17 +32,17 @@ cx.imageSmoothingEnabled=false;
 cx.fillStyle="#000";cx.fillRect(0,0,cv.width,cv.height);
 const blit=(img,x,y,w,h)=>cx.drawImage(img,0,0,img.width,img.height,x*d,y*d,w*d,h*d);
 cx.globalCompositeOperation="lighter";
-blit(HOUSE,338,12,300,255);
-blit(TILE,196,100,300,255);
-blit(APT,480,37,310,315);
-blit(TILE,338,189,300,255);
+blit(HOUSE,409,128,150,128);
+blit(TILE,313,188,150,128);
+blit(APT,505,157,155,158);
+blit(TILE,409,248,150,128);
 cx.globalCompositeOperation="source-over";
 cx.fillStyle="#f2f2f0";
 const qm=(cxx,cyy)=>{
-for(let r=0;r<7;r++)for(let c=0;c<5;c++)if(Q[r][c]==="X")cx.fillRect((cxx-15+c*6)*d,(cyy-21+r*6)*d,6*d,6*d);
+for(let r=0;r<7;r++)for(let c=0;c<5;c++)if(Q[r][c]==="X")cx.fillRect((cxx-7+c*3)*d,(cyy-10+r*3)*d,3*d,3*d);
 };
-qm(338,253);
-qm(480,342);
+qm(384,265);
+qm(480,325);
 }
 addEventListener("resize",render);
 </script>
