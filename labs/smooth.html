@@ -8,9 +8,9 @@
 html,body{margin:0;background:#000;color:#888;font:12px system-ui}
 [hidden]{display:none !important}
 h1{font:600 14px system-ui;color:#ccc;letter-spacing:3px;text-align:center;margin:22px 0 12px}
-#g{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:20px;max-width:1100px;margin:0 auto;padding:10px 16px}
+#g{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px;max-width:1400px;margin:0 auto;padding:10px 16px}
 .panel{text-align:center}
-canvas{display:block;margin:0 auto;width:480px;max-width:100%;border:1px solid #1a1a1a}
+canvas{display:block;margin:0 auto;width:420px;max-width:100%;border:1px solid #1a1a1a}
 #p0{image-rendering:pixelated}
 .cap{color:#ddd;font-size:13px;letter-spacing:2px;margin-top:8px}
 </style>
@@ -18,38 +18,109 @@ canvas{display:block;margin:0 auto;width:480px;max-width:100%;border:1px solid #
 <body>
 <h1>PIXEL VS SMOOTH</h1>
 <div id="g">
-<div class="panel"><canvas id="p0"></canvas><div class="cap">PIXELATED</div></div>
-<div class="panel"><canvas id="p1"></canvas><div class="cap">SMOOTH</div></div>
+<div class="panel"><canvas id="p0"></canvas><div class="cap">1 PIXEL</div></div>
+<div class="panel"><canvas id="p1"></canvas><div class="cap">2 SMOOTH</div></div>
+<div class="panel"><canvas id="p2"></canvas><div class="cap">3 SMOOTH PLUS</div></div>
 </div>
 <script>
-const CW=480,CH=360;
+const CW=420,CH=330;
 const HP=new Image();HP.src="../asset/tiles/ref_house150.png";
 const AP=new Image();AP.src="../asset/tiles/ref_apt155.png";
 const TP=new Image();TP.src="../asset/tiles/ref_tile155.png";
-const HS=new Image();HS.src="../ref_house.png";
-const AS=new Image();AS.src="../ref_apt.png";
-const TS=new Image();TS.src="../ref_tileA.png";
-[HP,AP,TP,HS,AS,TS].forEach(i=>{i.onload=render;});
-setTimeout(render,600);
-function scene(g,house,apt,tile,smooth){
-g.imageSmoothingEnabled=smooth;
-g.imageSmoothingQuality="high";
+const FGC="#f2f2f0";
+function dia(g,cxx,cyy,hw,hh,plus){
+g.save();
+g.strokeStyle=FGC;
+g.lineWidth=2.5;
+g.lineCap=plus?"round":"butt";
+g.setLineDash([16,10]);
+g.beginPath();
+g.moveTo(cxx,cyy-hh);
+g.lineTo(cxx+hw,cyy);
+g.lineTo(cxx,cyy+hh);
+g.lineTo(cxx-hw,cyy);
+g.closePath();
+g.stroke();
+g.restore();
+}
+function poly(g,pts,fill,stroke){
+g.beginPath();
+g.moveTo(pts[0][0],pts[0][1]);
+for(let i=1;i<pts.length;i++)g.lineTo(pts[i][0],pts[i][1]);
+g.closePath();
+if(fill){g.fillStyle=fill;g.fill();}
+if(stroke){g.strokeStyle=stroke;g.lineWidth=2;g.lineJoin="round";g.stroke();}
+}
+function house(g,X,Y,plus){
+const P=(x,y)=>[X+x,Y+y];
+if(plus){g.save();g.fillStyle="rgba(255,255,255,0.05)";g.beginPath();g.ellipse(X,Y+22,52,14,0,0,7);g.fill();g.restore();}
+poly(g,[P(0,18),P(44,-4),P(44,-34),P(0,-12)],FGC,"#000");
+poly(g,[P(-44,-4),P(0,18),P(0,-12),P(-22,-42),P(-44,-34)],FGC,"#000");
+poly(g,[P(-22,-42),P(22,-64),P(44,-34),P(0,-12)],FGC,"#000");
+g.fillStyle="#000";
+if(plus){
+g.beginPath();g.moveTo(X-32,Y+2);g.lineTo(X-32,Y-14);g.arc(X-27,Y-14,5,Math.PI,0);g.lineTo(X-22,Y+7);g.closePath();g.fill();
+}else{
+poly(g,[P(-32,2),P(-32,-16),P(-22,-21),P(-22,7)],"#000",null);
+}
+poly(g,[P(14,-10),P(30,-18),P(30,-30),P(14,-22)],"#000",null);
+}
+function apt(g,X,Y,plus){
+const P=(x,y)=>[X+x,Y+y];
+if(plus){g.save();g.fillStyle="rgba(255,255,255,0.05)";g.beginPath();g.ellipse(X,Y+18,46,13,0,0,7);g.fill();g.restore();}
+poly(g,[P(0,14),P(36,-4),P(36,-66),P(0,-48)],FGC,"#000");
+poly(g,[P(-36,-4),P(0,14),P(0,-48),P(-36,-66)],FGC,"#000");
+poly(g,[P(0,-48),P(36,-66),P(0,-84),P(-36,-66)],FGC,"#000");
+g.fillStyle="#000";
+const win=(x,y,mir)=>{
+const s=mir?-1:1;
+poly(g,[P(s*x,y),P(s*(x+11),y-5.5*s*(mir?-1:1)*0+ -5.5),P(s*(x+11),y-5.5-11),P(s*x,y-11)],"#000",null);
+};
+for(let f=0;f<3;f++){
+const yy=-2-f*16;
+poly(g,[P(6,yy),P(16,yy-5),P(16,yy-16),P(6,yy-11)],"#000",null);
+poly(g,[P(21,yy-7.5),P(31,yy-12.5),P(31,yy-23.5),P(21,yy-18.5)],"#000",null);
+poly(g,[P(-6,yy),P(-16,yy-5),P(-16,yy-16),P(-6,yy-11)],"#000",null);
+poly(g,[P(-21,yy-7.5),P(-31,yy-12.5),P(-31,yy-23.5),P(-21,yy-18.5)],"#000",null);
+}
+poly(g,[P(-14,7),P(-4,12),P(-4,-8),P(-14,-13)],"#000",null);
+}
+function scenePixel(g){
+g.imageSmoothingEnabled=false;
 g.fillStyle="#000";g.fillRect(0,0,CW*2,CH*2);
 g.globalCompositeOperation="lighter";
-const d=(img,cxx,cyy,w,h)=>g.drawImage(img,0,0,img.width,img.height,(cxx-w/2)*2,(cyy-h/2)*2,w*2,h*2);
-d(house,240,120,150,128);
-d(apt,336,178,155,158);
-d(tile,144,170,155,158);
-d(tile,240,236,155,158);
+const d=(img,cxx,cyy,w,h)=>g.drawImage(img,(cxx-w/2)*2,(cyy-h/2)*2,w*2,h*2);
+d(HP,210,96,150,128);
+d(AP,306,154,155,158);
+d(TP,114,146,155,158);
+d(TP,210,212,155,158);
+g.globalCompositeOperation="source-over";
 }
+function sceneSmooth(g,plus){
+g.setTransform(2,0,0,2,0,0);
+g.imageSmoothingEnabled=true;
+g.fillStyle="#000";g.fillRect(0,0,CW,CH);
+dia(g,210,110,66,42,plus);
+dia(g,114,158,66,42,plus);
+dia(g,210,206,66,42,plus);
+dia(g,306,158,66,42,plus);
+house(g,210,92,plus);
+apt(g,306,140,plus);
+}
+let n=0;
 function render(){
 const c0=document.getElementById("p0");
 c0.width=CW*2;c0.height=CH*2;
-scene(c0.getContext("2d"),HP,AP,TP,false);
+scenePixel(c0.getContext("2d"));
 const c1=document.getElementById("p1");
 c1.width=CW*2;c1.height=CH*2;
-scene(c1.getContext("2d"),HS,AS,TS,true);
+sceneSmooth(c1.getContext("2d"),false);
+const c2=document.getElementById("p2");
+c2.width=CW*2;c2.height=CH*2;
+sceneSmooth(c2.getContext("2d"),true);
 }
+[HP,AP,TP].forEach(i=>i.onload=render);
+setTimeout(render,600);
 </script>
 </body>
 </html>

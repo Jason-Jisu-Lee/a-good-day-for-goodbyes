@@ -29,6 +29,24 @@ g.fillRect(a,b,rr(xx+2)-a,rr(yy+2)-b);
 }
 return fogCv;
 }
+function shineSweep(cxx,cyy,sc){
+const t=(performance.now()%1500)/1500;
+const bx=(t*2-0.5)*190*sc*S;
+cx.save();
+cx.beginPath();
+const x0=rr(cxx-82*sc),y0=rr(cyy-115*sc);
+cx.rect(x0,y0,rr(cxx+86*sc)-x0,rr(cyy+56*sc)-y0);
+cx.clip();
+cx.globalCompositeOperation="multiply";
+cx.translate(rr(cxx),rr(cyy-25*sc));
+cx.rotate(-0.5);
+cx.fillStyle="rgba(0,0,0,0.42)";
+const w=38*sc*S,g=11*sc*S;
+cx.fillRect(bx-g/2-w,-320*S,w,640*S);
+cx.fillRect(bx+g/2,-320*S,w,640*S);
+cx.restore();
+cx.globalCompositeOperation="source-over";
+}
 function drawTiles(){
 const l=L();
 cx.drawImage(fogLayer(),0,0);
@@ -37,7 +55,8 @@ for(const t of sorted){
 const p=tpos(t);
 if(t===sel)ringUnder(p,FG);
 else if(t===hoverTile&&!drawnTile(t))ringUnder(p,MID);
-const lift=(t===hoverTile&&drawnTile(t))?Math.round(hoverA*4*Math.max(l.sc,0.5)):0;
+const hovered=t===hoverTile&&drawnTile(t);
+const lift=hovered?Math.round(hoverA*4*Math.max(l.sc,0.5)):0;
 const py=p.y-lift;
 if(t.state==="unknown"){
 if(!drawnTile(t))continue;
@@ -57,6 +76,7 @@ if(lb)text7(lb,p.x,py-3,1,"c");
 }
 cx.globalAlpha=1;
 }
+if(hovered)shineSweep(p.x,py,l.sc);
 if(t.action){
 const frac=Math.min(1,t.progress);
 const d=DXY();

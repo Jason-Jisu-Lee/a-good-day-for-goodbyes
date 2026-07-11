@@ -20,11 +20,11 @@ if(location.hash.includes("debug"))dbg.hidden=false;
 
 const szb=document.createElement("button");
 szb.textContent="VIEW: DESKTOP";
-szb.style.cssText="position:fixed;top:6px;right:70px;background:#111;border:1px solid #333;color:#888;font:11px monospace;padding:5px 9px;z-index:9;cursor:pointer";
+szb.style.cssText="position:fixed;bottom:6px;right:70px;background:#111;border:1px solid #333;color:#888;font:11px monospace;padding:5px 9px;z-index:9;cursor:pointer";
 document.body.appendChild(szb);
 szb.addEventListener("click",()=>{viewItch=!viewItch;szb.textContent=viewItch?"VIEW: ITCH 960":"VIEW: DESKTOP";fit();});
 const rsb=document.createElement("button");
 rsb.textContent="RESET";
-rsb.style.cssText="position:fixed;top:6px;right:6px;background:#111;border:1px solid #333;color:#888;font:11px monospace;padding:5px 9px;z-index:9;cursor:pointer";
+rsb.style.cssText="position:fixed;bottom:6px;right:6px;background:#111;border:1px solid #333;color:#888;font:11px monospace;padding:5px 9px;z-index:9;cursor:pointer";
 document.body.appendChild(rsb);
 rsb.addEventListener("click",()=>{wipe();});

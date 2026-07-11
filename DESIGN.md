@@ -354,6 +354,23 @@ improvement suggestions along the way.
     scale clamped to 1 (embed look). Both ship targets are already
     served by the 16:9 stage law (authored 960x540, integer scaling
     means 1080p fullscreen = crisp 2x, 4K = 4x).
+- USER PASS 5 (2026-07-11, on v.3): src/ now has DIRECTORIES (core/
+  stage state font opts save input dev; assets/images; world/board
+  tiles; survivors/; game/actions sim; ui/hud topbar panel menu;
+  main.js at src root) so categories scale to hundreds of files.
+  HOVER = LIFT + SHINE SWEEP looping while hovered (between the
+  demo's medium and strong: alpha 0.42, stripes 38px, gap 11px,
+  1.5s loop, multiply-composited so white never brightens). TOPBAR
+  redone: note + gear sit top-right in a column with DAY directly
+  below (aligned, not diagonal); icons open on CLICK only, one
+  panel at a time, stray click closes; volume panel = note/speaker
+  rows with drag bars (mute = drag to zero; separate mute flag
+  dropped); settings panel = compact MAIN MENU button (5x7 scale
+  1). New glyphs: real cog, eighth note, speaker with sound arcs.
+  Dev chrome (VIEW/RESET) moved to the page bottom-right, out of
+  the stage corner. labs/smooth.html v2 = 1 PIXEL vs 2 SMOOTH
+  (true vector redraw, anti-aliased geometry) vs 3 SMOOTH PLUS
+  (round joins, arch door, soft ground shadows); verdict pending.
 - USER PASS 4 (2026-07-11, CODE REORGANIZED): game.js is dead; the
   game is 18 small classic scripts under src/ (state, stage, font,
   opts, assets, board, survivors, actions, sim, tiles, hud, topbar,

@@ -44,7 +44,7 @@ clickUI(b.id);
 return;
 }
 }
-gearOpen=false;
+openPanel=null;
 const t=tileAt(p.x,p.y);
 const l=L();
 const inPanel=sel&&p.x>=l.pnX&&p.x<=l.pnX+l.pnW&&p.y>=l.pnY&&p.y<=l.pnY+l.pnH;
@@ -52,9 +52,9 @@ if(t){sel=t;picker=null;}
 else if(!inPanel&&p.y>40){sel=null;picker=null;}
 });
 function clickUI(id){
-if(id==="mute"){OPT.mute=!OPT.mute;optSave();return;}
-if(id==="gear"){gearOpen=!gearOpen;return;}
-if(id==="tomenu"){gearOpen=false;save();mode="menu";fade=0;fading=false;sel=null;picker=null;return;}
+if(id==="vol"){openPanel=openPanel==="vol"?null:"vol";return;}
+if(id==="gear"){openPanel=openPanel==="set"?null:"set";return;}
+if(id==="tomenu"){openPanel=null;save();mode="menu";fade=0;fading=false;sel=null;picker=null;return;}
 if(id==="volM"||id==="volF")return;
 if(id.startsWith("act_")){
 const type=id.slice(4);
