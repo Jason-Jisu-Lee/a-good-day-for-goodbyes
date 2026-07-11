@@ -7,20 +7,18 @@
 <style>
 html,body{margin:0;background:#000;color:#888;font:12px system-ui}
 [hidden]{display:none !important}
-h1{font:600 14px system-ui;color:#ccc;letter-spacing:3px;text-align:center;margin:20px 0 10px}
-.panel{text-align:center;padding:10px 0 30px}
-canvas{display:block;margin:0 auto;image-rendering:pixelated;width:1080px;max-width:100%}
+.panel{text-align:center;padding:14px 0 30px}
+canvas{display:block;margin:0 auto;image-rendering:pixelated;width:960px;max-width:100%;border:1px solid #222}
 </style>
 </head>
 <body>
-<h1>OPENING / FLAT BOXES / DIAGONAL</h1>
 <div class="panel">
 <canvas id="cv"></canvas>
 </div>
 <script>
 const FG="#f2f2f0",BG="#000000";
-const PW=540,PH=540,TS=102,ST=14,WORLD=246,OX=270,OY=24;
-let SS=2;
+const PW=960,PH=540,TS=102,ST=14,WORLD=246,OX=480,OY=24;
+let SS=1;
 function mk(w,h){const c=document.createElement("canvas");c.width=w;c.height=h||w;return c;}
 function hash2(x,y){return Math.abs(Math.sin(x*12.9898+y*78.233)*43758.5453)%1;}
 function CS(w,h,fn){const c=mk(w,h),g=c.getContext("2d");g.fillStyle=FG;fn(g);return c;}
@@ -72,47 +70,73 @@ for(let r=0;r<3;r++)for(let i=0;i<2;i++)if(ex(i,r-1)||ex(i,r))RECTS.push({x:lotS
 for(let c=0;c<3;c++)for(let r=0;r<3;r++)if(ex(c-1,r-1)||ex(c,r-1)||ex(c-1,r)||ex(c,r))RECTS.push({x:bandStart(c),y:bandStart(r),w:ST,h:ST});
 RECTS.push({x:lotStart(1),y:lotStart(1),w:TS,h:TS});
 
-const HOUSE=CS(50,58,g=>{
-for(let r=0;r<=22;r++)g.fillRect(24-r,2+r,2*r+1,1);
-for(let r=1;r<=22;r++)g.fillRect(24-(22-r),24+r,2*(22-r)+1,1);
-const yE=x=>x<=24?22+x:70-x;
-for(let x=2;x<=46;x++)g.fillRect(x,yE(x),1,11);
-for(let x=2;x<=46;x++)g.clearRect(x,yE(x),1,1);
-g.clearRect(24,46,1,11);
-for(let x=10;x<=14;x++)g.clearRect(x,yE(x)+4,1,7);
-g.fillRect(13,yE(13)+8,1,1);
-for(let x=30;x<=35;x++)g.clearRect(x,yE(x)+3,1,4);
-g.fillRect(29,3,5,2);g.fillRect(30,5,3,6);
+const HOUSE=CS(180,150,g=>{
+for(let r=0;r<=104;r++){const hw=(r<=52?r:104-r)+1;g.fillRect(100-hw,8+r,hw*2,1);}
+const yE=x=>x<=99?x+13:212-x;
+for(let x=47;x<=152;x++)g.fillRect(x,yE(x),1,27);
+for(let x=100;x<=152;x++)for(let y=yE(x)+1;y<=yE(x)+26;y++)if((x+y)%2===0)g.clearRect(x,y,1,1);
+for(let x=47;x<=152;x++)g.clearRect(x,yE(x),1,1);
+g.clearRect(99,113,1,26);
+for(let r=0;r<=104;r++){const hw=(r<=52?r:104-r)+1;if(hw>6){g.clearRect(100-hw+4,8+r,1,1);g.clearRect(100+hw-5,8+r,1,1);}}
+g.clearRect(84,108,9,12);
+g.fillRect(91,114,1,1);
+g.clearRect(112,93,10,10);g.fillRect(112,93,10,1);
+g.clearRect(128,77,10,10);g.fillRect(128,77,10,1);
+g.fillRect(120,20,10,2);g.fillRect(122,22,6,12);
+for(let r=0;r<=56;r++){const hw=(r<=28?r:56-r)+1;g.fillRect(52-hw,58+r,hw*2,1);}
+const yW=x=>x<=51?x+63:166-x;
+for(let x=23;x<=80;x++)g.fillRect(x,yW(x),1,19);
+for(let x=52;x<=80;x++)for(let y=yW(x)+1;y<=yW(x)+18;y++)if((x+y)%2===0)g.clearRect(x,y,1,1);
+for(let x=23;x<=80;x++)g.clearRect(x,yW(x),1,1);
+g.clearRect(51,115,1,18);
+g.clearRect(30,103,10,9);
+g.fillRect(32,106,6,1);
 });
-const APT=CS(50,82,g=>{
-for(let r=0;r<=21;r++)g.fillRect(24-r,2+r,2*r+1,1);
-for(let r=1;r<=21;r++)g.fillRect(24-(21-r),23+r,2*(21-r)+1,1);
-const yE=x=>x<=24?20+x:68-x;
-for(let x=3;x<=45;x++)g.fillRect(x,yE(x),1,36);
-for(let x=3;x<=45;x++)g.clearRect(x,yE(x),1,1);
-g.clearRect(24,44,1,36);
-for(let f=0;f<4;f++){
-const o=4+f*8;
-for(let x=7;x<=10;x++)g.clearRect(x,yE(x)+o,1,4);
-for(let x=16;x<=19;x++)g.clearRect(x,yE(x)+o,1,4);
-for(let x=30;x<=33;x++)g.clearRect(x,yE(x)+o,1,4);
-for(let x=37;x<=40;x++)g.clearRect(x,yE(x)+o,1,4);
+const APT=CS(200,212,g=>{
+for(let r=0;r<=96;r++){const hw=(r<=48?r:96-r)+1;g.fillRect(100-hw,52+r,hw*2,1);}
+for(let r=0;r<=76;r++){const hw=(r<=38?r:76-r)+1;g.fillRect(100-hw,8+r,hw*2,1);}
+const yEu=x=>x<=99?x-15:185-x;
+for(let x=61;x<=139;x++)g.fillRect(x,yEu(x),1,17);
+for(let x=100;x<=139;x++)for(let y=yEu(x)+1;y<=yEu(x)+16;y++)if((x+y)%2===0)g.clearRect(x,y,1,1);
+for(let x=61;x<=139;x++)g.clearRect(x,yEu(x),1,1);
+g.clearRect(99,85,1,16);
+const yEl=x=>x<=99?x+49:249-x;
+for(let x=51;x<=149;x++)g.fillRect(x,yEl(x),1,59);
+for(let x=100;x<=149;x++)for(let y=yEl(x)+1;y<=yEl(x)+58;y++)if((x+y)%2===0)g.clearRect(x,y,1,1);
+for(let x=51;x<=149;x++)g.clearRect(x,yEl(x),1,1);
+g.clearRect(99,149,1,58);
+for(let f=0;f<3;f++){
+const t1=120+f*15,t2=137+f*15;
+g.clearRect(60,t1,10,10);g.fillRect(64,t1,1,10);g.fillRect(60,t1+4,10,1);
+g.clearRect(78,t2,10,10);g.fillRect(82,t2,1,10);g.fillRect(78,t2+4,10,1);
 }
-for(let x=11;x<=15;x++)g.clearRect(x,yE(x)+29,1,7);
-g.fillRect(26,12,5,4);
+for(let f=0;f<3;f++){
+g.clearRect(110,140+f*15,10,10);g.fillRect(110,140+f*15,10,1);
+g.clearRect(128,122+f*15,10,10);g.fillRect(128,122+f*15,10,1);
+}
+g.clearRect(70,62,6,6);g.clearRect(80,72,6,6);
+g.clearRect(114,73,6,6);g.clearRect(126,61,6,6);
+g.fillRect(66,157,14,2);g.clearRect(66,159,14,1);
+g.clearRect(68,160,9,14);
+for(let x=68;x<=76;x++)g.clearRect(x,174,1,yEl(x)+58-174);
+g.fillRect(98,0,4,2);g.fillRect(99,2,2,10);
+g.clearRect(52,97,9,7);g.fillRect(53,98,7,5);g.clearRect(54,100,5,1);
 });
-const RUB=CS(54,60,g=>{
-for(let x=2;x<=26;x++){g.fillRect(x,34-x,1,1);g.fillRect(x,30+x,1,1);}
-for(let x=27;x<=50;x++){g.fillRect(x,x-18,1,1);g.fillRect(x,82-x,1,1);}
-for(let x=2;x<=50;x++)g.fillRect(x,(x<=26?30+x:82-x)+1,1,1);
-for(let x=4;x<=8;x++)g.fillRect(x,24-x,1,10);
-for(let x=11;x<=17;x++)g.fillRect(x,21-x,1,13);
-for(let x=13;x<=15;x++)g.clearRect(x,25-x,1,3);
-for(let x=31;x<=36;x++)g.fillRect(x,x-27,1,9);
-for(let x=39;x<=42;x++)g.fillRect(x,x-24,1,6);
-g.fillRect(21,28,4,3);g.fillRect(29,33,3,2);g.fillRect(17,36,3,2);g.fillRect(33,39,4,3);g.fillRect(25,43,3,2);g.fillRect(30,24,2,2);
-g.fillRect(15,31,1,1);g.fillRect(37,35,1,1);g.fillRect(23,47,1,1);
-for(let i=0;i<4;i++)g.fillRect(31+i*2,25-i*2,3,2);
+const RUB=CS(180,152,g=>{
+for(let x=17;x<=85;x++){g.fillRect(x,97-x,1,1);g.fillRect(x,x+63,1,1);g.fillRect(x,x+64,1,1);}
+for(let x=86;x<=153;x++){g.fillRect(x,x-73,1,1);g.fillRect(x,233-x,1,1);g.fillRect(x,234-x,1,1);}
+for(let x=34;x<=41;x++)g.fillRect(x,97-x-14,1,14);
+for(let x=44;x<=58;x++)g.fillRect(x,97-x-19,1,19);
+for(let x=48;x<=51;x++)g.clearRect(x,97-x-13,1,5);
+g.clearRect(46,97-46-19,1,2);g.clearRect(55,97-55-19,1,3);
+for(let x=96;x<=106;x++)g.fillRect(x,x-73-12,1,12);
+for(let x=109;x<=118;x++)g.fillRect(x,x-73-8,1,8);
+const ch=(cx0,cy0,w,h)=>{g.fillRect(cx0,cy0,w,h);g.clearRect(cx0+w-1,cy0+1,1,h-1);g.clearRect(cx0+1,cy0+h-1,w-1,1);};
+ch(60,70,9,6);ch(76,88,11,7);ch(94,72,8,5);ch(68,104,9,6);ch(88,110,7,5);ch(52,90,7,5);ch(106,94,9,6);ch(80,60,6,4);
+for(let y=80;y<=90;y++)for(let x=58;x<=80;x++)if((x+y)%4===0)g.fillRect(x,y,1,1);
+for(let y=86;y<=96;y++)for(let x=92;x<=110;x++)if((x+y)%4===0)g.fillRect(x,y,1,1);
+for(let i=0;i<8;i++)g.fillRect(52+2*i,30+2*i,3,2);
+g.fillRect(64,120,1,1);g.fillRect(100,118,1,1);g.fillRect(40,84,1,1);
 });
 
 function isoX(wx,wy){return OX+(wx-wy);}
@@ -124,12 +148,12 @@ if(w<=0)return;
 cx.fillStyle=BG;
 for(let r=0;r<h;r++){
 const hw=Math.round(w/2*(1-Math.abs(2*r/h-1)));
-if(hw>0)cx.fillRect(Math.round((sx-hw)*SS),Math.round((sy-h/2+r)*SS),Math.round(hw*2*SS),Math.max(1,Math.round(SS)));
+if(hw>0)cx.fillRect((sx-hw)*SS,(sy-Math.round(h/2)+r)*SS,hw*2*SS,SS);
 }
 }
 function render(){
-SS=2*(window.devicePixelRatio||1);
-cv.width=Math.round(PW*SS);cv.height=Math.round(PH*SS);
+SS=Math.max(1,Math.round(window.devicePixelRatio||1));
+cv.width=PW*SS;cv.height=PH*SS;
 cx.imageSmoothingEnabled=false;
 cx.fillStyle=BG;cx.fillRect(0,0,cv.width,cv.height);
 const off=mk(PW,PH),og=off.getContext("2d");
@@ -153,15 +177,15 @@ px[o]=c[0];px[o+1]=c[1];px[o+2]=c[2];px[o+3]=255;
 }
 }
 og.putImageData(id,0,0);
-cx.drawImage(off,0,0,Math.round(PW*SS),Math.round(PH*SS));
-const place=(spr,ax,ay,wcx,wcy,fw,fh)=>{
+cx.drawImage(off,0,0,PW*SS,PH*SS);
+const place=(spr,ax,ay,wcx,wcy,fw)=>{
 const sx=isoX(wcx,wcy),sy=isoY(wcx,wcy);
-shadowDiamond(sx+3,sy+3,fw,fh);
-cx.drawImage(spr,Math.round((sx-ax*2)*SS),Math.round((sy-ay*2)*SS),Math.round(spr.width*2*SS),Math.round(spr.height*2*SS));
+shadowDiamond(sx+4,sy+4,fw,fw);
+cx.drawImage(spr,(sx-ax)*SS,(sy-ay)*SS,spr.width*SS,spr.height*SS);
 };
-place(HOUSE,24,35,65,65,96,96);
-place(APT,24,59,181,65,88,88);
-place(RUB,26,34,65,181,0,0);
+place(HOUSE,100,86,65,65,116);
+place(APT,100,158,181,65,108);
+place(RUB,85,80,65,181,0);
 }
 addEventListener("resize",render);
 render();

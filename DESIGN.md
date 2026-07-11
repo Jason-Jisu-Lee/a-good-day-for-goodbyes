@@ -357,22 +357,34 @@ improvement suggestions along the way.
   Both boards deleted. Kept findings: C-lot learned that corner
   brackets are reserved for the selection UI; the block/lot-seam
   connection experiment is dead (Rebuild street grid re-locked).
-- `labs/opening.html` OPENING MOCK (2026-07-11, v4, "i can live with
-  that" on the diagonal direction): 2x2 in the locked flat-box world
-  and locked true-square diagonal view. Tiles: HOUSE (normal single
-  house: flat-roof cube, door, right-wall window, chimney pipe
-  breaking the roof silhouette), APARTMENT (tall tower, four floors
-  of window pairs on both visible walls, ground door, roof unit;
-  user asked for a normal house + relatively tall apartment after
-  the oversized grocery was rejected), RUBBLE (reads as a destroyed
-  building: 1px foundation rim, dark exposed floor, white debris
-  chunks inside, jagged standing back-wall fragments with a window
-  hole, leaning beam; the pyramid-pile and two mound attempts are
-  dead), MYSTERY dark diamond. Streets with curbs/dashes absent on
-  the mystery's unexplored sides; fog hugs the rotated silhouette.
-  Grocery sprite retired with the size complaint; food tile gets
-  designed later in this system. Awaiting feel pass; then wire into
-  game.js.
+- LAB PRESENTATION LAW (user 2026-07-11, "why is the size getting
+  bigger with every request"): mocks render on the REAL GAME STAGE,
+  960x540 logical, displayed 1:1 (dpr-integer backing). Never
+  inflate lab canvases again.
+- SPRITE DENSITY LAW (user: "it doesnt look pixel style, it just
+  looks awfully pixelated"): building sprites are authored at 1:1
+  with stage pixels, the same density as ground detail. No more
+  half-res sprites blitted x2; mixed pixel densities are the
+  "badly upscaled" tell.
+- PIXEL CRAFT for the diagonal world: shadow-side walls (down-right)
+  get 50 percent checker dither; lit walls stay white; 1px dark
+  seams between planes; windows and doors are UPRIGHT rectangles
+  stepped along the 45-degree wall bases (the per-column slanted
+  window strips read "angled and weird" and are dead); windows get
+  1px mullion crosses on lit walls and 1px lintels on shaded walls.
+- `labs/opening.html` OPENING MOCK (2026-07-11, v5 full quality):
+  960x540 stage, 2x2 diagonal grid. HOUSE = L-shaped massing: main
+  flat-roof volume + lower attached garage wing (garage door with
+  handle line), entry door with knob, two shaded-wall windows,
+  chimney breaking the roofline, 1px parapet inset tracing the roof.
+  APARTMENT = stepped tower: main shaft + setback top floor, three
+  stepped floors of 4-pane windows on the lit wall, plain lintel
+  windows on the shaded wall, entrance with canopy and recessed dark
+  skirt, rooftop antenna breaking the silhouette, AC box on the
+  setback ledge. RUBBLE = foundation rim, dark exposed floor, shaded
+  debris chunks, dust dither patches, jagged back walls with window
+  hole, fallen beam. MYSTERY dark diamond. Awaiting feel pass; then
+  wire into game.js.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 
