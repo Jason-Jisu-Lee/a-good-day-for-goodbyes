@@ -24,5 +24,5 @@ text7("-"+expn+"/MIN",16,l.hud+36,1,null,MID);
 if(hover==="inc")tip(16,l.hud+52,srcs.length?srcs:["0 X "+FOOD_PM+"/MIN"]);
 if(hover==="exp")tip(16,l.hud+52,[G.survivors.length+" X 3/MIN"]);
 if(G.matsSeen||G.mats>0)text7("MATERIALS "+Math.floor(G.mats),160,l.hud,2);
-text7("DAY "+G.day,W-16,l.hud+32,1,"r",MID);
+text7("DAY "+G.day,16,H-24,1,null,MID);
 }
