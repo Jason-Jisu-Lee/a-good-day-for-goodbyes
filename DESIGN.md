@@ -361,30 +361,32 @@ improvement suggestions along the way.
   bigger with every request"): mocks render on the REAL GAME STAGE,
   960x540 logical, displayed 1:1 (dpr-integer backing). Never
   inflate lab canvases again.
-- SPRITE DENSITY LAW (user: "it doesnt look pixel style, it just
-  looks awfully pixelated"): building sprites are authored at 1:1
-  with stage pixels, the same density as ground detail. No more
-  half-res sprites blitted x2; mixed pixel densities are the
-  "badly upscaled" tell.
+- FAT PIXEL LAW (final density ruling, user 2026-07-11: v4 "awfully
+  pixelated" = mixed densities, v5 "these are not pixelated" = too
+  fine; STYLES.md #1 CHUNKY 1-BIT fat pixels is the house default):
+  the WORLD renders to a 480x270 buffer and integer-scales x2 onto
+  the 960x540 stage. Ground, streets, fog, and sprites are ALL
+  authored at buffer density, so every pixel is uniformly fat. Curbs
+  are 2 world px (1 world px features alias at this sampling); fog
+  and erosion speckle in 4-world-px cells so specks stay chunky.
 - PIXEL CRAFT for the diagonal world: shadow-side walls (down-right)
   get 50 percent checker dither; lit walls stay white; 1px dark
   seams between planes; windows and doors are UPRIGHT rectangles
   stepped along the 45-degree wall bases (the per-column slanted
   window strips read "angled and weird" and are dead); windows get
   1px mullion crosses on lit walls and 1px lintels on shaded walls.
-- `labs/opening.html` OPENING MOCK (2026-07-11, v5 full quality):
-  960x540 stage, 2x2 diagonal grid. HOUSE = L-shaped massing: main
-  flat-roof volume + lower attached garage wing (garage door with
-  handle line), entry door with knob, two shaded-wall windows,
-  chimney breaking the roofline, 1px parapet inset tracing the roof.
+- `labs/opening.html` OPENING MOCK (2026-07-11, v6 = v5 compositions
+  re-authored at fat-pixel density under the FAT PIXEL LAW): 960x540
+  stage showing the 480x270 world x2. HOUSE = L-shaped massing: main
+  flat-roof volume + attached garage wing (garage door, handle
+  line), entry door with knob, two shaded-wall lintel windows,
+  chimney breaking the roofline, parapet inset tracing the roof.
   APARTMENT = stepped tower: main shaft + setback top floor, three
-  stepped floors of 4-pane windows on the lit wall, plain lintel
-  windows on the shaded wall, entrance with canopy and recessed dark
-  skirt, rooftop antenna breaking the silhouette, AC box on the
-  setback ledge. RUBBLE = foundation rim, dark exposed floor, shaded
-  debris chunks, dust dither patches, jagged back walls with window
-  hole, fallen beam. MYSTERY dark diamond. Awaiting feel pass; then
-  wire into game.js.
+  stepped window floors per visible wall, entrance with canopy and
+  recessed dark skirt, rooftop antenna, AC box on the ledge. RUBBLE
+  = foundation rim, dark exposed floor, shaded debris chunks, dust
+  patches, jagged back walls with window hole, fallen beam. MYSTERY
+  dark diamond. Awaiting feel pass; then wire into game.js.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 
