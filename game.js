@@ -62,6 +62,9 @@ const F7={
 "9":[".XXX.","X...X","X...X",".XXXX","....X","....X",".XXX."],
 "?":[".XXX.","X...X","....X","..XX.","..X..",".....","..X.."],
 ".":[".....",".....",".....",".....",".....","..X..","....."],
+"+":[".....","..X..","..X..","XXXXX","..X..","..X..","....."],
+"-":[".....",".....",".....","XXXXX",".....",".....","....."],
+"/":["....X","....X","...X.","..X..",".X...","X....","X...."],
 " ":[".....",".....",".....",".....",".....",".....","....."]
 };
 
@@ -96,12 +99,11 @@ const T_HOUSE=new Image();T_HOUSE.src="ref_house.png?v=1";
 const T_APT=new Image();T_APT.src="ref_apt.png?v=1";
 const T_TILE=new Image();T_TILE.src="ref_tile.png?v=1";
 
-const KIND_NAME={house:"HOUSE",house2:"APARTMENT",grocery:"GROCERY",scrap:"SCRAPYARD",rubble:"RUBBLE",camp:"CAMP",cache:"SUPPLY CACHE",lot:"EMPTY LOT",mysteryroll:"UNKNOWN"};
-const KIND_LABEL={grocery:"GROCERY",scrap:"SCRAP",rubble:"RUBBLE",camp:"CAMP",cache:"CACHE"};
+const KIND_NAME={house:"HOUSE",house2:"APARTMENT",grocery:"FOOD",scrap:"SCRAPYARD",rubble:"RUBBLE",camp:"CAMP",cache:"SUPPLY CACHE",lot:"EMPTY LOT",mysteryroll:"UNKNOWN"};
+const KIND_LABEL={grocery:"FOOD",scrap:"SCRAP",rubble:"RUBBLE",camp:"CAMP",cache:"CACHE"};
 const SCOUT_T=15,RECLAIM_T=20,RECLAIM_LOT_T=10,CLEAR_T=20,CLEAR_COST=20;
 const EAT_EVERY=40,DAY_LEN=90,FOOD_RATE=1/8,MAT_RATE=1/10,DR=0.65,SPEED=55;
 const NAME_BAG=["JUNE","OKON","IVY","CALEB","NOOR","SAGE"];
-const BUBBLES=["COLD TONIGHT.","QUIET OUT THERE.","STILL STANDING.","SMELLS LIKE RAIN.","I MISS MUSIC."];
 
 let mode="menu",fade=0,fading=false,hover=null,menuButtons=[];
 let G=null,sel=null,picker=null,uiButtons=[],hoverTile=null,ts=1,fps=0,frames=0,fpsT=0;
@@ -127,8 +129,8 @@ if(t.kind==="mystery")t.kind="mysteryroll";
 tiles.push(t);
 }
 const survivors=[
-{name:"MARA",face:0,x:0,y:0,task:null,arriveAt:0,eatT:EAT_EVERY*0.6,hungry:false,bubble:null,bubT:20+Math.random()*20},
-{name:"REED",face:1,x:0,y:0,task:null,arriveAt:0,eatT:EAT_EVERY,hungry:false,bubble:null,bubT:30+Math.random()*20}
+{name:"MARA",face:0,x:0,y:0,task:null,arriveAt:0,eatT:EAT_EVERY*0.6,hungry:false},
+{name:"REED",face:1,x:0,y:0,task:null,arriveAt:0,eatT:EAT_EVERY,hungry:false}
 ];
 G={v:2,t:0,day:1,dayT:0,food:8,mats:0,tiles,survivors,names:shuffle(NAME_BAG.slice()),faces:[2,3,4]};
 for(let i=0;i<G.survivors.length;i++){const sp=idleSpot(G.survivors[i],i);G.survivors[i].x=sp.x;G.survivors[i].y=sp.y;}
@@ -152,8 +154,8 @@ if(m<=1)return visibleTile(t)?t:null;
 }
 return null;
 }
-function workSpot(t,i){const p=tpos(t),l=L();const off=[[0,-26],[30,10],[-30,10],[0,26]][i%4];return {x:p.x+off[0]*l.sc,y:p.y+off[1]*l.sc};}
-function idleSpot(s,i){const l=L(),d=DXY();const cx0=l.ox,cy0=l.oy+3*d.dy;const off=[[-30,6],[30,-6],[-10,-20],[12,20],[-44,-8],[44,8]][i%6];return {x:cx0+off[0]*l.sc,y:cy0+off[1]*l.sc};}
+function workSpot(t,i){const p=tpos(t),l=L(),d=DXY();const off=[[0,10],[-20,4],[20,4],[0,18]][i%4];return {x:p.x+off[0]*l.sc,y:p.y+d.hh+off[1]*l.sc};}
+function idleSpot(s,i){const l=L(),d=DXY();const cx0=l.ox,cy0=l.oy+3*d.dy;const off=[[-26,6],[26,-6],[-10,-18],[10,18],[-26,-6],[26,6]][i%6];return {x:cx0+off[0]*l.sc,y:cy0+off[1]*l.sc};}
 function crew(t){return G.survivors.filter(s=>s.task&&s.task.tile===t);}
 function arrived(t){return crew(t).filter(s=>G.t>=s.arriveAt&&(!s.hungry||t.kind==="grocery"));}
 
@@ -186,8 +188,8 @@ function recruit(t){
 if(G.survivors.length>=6)return;
 const name=G.names.pop()||"ASH";
 const face=G.faces.length?G.faces.shift():1;
-const p=tpos(t);
-const s={name,face,x:p.x,y:p.y,task:null,arriveAt:0,eatT:EAT_EVERY,hungry:false,bubble:{text:"THANK YOU.",t:4},bubT:30};
+const p=tpos(t),d=DXY();
+const s={name,face,x:p.x,y:p.y+d.hh+8,task:null,arriveAt:0,eatT:EAT_EVERY,hungry:false};
 G.survivors.push(s);
 }
 
@@ -213,9 +215,6 @@ if(G.food>=1){G.food-=1;s.hungry=false;s.eatT=EAT_EVERY;}
 else{if(!s.hungry&&!(s.task&&s.task.tile.kind==="grocery"))s.bubble={text:"SO HUNGRY.",t:4};s.hungry=true;s.eatT=6;}
 }
 if(s.hungry&&s.task&&s.task.tile.kind==="grocery"&&G.t>=s.arriveAt&&G.food>=1){G.food-=1;s.hungry=false;s.eatT=EAT_EVERY;}
-s.bubT-=dt;
-if(s.bubT<=0){s.bubT=25+Math.random()*30;if(!s.bubble&&Math.random()<0.6)s.bubble={text:BUBBLES[Math.floor(Math.random()*BUBBLES.length)],t:4};}
-if(s.bubble){s.bubble.t-=dt;if(s.bubble.t<=0)s.bubble=null;}
 }
 }
 
@@ -289,7 +288,7 @@ const sorted=[...G.tiles].sort((a,b)=>(a.gx+a.gy)-(b.gx+b.gy));
 for(const t of sorted){
 const p=tpos(t);
 if(t.state==="unknown"){
-if(!ownedAdjacent(t))continue;
+if(t.gx<1||t.gx>2||t.gy<1||t.gy>2)continue;
 cx.globalAlpha=0.45;
 stampTile(p.x,p.y);
 cx.globalAlpha=0.9;
@@ -315,32 +314,42 @@ if(frac>0)px(p.x-30,p.y-d.hh-16,Math.max(1,Math.round(60*frac)),4,FG);
 }
 if(hoverTile&&hoverTile!==sel){vertexMarks(hoverTile,DIM);}
 if(sel){vertexMarks(sel,FG);}
-const rn=l.sc>0.6?2:1;
 for(let i=0;i<G.survivors.length;i++){
 const s=G.survivors[i];
-blit(s.hungry?RING_D:RING,s.x-7.5*rn,s.y-7.5*rn,rn);
-const nw=tw7(s.name,1);
-px(s.x-nw/2-2,s.y-15*rn-14,nw+4,11,BG);
-text7(s.name,s.x,s.y-15*rn-12,1,"c");
+blit(s.hungry?RING_D:RING,s.x-7.5,s.y-7.5,1);
 }
-for(const s of G.survivors)if(s.bubble)bubble(s.x+6,s.y-15*rn-32,s.bubble.text);
 text7("FOOD "+Math.floor(G.food),16,l.hud,2);
+let inc=0;
+const srcs=[];
+for(const t of G.tiles){
+if(t.state==="owned"&&!t.blocked&&t.kind==="grocery"&&!t.action){
+const n=arrived(t).length;
+if(n>0){const r=mult(n)*FOOD_RATE*60;inc+=r;srcs.push(n+" GATHERING  +"+fmt(r)+"/MIN");}
+}
+}
+const expn=G.survivors.length*60/EAT_EVERY;
+uiButtons.push({id:"inc",x:14,y:l.hud+20,w:96,h:13,en:true});
+uiButtons.push({id:"exp",x:14,y:l.hud+34,w:96,h:13,en:true});
+text7("+"+fmt(inc)+"/MIN",16,l.hud+22,1,null,MID);
+text7("-"+fmt(expn)+"/MIN",16,l.hud+36,1,null,MID);
+if(hover==="inc")tip(16,l.hud+52,srcs.length?srcs:["NO ONE GATHERING FOOD"]);
+if(hover==="exp")tip(16,l.hud+52,[G.survivors.length+" SURVIVORS","EACH EATS "+fmt(60/EAT_EVERY)+"/MIN"]);
 text7("MATERIALS "+Math.floor(G.mats),160,l.hud,2);
 text7("DAY "+G.day,W-16,l.hud+2,1,"r",MID);
 drawPanel();
 drawPortraits();
 }
-function bubble(x,y,s){
-const wdt=tw7(s,1)+10;
-let bx=Math.min(Math.max(4,x),W-wdt-4);
-px(bx,y,wdt,13,BG);
-edgeR(bx,y,wdt,13,FG);
-text7(s,bx+5,y+3,1);
-px(x+1,y+13,1,1,FG);px(x,y+14,1,1,FG);
+function fmt(v){const r=Math.round(v*10)/10;return r%1===0?String(Math.round(r)):r.toFixed(1);}
+function tip(x,y,lines){
+let w=0;
+for(const s of lines)w=Math.max(w,tw7(s,1));
+px(x,y,w+12,lines.length*14+8,BG);
+edgeR(x,y,w+12,lines.length*14+8,DIM);
+for(let i=0;i<lines.length;i++)text7(lines[i],x+6,y+5+i*14,1);
 }
 function drawPanel(){
 const l=L();
-if(!sel){edgeR(l.pnX,l.pnY,l.pnW,64,DIM);text7("TOWN",l.pnX+16,l.pnY+14,2,null,MID);text7(G.survivors.length+" SURVIVORS",l.pnX+16,l.pnY+38,1,null,MID);return;}
+if(!sel)return;
 const t=sel;
 edgeR(l.pnX,l.pnY,l.pnW,l.pnH,DIM);
 const name=t.state==="unknown"?"UNKNOWN":KIND_NAME[t.kind];
@@ -434,6 +443,7 @@ function draw(){
 px(0,0,W,H,BG);
 if(mode==="menu")drawMenu();
 else drawGame();
+edgeR(0,0,W,H,"#1c1c1c");
 }
 
 function save(){
@@ -453,7 +463,7 @@ if(d.v!==2)return false;
 G={v:2,t:d.t,day:d.day,dayT:d.dayT,food:d.food,mats:d.mats,names:d.names,faces:d.faces,tiles:[],survivors:[]};
 G.tiles=d.tiles.map(t=>({gx:t.gx,gy:t.gy,kind:t.kind,state:t.state,blocked:t.blocked,progress:t.progress,need:t.need,action:t.action}));
 G.survivors=d.survivors.map(s=>{
-const sv={name:s.name,face:s.face,x:s.x,y:s.y,eatT:s.eatT,hungry:s.hungry,task:null,arriveAt:0,bubble:null,bubT:20+Math.random()*20};
+const sv={name:s.name,face:s.face,x:s.x,y:s.y,eatT:s.eatT,hungry:s.hungry,task:null,arriveAt:0};
 if(s.task){const tile=G.tiles.find(t=>t.gx===s.task.gx&&t.gy===s.task.gy);if(tile)sv.task={type:s.task.type,tile};}
 return sv;
 });

@@ -307,10 +307,24 @@ improvement suggestions along the way.
   alpha until reclaimed. Stamps composite additively; graceful
   fallbacks (code-drawn dashes + labels) when the gitignored art
   files are absent (public repo runs without them).
-- Selection = ticks at the diamond's four vertices. Survivor rings at
-  2x landscape / 1x portrait, names above, bubbles kept. Old streets,
-  fog speckles, checker edges, hue lines: all gone.
+- Selection = ticks at the diamond's four vertices. Old streets, fog
+  speckles, checker edges, hue lines: all gone.
 - Save format v2; v1 saves discarded on load.
+- USER PASS (2026-07-11, game.js v8): stage edge gets a barely
+  visible #1c1c1c outline. ONLY the origin four render at start (the
+  mystery "?" included); ring-1 stays pure black until scouted
+  (still hover/clickable for the scout flow). "TOWN / N SURVIVORS"
+  idle panel REMOVED. Speech bubbles REMOVED. Map names over
+  survivors REMOVED (identity lives in the portraits). Survivor
+  rings shrunk to 15px so they fit the street corridors; idle spots
+  clamped to corridors; WORK SPOTS moved to the street in front of a
+  tile (bottom vertex side), survivors stand there, never inside the
+  tile art; recruits also spawn in front. The FOOD tile label is
+  FOOD (the "grocery" naming was never the user's; dead). HUD: under
+  FOOD, "+x/MIN" (all food income combined) and "-y/MIN" (every
+  survivor eats 60/EAT_EVERY = 1.5/min); hovering either shows a
+  plain breakdown tooltip (who gathers what / N survivors x rate).
+  F7 font gained + - / glyphs.
 
 ## First slice (BUILT 2026-07-10, game.js + index.html)
 - Menu -> ENTER -> live town. Origin 2x2 (grocery, house, rubble,
