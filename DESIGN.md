@@ -346,17 +346,27 @@ improvement suggestions along the way.
   interact with"; #4 GEOMETRIC converges with solid once volumes
   exist. Tile-style candidates narrowed to #1 CHUNKY / #2 DITHER /
   #3 SOLID (silhouette adapted to volume) / #6 OUTLINE.
-- `labs/oblique.html` OBLIQUE BOARD (2026-07-11): grocery + house
-  (2 icons per style for quality, user request) in Rebuild-style
-  top-down oblique, one shared volume language (roof + facade + side
-  sliver + drop shadow), rendered in the 4 surviving styles: #1
-  CHUNKY (half-res fat pixels), #2 DITHER (checker-shaded side
-  faces, chimney smoke, dithered shadows), #3 SOLID (all planes
-  white, 1px black seams), #6 OUTLINE (wireframe volumes, black
-  interiors, no shadow). Each panel demos the BLOCK MODEL
-  connectivity: two lots + subtle lot-line seam + shared frontage
-  street dissolving into fog. Awaiting style pick + block-model
-  verdict.
+- Oblique board REJECTED same day (user: too complicated, and it
+  re-skinned ONE shared building geometry across styles, which the
+  user explicitly forbids; every candidate must be its own design).
+  Deleted. KEPT from it: the side view (user likes it) and the block
+  model ground language.
+- `labs/blocks.html` BLOCK BOARD (2026-07-11): six style WORLDS, each
+  a connected 2x2 block (APARTMENT + HOUSE top row, GROCERY +
+  SCRAPYARD bottom row; apartment per the user's Rebuild example),
+  all four buildings designed individually per world, simpler than
+  the oblique board. Ground shared by all panels: continuous lot
+  plane per row, faint lot-line seam inside a block, frontage street
+  (sidewalk + road + dashes) south of each row, drop shadows, fog
+  dissolve. Worlds: A FLAT BOXES (modernist flat-roof boxes, window
+  grids), B GABLE VILLAGE (pitched roofs, market canopy on posts,
+  open shed), C SHADOW MASS (bold white masses, solid black side
+  wedges, ziggurat apartment, crane silhouette), D BLUEPRINT (1px
+  wireframe, fire-escape zigzag, porch house, L-shaped store, fenced
+  car stack), E ROUNDED TOY (dome tower, arch cottage, scalloped
+  shop, tire pile), F DITHERWORK (textures: brick pocks, skillion
+  roof, corrugated awning and shed, dithered scrap mound). Awaiting
+  pick by feel.
 - Earlier exploratory labs (icons, avatar styles, first faces, busts)
   deleted 2026-07-07 for a clean start.
 
