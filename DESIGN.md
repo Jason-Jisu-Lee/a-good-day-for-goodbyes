@@ -325,6 +325,28 @@ improvement suggestions along the way.
   survivor eats 60/EAT_EVERY = 1.5/min); hovering either shows a
   plain breakdown tooltip (who gathers what / N survivors x rate).
   F7 font gained + - / glyphs.
+- USER PASS 2 (2026-07-11, game.js v9):
+  - Crew picker shows the task LIVE: with n selected, timed tasks
+    display ceil(need / mult(n)) seconds, gather displays +rate/MIN;
+    the figure updates in real time as survivors are added/removed.
+  - TEMP TASK COMMITMENT: scout / reclaim / clear lock the survivor
+    in: the STOP button is gone for running temp tasks and locked
+    survivors appear dimmed and unpickable in other pickers until
+    the task completes (or, later, they die). Gather stays
+    interruptible (permanent task).
+  - Corner vertex ticks on hover/select are dead ("weird stuff").
+    INTERIM: hover = thin gray diamond outline, selected = thin
+    white diamond outline, until the user picks from
+    labs/select.html: HOVER candidates H1 thin outline / H2 soft
+    fill / H3 outer frame / H4 lift / H5 bouncing chevron; SELECT
+    candidates S1 marching ants / S2 double line / S3 ground plate /
+    S4 pulsing outline / S5 lift + base outline. All shown on the
+    real house stamp at game scale, animated live.
+  - DEV VIEW TOGGLE (page chrome, top right, outside the stage
+    frame): FULL = normal integer upscale (Steam look), ITCH 960 =
+    scale clamped to 1 (embed look). Both ship targets are already
+    served by the 16:9 stage law (authored 960x540, integer scaling
+    means 1080p fullscreen = crisp 2x, 4K = 4x).
 
 ## First slice (BUILT 2026-07-10, game.js + index.html)
 - Menu -> ENTER -> live town. Origin 2x2 (grocery, house, rubble,
