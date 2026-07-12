@@ -11,7 +11,8 @@ function draw(){
 px(0,0,W,H,BG);
 if(mode==="menu")drawMenu();
 else drawGame();
-edgeR(0,0,W,H,"#1c1c1c");
+const fs=innerWidth>=screen.width-2&&innerHeight>=screen.height-2;
+if(!fs)edgeR(0,0,W,H,"#1c1c1c");
 }
 let simLast=Date.now();
 setInterval(()=>{

@@ -155,7 +155,9 @@ violations, volunteers improvements)
   px (07-11: Windows 125% scaling made F11 letterbox at x1; now
   1080p F11 = exact x2 device px, fills edge to edge). Dev toggle
   AUTO <-> ITCH 960.
-- Stage edge: barely visible #1c1c1c outline.
+- Stage edge: barely visible #1c1c1c outline, WINDOWED ONLY (07-11:
+  at F11 it framed the whole screen and read as a border; hidden
+  whenever the window covers the screen).
 
 ## Art/UI direction
 - Very minimalist 1-bit, dark. Color earned slowly.
