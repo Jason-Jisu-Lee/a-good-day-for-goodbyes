@@ -11,11 +11,19 @@ function edgeR(x,y,w,h,col){px(x,y,w,1,col);px(x,y+h-1,w,1,col);px(x,y,1,h,col);
 function fit(){
 dpr=window.devicePixelRatio||1;
 PORT=innerHeight>innerWidth;
-W=PORT?540:960;H=PORT?960:540;
-let kp=Math.min(innerWidth*dpr/W,innerHeight*dpr/H);
+const bw=PORT?540:960,bh=PORT?960:540;
+const cw=PORT?720:1280,ch=PORT?1280:720;
+let kp=Math.min(innerWidth*dpr/bw,innerHeight*dpr/bh);
 if(kp>=1)kp=Math.floor(kp);
+if(OPT.disp==="win"){
+kp=Math.min(kp,dpr);
+W=bw;H=bh;
+}else{
+W=Math.max(bw,Math.min(cw,Math.floor(innerWidth*dpr/kp)));
+H=Math.max(bh,Math.min(ch,Math.floor(innerHeight*dpr/kp)));
+}
 let kf=Math.min(innerWidth/W,innerHeight/H);
-if(OPT.disp==="win"){kp=Math.min(kp,dpr);kf=Math.min(kf,1);}
+if(OPT.disp==="win")kf=Math.min(kf,1);
 k=kf;
 S=kp;
 cv.style.width=W*kf+"px";cv.style.height=H*kf+"px";

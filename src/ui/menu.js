@@ -1,7 +1,7 @@
 function menuLayout(){
 const port=H>W;
 const mains=[hasSave()||G?"CONTINUE":"NEW GAME","SETTINGS","QUIT GAME"];
-const bs=port?{ty:220,ts:3,by:430,bh:64,bsc:3,dy:868}:{ty:150,ts:4,by:280,bh:52,bsc:3,dy:486};
+const bs=port?{ty:Math.round(H*0.229),ts:3,by:Math.round(H*0.448),bh:64,bsc:3,dy:Math.round(H*0.904)}:{ty:Math.round(H*0.278),ts:4,by:Math.round(H*0.519),bh:52,bsc:3,dy:Math.round(H*0.9)};
 menuButtons=[];
 for(let i=0;i<mains.length;i++){
 const label=mains[i];

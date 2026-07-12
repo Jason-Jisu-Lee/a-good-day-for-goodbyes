@@ -155,9 +155,14 @@ violations, volunteers improvements)
   persisted in goodbyes_opts, dev button synced):
   - WINDOWED (default) = fixed 960x540 itch-size stage, centered,
     pixel-exact.
-  - BORDERLESS = fill the window/screen: render at integer device
-    scale, stretch the remainder smoothly (sharp bilinear); exact
-    16:9 screens stay pixel-perfect; aspect mismatch = letterbox.
+  - BORDERLESS = fill the window/screen with an ADAPTIVE VIEWPORT
+    (industry standard, user 07-11): render at integer device scale,
+    logical stage extends from 960x540 up to 1280x720 (portrait
+    540x960 -> 720x1280) to match the screen aspect, so wider or
+    taller monitors SEE MORE WORLD; UI anchors to real edges; the
+    sub-integer remainder stretches smoothly (sharp bilinear); exact
+    fits (1080p x2, 1440p = 1280x720 x2, 4K x4) are pixel-perfect;
+    letterbox only beyond the caps (past ~21:9).
   - FULLSCREEN = borderless + browser fullscreen API. Esc exits ->
     setting drops to BORDERLESS. Stored FULLSCREEN reboots as
     BORDERLESS (browsers need a click to re-enter fullscreen).

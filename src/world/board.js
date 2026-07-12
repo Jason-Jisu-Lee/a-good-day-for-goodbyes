@@ -1,6 +1,6 @@
 function L(){
-if(PORT)return {ox:270,oy:180,sc:1,pnX:45,pnY:470,pnW:450,pnH:300,hud:20};
-return {ox:480,oy:180,sc:1,pnX:756,pnY:60,pnW:188,pnH:392,hud:12};
+if(PORT)return {ox:W/2,oy:Math.round(H*0.1875),sc:1,pnX:W/2-225,pnY:Math.round(H*0.4896),pnW:450,pnH:300,hud:20};
+return {ox:W/2,oy:H/2-90,sc:1,pnX:W-204,pnY:60,pnW:188,pnH:392,hud:12};
 }
 function DXY(){const l=L();return {dx:48*l.sc,dy:30*l.sc,hw:33*l.sc,hh:21*l.sc};}
 function tpos(t){const l=L(),d=DXY();return {x:l.ox+(t.gx-t.gy)*d.dx,y:l.oy+(t.gx+t.gy)*d.dy};}
