@@ -11,9 +11,6 @@ after each editing pass. Names marked (placeholder) need user naming.
 - Current build's 4x4 world = the center block, columns E-H rows 5-8.
 - Scales to 12x12 with no renaming ever; 15x15 would need one more
   column letter and is currently out of scope.
-- SEE THEM IN GAME (07-12): backtick debug panel -> IDS button, or
-  add #ids to the URL. Every tile shows its name on the board
-  (hidden tiles dim). No counting, no calculating: read the tile.
 
 ## Tiers (user 07-12; TIER replaces "ring")
 - TIER 0: origin 4 (F6 G6 F7 G7). Safe.
@@ -26,19 +23,47 @@ after each editing pass. Names marked (placeholder) need user naming.
 - TIER 3: next ring (C3..J10 outline). Scout base 36s.
 - Pattern: +12s scout base per tier.
 
-## Tier map (center 8x8 of the 12x12)
+## Name map (drawn exactly like the screen; origin in brackets)
 
 ```
-      C  D  E  F  G  H  I  J
-  3   3  3  3  3  3  3  3  3
-  4   3  2  2  2  2  2  2  3
-  5   3  2  2  1  1  2  2  3
-  6   3  2  1  0  0  1  2  3
-  7   3  2  1  0  0  1  2  3
-  8   3  2  2  1  1  2  2  3
-  9   3  2  2  2  2  2  2  3
- 10   3  3  3  3  3  3  3  3
+                              C3
+                           C4    D3
+                        C5    D4    E3
+                     C6    D5    E4    F3
+                  C7    D6    E5    F4    G3
+               C8    D7    E6    F5    G4    H3
+            C9    D8    E7   [F6]   G5    H4    I3
+         C10   D9    E8   [F7]  [G6]   H5    I4    J3
+            D10   E9    F8   [G7]   H6    I5    J4
+               E10   F9    G8    H7    I6    J5
+                  F10   G9    H8    I7    J6
+                     G10   H9    I8    J7
+                        H10   I9    J8
+                           I10   J9
+                              J10
 ```
+
+## Tier map (same shape; 0 origin, 1-3 outward)
+
+```
+                               3
+                            3     3
+                         3     2     3
+                      3     2     2     3
+                   3     2     2     2     3
+                3     2     1     1     2     3
+             3     2     1    [0]    1     2     3
+          3     2     2    [0]   [0]    2     2     3
+             3     2     1    [0]    1     2     3
+                3     2     1     1     2     3
+                   3     2     2     2     3
+                      3     2     2     3
+                         3     2     3
+                            3     3
+                               3
+```
+(Tier 1 = F5 G5 E6 H6 E7 H7 F8 G8. Tier 2 = E5 H5 E8 H8 corners +
+the D4..I9 ring. Tier 3 = the C3..J10 ring.)
 
 ## Zombies (draft, user 07-12, not built)
 - Danger tile = 1 zombie.
