@@ -85,8 +85,8 @@ the D4..I9 ring. Tier 3 = the C3..J10 ring.)
   a re-spec against tiers + danger count). Playtest first.
 
 ## Tiles (exist in game today)
-- HOUSE (single house): shelter for 2 survivors.
-- APARTMENT: shelter for 4 survivors.
+- HOUSE (single house): shelter for 1 survivor (07-12, was 2).
+- APARTMENT: shelter for 2 survivors (07-12, was 4).
 - FOOD (name locked): food, 5/min per gatherer.
 - SCRAPYARD (name locked): materials, 3/min per gatherer.
 - RUBBLE: blocked. CLEAR = 20s + 20 materials, becomes EMPTY LOT.
@@ -102,15 +102,18 @@ the D4..I9 ring. Tier 3 = the C3..J10 ring.)
 - HOSPITAL: health (sickness, medication), arrives mid game.
 
 ## Shelter (not wired into the game yet)
-- House 2 + apartment 4. Concept arrives in-game when capacity
+- House 1 + apartment 2. Concept arrives in-game when capacity
   matters (concepts one by one).
 
 ## Current in-game pool (per run, 12 tiles, PRE-TIER spec)
 - 2 SCRAPYARD, 1 FOOD, 1 APARTMENT, 1 CAMP (50% chance of a 2nd
   CAMP), rest EMPTY LOT.
 
-## Origin 2x2 (locked)
-- FOOD + HOUSE (resident) + MYSTERY + RUBBLE, arrangement random.
+## Origin 2x2 (user 07-12)
+- 2 HOUSE + 1 FOOD + 1 MYSTERY, arrangement random.
+- RUBBLE out of the origin. FLAG: rubble now spawns nowhere (ring
+  pool has none), so CLEAR + the early material sink are dormant
+  until rubble joins a tier pool.
 
 ## Tile candidates (Claude brainstorm 07-12; user picks, names
 placeholder)

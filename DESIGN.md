@@ -61,7 +61,9 @@ violations, volunteers improvements)
   minus text walls.
 
 ## Early flow (LOCKED 07-10)
-- Origin 2x2: FOOD / RESIDENT / MYSTERY / RUBBLE (Material sink).
+- Origin 2x2 (user 07-12): 2 HOUSE / FOOD / MYSTERY. RUBBLE dropped
+  from origin; FLAGGED: rubble spawns nowhere now, CLEAR + early
+  material sink dormant until rubble joins a tier pool.
 - Guarantees: food + shelter only; all else fixed-count RNG pools
   (high variance, never pure luck).
 - FOOD = single sustenance (water folded in).
@@ -120,7 +122,8 @@ violations, volunteers improvements)
 - Zombie draft: dark intense red, 1 per danger tile, speed 6 px/s
   ABSOLUTE (speeds never derived from other actors; upgrades never
   leak). Not built; user playtesting the tier-1 feel first.
-- Shelter (TILES.md): house 2, apartment 4. Not implemented yet.
+- Shelter (TILES.md, user 07-12): house 1, apartment 2. Not
+  implemented yet.
 
 ## Visual language (LOCKED, extracted from user's 123.png)
 - Diamond lattice, military projection (sx=wx-wy, sy=wx+wy), grid
@@ -215,7 +218,7 @@ violations, volunteers improvements)
   gear panel under MAIN MENU (07-11, moved off the main menu):
   2-click confirm (ABANDON -> ABANDON?), clears save + memory, exits
   to menu (now showing NEW GAME).
-- Origin randomized (grocery/house/rubble/mystery) + ring bag
+- Origin randomized (2 house/grocery/mystery) + ring bag
   (2 scrap, 1 grocery, 1 apartment, 1-2 camps, rest lots).
 - Live: scout/reclaim/clear/gather, crew picker with live duration
   ("+N/MIN" / "NS"), locked-survivor dimming, hunger pause, recruits,

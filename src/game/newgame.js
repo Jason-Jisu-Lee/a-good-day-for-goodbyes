@@ -1,6 +1,6 @@
 function newGame(){
 const tiles=[];
-const originKinds=shuffle(["grocery","house","rubble","mystery"]);
+const originKinds=shuffle(["house","house","grocery","mystery"]);
 let oi=0;
 const bag=["scrap","scrap","grocery","house2","camp"];
 if(Math.random()<0.5)bag.push("camp");
