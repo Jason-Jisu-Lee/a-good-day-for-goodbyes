@@ -55,6 +55,7 @@ function clickUI(id){
 if(id!=="abandon")abandonArm=false;
 if(id==="vol"){openPanel=openPanel==="vol"?null:"vol";return;}
 if(id==="gear"){openPanel=openPanel==="set"?null:"set";return;}
+if(id==="disp"){cycleDisp();return;}
 if(id==="tomenu"){openPanel=null;save();mode="menu";fade=0;fading=false;sel=null;picker=null;return;}
 if(id==="abandon"){
 if(!abandonArm){abandonArm=true;return;}

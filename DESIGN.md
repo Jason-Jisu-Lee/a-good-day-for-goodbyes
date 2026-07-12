@@ -151,11 +151,17 @@ violations, volunteers improvements)
 - Survivors = 10px rings in corridors; no map names; work spots in
   front of tiles; idle at town crossing. No anatomy on stage; faces =
   portraits/UI only (asset/faces/).
-- VIEW (07-11 final): render at integer device scale, present
-  filling the screen ("sharp bilinear", like other games). Exact
-  16:9 screens (1080p/4K) = pixel-perfect; others (1440p) = integer
-  buffer stretched smoothly; aspect mismatch = letterbox only. Dev
-  toggle AUTO <-> ITCH 960.
+- DISPLAY MODES (user 07-11, 3-way toggle in the gear panel top row,
+  persisted in goodbyes_opts, dev button synced):
+  - WINDOWED (default) = fixed 960x540 itch-size stage, centered,
+    pixel-exact.
+  - BORDERLESS = fill the window/screen: render at integer device
+    scale, stretch the remainder smoothly (sharp bilinear); exact
+    16:9 screens stay pixel-perfect; aspect mismatch = letterbox.
+  - FULLSCREEN = borderless + browser fullscreen API. Esc exits ->
+    setting drops to BORDERLESS. Stored FULLSCREEN reboots as
+    BORDERLESS (browsers need a click to re-enter fullscreen).
+  Never render fractional directly (uneven pixels).
 - Stage edge: barely visible #1c1c1c outline, WINDOWED ONLY (07-11:
   at F11 it framed the whole screen and read as a border; hidden
   whenever the window covers the screen).

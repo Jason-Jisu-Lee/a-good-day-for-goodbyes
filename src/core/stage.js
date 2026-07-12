@@ -14,9 +14,8 @@ PORT=innerHeight>innerWidth;
 W=PORT?540:960;H=PORT?960:540;
 let kp=Math.min(innerWidth*dpr/W,innerHeight*dpr/H);
 if(kp>=1)kp=Math.floor(kp);
-if(viewItch)kp=Math.min(kp,dpr);
 let kf=Math.min(innerWidth/W,innerHeight/H);
-if(viewItch)kf=Math.min(kf,1);
+if(OPT.disp==="win"){kp=Math.min(kp,dpr);kf=Math.min(kf,1);}
 k=kf;
 S=kp;
 cv.style.width=W*kf+"px";cv.style.height=H*kf+"px";

@@ -26,7 +26,7 @@ px(r.x+26,r.y+33,Math.round(96*OPT.volF),4,FG);
 }
 if(openPanel==="set"){
 const sx=W-136,sw=120,sh=26;
-const rows=[["tomenu","MAIN MENU"],["abandon",abandonArm?"ABANDON?":"ABANDON"]];
+const rows=[["disp",DISP_NAME[OPT.disp]],["tomenu","MAIN MENU"],["abandon",abandonArm?"ABANDON?":"ABANDON"]];
 for(let i=0;i<rows.length;i++){
 const sy=l.hud+30+i*30;
 px(sx,sy,sw,sh,BG);
