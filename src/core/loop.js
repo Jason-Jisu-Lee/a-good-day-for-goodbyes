@@ -32,7 +32,11 @@ updateFloats(dt);
 hoverA+=((hoverTile?1:0)-hoverA)*Math.min(1,dt*10);
 }
 frames++;fpsT+=dt;if(fpsT>=1){fps=frames;frames=0;fpsT=0;}
-if(!dbg.hidden&&G)document.getElementById("dbgstat").textContent="fps "+fps+" | day "+G.day+" | food "+G.food.toFixed(1)+" | mats "+G.mats.toFixed(1)+" | pop "+G.survivors.length+" | x"+ts;
+if(!dbg.hidden){
+let line="win "+innerWidth+"x"+innerHeight+" | dpr "+dpr+" | scr "+screen.width+"x"+screen.height+" | S "+S+" | k "+k.toFixed(2);
+if(G)line+=" | fps "+fps+" | day "+G.day+" | food "+G.food.toFixed(1)+" | mats "+G.mats.toFixed(1)+" | pop "+G.survivors.length+" | x"+ts;
+document.getElementById("dbgstat").textContent=line;
+}
 draw();
 requestAnimationFrame(step);
 }
