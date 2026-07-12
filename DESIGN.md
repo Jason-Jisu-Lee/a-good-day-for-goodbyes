@@ -98,10 +98,11 @@ violations, volunteers improvements)
 - Day counter bottom-left, dim.
 
 ## Balance v1 (tune by feel)
-- FOOD 5/min/gatherer; MATERIALS 6/min/gatherer; eating 3
-  food/min/survivor (1 per 20s).
+- Start 10 food (07-11, was 8).
+- FOOD 5/min/gatherer; MATERIALS 6/min/gatherer; eating 2
+  food/min/survivor (1 per 30s; 07-11, was 3/min).
 - SCOUT 15s; RECLAIM 20s (lot/cache 10s); CLEAR 20s + 20 Materials
-  (refund on cancel). Day 90s. Walk speed 48 px/s (+30%, 07-11).
+  (refund on cancel). Day 90s. Walk speed 53 px/s (07-11, 48 +10%).
 - Mystery roll: grocery 40 / cache 35 / lot 25. Cache pays 25
   Materials. Camp reclaim = recruit (bag JUNE OKON IVY CALEB NOOR
   SAGE), tile -> lot. Max 6 survivors.
