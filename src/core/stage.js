@@ -12,10 +12,11 @@ function fit(){
 dpr=window.devicePixelRatio||1;
 PORT=innerHeight>innerWidth;
 W=PORT?540:960;H=PORT?960:540;
-k=Math.min(innerWidth/W,innerHeight/H);
-if(k>=1)k=Math.floor(k);
-if(viewItch)k=Math.min(k,1);
-S=k*dpr;
+let kp=Math.min(innerWidth*dpr/W,innerHeight*dpr/H);
+if(kp>=1)kp=Math.floor(kp);
+if(viewItch)kp=Math.min(kp,dpr);
+k=kp/dpr;
+S=kp;
 cv.style.width=W*k+"px";cv.style.height=H*k+"px";
 cv.width=Math.max(1,Math.round(W*S));cv.height=Math.max(1,Math.round(H*S));
 cx.imageSmoothingEnabled=false;

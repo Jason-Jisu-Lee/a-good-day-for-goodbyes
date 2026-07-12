@@ -151,7 +151,10 @@ violations, volunteers improvements)
 - Survivors = 10px rings in corridors; no map names; work spots in
   front of tiles; idle at town crossing. No anatomy on stage; faces =
   portraits/UI only (asset/faces/).
-- VIEW: integer stage scaling default; dev toggle AUTO <-> ITCH 960.
+- VIEW: integer stage scaling default, computed in PHYSICAL device
+  px (07-11: Windows 125% scaling made F11 letterbox at x1; now
+  1080p F11 = exact x2 device px, fills edge to edge). Dev toggle
+  AUTO <-> ITCH 960.
 - Stage edge: barely visible #1c1c1c outline.
 
 ## Art/UI direction
