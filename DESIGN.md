@@ -97,11 +97,15 @@ violations, volunteers improvements)
   appeared as "?" that could not be scouted yet, mystery not owned).
   By reclaim all origin four are owned, so every ring tile is
   scoutable the moment it shows.
-- STREETS (user 07-12, rebuilt from scratch): plain SOLID straight
-  anti-aliased lines on the exact corridor midlines between adjacent
-  drawn tiles (width 1.2, #5a5a5a, round caps). Both tiles revealed
-  = full; one side "?" = 35% alpha; both "?" = no line. Dashes and
-  pixel zigzag dead. At start: contained in origin block.
+- STREETS FINAL (user 07-12, third rebuild): faint yellow DASHED
+  road markings (industry standard), rgba(214,192,118) at 55% alpha,
+  width 1.3, dash 5/4.6. Geometry derived from the TILE EDGES, not
+  the lattice: each segment runs parallel to the two facing diamond
+  edges (2:1 slope) and dead-center between them, length 88% of the
+  edge, one segment per adjacent drawn pair, breaking naturally at
+  crossings. One side "?" = 20% alpha; both "?" = none. (The earlier
+  lattice-diagonal lines were skew to the corridors: 1.6:1 vs the
+  edges' 2:1; user caught it.)
 - SURVIVORS (user 07-12): PERFECT circles, geometric arc fill with
   AA, radius 6 (slightly smaller than the street corridor), solid
   survivor color, hungry = dimmed shade. Sprite rings dead.
