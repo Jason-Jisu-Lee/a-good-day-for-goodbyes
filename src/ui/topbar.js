@@ -25,11 +25,15 @@ px(r.x+26,r.y+33,96,4,DIM);
 px(r.x+26,r.y+33,Math.round(96*OPT.volF),4,FG);
 }
 if(openPanel==="set"){
-const sx=W-136,sy=l.hud+30,sw=120,sh=26;
+const sx=W-136,sw=120,sh=26;
+const rows=[["tomenu","MAIN MENU"],["abandon",abandonArm?"ABANDON?":"ABANDON"]];
+for(let i=0;i<rows.length;i++){
+const sy=l.hud+30+i*30;
 px(sx,sy,sw,sh,BG);
-uiButtons.push({id:"tomenu",x:sx,y:sy,w:sw,h:sh,en:true});
-if(hover==="tomenu"){px(sx,sy,sw,sh,FG);text7("MAIN MENU",sx+sw/2,sy+9,1,"c",BG);}
-else{edgeR(sx,sy,sw,sh,DIM);text7("MAIN MENU",sx+sw/2,sy+9,1,"c",MID);}
+uiButtons.push({id:rows[i][0],x:sx,y:sy,w:sw,h:sh,en:true});
+if(hover===rows[i][0]){px(sx,sy,sw,sh,FG);text7(rows[i][1],sx+sw/2,sy+9,1,"c",BG);}
+else{edgeR(sx,sy,sw,sh,DIM);text7(rows[i][1],sx+sw/2,sy+9,1,"c",MID);}
+}
 }
 }
 function volFromX(x){

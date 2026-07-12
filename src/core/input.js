@@ -32,19 +32,9 @@ if(volDrag){volDrag=null;optSave();return;}
 const p=toLogical(e);
 if(mode==="menu"){
 for(const b of menuButtons){if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){
-if(b.id==="NEW GAME"||b.id==="CONTINUE"){abandonArm=false;fading=true;}
-else if(b.id==="ABANDON"){
-if(abandonArm){
-abandonArm=false;
-G=null;sel=null;picker=null;hoverTile=null;
-try{localStorage.removeItem("goodbyes_save");}catch(e){}
-}else abandonArm=true;
-}
-else if(b.id==="QUIT GAME")window.close();
-else abandonArm=false;
-return;
+if(b.id==="NEW GAME"||b.id==="CONTINUE")fading=true;
+if(b.id==="QUIT GAME")window.close();
 }}
-abandonArm=false;
 return;
 }
 for(const b of uiButtons){
@@ -54,7 +44,7 @@ clickUI(b.id);
 return;
 }
 }
-openPanel=null;
+openPanel=null;abandonArm=false;
 const t=tileAt(p.x,p.y);
 const l=L();
 const inPanel=sel&&p.x>=l.pnX&&p.x<=l.pnX+l.pnW&&p.y>=l.pnY&&p.y<=l.pnY+l.pnH;
@@ -62,9 +52,18 @@ if(t){sel=t;picker=null;}
 else if(!inPanel&&p.y>40){sel=null;picker=null;}
 });
 function clickUI(id){
+if(id!=="abandon")abandonArm=false;
 if(id==="vol"){openPanel=openPanel==="vol"?null:"vol";return;}
 if(id==="gear"){openPanel=openPanel==="set"?null:"set";return;}
 if(id==="tomenu"){openPanel=null;save();mode="menu";fade=0;fading=false;sel=null;picker=null;return;}
+if(id==="abandon"){
+if(!abandonArm){abandonArm=true;return;}
+abandonArm=false;openPanel=null;
+G=null;sel=null;picker=null;hoverTile=null;
+try{localStorage.removeItem("goodbyes_save");}catch(e){}
+mode="menu";fade=0;fading=false;
+return;
+}
 if(id==="volM"||id==="volF")return;
 if(id.startsWith("act_")){
 const type=id.slice(4);

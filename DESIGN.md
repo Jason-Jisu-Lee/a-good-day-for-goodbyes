@@ -164,10 +164,12 @@ violations, volunteers improvements)
   without rework.
 
 ## Current build (07-11, v10 scripts)
-- Menu: NEW GAME / SETTINGS / QUIT GAME (+ dead WISHLIST/DISCORD).
-  Save exists -> NEW GAME becomes CONTINUE + ABANDON row (07-11).
-  SINGLE SESSION: one save slot, ever; new run requires ABANDON
-  (2-click confirm: ABANDON -> ABANDON?; clears save + memory).
+- Menu: NEW GAME / SETTINGS / QUIT GAME (+ dead WISHLIST/DISCORD);
+  NEW GAME becomes CONTINUE when a save exists (07-11).
+  SINGLE SESSION: one save slot, ever. ABANDON lives in the IN-GAME
+  gear panel under MAIN MENU (07-11, moved off the main menu):
+  2-click confirm (ABANDON -> ABANDON?), clears save + memory, exits
+  to menu (now showing NEW GAME).
 - Origin randomized (grocery/house/rubble/mystery) + ring bag
   (2 scrap, 1 grocery, 1 apartment, 1-2 camps, rest lots).
 - Live: scout/reclaim/clear/gather, crew picker with live duration
