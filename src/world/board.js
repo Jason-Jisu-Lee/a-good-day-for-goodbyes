@@ -1,9 +1,9 @@
 const GRID=6,OB0=2,OB1=3;
 function L(){
-if(PORT)return {ox:W/2,oy:Math.round(H*0.16),sc:1,pnX:W/2-225,pnY:Math.round(H*0.4896),pnW:450,pnH:300,hud:20};
-return {ox:W/2,oy:H/2-150,sc:1,pnX:W-204,pnY:60,pnW:188,pnH:392,hud:12};
+if(PORT)return {ox:W/2,oy:Math.round(H*0.18),sc:1,pnX:W/2-225,pnY:Math.round(H*0.4896),pnW:450,pnH:300,hud:20};
+return {ox:W/2,oy:H/2-120,sc:1,pnX:W-204,pnY:60,pnW:188,pnH:392,hud:12};
 }
-function DXY(){const l=L();return {dx:48*l.sc,dy:30*l.sc,hw:33*l.sc,hh:21*l.sc};}
+function DXY(){const l=L();return {dx:48*l.sc,dy:24*l.sc,hw:34.5*l.sc,hh:17.25*l.sc};}
 function tpos(t){const l=L(),d=DXY();return {x:l.ox+(t.gx-t.gy)*d.dx,y:l.oy+(t.gx+t.gy)*d.dy};}
 function tAt(gx,gy){return gx>=0&&gx<GRID&&gy>=0&&gy<GRID?G.tiles[gy*GRID+gx]:null;}
 function isOrigin(t){return t.gx>=OB0&&t.gx<=OB1&&t.gy>=OB0&&t.gy<=OB1;}

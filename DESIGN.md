@@ -98,15 +98,14 @@ violations, volunteers improvements)
   By reclaim all origin four are owned, so every ring tile is
   scoutable the moment it shows.
 - STREETS FINAL (user 07-12): faint yellow dashed road markings
-  rgba(214,192,118) 55%, width 1.3. Segment per adjacent drawn pair:
-  parallel to the facing tile edges (2:1), DEAD CENTER (midpoint of
-  tile positions + the 3.75px art-anchor offset so it is exactly
-  between the VISUAL edges; user caught the off-center), length =
-  full edge span so markings end where the tile edges end, EXACTLY
-  4 dashes per segment (dash=len/5.8, gap=0.6 dash: last dash lands
-  flush on the segment end). Frontier pairs (one side "?") = linear
-  fade to zero pointing away from town (never a hard stop); both "?"
-  = none.
+  rgba(214,192,118) 55%, width 1.3, on CONTINUOUS STRAIGHT LANES:
+  one stroke per maximal run of adjacent drawn pairs along a
+  corridor, dead center between the visual edges (midpoint + 3.75px
+  art-anchor offset), 4 dashes per tile span flush at cell bounds
+  (dash=span/5.8, gap=0.6 dash). Alpha profile along the lane via
+  gradient: revealed-revealed 0.55, frontier pairs 0.26 easing to 0
+  at open lane ends over a full tile span (slow fade; hard stops
+  dead). Both-"?" pairs break the lane.
 - SURVIVORS (user 07-12): PERFECT circles, geometric arc fill with
   AA, radius 6 (slightly smaller than the street corridor), solid
   survivor color, hungry = dimmed shade. Sprite rings dead.
@@ -137,8 +136,11 @@ violations, volunteers improvements)
 
 ## Visual language (LOCKED, extracted from user's 123.png)
 - Diamond lattice, military projection (sx=wx-wy, sy=wx+wy), grid
-  45deg; pitch (48,30); tile diamond 66x42 (hw33 hh21); corridors
-  ~16px; portrait sc 1.
+  45deg; pitch (48,24) = TRUE 2:1 (07-12: pitch must equal the art's
+  edge slope or corridors stagger; the old (48,30) 1.6:1 lattice vs
+  2:1 art edges caused the street zigzag). Tile diamond 69x34.5
+  (hit hw34.5 hh17.25); corridors ~12px parallel strips; portrait
+  sc 1.
 - WORLD GRID 6x6 (07-12; was 4x4): origin block at (2..3,2..3),
   tier 1 = 8 edge tiles, tier 2 = corners + border ring (24), all
   present so the reveal rule has tiles to reveal. Tier via Manhattan
