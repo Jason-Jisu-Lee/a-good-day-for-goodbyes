@@ -258,9 +258,13 @@ violations, volunteers improvements)
 - Oversized grocery; pyramid rubble; hair below shoulders.
 
 ## Open / next
-- TILES.md = user's tile + ring-scaling working sheet (07-11: ring
-  scout bases 12/24/36s, house shelters 2, apartment 4). User editing
-  pass pending; sync game + this file after.
+- COMBAT DEPTH (user deliberating 07-12): direction = fights resolve
+  autonomously (prep is the game, fight is the exam); 2-3 weapons at
+  ~15 materials; blueprint -> workshop -> weapon chain; stats decided
+  after first combat playtest. Tile candidates listed in TILES.md.
+- TILES.md = user's tile + tier working sheet (scout bases 12/24/36s,
+  shelter 2/4, tier map, zombie draft). User editing pass pending;
+  sync game + this file after.
 - Enemy pick; stat system; survivor count; safe-opening pacing.
 - Remaining tile icons in the extracted language (food, scrapyard,
   camp, park, lot, police): user references or derive from the two
