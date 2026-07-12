@@ -99,8 +99,8 @@ violations, volunteers improvements)
 
 ## Balance v1 (tune by feel)
 - Start 10 food (07-11, was 8).
-- FOOD 5/min/gatherer; MATERIALS 6/min/gatherer; eating 2
-  food/min/survivor (1 per 30s; 07-11, was 3/min).
+- FOOD 5/min/gatherer; MATERIALS 3/min/gatherer (07-11, was 6);
+  eating 2 food/min/survivor (1 per 30s; 07-11, was 3/min).
 - SCOUT 15s; RECLAIM 20s (lot/cache 10s); CLEAR 20s + 20 Materials
   (refund on cancel). Day 90s. Walk speed 40 px/s (07-11; the tuned
   feel carried across every board rescale).
@@ -191,6 +191,14 @@ violations, volunteers improvements)
   mystery roll, reveal rule, streets.
 - HUD: FOOD + "+x/MIN" "-y/MIN" + breakdown tooltips ("2 X 5/MIN");
   MATERIALS hidden till first; DAY bottom-left.
+- FLOATING TEXT (user 07-11, "industry standard"): each whole
+  gathered resource pops "+1" above the tile, rises ~14px, fades
+  ~1.1s, rAF-driven, capped at 40 live floats (background-tab
+  guard). Cosmetic, never saved. Gathering only for now (reclaim
+  grants like cache +10 have no float yet).
+- NAMES LOCKED (user 07-11): FOOD, SCRAPYARD, SUPPLY CACHE. Still
+  placeholder: CAMP. HOSPITAL promoted to designed-not-built roster
+  (health, mid game).
 - Topbar: note + gear top-right, click-only, one panel at a time;
   volume = 2 drag bars (persisted goodbyes_opts, audio not wired);
   settings = MAIN MENU.

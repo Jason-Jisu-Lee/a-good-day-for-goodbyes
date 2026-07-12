@@ -20,7 +20,7 @@ for(const s of crew(t))s.task=null;
 if(type==="reclaim"){
 t.state="owned";
 if(t.kind==="camp"){t.kind="lot";recruit(t);}
-else if(t.kind==="cache"){G.mats+=25;t.kind="lot";}
+else if(t.kind==="cache"){G.mats+=10;t.kind="lot";}
 for(const s of crew(t))s.task=null;
 }
 if(type==="clear"){t.blocked=false;t.kind="lot";for(const s of crew(t))s.task=null;}

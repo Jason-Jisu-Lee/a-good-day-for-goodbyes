@@ -10,6 +10,12 @@ const n=arrived(t).length;
 if(n>0){
 const r=n*(t.kind==="grocery"?FOOD_PM:MAT_PM)/60*dt;
 if(t.kind==="grocery")G.food+=r;else G.mats+=r;
+t.gainAcc=(t.gainAcc||0)+r;
+while(t.gainAcc>=1){
+t.gainAcc-=1;
+const p=tpos(t),d=DXY();
+spawnFloat(p.x,p.y-d.hh-4,"+1");
+}
 }
 }
 }

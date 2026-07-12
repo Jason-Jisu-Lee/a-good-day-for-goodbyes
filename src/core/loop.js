@@ -2,6 +2,7 @@ function drawGame(){
 uiButtons=[];
 drawTiles();
 drawSurvivors();
+drawFloats();
 drawHUD();
 drawTopbar();
 drawPanel();
@@ -27,6 +28,7 @@ const dt=Math.min(100,t-last)/1000;last=t;
 if(fading){fade=Math.min(1,fade+dt*3.5);if(fade>=1){fading=false;if(!G&&!load())newGame();mode="game";}}
 if(mode==="game"&&G){
 visual(dt);
+updateFloats(dt);
 hoverA+=((hoverTile?1:0)-hoverA)*Math.min(1,dt*10);
 }
 frames++;fpsT+=dt;if(fpsT>=1){fps=frames;frames=0;fpsT=0;}

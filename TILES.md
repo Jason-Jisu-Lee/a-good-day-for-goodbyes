@@ -16,17 +16,19 @@ after each editing pass. Names marked (placeholder) need user naming.
 ## Tiles (exist in game today)
 - HOUSE (single house): shelter for 2 survivors.
 - APARTMENT: shelter for 4 survivors.
-- FOOD (placeholder name "grocery"): food, 5/min per gatherer.
-- SCRAPYARD (placeholder): materials, 6/min per gatherer.
+- FOOD (name locked): food, 5/min per gatherer.
+- SCRAPYARD (name locked): materials, 3/min per gatherer.
 - RUBBLE: blocked. CLEAR = 20s + 20 materials, becomes EMPTY LOT.
   Later: build onto cleared lots.
 - CAMP (placeholder): reclaim = 1 recruit joins, tile becomes EMPTY
   LOT.
-- SUPPLY CACHE (placeholder): reclaim = +25 materials, tile becomes
-  EMPTY LOT.
+- SUPPLY CACHE: reclaim = +10 materials, becomes EMPTY LOT.
 - EMPTY LOT: empty ground. Future build site.
 - MYSTERY: unknown until scouted. Reveal roll v1: FOOD 40 / SUPPLY
   CACHE 35 / EMPTY LOT 25.
+
+## Tiles (designed, not built yet)
+- HOSPITAL: health (sickness, medication), arrives mid game.
 
 ## Shelter (not wired into the game yet)
 - House 2 + apartment 4. Concept arrives in-game when capacity
@@ -41,7 +43,11 @@ after each editing pass. Names marked (placeholder) need user naming.
 
 ## Future tile ideas (parked, mentioned in earlier passes)
 - Defense: police station, military facility.
-- Medical: hospital, clinic.
+- Medical: clinic (small hospital variant).
 - Nature: park, forest.
 - Random ITEM tiles.
 - The bunker tile (endgame, one per run).
+
+## UI note
+- Floating text live: gathering pops a "+1" that rises and fades
+  above the tile, one per whole resource.
