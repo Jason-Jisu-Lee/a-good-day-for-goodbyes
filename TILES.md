@@ -11,6 +11,9 @@ after each editing pass. Names marked (placeholder) need user naming.
 - Current build's 4x4 world = the center block, columns E-H rows 5-8.
 - Scales to 12x12 with no renaming ever; 15x15 would need one more
   column letter and is currently out of scope.
+- SEE THEM IN GAME (07-12): backtick debug panel -> IDS button, or
+  add #ids to the URL. Every tile shows its name on the board
+  (hidden tiles dim). No counting, no calculating: read the tile.
 
 ## Tiers (user 07-12; TIER replaces "ring")
 - TIER 0: origin 4 (F6 G6 F7 G7). Safe.

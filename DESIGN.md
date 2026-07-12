@@ -232,7 +232,8 @@ violations, volunteers improvements)
   settings = MAIN MENU.
 - Save v3 localStorage (v2 accepted); autosave 10s + visibilitychange;
   wipe gags autosave. Debug backtick/#debug (grants, x1/x5/x20,
-  save/wipe); #game skips menu; page-chrome VIEW toggle + RESET.
+  save/wipe, IDS = tile names on the board, also #ids hash); #game
+  skips menu; page-chrome VIEW toggle + RESET.
 - Code: 25 components (src/core game world survivors ui assets) +
   main.js (boot only). Cap ~500 lines/file.
 

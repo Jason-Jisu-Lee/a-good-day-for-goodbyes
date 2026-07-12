@@ -34,4 +34,11 @@ px(p.x-15,p.y-d.hh-10,30,3,"#262626");
 if(frac>0)px(p.x-15,p.y-d.hh-10,Math.max(1,Math.round(30*frac)),3,FG);
 }
 }
+if(showIds){
+const d=DXY();
+for(const t of G.tiles){
+const p=tpos(t);
+text7(tileId(t),p.x,p.y+d.hh-11,1,"c",drawnTile(t)?MID:DIM);
+}
+}
 }
