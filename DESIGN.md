@@ -221,6 +221,9 @@ violations, volunteers improvements)
 - Oversized grocery; pyramid rubble; hair below shoulders.
 
 ## Open / next
+- TILES.md = user's tile + ring-scaling working sheet (07-11: ring
+  scout bases 12/24/36s, house shelters 2, apartment 4). User editing
+  pass pending; sync game + this file after.
 - Enemy pick; stat system; survivor count; safe-opening pacing.
 - Remaining tile icons in the extracted language (food, scrapyard,
   camp, park, lot, police): user references or derive from the two
