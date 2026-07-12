@@ -1,0 +1,59 @@
+CONTEXT HANDOFF - "A Good Day for Goodbyes" - combat/crafting design
+(Paste this whole file to a fresh agent. It has no other context.
+Continue the design conversation from CURRENT QUESTION.)
+
+THE GAME
+- 1-bit minimalist survival + incremental hybrid. Town grid of tiles
+  (Rebuild-like, diamond view). Real time, no turns, PC + itch.io.
+- Premise: a few survivors reclaim a ruined town tile by tile.
+  Endgame: clear a sealed bunker before open ground becomes
+  unholdable. Time-rewind prestige framed as saying goodbyes.
+- Player is NEVER labor: attention + decisions only. You assign
+  survivors to tiles/actions (scout, reclaim, gather, clear); work
+  runs automatically. Survivors have names, faces, permadeath
+  (under review).
+- LOCKED identity: pushing into a dangerous tile = encounter where
+  the player LOSES control and survivors act autonomously (some
+  flee, some rush in, dramatic saves, real losses). Therefore:
+  FIGHTS ARE THE EXAM, PREPARATION IS THE GAME. The player preps
+  (weapons, crew choice, timing) and watches; never executes combat.
+- Design principles: important fun decisions only; depth reveals
+  gradually; no early punishment; concepts introduced one by one;
+  all player-facing numbers are integers.
+- Bounded-axes doctrine: few upgrade axes, each with a natural
+  ceiling; numbers stay small; +1 feels huge. MATERIALS = the one
+  universal resource (food is separate, sustenance only).
+- World pacing: tier 0 = 4 origin tiles (safe), tier 1 = 8 tiles
+  around them (scout 12s, will contain at least 2 danger tiles with
+  1 zombie each), tier 2+ = outward rings, +12s scout time per
+  tier, dangerous unscouted tiles get a slight red hint.
+- Weapons already decided: 2-3 basic weapons, ~15 materials each,
+  huge chunky buff vs bare fists. An item lives ON a survivor. No
+  inventory UI, no durability, no ammo, no armor sprawl.
+
+CURRENT QUESTION (continue here)
+- How do survivors gain the ABILITY to craft those weapons, as
+  minimally as possible?
+- "Find a blueprint while scouting" was proposed and rejected as
+  annoying/heavy: too much busywork per unlock.
+- User wants it "kind of like real life": where and how WOULD
+  people craft weapons in a ruined town?
+- Workshop-as-the-only-gate felt too cheap on its own. LIBRARY
+  (research over time) "makes sense" to the user.
+- Candidate tiles on the table: WORKSHOP (craft site), LIBRARY
+  (slow safe research), HARDWARE STORE (blueprint + materials),
+  POLICE STATION (finished weapon, guarded by danger), RADIO TOWER
+  (reveals a far tile), SCHOOL (train a stat), NEST (danger + rich
+  loot), LOCKED SHELTER (pay materials, random payout), HIDEOUT
+  (recruit + personal item), COLLAPSED STORE (rubble + cache),
+  WATER TOWER, WATCHTOWER, GENERATOR, CHURCH, CEMETERY.
+- Also open: how central should fighting be (identity should stay
+  resource/survival-centric); stat system deferred until after the
+  first combat playtest.
+
+WORKING STYLE (matters a lot)
+- Brainstorms = DISTINCT options, never one blended synthesis.
+- Terse explanations, cause -> effect chains, no filler, no praise.
+  Honest critique only.
+- Minimalism is the soul of the game: prefer removing over adding.
+- Do not invent extra systems beyond what is asked.

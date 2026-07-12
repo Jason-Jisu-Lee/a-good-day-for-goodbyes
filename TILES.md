@@ -135,6 +135,10 @@ placeholder)
   No inventory/durability/ammo sprawl; an item lives ON a survivor.
 - Stat system: decide AFTER the first combat playtest (armed vs
   fists first).
+- Crafting unlock (07-12): blueprint-per-scout REJECTED (annoying,
+  busywork). Wants minimal + real-life-ish. Workshop-only = too
+  cheap; LIBRARY research direction liked. Being designed in a
+  separate session (handoff-combat.txt).
 
 ## Future tile ideas (parked, mentioned in earlier passes)
 - Defense: military facility.
