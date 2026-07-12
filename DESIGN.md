@@ -97,9 +97,12 @@ violations, volunteers improvements)
   appeared as "?" that could not be scouted yet, mystery not owned).
   By reclaim all origin four are owned, so every ring tile is
   scoutable the moment it shows.
-- STREETS: Rebuild dashed centerlines between drawn tiles. Full gray
-  in town; extend INTO "?" tiles fading aggressively, gone ~60% in,
-  never reach the far end. At start: contained in origin block.
+- STREETS (user 07-12, "100% geometric"): smooth anti-aliased dashed
+  LINES on the exact corridor midlines between adjacent drawn tiles
+  (dash 6/5, width 1.4, #5a5a5a), continuous dash phase per lane,
+  natural crossing merge. Both tiles revealed = full; one side "?" =
+  35% alpha (fades into the unknown); both "?" = no street. Pixel
+  zigzag dashes dead. At start: contained in origin block.
 - Day counter bottom-left, dim.
 
 ## Balance v1 (tune by feel)
