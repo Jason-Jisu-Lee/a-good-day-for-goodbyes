@@ -65,14 +65,20 @@ after each editing pass. Names marked (placeholder) need user naming.
 (Tier 1 = F5 G5 E6 H6 E7 H7 F8 G8. Tier 2 = E5 H5 E8 H8 corners +
 the D4..I9 ring. Tier 3 = the C3..J10 ring.)
 
-## Zombies (draft, user 07-12, not built)
-- Danger tile = 1 zombie.
+## Zombies (user 07-12; data live, combat not built)
+- ALL tier-2 tiles carry 1 zombie (07-12, supersedes ">=2 danger in
+  tier 1"; tier 1 stays safe pending playtest note below). Stored on
+  the tile (z=1) at generation.
+- Danger read: unscouted tier-2 "?" tiles render RED (tile lines +
+  "?" in #c8493f).
 - Zombie color: dark intense red.
-- Zombie speed: 6 px/s ABSOLUTE (set once from 15% of the current
-  survivor 40; NEVER derived live, so survivor speed upgrades never
-  speed up zombies).
+- Zombie speed: 6 px/s ABSOLUTE (set once from 15% of the then
+  survivor speed; NEVER derived live, so survivor speed upgrades
+  never speed up zombies).
 - SPEED LAW: every actor speed is an absolute constant, never a
   percentage of another actor's stat.
+- OPEN: the earlier ">=2 danger tiles inside tier 1" draft: dead or
+  alive? (Tier 1 currently generates safe.)
 
 ## Early design intent (user 07-12)
 - Opening = gather materials hard while scouting, opening tiles,

@@ -1,7 +1,7 @@
 function save(){
 if(saveGag||!G)return;
 const data={v:4,t:G.t,day:G.day,dayT:G.dayT,food:G.food,mats:G.mats,matsSeen:G.matsSeen,opened:G.opened,names:G.names,faces:G.faces,
-tiles:G.tiles.map(t=>({gx:t.gx,gy:t.gy,kind:t.kind,state:t.state,blocked:t.blocked,progress:t.progress,need:t.need,action:t.action})),
+tiles:G.tiles.map(t=>({gx:t.gx,gy:t.gy,kind:t.kind,state:t.state,blocked:t.blocked,progress:t.progress,need:t.need,action:t.action,z:t.z||0})),
 survivors:G.survivors.map(s=>({name:s.name,face:s.face,col:s.col,x:Math.round(s.x),y:Math.round(s.y),eatT:s.eatT,hungry:s.hungry,
 task:s.task?{type:s.task.type,gx:s.task.tile.gx,gy:s.task.tile.gy}:null}))};
 try{localStorage.setItem("goodbyes_save",JSON.stringify(data));}catch(e){}
@@ -14,7 +14,7 @@ const d=JSON.parse(raw);
 if(d.v!==4)return false;
 const opened=!d.tiles.some(t=>t.gx>=OB0&&t.gx<=OB1&&t.gy>=OB0&&t.gy<=OB1&&t.state!=="owned");
 G={v:4,t:d.t,day:d.day,dayT:d.dayT,food:d.food,mats:d.mats,matsSeen:!!d.matsSeen||d.mats>0,opened,names:d.names,faces:d.faces,tiles:[],survivors:[]};
-G.tiles=d.tiles.map(t=>({gx:t.gx,gy:t.gy,kind:t.kind,state:t.state,blocked:t.blocked,progress:t.progress,need:t.need,action:t.action}));
+G.tiles=d.tiles.map(t=>({gx:t.gx,gy:t.gy,kind:t.kind,state:t.state,blocked:t.blocked,progress:t.progress,need:t.need,action:t.action,z:t.z||0}));
 G.survivors=d.survivors.map((s,i)=>{
 const sv={name:s.name,face:s.face,col:s.col||SURV_COLS[i%SURV_COLS.length],x:s.x,y:s.y,eatT:s.eatT,hungry:s.hungry,task:null,arriveAt:0};
 if(s.task){const tile=G.tiles.find(t=>t.gx===s.task.gx&&t.gy===s.task.gy);if(tile)sv.task={type:s.task.type,tile};}

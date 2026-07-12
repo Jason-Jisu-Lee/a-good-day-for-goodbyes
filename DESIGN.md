@@ -151,7 +151,21 @@ violations, volunteers improvements)
   bilinear high-quality path at float coords (nearest-neighbor
   downscale killed), hover lift is sub-pixel smooth (rounding
   removed), canvas CSS upscale always smooth (pixelated hint dead).
-  5x7 font + icon glyphs = pixel for now, user defers fonts.
+- TEXT + ICONS VECTOR (user 07-12, "everything not pixelated"): the
+  5x7/3x5 bitmap fonts are DEAD; all text renders as real
+  anti-aliased type (Segoe UI stack; body 600 weight 10px/scale,
+  display 700 8px/scale). Gear, note, speaker, steam, discord =
+  canvas-path vector icons. Nothing on the stage rasterizes from
+  pixel tables anymore.
+- DANGER TILES VISUAL (user 07-12): every tier-2 tile carries 1
+  zombie (z=1 stored); unscouted tier-2 "?" renders RED (#c8493f
+  tinted tile lines + red "?", alpha 0.6). Combat itself not built.
+- STREET FADE RULE v2 (user 07-12): corridors flanked by at least
+  one REVEALED tile = full 0.55 (they outline the town, never fade).
+  Fade-outs exist ONLY as lane extensions: a corridor between two
+  "?" tiles gets a fading stroke only when the previous corridor on
+  the same lane is revealed-revealed (the town road continuing away
+  and dying over one tile span). Everything else = no line.
 - WORLD SCALE FINAL (user 07-11 "when i full screen its way too big;
   itch size is perfect; later 12x12"): world ships at HALF stamps
   (native x1). FULLSCREEN k=2 then renders EXACTLY the approved

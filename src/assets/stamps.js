@@ -20,10 +20,26 @@ px(x+xx,y+d.hh-yy-1,1,1,col);
 px(x-xx-1,y+d.hh-yy-1,1,1,col);
 }
 }
-function stampTile(x,y){
+let T_TILE_RED=null;
+function tileRed(){
+if(T_TILE_RED)return T_TILE_RED;
+if(!T_TILE.width)return null;
+const c=mk(T_TILE.width,T_TILE.height);
+const g=c.getContext("2d");
+g.drawImage(T_TILE,0,0);
+g.globalCompositeOperation="source-in";
+g.fillStyle=DANGER;
+g.fillRect(0,0,c.width,c.height);
+T_TILE_RED=c;
+return c;
+}
+function stampTile(x,y,danger){
 const l=L();
-if(T_TILE.width)smoothBlit(T_TILE,x-36.5*l.sc,y-16.5*l.sc,73*l.sc,39*l.sc);
-else diaDashFallback(x,y,FG);
+if(T_TILE.width){
+const img=danger?tileRed():T_TILE;
+smoothBlit(img,x-36.5*l.sc,y-16.5*l.sc,73*l.sc,39*l.sc);
+}
+else diaDashFallback(x,y,danger?DANGER:FG);
 }
 function stampHouse(x,y){
 const l=L();

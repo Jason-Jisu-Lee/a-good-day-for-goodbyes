@@ -1,10 +1,11 @@
 function drawTileVisual(t,x,y){
 const l=L();
 if(t.state==="unknown"){
-cx.globalAlpha=0.45;
-stampTile(x,y);
+const danger=tierOf(t)>=2;
+cx.globalAlpha=danger?0.6:0.45;
+stampTile(x,y,danger);
 cx.globalAlpha=0.9;
-text7("?",x,y-5*l.sc,2,"c");
+text7("?",x,y-9*l.sc,2,"c",danger?DANGER:FG);
 cx.globalAlpha=1;
 return;
 }

@@ -1,16 +1,101 @@
-function sheetRows(rows){const c=mk(rows[0].length,rows.length);const g=c.getContext("2d");g.fillStyle=FG;for(let y=0;y<rows.length;y++)for(let x=0;x<rows[y].length;x++)if(rows[y][x]==="X")g.fillRect(x,y,1,1);return c;}
-const DISCORD=["..............","..XX......XX..",".XXXXXXXXXXXX.",".XXXXXXXXXXXX.","XXXXXXXXXXXXXX","XXX..XXXX..XXX","XXX..XXXX..XXX","XXX..XXXX..XXX","XXXXXXXXXXXXXX","XXXXXXXXXXXXXX",".XXXXXXXXXXXX.","..XXX....XXX..","...X......X...",".............."];
-function steamSheet(){const n=14,c=mk(n),g=c.getContext("2d");g.fillStyle=FG;
-const on=(x,y)=>g.fillRect(x,y,1,1);
-for(let y=0;y<n;y++)for(let x=0;x<n;x++){const dx=x-6.5,dy=y-6.5,d=Math.sqrt(dx*dx+dy*dy);if(d<=6.4&&d>=5.3){const ang=Math.atan2(dy,dx)*180/Math.PI;if(!(ang>108&&ang<168))on(x,y);}}
-for(let y=0;y<n;y++)for(let x=0;x<n;x++){const dx=x-7.5,dy=y-5.6,d=Math.sqrt(dx*dx+dy*dy);if(d<=2.5&&d>=1.3)on(x,y);}
-for(let t=0;t<=1;t+=0.05){const x=6.2-4.2*t,y=7.4+3.9*t;on(Math.round(x),Math.round(y));on(Math.round(x+1),Math.round(y));on(Math.round(x),Math.round(y+1));}
-return c;}
-const IC_DISCORD=sheetRows(DISCORD),IC_STEAM=steamSheet();
-const NOTE=["......XXX.","......XXXX","......X..X","......X...","......X...","......X...","......X...","...XXXX...","..XXXXX...","..XXXXX...","...XXX...."];
-const GEAR=["....XXX....",".X..XXX..X.",".XXXXXXXXX.","..XXXXXXX..","XXXX...XXXX","XXX.....XXX","XXXX...XXXX","..XXXXXXX..",".XXXXXXXXX.",".X..XXX..X.","....XXX...."];
-const SPKR=["...X....X..","..XX..X..X.","XXXX...X..X","XXXX...X..X","XXXX...X..X","..XX..X..X.","...X....X.."];
-function glyph(rows,x,y,n,col){
+function gearIcon(x,y,r,col){
+cx.save();
+cx.scale(S,S);
+cx.translate(x,y);
 cx.fillStyle=col;
-for(let r=0;r<rows.length;r++)for(let c=0;c<rows[r].length;c++)if(rows[r][c]==="X")px(x+c*n,y+r*n,n,n,col);
+cx.beginPath();
+for(let i=0;i<8;i++){
+const a=i*Math.PI/4;
+cx.save();
+cx.rotate(a);
+cx.rect(-r*0.16,-r,r*0.32,r*0.34);
+cx.restore();
+}
+cx.arc(0,0,r*0.72,0,Math.PI*2);
+cx.fill();
+cx.globalCompositeOperation="destination-out";
+cx.beginPath();
+cx.arc(0,0,r*0.3,0,Math.PI*2);
+cx.fill();
+cx.restore();
+}
+function noteIcon(x,y,h,col){
+cx.save();
+cx.scale(S,S);
+cx.translate(x,y);
+cx.fillStyle=col;
+cx.strokeStyle=col;
+cx.lineWidth=h*0.13;
+cx.beginPath();
+cx.ellipse(h*0.22,h*0.86,h*0.22,h*0.15,-0.35,0,Math.PI*2);
+cx.fill();
+cx.beginPath();
+cx.moveTo(h*0.4,h*0.83);
+cx.lineTo(h*0.4,h*0.06);
+cx.stroke();
+cx.beginPath();
+cx.moveTo(h*0.4,h*0.06);
+cx.quadraticCurveTo(h*0.75,h*0.18,h*0.72,h*0.5);
+cx.quadraticCurveTo(h*0.66,h*0.32,h*0.4,h*0.3);
+cx.fill();
+cx.restore();
+}
+function spkrIcon(x,y,h,col){
+cx.save();
+cx.scale(S,S);
+cx.translate(x,y);
+cx.fillStyle=col;
+cx.strokeStyle=col;
+cx.beginPath();
+cx.moveTo(0,h*0.32);
+cx.lineTo(h*0.26,h*0.32);
+cx.lineTo(h*0.55,h*0.05);
+cx.lineTo(h*0.55,h*0.95);
+cx.lineTo(h*0.26,h*0.68);
+cx.lineTo(0,h*0.68);
+cx.closePath();
+cx.fill();
+cx.lineWidth=h*0.1;
+cx.beginPath();
+cx.arc(h*0.55,h*0.5,h*0.28,-0.9,0.9);
+cx.stroke();
+cx.beginPath();
+cx.arc(h*0.55,h*0.5,h*0.48,-0.9,0.9);
+cx.stroke();
+cx.restore();
+}
+function steamIcon(x,y,r,col){
+cx.save();
+cx.scale(S,S);
+cx.translate(x+r,y+r);
+cx.strokeStyle=col;
+cx.fillStyle=col;
+cx.lineWidth=r*0.22;
+cx.beginPath();
+cx.arc(0,0,r*0.85,0,Math.PI*2);
+cx.stroke();
+cx.beginPath();
+cx.arc(r*0.25,-r*0.22,r*0.3,0,Math.PI*2);
+cx.fill();
+cx.lineWidth=r*0.24;
+cx.beginPath();
+cx.moveTo(r*0.05,r*0.02);
+cx.lineTo(-r*0.62,r*0.42);
+cx.stroke();
+cx.restore();
+}
+function discordIcon(x,y,r,col){
+cx.save();
+cx.scale(S,S);
+cx.translate(x+r,y+r);
+cx.fillStyle=col;
+cx.beginPath();
+cx.ellipse(0,0,r*0.95,r*0.72,0,0,Math.PI*2);
+cx.fill();
+cx.globalCompositeOperation="destination-out";
+cx.beginPath();
+cx.arc(-r*0.34,0,r*0.18,0,Math.PI*2);
+cx.arc(r*0.34,0,r*0.18,0,Math.PI*2);
+cx.fill();
+cx.restore();
 }

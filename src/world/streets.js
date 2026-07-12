@@ -17,32 +17,30 @@ for(let r=0;r<GRID;r++){
 const t1=fam===0?tAt(k,r):tAt(r,k);
 const t2=fam===0?tAt(k+1,r):tAt(r,k+1);
 if(!t1||!t2||!drawnTile(t1)||!drawnTile(t2)){pairs.push(null);continue;}
-const rev1=revealedT(t1),rev2=revealedT(t2);
-if(!rev1&&!rev2){pairs.push(null);continue;}
+const n1=revealedT(t1)?1:0,n2=revealedT(t2)?1:0;
 const p1=tpos(t1),p2=tpos(t2);
-pairs.push({full:rev1&&rev2,mx:(p1.x+p2.x)/2,my:(p1.y+p2.y)/2+yoff});
+pairs.push({rev:n1+n2,mx:(p1.x+p2.x)/2,my:(p1.y+p2.y)/2+yoff});
 }
+const solid=r=>pairs[r]&&pairs[r].rev>=1;
+const core=r=>pairs[r]&&pairs[r].rev===2;
 let r=0;
 while(r<GRID){
-if(!pairs[r]){r++;continue;}
+if(!solid(r)){r++;continue;}
 let r2=r;
-while(r2+1<GRID&&pairs[r2+1])r2++;
-const m=r2-r+1;
-const A=pairs[r],B=pairs[r2];
+while(r2+1<GRID&&solid(r2+1))r2++;
+const extS=r>0&&pairs[r-1]&&core(r)?1:0;
+const extE=r2<GRID-1&&pairs[r2+1]&&core(r2)?1:0;
+const m=(r2-r+1)+extS+extE;
 const inv=1/Math.hypot(d.dx,d.dy);
 const dirx=(fam===0?-d.dx:d.dx)*inv,diry=d.dy*inv;
-const sx=A.mx-dirx*cellLen/2,sy=A.my-diry*cellLen/2;
-const ex=B.mx+dirx*cellLen/2,ey=B.my+diry*cellLen/2;
+const A=pairs[r],B=pairs[r2];
+const sx=A.mx-dirx*cellLen*(0.5+extS),sy=A.my-diry*cellLen*(0.5+extS);
+const ex=B.mx+dirx*cellLen*(0.5+extE),ey=B.my+diry*cellLen*(0.5+extE);
 const g=cx.createLinearGradient(sx,sy,ex,ey);
-const a0=A.full?0.55:0;
-const a1=B.full?0.55:0;
-g.addColorStop(0,"rgba(214,192,118,"+a0+")");
-for(let i=0;i<m;i++){
-const f=(i+0.5)/m;
-const a=pairs[r+i].full?0.55:0.26;
-g.addColorStop(f,"rgba(214,192,118,"+a+")");
-}
-g.addColorStop(1,"rgba(214,192,118,"+a1+")");
+g.addColorStop(0,"rgba(214,192,118,"+(extS?0:0.55)+")");
+if(extS)g.addColorStop(extS/m,"rgba(214,192,118,0.55)");
+if(extE)g.addColorStop((m-extE)/m,"rgba(214,192,118,0.55)");
+g.addColorStop(1,"rgba(214,192,118,"+(extE?0:0.55)+")");
 cx.strokeStyle=g;
 cx.beginPath();
 cx.moveTo(sx,sy);

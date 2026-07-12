@@ -1,70 +1,35 @@
-const F3={
-"A":[".X.","X.X","XXX","X.X","X.X"],"B":["XX.","X.X","XX.","X.X","XX."],
-"C":[".XX","X..","X..","X..",".XX"],"D":["XX.","X.X","X.X","X.X","XX."],
-"E":["XXX","X..","XX.","X..","XXX"],"F":["XXX","X..","XX.","X..","X.."],
-"G":[".XX","X..","X.X","X.X",".XX"],"H":["X.X","X.X","XXX","X.X","X.X"],
-"I":["XXX",".X.",".X.",".X.","XXX"],"J":["..X","..X","..X","X.X",".X."],
-"K":["X.X","X.X","XX.","X.X","X.X"],"L":["X..","X..","X..","X..","XXX"],
-"M":["X.X","XXX","X.X","X.X","X.X"],"N":["XX.","X.X","X.X","X.X","X.X"],
-"O":[".X.","X.X","X.X","X.X",".X."],"P":["XX.","X.X","XX.","X..","X.."],
-"Q":[".X.","X.X","X.X","XX.","..X"],"R":["XX.","X.X","XX.","X.X","X.X"],
-"S":[".XX","X..",".X.","..X","XX."],"T":["XXX",".X.",".X.",".X.",".X."],
-"U":["X.X","X.X","X.X","X.X","XXX"],"V":["X.X","X.X","X.X","X.X",".X."],
-"W":["X.X","X.X","X.X","XXX","X.X"],"X":["X.X","X.X",".X.","X.X","X.X"],
-"Y":["X.X","X.X",".X.",".X.",".X."],"Z":["XXX","..X",".X.","X..","XXX"],
-"0":["XXX","X.X","X.X","X.X","XXX"],"1":[".X.","XX.",".X.",".X.","XXX"],
-"2":["XXX","..X","XXX","X..","XXX"],"3":["XXX","..X","XXX","..X","XXX"],
-"4":["X.X","X.X","XXX","..X","..X"],"5":["XXX","X..","XXX","..X","XXX"],
-"6":["XXX","X..","XXX","X.X","XXX"],"7":["XXX","..X","..X","..X","..X"],
-"8":["XXX","X.X","XXX","X.X","XXX"],"9":["XXX","X.X","XXX","..X","XXX"],
-" ":["...","...","...","...","..."]
-};
-const F7={
-"A":[".XXX.","X...X","X...X","XXXXX","X...X","X...X","X...X"],
-"B":["XXXX.","X...X","X...X","XXXX.","X...X","X...X","XXXX."],
-"C":[".XXX.","X...X","X....","X....","X....","X...X",".XXX."],
-"D":["XXXX.","X...X","X...X","X...X","X...X","X...X","XXXX."],
-"E":["XXXXX","X....","X....","XXXX.","X....","X....","XXXXX"],
-"F":["XXXXX","X....","X....","XXXX.","X....","X....","X...."],
-"G":[".XXX.","X...X","X....","X.XXX","X...X","X...X",".XXXX"],
-"H":["X...X","X...X","X...X","XXXXX","X...X","X...X","X...X"],
-"I":["XXXXX","..X..","..X..","..X..","..X..","..X..","XXXXX"],
-"J":["..XXX","...X.","...X.","...X.","...X.","X..X.",".XX.."],
-"K":["X...X","X..X.","X.X..","XX...","X.X..","X..X.","X...X"],
-"L":["X....","X....","X....","X....","X....","X....","XXXXX"],
-"M":["X...X","XX.XX","X.X.X","X.X.X","X...X","X...X","X...X"],
-"N":["X...X","XX..X","X.X.X","X..XX","X...X","X...X","X...X"],
-"O":[".XXX.","X...X","X...X","X...X","X...X","X...X",".XXX."],
-"P":["XXXX.","X...X","X...X","XXXX.","X....","X....","X...."],
-"Q":[".XXX.","X...X","X...X","X...X","X.X.X","X..X.",".XX.X"],
-"R":["XXXX.","X...X","X...X","XXXX.","X.X..","X..X.","X...X"],
-"S":[".XXXX","X....","X....",".XXX.","....X","....X","XXXX."],
-"T":["XXXXX","..X..","..X..","..X..","..X..","..X..","..X.."],
-"U":["X...X","X...X","X...X","X...X","X...X","X...X",".XXX."],
-"V":["X...X","X...X","X...X","X...X","X...X",".X.X.","..X.."],
-"W":["X...X","X...X","X...X","X.X.X","X.X.X","XX.XX","X...X"],
-"X":["X...X","X...X",".X.X.","..X..",".X.X.","X...X","X...X"],
-"Y":["X...X","X...X",".X.X.","..X..","..X..","..X..","..X.."],
-"Z":["XXXXX","....X","...X.","..X..",".X...","X....","XXXXX"],
-"0":[".XXX.","X...X","X..XX","X.X.X","XX..X","X...X",".XXX."],
-"1":["..X..",".XX..","..X..","..X..","..X..","..X..","XXXXX"],
-"2":[".XXX.","X...X","....X","..XX.",".X...","X....","XXXXX"],
-"3":[".XXX.","X...X","....X","..XX.","....X","X...X",".XXX."],
-"4":["...X.","..XX.",".X.X.","X..X.","XXXXX","...X.","...X."],
-"5":["XXXXX","X....","XXXX.","....X","....X","X...X",".XXX."],
-"6":[".XXX.","X....","X....","XXXX.","X...X","X...X",".XXX."],
-"7":["XXXXX","....X","...X.","..X..",".X...",".X...",".X..."],
-"8":[".XXX.","X...X","X...X",".XXX.","X...X","X...X",".XXX."],
-"9":[".XXX.","X...X","X...X",".XXXX","....X","....X",".XXX."],
-"?":[".XXX.","X...X","....X","..XX.","..X..",".....","..X.."],
-".":[".....",".....",".....",".....",".....","..X..","....."],
-"+":[".....","..X..","..X..","XXXXX","..X..","..X..","....."],
-"-":[".....",".....",".....","XXXXX",".....",".....","....."],
-"/":["....X","....X","...X.","..X..",".X...","X....","X...."],
-"X":["X...X","X...X",".X.X.","..X..",".X.X.","X...X","X...X"],
-" ":[".....",".....",".....",".....",".....",".....","....."]
-};
-function tw3(s,n){return (s.length*4-1)*n;}
-function text3(s,x,y,n,al,col){col=col||FG;if(al==="c")x=Math.round(x-tw3(s,n)/2);if(al==="r")x=Math.round(x-tw3(s,n));for(const ch of s){const g=F3[ch];if(g)for(let r=0;r<5;r++)for(let q=0;q<3;q++)if(g[r][q]==="X")px(x+q*n,y+r*n,n,n,col);x+=4*n;}}
-function tw7(s,n){return (s.length*6-1)*n;}
-function text7(s,x,y,n,al,col){col=col||FG;if(al==="c")x=Math.round(x-tw7(s,n)/2);if(al==="r")x=Math.round(x-tw7(s,n));for(const ch of s){const g=F7[ch];if(g)for(let r=0;r<7;r++)for(let q=0;q<5;q++)if(g[r][q]==="X")px(x+q*n,y+r*n,n,n,col);x+=6*n;}}
+const FONT_STACK='"Segoe UI",system-ui,Arial,sans-serif';
+function text7(s,x,y,n,al,col){
+cx.save();
+cx.scale(S,S);
+cx.font="600 "+Math.round(n*10)+"px "+FONT_STACK;
+cx.textBaseline="top";
+cx.textAlign=al==="c"?"center":(al==="r"?"right":"left");
+cx.fillStyle=col||FG;
+cx.fillText(s,x,y);
+cx.restore();
+}
+function tw7(s,n){
+cx.save();
+cx.font="600 "+Math.round(n*10)+"px "+FONT_STACK;
+const w=cx.measureText(s).width;
+cx.restore();
+return w;
+}
+function text3(s,x,y,n,al,col){
+cx.save();
+cx.scale(S,S);
+cx.font="700 "+Math.round(n*8)+"px "+FONT_STACK;
+cx.textBaseline="top";
+cx.textAlign=al==="c"?"center":(al==="r"?"right":"left");
+cx.fillStyle=col||FG;
+cx.fillText(s,x,y);
+cx.restore();
+}
+function tw3(s,n){
+cx.save();
+cx.font="700 "+Math.round(n*8)+"px "+FONT_STACK;
+const w=cx.measureText(s).width;
+cx.restore();
+return w;
+}

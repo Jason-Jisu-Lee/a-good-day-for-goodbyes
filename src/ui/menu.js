@@ -10,8 +10,8 @@ menuButtons.push({id:label,label,x:W/2-w/2,y:bs.by+i*bs.bh-h/2+8,w,h,scale:bs.bs
 }
 const wl=tw3("WISHLIST",2),dc=tw3("DISCORD",2);
 const g1=28+8+wl,g2=28+8+dc,total=g1+44+g2,x0=W/2-total/2;
-menuButtons.push({id:"WISHLIST",label:"WISHLIST",x:x0-8,y:bs.dy-10,w:g1+16,h:44,scale:2,icon:IC_STEAM,ix:x0,iy:bs.dy,tx:x0+36,ty:bs.dy+9,dead:true});
-menuButtons.push({id:"DISCORD",label:"DISCORD",x:x0+g1+44-8,y:bs.dy-10,w:g2+16,h:44,scale:2,icon:IC_DISCORD,ix:x0+g1+44,iy:bs.dy,tx:x0+g1+44+36,ty:bs.dy+9,dead:true});
+menuButtons.push({id:"WISHLIST",label:"WISHLIST",x:x0-8,y:bs.dy-10,w:g1+16,h:44,scale:2,ic:"steam",ix:x0,iy:bs.dy,tx:x0+36,ty:bs.dy+9,dead:true});
+menuButtons.push({id:"DISCORD",label:"DISCORD",x:x0+g1+44-8,y:bs.dy-10,w:g2+16,h:44,scale:2,ic:"discord",ix:x0+g1+44,iy:bs.dy,tx:x0+g1+44+36,ty:bs.dy+9,dead:true});
 return bs;
 }
 function drawMenu(){
@@ -21,7 +21,8 @@ text3("A GOOD DAY FOR GOODBYES",W/2,bs.ty,bs.ts,"c");
 for(const b of menuButtons){
 if(b.dead){
 cx.globalAlpha=(hover===b.id?1:0.55)*(1-fade);
-blit(b.icon,b.ix,b.iy,2);
+if(b.ic==="steam")steamIcon(b.ix,b.iy,14,FG);
+else discordIcon(b.ix,b.iy,14,FG);
 text3(b.label,b.tx,b.ty,2);
 cx.globalAlpha=1-fade;
 }else{

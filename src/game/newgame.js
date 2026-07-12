@@ -11,8 +11,9 @@ while(bag2.length<24)bag2.push("lot");
 shuffle(bag2);
 let b2=0;
 for(let gy=0;gy<GRID;gy++)for(let gx=0;gx<GRID;gx++){
-const t={gx,gy,kind:"lot",state:"unknown",blocked:false,progress:0,need:0,action:null};
+const t={gx,gy,kind:"lot",state:"unknown",blocked:false,progress:0,need:0,action:null,z:0};
 const tier=tierOf(t);
+if(tier>=2)t.z=1;
 if(tier===0){
 t.kind=originKinds[oi++];
 if(t.kind!=="mystery"){t.state="owned";}
