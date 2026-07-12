@@ -108,9 +108,16 @@ violations, volunteers improvements)
   Materials (07-11, was 25; cache accepted by user). Camp reclaim =
   recruit (bag JUNE OKON IVY CALEB NOOR SAGE), tile -> lot. Max 6
   survivors.
-- Ring scaling (TILES.md, pending user edit): scout base 12s ring 1
-  (origin mystery included) / 24s ring 2 / 36s ring 3. Shelter:
-  house 2, apartment 4. Not implemented yet.
+- TIERS (user 07-12, replaces "ring"; map in TILES.md): tier 0 =
+  origin 4; tier 1 = 8 edge tiles, scout 12s, >=2 danger tiles (1
+  zombie each, draft); tier 2 = 4 corners + next ring, 24s,
+  unscavenged renders slightly red (danger hint); tier 3 = next
+  ring, 36s. +12s per tier. Grid names: chess A-L x 1-12, origin =
+  F6 G6 F7 G7, prepared for 12x12.
+- Zombie draft: dark intense red, 1 per danger tile, speed 6 px/s
+  ABSOLUTE (speeds never derived from other actors; upgrades never
+  leak). Not built; user playtesting the tier-1 feel first.
+- Shelter (TILES.md): house 2, apartment 4. Not implemented yet.
 
 ## Visual language (LOCKED, extracted from user's 123.png)
 - Diamond lattice, military projection (sx=wx-wy, sy=wx+wy), grid
