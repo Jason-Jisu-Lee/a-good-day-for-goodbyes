@@ -112,11 +112,34 @@ the D4..I9 ring. Tier 3 = the C3..J10 ring.)
 ## Origin 2x2 (locked)
 - FOOD + HOUSE (resident) + MYSTERY + RUBBLE, arrangement random.
 
+## Tile candidates (Claude brainstorm 07-12; user picks, names
+placeholder)
+- Blueprint chain: WORKSHOP (craft site, weapons made here) /
+  LIBRARY (slow safe blueprint via research) / HARDWARE STORE
+  (blueprint + small materials) / POLICE STATION (finished weapon,
+  danger-guarded) / RADIO TOWER (pings a far tile) / SCHOOL (+1
+  stat training).
+- Risk + variance: NEST (extra zombies, rich loot) / LOCKED SHELTER
+  (pay materials, random big payout) / HIDEOUT (recruit + personal
+  item) / COLLAPSED STORE (rubble in front of a fat cache).
+- Utility, one each: WATER TOWER (slows food drain) / WATCHTOWER
+  (danger hints on neighbors) / GENERATOR (power, bunker prereq).
+- Tone: CHURCH (happiness later) / CEMETERY (goodbye place for dead
+  survivors).
+
+## Combat direction (user deliberating 07-12)
+- Identity stays: FIGHTING IS THE EXAM, PREPARATION IS THE GAME.
+  Player never executes fights; prepares (weapons, crew, timing) and
+  watches autonomous resolution (locked control-loss encounters).
+- 2-3 basic weapons, ~15 materials each, huge chunky buff vs fists.
+  No inventory/durability/ammo sprawl; an item lives ON a survivor.
+- Stat system: decide AFTER the first combat playtest (armed vs
+  fists first).
+
 ## Future tile ideas (parked, mentioned in earlier passes)
-- Defense: police station, military facility.
+- Defense: military facility.
 - Medical: clinic (small hospital variant).
 - Nature: park, forest.
-- Random ITEM tiles.
 - The bunker tile (endgame, one per run).
 
 ## Scaling questions (open)
