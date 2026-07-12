@@ -97,15 +97,16 @@ violations, volunteers improvements)
   appeared as "?" that could not be scouted yet, mystery not owned).
   By reclaim all origin four are owned, so every ring tile is
   scoutable the moment it shows.
-- STREETS FINAL (user 07-12, third rebuild): faint yellow DASHED
-  road markings (industry standard), rgba(214,192,118) at 55% alpha,
-  width 1.3, dash 5/4.6. Geometry derived from the TILE EDGES, not
-  the lattice: each segment runs parallel to the two facing diamond
-  edges (2:1 slope) and dead-center between them, length 88% of the
-  edge, one segment per adjacent drawn pair, breaking naturally at
-  crossings. One side "?" = 20% alpha; both "?" = none. (The earlier
-  lattice-diagonal lines were skew to the corridors: 1.6:1 vs the
-  edges' 2:1; user caught it.)
+- STREETS FINAL (user 07-12): faint yellow dashed road markings
+  rgba(214,192,118) 55%, width 1.3. Segment per adjacent drawn pair:
+  parallel to the facing tile edges (2:1), DEAD CENTER (midpoint of
+  tile positions + the 3.75px art-anchor offset so it is exactly
+  between the VISUAL edges; user caught the off-center), length =
+  full edge span so markings end where the tile edges end, EXACTLY
+  4 dashes per segment (dash=len/5.8, gap=0.6 dash: last dash lands
+  flush on the segment end). Frontier pairs (one side "?") = linear
+  fade to zero pointing away from town (never a hard stop); both "?"
+  = none.
 - SURVIVORS (user 07-12): PERFECT circles, geometric arc fill with
   AA, radius 6 (slightly smaller than the street corridor), solid
   survivor color, hungry = dimmed shade. Sprite rings dead.
@@ -138,6 +139,17 @@ violations, volunteers improvements)
 - Diamond lattice, military projection (sx=wx-wy, sy=wx+wy), grid
   45deg; pitch (48,30); tile diamond 66x42 (hw33 hh21); corridors
   ~16px; portrait sc 1.
+- WORLD GRID 6x6 (07-12; was 4x4): origin block at (2..3,2..3),
+  tier 1 = 8 edge tiles, tier 2 = corners + border ring (24), all
+  present so the reveal rule has tiles to reveal. Tier via Manhattan
+  distance to the origin block. Scout need: tier<=1 12s, tier2 24s.
+  Tier-2 pool = PLACEHOLDER (3 scrap, 2 food, 2 camp, 3 cache, rest
+  lots) pending the TILES.md pass. Save v4 (older saves discarded).
+- SMOOTH RENDER EVERYWHERE (user 07-12): stamps draw through a
+  bilinear high-quality path at float coords (nearest-neighbor
+  downscale killed), hover lift is sub-pixel smooth (rounding
+  removed), canvas CSS upscale always smooth (pixelated hint dead).
+  5x7 font + icon glyphs = pixel for now, user defers fonts.
 - WORLD SCALE FINAL (user 07-11 "when i full screen its way too big;
   itch size is perfect; later 12x12"): world ships at HALF stamps
   (native x1). FULLSCREEN k=2 then renders EXACTLY the approved

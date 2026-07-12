@@ -25,7 +25,7 @@ const sorted=[...G.tiles].sort((a,b)=>(a.gx+a.gy)-(b.gx+b.gy));
 for(const t of sorted){
 if(!drawnTile(t))continue;
 const p=tpos(t);
-const lift=t===hoverTile?Math.round(hoverA*2*Math.max(l.sc,0.5)):0;
+const lift=t===hoverTile?hoverA*3*Math.max(l.sc,0.5):0;
 drawTileVisual(t,p.x,p.y-lift);
 if(t.action){
 const frac=Math.min(1,t.progress);

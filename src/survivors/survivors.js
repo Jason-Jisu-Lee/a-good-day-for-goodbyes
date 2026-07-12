@@ -1,5 +1,5 @@
 function workSpot(t,i){const p=tpos(t),l=L(),d=DXY();const off=[[0,5],[-10,2],[10,2],[0,9]][i%4];return {x:p.x+off[0]*l.sc,y:p.y+d.hh+off[1]*l.sc};}
-function idleSpot(s,i){const l=L(),d=DXY();const cx0=l.ox,cy0=l.oy+3*d.dy;const off=[[-13,3],[13,-3],[-5,-9],[5,9],[-13,-3],[13,3]][i%6];return {x:cx0+off[0]*l.sc,y:cy0+off[1]*l.sc};}
+function idleSpot(s,i){const l=L(),d=DXY();const cx0=l.ox,cy0=l.oy+(OB0+OB1)*d.dy;const off=[[-13,3],[13,-3],[-5,-9],[5,9],[-13,-3],[13,3]][i%6];return {x:cx0+off[0]*l.sc,y:cy0+off[1]*l.sc};}
 function crew(t){return G.survivors.filter(s=>s.task&&s.task.tile===t);}
 function arrived(t){return crew(t).filter(s=>G.t>=s.arriveAt&&(s.task.type!=="gather"||!s.hungry||t.kind==="grocery"));}
 function statusOf(s){

@@ -27,7 +27,7 @@ if(OPT.disp==="win")kf=Math.min(kf,1);
 k=kf;
 S=kp;
 cv.style.width=W*kf+"px";cv.style.height=H*kf+"px";
-cv.style.imageRendering=Math.abs(kf*dpr-kp)<0.001?"pixelated":"auto";
+cv.style.imageRendering="auto";
 cv.width=Math.max(1,Math.round(W*S));cv.height=Math.max(1,Math.round(H*S));
 cx.imageSmoothingEnabled=false;
 }
