@@ -127,9 +127,11 @@ violations, volunteers improvements)
 - HOVER = LIFT, final (3px ease). Selection = NO map marker (white
   outline rejected 07-11); panel is the selection feedback.
 - SURVIVOR COLORS (user 07-11): each survivor gets a color, shown on
-  the map ring. #1 light red #e08b8b, #2 light blue #8bb4e0 (locked).
-  Recruits 3-6 = light green/yellow/purple/orange pool, Claude
-  placeholder pending user. Hungry = gray ring.
+  the map ring FROM THE FIRST FRAME. #1 light red #e08b8b, #2 light
+  blue #8bb4e0 (locked). Recruits 3-6 = light green/yellow/purple/
+  orange pool, Claude placeholder pending user. Hungry = DIMMED shade
+  of the same color (neutral-gray hungry ring dead; it masked colors
+  on hungry continues).
 - Survivors = 10px rings in corridors; no map names; work spots in
   front of tiles; idle at town crossing. No anatomy on stage; faces =
   portraits/UI only (asset/faces/).

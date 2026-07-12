@@ -30,5 +30,5 @@ if(d>1){const step=Math.min(d,SPEED*dt*ts);s.x+=(target.x-s.x)/d*step;s.y+=(targ
 }
 }
 function drawSurvivors(){
-for(const s of G.survivors)blit(s.hungry?RING_D:ringFor(s.col),s.x-5,s.y-5,1);
+for(const s of G.survivors)blit(s.hungry?ringDimFor(s.col):ringFor(s.col),s.x-5,s.y-5,1);
 }
