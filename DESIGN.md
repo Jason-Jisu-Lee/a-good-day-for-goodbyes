@@ -169,13 +169,16 @@ violations, volunteers improvements)
   - WINDOWED (default) = fixed 960x540 itch-size stage, centered,
     pixel-exact.
   - BORDERLESS = fill the window/screen with an ADAPTIVE VIEWPORT
-    (industry standard, user 07-11): render at integer device scale,
-    logical stage extends from 960x540 up to 1280x720 (portrait
-    540x960 -> 720x1280) to match the screen aspect, so wider or
-    taller monitors SEE MORE WORLD; UI anchors to real edges; the
-    sub-integer remainder stretches smoothly (sharp bilinear); exact
-    fits (1080p x2, 1440p = 1280x720 x2, 4K x4) are pixel-perfect;
-    letterbox only beyond the caps (past ~21:9).
+    (industry standard, user 07-12 "fill whatever screen, best for
+    selling"): render at integer device scale, logical stage extends
+    from 960x540 up to 1720x720 (portrait 540x960 -> 720x1280) to
+    match the screen aspect, so wider or taller monitors SEE MORE
+    WORLD; UI anchors to real edges; the sub-integer remainder
+    stretches smoothly (sharp bilinear); exact fits (1080p x2,
+    1440p x2, 2560x1080 x2, 3440x1440 x2, 4K x4) are pixel-perfect;
+    letterbox only past 21.5:9 (32:9 gets bars, industry standard).
+    Phones already covered: portrait layout, pointer events, 44px
+    targets; itch embed covered by WINDOWED.
   - FULLSCREEN = borderless + browser fullscreen API. Esc exits ->
     setting drops to BORDERLESS. Stored FULLSCREEN reboots as
     BORDERLESS (browsers need a click to re-enter fullscreen).

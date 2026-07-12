@@ -12,7 +12,7 @@ function fit(){
 dpr=window.devicePixelRatio||1;
 PORT=innerHeight>innerWidth;
 const bw=PORT?540:960,bh=PORT?960:540;
-const cw=PORT?720:1280,ch=PORT?1280:720;
+const cw=PORT?720:1720,ch=PORT?1280:720;
 let kp=Math.min(innerWidth*dpr/bw,innerHeight*dpr/bh);
 if(kp>=1)kp=Math.floor(kp);
 if(OPT.disp==="win"){
