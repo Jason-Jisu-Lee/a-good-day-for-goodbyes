@@ -1,12 +1,9 @@
 function drawStreets(){
 const l=L(),d=DXY();
-const seg=Math.hypot(d.dx,d.dy);
-const pat=11*l.sc;
 cx.save();
 cx.scale(S,S);
-cx.lineWidth=1.4*l.sc;
-cx.setLineDash([6*l.sc,5*l.sc]);
-cx.lineCap="butt";
+cx.lineWidth=1.2*l.sc;
+cx.lineCap="round";
 for(let fam=0;fam<2;fam++){
 for(let k=0;k<3;k++){
 for(let r=0;r<4;r++){
@@ -25,7 +22,6 @@ ax=l.ox+((r-0.5)-(k+0.5))*d.dx;ay=l.oy+((r-0.5)+(k+0.5))*d.dy;
 bx=l.ox+((r+0.5)-(k+0.5))*d.dx;by=l.oy+((r+0.5)+(k+0.5))*d.dy;
 }
 cx.strokeStyle="rgba(90,90,90,"+a+")";
-cx.lineDashOffset=-(((r*seg)%pat));
 cx.beginPath();
 cx.moveTo(ax,ay);
 cx.lineTo(bx,by);

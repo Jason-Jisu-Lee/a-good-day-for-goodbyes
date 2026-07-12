@@ -29,6 +29,20 @@ if(d>1){const step=Math.min(d,SPEED*dt*ts);s.x+=(target.x-s.x)/d*step;s.y+=(targ
 }
 }
 }
+function survCol(s){
+if(!s.hungry)return s.col;
+const n=parseInt(s.col.slice(1),16);
+return "rgb("+(((n>>16)&255)*0.45|0)+","+(((n>>8)&255)*0.45|0)+","+((n&255)*0.45|0)+")";
+}
 function drawSurvivors(){
-for(const s of G.survivors)blit(s.hungry?ringDimFor(s.col):ringFor(s.col),s.x-5,s.y-5,1);
+const l=L();
+cx.save();
+cx.scale(S,S);
+for(const s of G.survivors){
+cx.fillStyle=survCol(s);
+cx.beginPath();
+cx.arc(s.x,s.y,6*l.sc,0,Math.PI*2);
+cx.fill();
+}
+cx.restore();
 }
