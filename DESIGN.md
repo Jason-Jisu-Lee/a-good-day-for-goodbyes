@@ -153,6 +153,17 @@ violations, volunteers improvements)
 - Unknown "?" = 0.45-alpha tile stamp + 5x7 "?". Icon-less kinds =
   5x7 labels (FOOD SCRAP RUBBLE CAMP CACHE; SCRAPYARD/CAMP/CACHE =
   placeholder names, user names later).
+- SMOOTH ART LIVE (user 07-12, "the smooth version works,
+  implement"): the game renders the SMOOTH set: smooth_house +
+  smooth_apt extracted VERBATIM from the user's smooth.png (sources
+  in ref/), smooth_tile drawn to match (thin straight diamond, line
+  weight from their art). Alpha baked offline: outside = transparent
+  (gap-sealed flood), building bodies + grounds = opaque; tiles =
+  lines only. Stamps draw SOURCE-OVER (additive dead for smooth);
+  painter order (gx+gy) gives true occlusion: front buildings cover
+  lines behind (user's apartment-overlap fix). PIXEL set retained in
+  asset/tiles (ref_house75/150 from user's house.png = default
+  pixel house) as the fallback art mode.
 - HOVER = LIFT, final (3px ease). Selection = NO map marker (white
   outline rejected 07-11); panel is the selection feedback.
 - SURVIVOR COLORS (user 07-11): each survivor gets a color, shown on
