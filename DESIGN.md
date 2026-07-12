@@ -104,9 +104,13 @@ violations, volunteers improvements)
 - SCOUT 15s; RECLAIM 20s (lot/cache 10s); CLEAR 20s + 20 Materials
   (refund on cancel). Day 90s. Walk speed 40 px/s (07-11; the tuned
   feel carried across every board rescale).
-- Mystery roll: grocery 40 / cache 35 / lot 25. Cache pays 25
-  Materials. Camp reclaim = recruit (bag JUNE OKON IVY CALEB NOOR
-  SAGE), tile -> lot. Max 6 survivors.
+- Mystery roll: FOOD 40 / cache 35 / lot 25. SUPPLY CACHE pays 10
+  Materials (07-11, was 25; cache accepted by user). Camp reclaim =
+  recruit (bag JUNE OKON IVY CALEB NOOR SAGE), tile -> lot. Max 6
+  survivors.
+- Ring scaling (TILES.md, pending user edit): scout base 12s ring 1
+  (origin mystery included) / 24s ring 2 / 36s ring 3. Shelter:
+  house 2, apartment 4. Not implemented yet.
 
 ## Visual language (LOCKED, extracted from user's 123.png)
 - Diamond lattice, military projection (sx=wx-wy, sy=wx+wy), grid
