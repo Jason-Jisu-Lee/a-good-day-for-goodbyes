@@ -20,14 +20,3 @@ if(m<=1)return visibleTile(t)?t:null;
 }
 return null;
 }
-function ringUnder(p,col){
-const l=L(),d=DXY();
-const hw=d.hw+4*l.sc,hh=d.hh+3*l.sc;
-for(let i=0;i<=hw;i++){
-const yy=hh-i*hh/hw;
-px(p.x+i,p.y-yy,1,1,col);
-px(p.x-i,p.y-yy,1,1,col);
-px(p.x+i,p.y+yy,1,1,col);
-px(p.x-i,p.y+yy,1,1,col);
-}
-}

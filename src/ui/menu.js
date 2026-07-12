@@ -1,9 +1,15 @@
 function menuLayout(){
 const port=H>W;
-const mains=["ENTER","SETTINGS","QUIT GAME"];
-const bs=port?{ty:220,ts:3,by:430,bh:64,bsc:3,dy:868}:{ty:150,ts:4,by:280,bh:52,bsc:3,dy:486};
+const has=hasSave()||!!G;
+const mains=has?["CONTINUE","ABANDON","SETTINGS","QUIT GAME"]:["NEW GAME","SETTINGS","QUIT GAME"];
+const bs=port?{ty:220,ts:3,by:has?400:430,bh:64,bsc:3,dy:868}:{ty:150,ts:4,by:has?262:280,bh:52,bsc:3,dy:486};
 menuButtons=[];
-for(let i=0;i<3;i++){const label=mains[i];const w=tw3(label,bs.bsc)+56;const h=48;menuButtons.push({id:label,label,x:W/2-w/2,y:bs.by+i*bs.bh-h/2+8,w,h,scale:bs.bsc,ty:bs.by+i*bs.bh});}
+for(let i=0;i<mains.length;i++){
+const id=mains[i];
+const label=id==="ABANDON"&&abandonArm?"ABANDON?":id;
+const w=tw3(label,bs.bsc)+56;const h=48;
+menuButtons.push({id,label,x:W/2-w/2,y:bs.by+i*bs.bh-h/2+8,w,h,scale:bs.bsc,ty:bs.by+i*bs.bh});
+}
 const wl=tw3("WISHLIST",2),dc=tw3("DISCORD",2);
 const g1=28+8+wl,g2=28+8+dc,total=g1+44+g2,x0=W/2-total/2;
 menuButtons.push({id:"WISHLIST",label:"WISHLIST",x:x0-8,y:bs.dy-10,w:g1+16,h:44,scale:2,icon:IC_STEAM,ix:x0,iy:bs.dy,tx:x0+36,ty:bs.dy+9,dead:true});

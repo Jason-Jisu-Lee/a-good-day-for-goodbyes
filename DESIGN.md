@@ -70,8 +70,11 @@ violations, volunteers improvements)
 - Ring 1 safe: no enemies, 1-2 recruits possible. Beyond ring 1 =
   enemies possible.
 - Early claims cost TIME only, never Materials (deadlock guard).
-- Hunger: survivor pauses + sits; visible, fixable, never lethal
-  early; food-tile work always allowed (starvation escape).
+- Hunger pauses GATHERING only (survivor sits at the tile); temp
+  tasks (scout/reclaim/clear) run through hunger so locked crews
+  always finish = no deadlock, no stuck progress bar (07-11 bug fix).
+  Never lethal early; food-tile work always allowed; survivor eats
+  the moment food exists (starvation escape).
 
 ## Action model (LOCKED 07-10, Rebuild-style)
 - Tile -> action (SCOUT/RECLAIM/CLEAR/GATHER) -> pick crew.
@@ -98,7 +101,7 @@ violations, volunteers improvements)
 - FOOD 5/min/gatherer; MATERIALS 6/min/gatherer; eating 3
   food/min/survivor (1 per 20s).
 - SCOUT 15s; RECLAIM 20s (lot/cache 10s); CLEAR 20s + 20 Materials
-  (refund on cancel). Day 90s.
+  (refund on cancel). Day 90s. Walk speed 48 px/s (+30%, 07-11).
 - Mystery roll: grocery 40 / cache 35 / lot 25. Cache pays 25
   Materials. Camp reclaim = recruit (bag JUNE OKON IVY CALEB NOOR
   SAGE), tile -> lot. Max 6 survivors.
@@ -108,17 +111,25 @@ violations, volunteers improvements)
   45deg; pitch (64,40); tile diamond 88x56 (hw44 hh28); corridors
   ~21px. 2/3 of first approved scale (07-11 "way too big"; map grows
   huge).
-- CANONICAL ART = lossless 123.png crops, bicubic+threshold to exact
-  game res, 1:1 additive blits: ref_house100 (100x85), ref_apt103
-  (103x105), ref_tile103 (103x105, from apartment's own base edges).
-  Sources in ref/ (gitignored, never pushed): 123.png, ref_house.png,
+- CANONICAL ART = lossless 123.png crops, NATIVE-GRID derivation
+  (07-11, fixes "gritty"): bicubic to the art's native cell count
+  (source pitch ~12.2 px/cell) + threshold, then x2 nearest. Every
+  art pixel = uniform 2x2 screen px. Off-grid resampling (the 1:6
+  bicubic attempt) = gritty mixed-size pixels, dead end. Files:
+  ref_house98 (98x84), ref_apt102 (102x104), ref_tile102 (102x104,
+  from apartment's own base edges; drawn diamond 90x56). Sources in
+  ref/ (gitignored, never pushed): 123.png, ref_house.png,
   ref_apt.png, ref_tileA.png. Never redraw, never runtime-resample;
   resize = re-derive from sources. Building:tile ratio fixed forever.
 - Unknown "?" = 0.45-alpha tile stamp + 5x7 "?". Icon-less kinds =
   5x7 labels (FOOD SCRAP RUBBLE CAMP CACHE; SCRAPYARD/CAMP/CACHE =
   placeholder names, user names later).
-- HOVER = LIFT, final (3px ease). Selection = ground ring diamond
-  UNDER stamp (never through art).
+- HOVER = LIFT, final (3px ease). Selection = NO map marker (white
+  outline rejected 07-11); panel is the selection feedback.
+- SURVIVOR COLORS (user 07-11): each survivor gets a color, shown on
+  the map ring. #1 light red #e08b8b, #2 light blue #8bb4e0 (locked).
+  Recruits 3-6 = light green/yellow/purple/orange pool, Claude
+  placeholder pending user. Hungry = gray ring.
 - Survivors = 10px rings in corridors; no map names; work spots in
   front of tiles; idle at town crossing. No anatomy on stage; faces =
   portraits/UI only (asset/faces/).
@@ -152,8 +163,11 @@ violations, volunteers improvements)
 - UNDECIDED: zombies vs AI robots. Placeholder-architected, swaps
   without rework.
 
-## Current build (07-11, v8 scripts)
-- Menu (ENTER/SETTINGS/QUIT + dead WISHLIST/DISCORD) -> live town.
+## Current build (07-11, v10 scripts)
+- Menu: NEW GAME / SETTINGS / QUIT GAME (+ dead WISHLIST/DISCORD).
+  Save exists -> NEW GAME becomes CONTINUE + ABANDON row (07-11).
+  SINGLE SESSION: one save slot, ever; new run requires ABANDON
+  (2-click confirm: ABANDON -> ABANDON?; clears save + memory).
 - Origin randomized (grocery/house/rubble/mystery) + ring bag
   (2 scrap, 1 grocery, 1 apartment, 1-2 camps, rest lots).
 - Live: scout/reclaim/clear/gather, crew picker with live duration
@@ -183,6 +197,7 @@ violations, volunteers improvements)
 - 2:1 foreshortened tiles; shear view; billboard squares.
 - Fog speckle dissolve (replaced by reveal rule).
 - Shine/glow hover; smooth vector look; accent colors on mono tiles.
+- Off-grid art resampling (gritty); white selection outline.
 - Checker-edge frontier; vertex-tick selection; map name labels;
   speech bubbles (parked till told); TOWN idle panel.
 - Fractional window-fill default; full-row progress bars.

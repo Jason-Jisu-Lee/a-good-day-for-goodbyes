@@ -8,7 +8,9 @@ for(let t=0;t<=1;t+=0.05){const x=6.2-4.2*t,y=7.4+3.9*t;on(Math.round(x),Math.ro
 return c;}
 const IC_DISCORD=sheetRows(DISCORD),IC_STEAM=steamSheet();
 function ringSheet(col){const c=mk(10),g=c.getContext("2d");g.fillStyle=col;for(let y=0;y<10;y++)for(let x=0;x<10;x++){const d=Math.hypot(x-4.5,y-4.5);if(d<=4.8&&d>=2.9)g.fillRect(x,y,1,1);}return c;}
-const RING=ringSheet(FG),RING_D=ringSheet(MID);
+const RING_D=ringSheet(MID);
+const RINGS={};
+function ringFor(col){if(!RINGS[col])RINGS[col]=ringSheet(col);return RINGS[col];}
 const NOTE=["......XXX.","......XXXX","......X..X","......X...","......X...","......X...","......X...","...XXXX...","..XXXXX...","..XXXXX...","...XXX...."];
 const GEAR=["....XXX....",".X..XXX..X.",".XXXXXXXXX.","..XXXXXXX..","XXXX...XXXX","XXX.....XXX","XXXX...XXXX","..XXXXXXX..",".XXXXXXXXX.",".X..XXX..X.","....XXX...."];
 const SPKR=["...X....X..","..XX..X..X.","XXXX...X..X","XXXX...X..X","XXXX...X..X","..XX..X..X.","...X....X.."];

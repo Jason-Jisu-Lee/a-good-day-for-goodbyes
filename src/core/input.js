@@ -32,9 +32,19 @@ if(volDrag){volDrag=null;optSave();return;}
 const p=toLogical(e);
 if(mode==="menu"){
 for(const b of menuButtons){if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){
-if(b.id==="ENTER")fading=true;
-if(b.id==="QUIT GAME")window.close();
+if(b.id==="NEW GAME"||b.id==="CONTINUE"){abandonArm=false;fading=true;}
+else if(b.id==="ABANDON"){
+if(abandonArm){
+abandonArm=false;
+G=null;sel=null;picker=null;hoverTile=null;
+try{localStorage.removeItem("goodbyes_save");}catch(e){}
+}else abandonArm=true;
+}
+else if(b.id==="QUIT GAME")window.close();
+else abandonArm=false;
+return;
 }}
+abandonArm=false;
 return;
 }
 for(const b of uiButtons){

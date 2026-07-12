@@ -25,7 +25,6 @@ const sorted=[...G.tiles].sort((a,b)=>(a.gx+a.gy)-(b.gx+b.gy));
 for(const t of sorted){
 if(!drawnTile(t))continue;
 const p=tpos(t);
-if(t===sel)ringUnder(p,FG);
 const lift=t===hoverTile?Math.round(hoverA*3*Math.max(l.sc,0.5)):0;
 drawTileVisual(t,p.x,p.y-lift);
 if(t.action){
