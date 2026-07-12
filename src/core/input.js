@@ -1,5 +1,6 @@
 function toLogical(e){const r=cv.getBoundingClientRect();return {x:(e.clientX-r.left)/k,y:(e.clientY-r.top)/k};}
 cv.addEventListener("pointerdown",e=>{
+musicGesture();
 if(mode!=="game")return;
 const p=toLogical(e);
 for(const b of uiButtons){
@@ -14,6 +15,7 @@ cv.addEventListener("pointermove",e=>{
 const p=toLogical(e);
 if(volDrag){
 if(volDrag==="volM")OPT.volM=volFromX(p.x);else OPT.volF=volFromX(p.x);
+musicVol();
 return;
 }
 let h=null;
@@ -32,6 +34,7 @@ if(volDrag){volDrag=null;optSave();return;}
 const p=toLogical(e);
 if(mode==="menu"){
 for(const b of menuButtons){if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){
+if(b.id==="MMUTE"){OPT.mute=!OPT.mute;optSave();musicVol();return;}
 if(b.id==="NEW GAME"||b.id==="CONTINUE")fading=true;
 if(b.id==="QUIT GAME")window.close();
 }}
@@ -56,7 +59,7 @@ if(id!=="abandon")abandonArm=false;
 if(id==="vol"){openPanel=openPanel==="vol"?null:"vol";return;}
 if(id==="gear"){openPanel=openPanel==="set"?null:"set";return;}
 if(id==="disp"){cycleDisp();return;}
-if(id==="tomenu"){openPanel=null;save();mode="menu";fade=0;fading=false;sel=null;picker=null;return;}
+if(id==="tomenu"){openPanel=null;save();mode="menu";fade=0;fading=false;sel=null;picker=null;menuMusic(true);return;}
 if(id==="abandon"){
 if(!abandonArm){abandonArm=true;return;}
 abandonArm=false;openPanel=null;
@@ -90,12 +93,13 @@ return;
 if(id==="stop"){releaseCrew(sel);return;}
 }
 addEventListener("keydown",e=>{
+musicGesture();
 if(e.key==="`"){toggleDbg();return;}
 if(e.key==="Escape"){
 if(mode==="game"){
 if(picker){picker=null;return;}
 if(sel){sel=null;return;}
-save();mode="menu";fade=0;fading=false;sel=null;picker=null;
+save();mode="menu";fade=0;fading=false;sel=null;picker=null;menuMusic(true);
 }
 }
 });

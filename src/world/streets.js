@@ -28,8 +28,8 @@ while(r<GRID){
 if(!solid(r)){r++;continue;}
 let r2=r;
 while(r2+1<GRID&&solid(r2+1))r2++;
-const extS=r>0&&pairs[r-1]&&core(r)?1:0;
-const extE=r2<GRID-1&&pairs[r2+1]&&core(r2)?1:0;
+const extS=r>0?(pairs[r-1]&&core(r)?1:0.4):0;
+const extE=r2<GRID-1?(pairs[r2+1]&&core(r2)?1:0.4):0;
 const m=(r2-r+1)+extS+extE;
 const inv=1/Math.hypot(d.dx,d.dy);
 const dirx=(fam===0?-d.dx:d.dx)*inv,diry=d.dy*inv;
@@ -37,10 +37,10 @@ const A=pairs[r],B=pairs[r2];
 const sx=A.mx-dirx*cellLen*(0.5+extS),sy=A.my-diry*cellLen*(0.5+extS);
 const ex=B.mx+dirx*cellLen*(0.5+extE),ey=B.my+diry*cellLen*(0.5+extE);
 const g=cx.createLinearGradient(sx,sy,ex,ey);
-g.addColorStop(0,"rgba(214,192,118,"+(extS?0:0.55)+")");
-if(extS)g.addColorStop(extS/m,"rgba(214,192,118,0.55)");
-if(extE)g.addColorStop((m-extE)/m,"rgba(214,192,118,0.55)");
-g.addColorStop(1,"rgba(214,192,118,"+(extE?0:0.55)+")");
+g.addColorStop(0,"rgba(214,192,118,"+(extS>0?0:0.55)+")");
+if(extS>0)g.addColorStop(extS/m,"rgba(214,192,118,0.55)");
+if(extE>0)g.addColorStop((m-extE)/m,"rgba(214,192,118,0.55)");
+g.addColorStop(1,"rgba(214,192,118,"+(extE>0?0:0.55)+")");
 cx.strokeStyle=g;
 cx.beginPath();
 cx.moveTo(sx,sy);

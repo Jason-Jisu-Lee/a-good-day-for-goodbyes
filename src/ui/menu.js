@@ -12,6 +12,7 @@ const wl=tw3("WISHLIST",2),dc=tw3("DISCORD",2);
 const g1=28+8+wl,g2=28+8+dc,total=g1+44+g2,x0=W/2-total/2;
 menuButtons.push({id:"WISHLIST",label:"WISHLIST",x:x0-8,y:bs.dy-10,w:g1+16,h:44,scale:2,ic:"steam",ix:x0,iy:bs.dy,tx:x0+36,ty:bs.dy+9,dead:true});
 menuButtons.push({id:"DISCORD",label:"DISCORD",x:x0+g1+44-8,y:bs.dy-10,w:g2+16,h:44,scale:2,ic:"discord",ix:x0+g1+44,iy:bs.dy,tx:x0+g1+44+36,ty:bs.dy+9,dead:true});
+menuButtons.push({id:"MMUTE",x:W-40,y:8,w:32,h:32,mute:true});
 return bs;
 }
 function drawMenu(){
@@ -19,6 +20,22 @@ const bs=menuLayout();
 cx.globalAlpha=1-fade;
 text3("A GOOD DAY FOR GOODBYES",W/2,bs.ty,bs.ts,"c");
 for(const b of menuButtons){
+if(b.mute){
+const col=hover===b.id?FG:MID;
+noteIcon(W-34,12,22,col);
+if(OPT.mute){
+cx.save();
+cx.scale(S,S);
+cx.strokeStyle=col;
+cx.lineWidth=2;
+cx.beginPath();
+cx.moveTo(W-38,36);
+cx.lineTo(W-12,10);
+cx.stroke();
+cx.restore();
+}
+continue;
+}
 if(b.dead){
 cx.globalAlpha=(hover===b.id?1:0.55)*(1-fade);
 if(b.ic==="steam")steamIcon(b.ix,b.iy,14,FG);

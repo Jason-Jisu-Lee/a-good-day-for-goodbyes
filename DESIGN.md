@@ -166,6 +166,11 @@ violations, volunteers improvements)
   "?" tiles gets a fading stroke only when the previous corridor on
   the same lane is revealed-revealed (the town road continuing away
   and dying over one tile span). Everything else = no line.
+- CORNER TAILS (user 07-12): every road run END that is not a full
+  extension gets a SHORT aggressive fade (0.4 tile span) past the
+  last corridor, so outline roads die softly at outer corners (the
+  G7/G8/H7/H8 corner case) instead of hard-stopping. Board-edge ends
+  get no tail.
 - WORLD SCALE FINAL (user 07-11 "when i full screen its way too big;
   itch size is perfect; later 12x12"): world ships at HALF stamps
   (native x1). FULLSCREEN k=2 then renders EXACTLY the approved

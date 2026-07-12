@@ -26,7 +26,7 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden)save();});
 let last=performance.now();
 function step(t){
 const dt=Math.min(100,t-last)/1000;last=t;
-if(fading){fade=Math.min(1,fade+dt*3.5);if(fade>=1){fading=false;if(!G&&!load())newGame();mode="game";}}
+if(fading){fade=Math.min(1,fade+dt*3.5);if(fade>=1){fading=false;if(!G&&!load())newGame();mode="game";menuMusic(false);}}
 if(mode==="game"&&G){
 visual(dt);
 updateFloats(dt);
