@@ -1,4 +1,4 @@
-const T_HOUSE=new Image();T_HOUSE.src="asset/tiles/ref_house75.png?v=2";
+const T_HOUSE=new Image();T_HOUSE.src="asset/tiles/ref_house75.png?v=3";
 const T_APT=new Image();T_APT.src="asset/tiles/ref_apt77.png?v=2";
 const T_TILE=new Image();T_TILE.src="asset/tiles/ref_tile77.png?v=1";
 function diaDashFallback(x,y,col){
@@ -19,7 +19,7 @@ else diaDashFallback(x,y,FG);
 }
 function stampHouse(x,y){
 const l=L();
-if(T_HOUSE.width){cx.globalCompositeOperation="lighter";blitS(T_HOUSE,x-35*l.sc,y-38*l.sc,75*l.sc,63*l.sc);cx.globalCompositeOperation="source-over";return true;}
+if(T_HOUSE.width){cx.globalCompositeOperation="lighter";blitS(T_HOUSE,x-34*l.sc,y-35*l.sc,69*l.sc,57*l.sc);cx.globalCompositeOperation="source-over";return true;}
 return false;
 }
 function stampApt(x,y){
