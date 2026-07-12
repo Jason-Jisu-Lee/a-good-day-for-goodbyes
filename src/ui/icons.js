@@ -7,7 +7,7 @@ for(let y=0;y<n;y++)for(let x=0;x<n;x++){const dx=x-7.5,dy=y-5.6,d=Math.sqrt(dx*
 for(let t=0;t<=1;t+=0.05){const x=6.2-4.2*t,y=7.4+3.9*t;on(Math.round(x),Math.round(y));on(Math.round(x+1),Math.round(y));on(Math.round(x),Math.round(y+1));}
 return c;}
 const IC_DISCORD=sheetRows(DISCORD),IC_STEAM=steamSheet();
-function ringSheet(col){const c=mk(10),g=c.getContext("2d");g.fillStyle=col;for(let y=0;y<10;y++)for(let x=0;x<10;x++){const d=Math.hypot(x-4.5,y-4.5);if(d<=4.8&&d>=2.9)g.fillRect(x,y,1,1);}return c;}
+function ringSheet(col){const c=mk(15),g=c.getContext("2d");g.fillStyle=col;for(let y=0;y<15;y++)for(let x=0;x<15;x++){const d=Math.hypot(x-7,y-7);if(d<=7.2&&d>=4.6)g.fillRect(x,y,1,1);}return c;}
 const RINGS={},RINGS_D={};
 function ringFor(col){if(!RINGS[col])RINGS[col]=ringSheet(col);return RINGS[col];}
 function dimHex(col){const n=parseInt(col.slice(1),16);return "rgb("+(((n>>16)&255)*0.45|0)+","+(((n>>8)&255)*0.45|0)+","+((n&255)*0.45|0)+")";}

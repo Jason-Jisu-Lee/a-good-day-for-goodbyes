@@ -4,7 +4,7 @@ if(t.state==="unknown"){
 cx.globalAlpha=0.45;
 stampTile(x,y);
 cx.globalAlpha=0.9;
-text7("?",x,y-7*l.sc,2,"c");
+text7("?",x,y-10*l.sc,l.sc>0.6?3:2,"c");
 cx.globalAlpha=1;
 return;
 }
@@ -25,13 +25,13 @@ const sorted=[...G.tiles].sort((a,b)=>(a.gx+a.gy)-(b.gx+b.gy));
 for(const t of sorted){
 if(!drawnTile(t))continue;
 const p=tpos(t);
-const lift=t===hoverTile?Math.round(hoverA*3*Math.max(l.sc,0.5)):0;
+const lift=t===hoverTile?Math.round(hoverA*4*Math.max(l.sc,0.5)):0;
 drawTileVisual(t,p.x,p.y-lift);
 if(t.action){
 const frac=Math.min(1,t.progress);
 const d=DXY();
-px(p.x-20,p.y-d.hh-12,40,3,"#262626");
-if(frac>0)px(p.x-20,p.y-d.hh-12,Math.max(1,Math.round(40*frac)),3,FG);
+px(p.x-30,p.y-d.hh-16,60,4,"#262626");
+if(frac>0)px(p.x-30,p.y-d.hh-16,Math.max(1,Math.round(60*frac)),4,FG);
 }
 }
 }

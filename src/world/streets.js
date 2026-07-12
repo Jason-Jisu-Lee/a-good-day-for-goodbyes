@@ -1,6 +1,6 @@
 function drawStreets(){
 const l=L(),d=DXY();
-const P0=Math.hypot(64,40);
+const P0=Math.hypot(d.dx,d.dy)/l.sc;
 const rev=[];
 for(const t of G.tiles)if(revealedT(t))rev.push(tpos(t));
 if(!rev.length)return;
