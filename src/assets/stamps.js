@@ -1,5 +1,5 @@
 const T_HOUSE=new Image();T_HOUSE.src="asset/tiles/ref_house75.png?v=1";
-const T_APT=new Image();T_APT.src="asset/tiles/ref_apt77.png?v=1";
+const T_APT=new Image();T_APT.src="asset/tiles/ref_apt77.png?v=2";
 const T_TILE=new Image();T_TILE.src="asset/tiles/ref_tile77.png?v=1";
 function diaDashFallback(x,y,col){
 const d=DXY();
@@ -24,6 +24,6 @@ return false;
 }
 function stampApt(x,y){
 const l=L();
-if(T_APT.width){cx.globalCompositeOperation="lighter";blitS(T_APT,x-35*l.sc,y-53*l.sc,77*l.sc,78*l.sc);cx.globalCompositeOperation="source-over";return true;}
+if(T_APT.width){cx.globalCompositeOperation="lighter";blitS(T_APT,x-34*l.sc,y-42*l.sc,69*l.sc,64*l.sc);cx.globalCompositeOperation="source-over";return true;}
 return false;
 }
