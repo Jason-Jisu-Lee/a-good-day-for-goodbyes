@@ -102,31 +102,37 @@ violations, volunteers improvements)
 - FOOD 5/min/gatherer; MATERIALS 6/min/gatherer; eating 2
   food/min/survivor (1 per 30s; 07-11, was 3/min).
 - SCOUT 15s; RECLAIM 20s (lot/cache 10s); CLEAR 20s + 20 Materials
-  (refund on cancel). Day 90s. Walk speed 80 px/s (07-11; the tuned
-  small-board feel 53 rescaled x1.5 with the restored board).
+  (refund on cancel). Day 90s. Walk speed 40 px/s (07-11; the tuned
+  feel carried across every board rescale).
 - Mystery roll: grocery 40 / cache 35 / lot 25. Cache pays 25
   Materials. Camp reclaim = recruit (bag JUNE OKON IVY CALEB NOOR
   SAGE), tile -> lot. Max 6 survivors.
 
 ## Visual language (LOCKED, extracted from user's 123.png)
 - Diamond lattice, military projection (sx=wx-wy, sy=wx+wy), grid
-  45deg; pitch (96,60); tile diamond 132x84 (hw66 hh42); corridors
-  ~32px; portrait sc 0.5. ORIGINAL APPROVED SCALE RESTORED (07-11
-  evening, "make it the same as the png"): the 2/3 shrink attempts
-  are dead.
-- PITCH TRUTH (07-11, measured from diamond stair steps, 2 art px
-  per step): reference art pixel = ~8.28 source px. The approved
-  stamps = EXACTLY 2 screen px per art px (native x2). Clean sizes
-  are ONLY native x2 (current, 150/155 stamps) and native x1 (half,
-  ~75/78 stamps, needs a proper extraction pass). Anything between
-  resamples off-grid = gritty. Earlier ~12.2 pitch claim was wrong.
-- CANONICAL ART = lossless 123.png crops, bicubic 1:4 + threshold
-  100 (reproduces the approved originals to 99+%): ref_house150
+  45deg; pitch (48,30); tile diamond 66x42 (hw33 hh21); corridors
+  ~16px; portrait sc 1.
+- WORLD SCALE FINAL (user 07-11 "when i full screen its way too big;
+  itch size is perfect; later 12x12"): world ships at HALF stamps
+  (native x1). FULLSCREEN k=2 then renders EXACTLY the approved
+  density (2 screen px per art px = the itch-perfect look) with 4x
+  the world area for the 12x12 plan; itch k=1 = same art at fine
+  1px-per-art-px, crisp. The requested 75% is impossible cleanly
+  (off-grid = grit); half at k=2 IS the stated perfect size.
+- PITCH TRUTH (07-11): reference art pixel = 8.0 source px exactly
+  (approved 155 stamps = source/4 = exact 2 px per art px). Clean
+  sizes are ONLY native x2 (150/155 set, kept in asset/tiles/) and
+  native x1 (75/77 set, live). Anything between resamples off-grid =
+  gritty. Earlier 12.2 and 8.28 pitch estimates were wrong.
+- CANONICAL ART = lossless 123.png crops: x2 set ref_house150
   (150x128), ref_apt155 (155x158), ref_tile155 (155x158, from the
-  apartment's own base edges). Sources in ref/ (gitignored, never
-  pushed): 123.png, ref_house.png, ref_apt.png, ref_tileA.png. Never
-  redraw, never runtime-resample; resize = re-derive from sources.
-  Building:tile ratio fixed forever.
+  apartment's own base edges) via bicubic 1:4 + threshold 100
+  (reproduces the approved originals to 99+%); x1 LIVE set
+  ref_house75 (75x63), ref_apt77 (77x78), ref_tile77 (77x78) via
+  exact 2x2 majority downscale of the x2 set with phase detection.
+  Sources in ref/ (gitignored, never pushed): 123.png, ref_house.png,
+  ref_apt.png, ref_tileA.png. Never redraw, never runtime-resample;
+  resize = re-derive from sources. Building:tile ratio fixed forever.
 - Unknown "?" = 0.45-alpha tile stamp + 5x7 "?". Icon-less kinds =
   5x7 labels (FOOD SCRAP RUBBLE CAMP CACHE; SCRAPYARD/CAMP/CACHE =
   placeholder names, user names later).
@@ -171,7 +177,7 @@ violations, volunteers improvements)
 - UNDECIDED: zombies vs AI robots. Placeholder-architected, swaps
   without rework.
 
-## Current build (07-11, v14 scripts)
+## Current build (07-11, v15 scripts)
 - Menu: NEW GAME / SETTINGS / QUIT GAME (+ dead WISHLIST/DISCORD);
   NEW GAME becomes CONTINUE when a save exists (07-11).
   SINGLE SESSION: one save slot, ever. ABANDON lives in the IN-GAME

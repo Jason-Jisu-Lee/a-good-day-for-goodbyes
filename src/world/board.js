@@ -1,8 +1,8 @@
 function L(){
-if(PORT)return {ox:270,oy:100,sc:0.5,pnX:45,pnY:470,pnW:450,pnH:300,hud:20};
-return {ox:480,oy:120,sc:1,pnX:756,pnY:60,pnW:188,pnH:392,hud:12};
+if(PORT)return {ox:270,oy:180,sc:1,pnX:45,pnY:470,pnW:450,pnH:300,hud:20};
+return {ox:480,oy:180,sc:1,pnX:756,pnY:60,pnW:188,pnH:392,hud:12};
 }
-function DXY(){const l=L();return {dx:96*l.sc,dy:60*l.sc,hw:66*l.sc,hh:42*l.sc};}
+function DXY(){const l=L();return {dx:48*l.sc,dy:30*l.sc,hw:33*l.sc,hh:21*l.sc};}
 function tpos(t){const l=L(),d=DXY();return {x:l.ox+(t.gx-t.gy)*d.dx,y:l.oy+(t.gx+t.gy)*d.dy};}
 function tAt(gx,gy){return gx>=0&&gx<4&&gy>=0&&gy<4?G.tiles[gy*4+gx]:null;}
 function isOrigin(t){return t.gx>=1&&t.gx<=2&&t.gy>=1&&t.gy<=2;}
