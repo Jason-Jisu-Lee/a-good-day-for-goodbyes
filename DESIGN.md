@@ -151,10 +151,11 @@ violations, volunteers improvements)
 - Survivors = 10px rings in corridors; no map names; work spots in
   front of tiles; idle at town crossing. No anatomy on stage; faces =
   portraits/UI only (asset/faces/).
-- VIEW: integer stage scaling default, computed in PHYSICAL device
-  px (07-11: Windows 125% scaling made F11 letterbox at x1; now
-  1080p F11 = exact x2 device px, fills edge to edge). Dev toggle
-  AUTO <-> ITCH 960.
+- VIEW (07-11 final): render at integer device scale, present
+  filling the screen ("sharp bilinear", like other games). Exact
+  16:9 screens (1080p/4K) = pixel-perfect; others (1440p) = integer
+  buffer stretched smoothly; aspect mismatch = letterbox only. Dev
+  toggle AUTO <-> ITCH 960.
 - Stage edge: barely visible #1c1c1c outline, WINDOWED ONLY (07-11:
   at F11 it framed the whole screen and read as a border; hidden
   whenever the window covers the screen).

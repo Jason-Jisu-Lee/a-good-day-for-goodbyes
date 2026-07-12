@@ -15,9 +15,12 @@ W=PORT?540:960;H=PORT?960:540;
 let kp=Math.min(innerWidth*dpr/W,innerHeight*dpr/H);
 if(kp>=1)kp=Math.floor(kp);
 if(viewItch)kp=Math.min(kp,dpr);
-k=kp/dpr;
+let kf=Math.min(innerWidth/W,innerHeight/H);
+if(viewItch)kf=Math.min(kf,1);
+k=kf;
 S=kp;
-cv.style.width=W*k+"px";cv.style.height=H*k+"px";
+cv.style.width=W*kf+"px";cv.style.height=H*kf+"px";
+cv.style.imageRendering=Math.abs(kf*dpr-kp)<0.001?"pixelated":"auto";
 cv.width=Math.max(1,Math.round(W*S));cv.height=Math.max(1,Math.round(H*S));
 cx.imageSmoothingEnabled=false;
 }
