@@ -250,9 +250,17 @@ violations, volunteers improvements)
   per-category muted tile hues (Gnorp-style small doses, 4-6 max);
   red reserved for danger. Claude proposal pending user OK: color
   arrives on RECLAIM (mono when scouted). Hues via lab later.
-- Tone: classy understated jazz vs playful 1-bit art; the contrast is
-  a pillar, neither side drifts. Music = pre-made files (keep license
-  record per track); SFX procedural WebAudio.
+- Tone: classy understated jazz vs playful minimal art; the contrast
+  is a pillar, neither side drifts. Music = pre-made files (keep
+  license record per track); SFX procedural WebAudio.
+- MENU MUSIC LIVE (user 07-12): asset/soundtrack/main_screen.mp3
+  (user's track, compressed 112kbps 6.2->2.7MB, source in ref/)
+  loops on the main menu, autoplays every boot (browser autoplay
+  block = starts on first click/key), stops entering the game (no
+  in-game music yet), resumes on return to menu. Volume = music
+  slider (live), MUTE flag persisted: note button top-right on the
+  MENU (slash when muted) for instant mute; in-game note keeps the
+  volume panel.
 
 ## Maintenance metrics
 - EARLY: food, shelter (housing capacity), MATERIALS (the one
