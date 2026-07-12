@@ -13,12 +13,12 @@ const type=t.action;
 t.action=null;t.progress=0;
 if(type==="scout"){
 t.state="scouted";
-G.opened=true;
 if(t.kind==="mysteryroll"){const r=Math.random();t.kind=r<0.4?"grocery":(r<0.75?"cache":"lot");}
 for(const s of crew(t))s.task=null;
 }
 if(type==="reclaim"){
 t.state="owned";
+G.opened=true;
 if(t.kind==="camp"){t.kind="lot";recruit(t);}
 else if(t.kind==="cache"){G.mats+=10;t.kind="lot";}
 for(const s of crew(t))s.task=null;

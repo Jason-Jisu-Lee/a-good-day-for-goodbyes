@@ -90,8 +90,11 @@ violations, volunteers improvements)
 - Adjacent unknowns = dim "?" diamonds.
 - Reveal (scout) populates "?" on EDGE-adjacent neighbors (never
   diagonal). Persists all game EXCEPT start: origin four only
-  (3 known + mystery "?"); the 8 edge-adjacent ring tiles appear on
-  first mystery reveal.
+  (3 known + mystery "?"); the 8 edge-adjacent ring tiles appear
+  when the mystery tile is RECLAIMED (user 07-12; on scout they
+  appeared as "?" that could not be scouted yet, mystery not owned).
+  By reclaim all origin four are owned, so every ring tile is
+  scoutable the moment it shows.
 - STREETS: Rebuild dashed centerlines between drawn tiles. Full gray
   in town; extend INTO "?" tiles fading aggressively, gone ~60% in,
   never reach the far end. At start: contained in origin block.
