@@ -115,7 +115,9 @@ violations, volunteers improvements)
 - Start 10 food (07-11, was 8).
 - FOOD 5/min/gatherer; MATERIALS 3/min/gatherer (07-11, was 6);
   eating 2 food/min/survivor (1 per 30s; 07-11, was 3/min).
-- SCOUT 15s; RECLAIM 20s (lot/cache 10s); CLEAR 20s + 20 Materials
+- SCOUT 15s; RECLAIM 20s (lot/cache 10s); origin mystery tile (tier
+  0) = 5s scout + 5s reclaim base (user 07-12, first-tile pacing);
+  CLEAR 20s + 20 Materials
   (refund on cancel). Day 90s. Walk speed 40 px/s (07-11; the tuned
   feel carried across every board rescale).
 - Mystery roll: FOOD 40 / cache 35 / lot 25. SUPPLY CACHE pays 10

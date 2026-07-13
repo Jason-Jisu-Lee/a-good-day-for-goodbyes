@@ -22,7 +22,7 @@ if(picker.type==="gather"){
 const r=n*(sel.kind==="grocery"?FOOD_PM:MAT_PM);
 line="+"+r+"/MIN";
 }else{
-const need=picker.type==="scout"?SCOUT_T:(picker.type==="clear"?CLEAR_T:((sel.kind==="lot"||sel.kind==="cache")?RECLAIM_LOT_T:RECLAIM_T));
+const need=picker.type==="scout"?scoutNeed(sel):(picker.type==="clear"?CLEAR_T:reclaimNeed(sel));
 line=Math.ceil(need/mult(n))+"S";
 }
 text7(line,l.pnX+16,y,2);

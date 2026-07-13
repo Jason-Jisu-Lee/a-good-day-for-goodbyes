@@ -2,8 +2,8 @@ function lockedS(s){return !!(s.task&&s.task.type!=="gather");}
 function assign(t,type,members){
 for(const s of members){s.task={type,tile:t};const sp=workSpot(t,G.survivors.indexOf(s));const d=Math.hypot(sp.x-s.x,sp.y-s.y);s.arriveAt=G.t+d/SPEED;}
 if(type!=="gather"){t.action=type;
-if(type==="scout")t.need=tierOf(t)>=2?SCOUT_T*2:SCOUT_T;
-if(type==="reclaim")t.need=(t.kind==="lot"||t.kind==="cache")?RECLAIM_LOT_T:RECLAIM_T;
+if(type==="scout")t.need=scoutNeed(t);
+if(type==="reclaim")t.need=reclaimNeed(t);
 if(type==="clear"){t.need=CLEAR_T;G.mats-=CLEAR_COST;}
 }
 }
