@@ -5,6 +5,18 @@ All dates = 2026. 3rd game. Survival + incremental. 1-bit minimalist.
 960x540 16:9, desktop first, itch then Steam. Canonical file; updates
 with every design decision.
 
+## IDENTITY REWORK (07-13, IN PROGRESS)
+User is reworking the core-loop identity. During this brainstorm the
+principles/doctrine below are SOFT PREFERENCES, not filters; challenge
+freely, no market-data arguments. Current taste: ACTIVE gameplay (no
+idle identity at all), some SILENT time constraint (felt pressure, no
+countdown UI), zombies cooling, "the black" itself as enemy candidate.
+Fixed skeleton: tiers 0-8, prestige tile at tier 4, bunker after tier
+8 (harder remix, finale), multiple prestiges expected; material +
+resident tiles core; early food bleed intended. Concepts in play:
+vault runs (strip town, bank in timeless vault, rewind), sacrifice-to-
+advance, the-black-pushes-back. Nothing else locked.
+
 ## Fantasy
 Never labor: attention + decisions only. Gather survivors, learn them,
 keep them alive, decide who to save. Complete story, real ending, not
@@ -122,9 +134,14 @@ violations, volunteers improvements)
   indicator = "N/1" in picker header + panel, extra picker rows
   lock when full. Replaces per-gatherer rates (was FOOD 5/min,
   MATERIALS 3/min per gatherer). Eating unchanged: 2
-  food/min/survivor (1 per 30s). NOTE: 2 survivors eat 4/min vs
-  3/min from one staffed food tile; break-even needs a second food
-  tile; consumption retune = user call.
+  food/min/survivor (1 per 30s). EARLY BLEED INTENDED (user 07-13):
+  2 survivors eat 4/min vs 3/min staffed food tile; the 10 start
+  food is the grace window, income catches up as tiles come online.
+- GATHER PICKER RATE LINE (user 07-13, "give me the delta"): the
+  line always shows and reads as the tile's rate: "+1/MIN" with
+  nobody selected, updates to "+3/MIN" when a survivor is checked.
+  Gather picker opens with NO preselected survivor (other actions
+  keep the 1-idle preselect).
 - SCOUT 15s; RECLAIM 20s (lot/cache 10s); origin mystery tile (tier
   0) = 5s scout + 5s reclaim base (user 07-12, first-tile pacing);
   CLEAR 20s + 20 Materials
@@ -222,10 +239,18 @@ violations, volunteers improvements)
   house + apartment stamps draw at 80% (55.2x46.4 / 55.2x51.6
   logical), scaled around the baked slab midline (measured: both
   sprites' slab center sits at tile center y-0.5). Full-size
-  smooth_tile now draws UNDER both buildings, so tile footprint is
-  unchanged; the baked 80% slab reads as an inner footprint diamond
-  (needs user eyes). Supersedes "building:tile ratio fixed forever"
-  for the smooth set.
+  smooth_tile draws UNDER both buildings, so tile footprint is
+  unchanged. Supersedes "building:tile ratio fixed forever" for the
+  smooth set.
+- BUILDING ISOLATION (user 07-13, "remove the extra tile"): the
+  sprites' baked white diamond ring is gone. New assets
+  smooth_house_only.png / smooth_apt_only.png = originals with the
+  ring line recolored into the baked black ground (geometry-bounded
+  pixel surgery: front V full, back edges only up to the measured
+  building junction, despeckle pass; buildings untouched). Black
+  ground kept opaque so painter occlusion is identical. Originals
+  retained in asset/tiles. Result: building sits directly on the
+  real smooth_tile, no inner diamond.
 - HOVER = LIFT, final (3px ease). Selection = NO map marker (white
   outline rejected 07-11); panel is the selection feedback.
 - SURVIVOR COLORS (user 07-11): each survivor gets a color, shown on

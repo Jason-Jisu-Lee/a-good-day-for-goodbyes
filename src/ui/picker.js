@@ -19,16 +19,13 @@ text7(statusOf(s),l.pnX+42,y+20,1,null,lk?DIM:MID);
 y+=48;
 }
 const n=picker.set.size;
-if(n>0){
-let line;
-if(picker.type==="gather"){
-line="+"+genPM(n)+"/MIN";
-}else{
+let line=null;
+if(picker.type==="gather")line="+"+genPM(n)+"/MIN";
+else if(n>0){
 const need=picker.type==="scout"?scoutNeed(sel):(picker.type==="clear"?CLEAR_T:reclaimNeed(sel));
 line=Math.ceil(need/mult(n))+"S";
 }
-text7(line,l.pnX+16,y,2);
-}
+if(line)text7(line,l.pnX+16,y,2);
 y+=26;
 btn("pick_go","START",l.pnX+16,y,80,n>0);
 btn("pick_no","CANCEL",l.pnX+100,y,80);

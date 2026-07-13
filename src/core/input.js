@@ -71,7 +71,8 @@ return;
 if(id==="volM"||id==="volF")return;
 if(id.startsWith("act_")){
 const type=id.slice(4);
-picker={type,set:new Set(G.survivors.filter(s=>!s.task&&!s.hungry).slice(0,1))};
+const pre=type==="gather"?[]:G.survivors.filter(s=>!s.task&&!s.hungry).slice(0,1);
+picker={type,set:new Set(pre)};
 return;
 }
 if(id.startsWith("pick_")){
