@@ -10,12 +10,20 @@ User is reworking the core-loop identity. During this brainstorm the
 principles/doctrine below are SOFT PREFERENCES, not filters; challenge
 freely, no market-data arguments. Current taste: ACTIVE gameplay (no
 idle identity at all), some SILENT time constraint (felt pressure, no
-countdown UI), zombies cooling, "the black" itself as enemy candidate.
-Fixed skeleton: tiers 0-8, prestige tile at tier 4, bunker after tier
-8 (harder remix, finale), multiple prestiges expected; material +
-resident tiles core; early food bleed intended. Concepts in play:
-vault runs (strip town, bank in timeless vault, rewind), sacrifice-to-
-advance, the-black-pushes-back. Nothing else locked.
+countdown UI). Fixed skeleton: tiers 0-8, prestige tile at tier 4,
+bunker after tier 8 (harder remix, finale), multiple prestiges
+expected; material + resident tiles core; early food bleed intended.
+- ENEMY DECIDED (user 07-13): THE BLACK. Zombies dead (no enemy art
+  needed; threatened tiles FADE instead of hosting drawn enemies).
+  Tier-2 zombie prototype + red danger tiles to be stripped when the
+  new mechanics build starts. TILES.md zombie drafts stale (user's
+  file; flag, do not edit unsolicited).
+- NEW START (user 07-13 intent): 1 tile, 1 survivor.
+- RESOURCE TILES stay; resources = the PRESTIGE currency; pushing
+  deeper tiers = more resources + higher-quality tiles. Rest of the
+  mechanics TBD ("a lot of mechanic is going to change").
+- Story/title brainstorm in progress; story layered on top of the
+  core loop.
 
 ## Fantasy
 Never labor: attention + decisions only. Gather survivors, learn them,
