@@ -43,11 +43,11 @@ else diaDashFallback(x,y,danger?DANGER:FG);
 }
 function stampHouse(x,y){
 const l=L();
-if(T_HOUSE.width){smoothBlit(T_HOUSE,x-34.25*l.sc,y-36.5*l.sc,69*l.sc,58*l.sc);return true;}
+if(T_HOUSE.width){smoothBlit(T_HOUSE,x-27.35*l.sc,y-29.3*l.sc,55.2*l.sc,46.4*l.sc);return true;}
 return false;
 }
 function stampApt(x,y){
 const l=L();
-if(T_APT.width){smoothBlit(T_APT,x-34.25*l.sc,y-43*l.sc,69*l.sc,64.5*l.sc);return true;}
+if(T_APT.width){smoothBlit(T_APT,x-27.35*l.sc,y-34.5*l.sc,55.2*l.sc,51.6*l.sc);return true;}
 return false;
 }

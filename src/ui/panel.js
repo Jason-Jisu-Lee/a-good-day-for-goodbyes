@@ -31,7 +31,7 @@ btn("act_clear","CLEAR",l.pnX+16,y,140,G.mats>=CLEAR_COST);y+=56;
 }
 if(t.state==="owned"&&!t.blocked&&(t.kind==="grocery"||t.kind==="scrap")){
 const n=crew(t).length;
-if(n>0){text7(n+" WORKING",l.pnX+16,y,1,null,MID);y+=20;btn("stop","STOP",l.pnX+16,y,120);y+=56;}
+if(n>0){text7(n+"/"+GATHER_SLOTS+" WORKING",l.pnX+16,y,1,null,MID);y+=20;btn("stop","STOP",l.pnX+16,y,120);y+=56;}
 else{btn("act_gather","GATHER",l.pnX+16,y,140);y+=56;}
 }
 }

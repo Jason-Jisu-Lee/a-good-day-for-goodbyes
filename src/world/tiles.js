@@ -10,8 +10,8 @@ cx.globalAlpha=1;
 return;
 }
 cx.globalAlpha=t.state==="owned"?1:0.55;
-if(t.kind==="house"){if(!stampHouse(x,y)){stampTile(x,y);text7("HOUSE",x,y-3,1,"c");}}
-else if(t.kind==="house2"){if(!stampApt(x,y)){stampTile(x,y);text7("APT",x,y-3,1,"c");}}
+if(t.kind==="house"){stampTile(x,y);if(!stampHouse(x,y))text7("HOUSE",x,y-3,1,"c");}
+else if(t.kind==="house2"){stampTile(x,y);if(!stampApt(x,y))text7("APT",x,y-3,1,"c");}
 else{
 stampTile(x,y);
 const lb=KIND_LABEL[t.kind];

@@ -1,9 +1,12 @@
 function drawPicker(y){
 const l=L();
-text7(picker.type.toUpperCase(),l.pnX+16,y,1,null,MID);y+=18;
+let hd=picker.type.toUpperCase();
+if(picker.type==="gather")hd+=" "+picker.set.size+"/"+GATHER_SLOTS;
+text7(hd,l.pnX+16,y,1,null,MID);y+=18;
+const full=picker.type==="gather"&&picker.set.size>=GATHER_SLOTS;
 for(const s of G.survivors){
-const lk=lockedS(s);
 const on=picker.set.has(s);
+const lk=lockedS(s)||(full&&!on);
 const id="pick_"+G.survivors.indexOf(s);
 if(!lk){
 uiButtons.push({id,x:l.pnX+8,y:y-4,w:l.pnW-16,h:44,en:true});

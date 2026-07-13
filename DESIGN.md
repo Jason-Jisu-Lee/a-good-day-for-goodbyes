@@ -81,8 +81,9 @@ violations, volunteers improvements)
 ## Action model (LOCKED 07-10, Rebuild-style)
 - Tile -> action (SCOUT/RECLAIM/CLEAR/GATHER) -> pick crew.
 - Diminishing returns on TIMED actions only:
-  time = base/(1+r+r^2+...), r=0.65. Gathering = flat x2 tile boost
-  (07-12), crew size beyond 1 adds nothing.
+  time = base/(1+r+r^2+...), r=0.65. Gathering = +2/min per
+  stationed survivor, additive (07-12); default food/scrap tiles
+  capped at 1 slot.
 - Temp tasks (scout/reclaim/clear) LOCK the survivor till done (or
   death); gather interruptible.
 - Scouted != reclaimed: dim 0.55 till owned.
@@ -114,14 +115,16 @@ violations, volunteers improvements)
 
 ## Balance v1 (tune by feel)
 - Start 10 food (07-11, was 8).
-- AUTO-GENERATION (user 07-12, Rebuild-style): owned FOOD/SCRAPYARD
-  tiles produce on their own, 1/min; a stationed survivor boosts the
-  tile x2 -> 2/min total (extra survivors add nothing). Replaces
-  per-gatherer rates (was FOOD 5/min, MATERIALS 3/min per gatherer).
-  Eating unchanged: 2 food/min/survivor (1 per 30s; 07-11, was
-  3/min). NOTE: eat rate now outruns early income (2 survivors eat
-  4/min vs 2/min from one boosted food tile); consumption retune
-  pending user call.
+- AUTO-GENERATION v2 (user 07-12, Rebuild-style, ADDITIVE): owned
+  FOOD/SCRAPYARD tiles produce 1/min passive; each stationed
+  survivor ADDS +2/min (1 surv = 3/min, 2 = 5/min). Default tiles
+  cap at 1 station slot for now (GATHER_SLOTS in balance.js); slot
+  indicator = "N/1" in picker header + panel, extra picker rows
+  lock when full. Replaces per-gatherer rates (was FOOD 5/min,
+  MATERIALS 3/min per gatherer). Eating unchanged: 2
+  food/min/survivor (1 per 30s). NOTE: 2 survivors eat 4/min vs
+  3/min from one staffed food tile; break-even needs a second food
+  tile; consumption retune = user call.
 - SCOUT 15s; RECLAIM 20s (lot/cache 10s); origin mystery tile (tier
   0) = 5s scout + 5s reclaim base (user 07-12, first-tile pacing);
   CLEAR 20s + 20 Materials
@@ -215,6 +218,14 @@ violations, volunteers improvements)
   lines behind (user's apartment-overlap fix). PIXEL set retained in
   asset/tiles (ref_house75/150 from user's house.png = default
   pixel house) as the fallback art mode.
+- BUILDING SHRINK (user 07-12, "hiding too much of nearby tiles"):
+  house + apartment stamps draw at 80% (55.2x46.4 / 55.2x51.6
+  logical), scaled around the baked slab midline (measured: both
+  sprites' slab center sits at tile center y-0.5). Full-size
+  smooth_tile now draws UNDER both buildings, so tile footprint is
+  unchanged; the baked 80% slab reads as an inner footprint diamond
+  (needs user eyes). Supersedes "building:tile ratio fixed forever"
+  for the smooth set.
 - HOVER = LIFT, final (3px ease). Selection = NO map marker (white
   outline rejected 07-11); panel is the selection feedback.
 - SURVIVOR COLORS (user 07-11): each survivor gets a color, shown on
@@ -297,7 +308,7 @@ violations, volunteers improvements)
   ("+N/MIN" / "NS"), locked-survivor dimming, hunger pause, recruits,
   mystery roll, reveal rule, streets.
 - HUD: FOOD + "+x/MIN" "-y/MIN" + breakdown tooltips (tiles grouped
-  by rate: "3 X 1/MIN" unstaffed + "2 X 2/MIN" boosted); MATERIALS
+  by rate: "3 X 1/MIN" unstaffed + "1 X 3/MIN" staffed); MATERIALS
   hidden till first; DAY bottom-left.
 - FLOATING TEXT (user 07-11, "industry standard"): each whole
   gathered resource pops "+1" above the tile, rises ~14px, fades

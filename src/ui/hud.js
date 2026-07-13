@@ -8,16 +8,15 @@ for(let i=0;i<lines.length;i++)text7(lines[i],x+6,y+5+i*14,1);
 function drawHUD(){
 const l=L();
 text7("FOOD "+Math.floor(G.food),16,l.hud,2);
-let inc=0,plain=0,boosted=0;
+let inc=0;
+const tally={};
 for(const t of G.tiles){
 if(t.state==="owned"&&!t.blocked&&t.kind==="grocery"&&!t.action){
-if(arrived(t).length>0)boosted++;else plain++;
+const r=genPM(arrived(t).length);
+inc+=r;tally[r]=(tally[r]||0)+1;
 }
 }
-inc=plain*GEN_PM+boosted*GEN_BOOST_PM;
-const srcs=[];
-if(plain>0)srcs.push(plain+" X "+GEN_PM+"/MIN");
-if(boosted>0)srcs.push(boosted+" X "+GEN_BOOST_PM+"/MIN");
+const srcs=Object.keys(tally).sort((a,b)=>a-b).map(r=>tally[r]+" X "+r+"/MIN");
 const expn=G.survivors.length*(60/EAT_EVERY);
 uiButtons.push({id:"inc",x:14,y:l.hud+20,w:96,h:13,en:true});
 uiButtons.push({id:"exp",x:14,y:l.hud+34,w:96,h:13,en:true});
