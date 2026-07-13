@@ -81,7 +81,8 @@ violations, volunteers improvements)
 ## Action model (LOCKED 07-10, Rebuild-style)
 - Tile -> action (SCOUT/RECLAIM/CLEAR/GATHER) -> pick crew.
 - Diminishing returns on TIMED actions only:
-  time = base/(1+r+r^2+...), r=0.65. Gathering linear per survivor.
+  time = base/(1+r+r^2+...), r=0.65. Gathering = flat x2 tile boost
+  (07-12), crew size beyond 1 adds nothing.
 - Temp tasks (scout/reclaim/clear) LOCK the survivor till done (or
   death); gather interruptible.
 - Scouted != reclaimed: dim 0.55 till owned.
@@ -113,8 +114,14 @@ violations, volunteers improvements)
 
 ## Balance v1 (tune by feel)
 - Start 10 food (07-11, was 8).
-- FOOD 5/min/gatherer; MATERIALS 3/min/gatherer (07-11, was 6);
-  eating 2 food/min/survivor (1 per 30s; 07-11, was 3/min).
+- AUTO-GENERATION (user 07-12, Rebuild-style): owned FOOD/SCRAPYARD
+  tiles produce on their own, 1/min; a stationed survivor boosts the
+  tile x2 -> 2/min total (extra survivors add nothing). Replaces
+  per-gatherer rates (was FOOD 5/min, MATERIALS 3/min per gatherer).
+  Eating unchanged: 2 food/min/survivor (1 per 30s; 07-11, was
+  3/min). NOTE: eat rate now outruns early income (2 survivors eat
+  4/min vs 2/min from one boosted food tile); consumption retune
+  pending user call.
 - SCOUT 15s; RECLAIM 20s (lot/cache 10s); origin mystery tile (tier
   0) = 5s scout + 5s reclaim base (user 07-12, first-tile pacing);
   CLEAR 20s + 20 Materials
@@ -289,8 +296,9 @@ violations, volunteers improvements)
 - Live: scout/reclaim/clear/gather, crew picker with live duration
   ("+N/MIN" / "NS"), locked-survivor dimming, hunger pause, recruits,
   mystery roll, reveal rule, streets.
-- HUD: FOOD + "+x/MIN" "-y/MIN" + breakdown tooltips ("2 X 5/MIN");
-  MATERIALS hidden till first; DAY bottom-left.
+- HUD: FOOD + "+x/MIN" "-y/MIN" + breakdown tooltips (tiles grouped
+  by rate: "3 X 1/MIN" unstaffed + "2 X 2/MIN" boosted); MATERIALS
+  hidden till first; DAY bottom-left.
 - FLOATING TEXT (user 07-11, "industry standard"): each whole
   gathered resource pops "+1" above the tile, rises ~14px, fades
   ~1.1s, rAF-driven, capped at 40 live floats (background-tab

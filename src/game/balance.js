@@ -1,5 +1,6 @@
 const SCOUT_T=15,RECLAIM_T=20,RECLAIM_LOT_T=10,CLEAR_T=20,CLEAR_COST=20,FIRST_T=5;
-const EAT_EVERY=30,DAY_LEN=90,FOOD_PM=5,MAT_PM=3,DR=0.65,SPEED=40,START_FOOD=10;
+const EAT_EVERY=30,DAY_LEN=90,GEN_PM=1,GEN_BOOST_PM=2,DR=0.65,SPEED=40,START_FOOD=10;
+function genPM(n){return n>0?GEN_BOOST_PM:GEN_PM;}
 function mult(n){let m=0,f=1;for(let i=0;i<n;i++){m+=f;f*=DR;}return m;}
 function scoutNeed(t){return tierOf(t)===0?FIRST_T:(tierOf(t)>=2?SCOUT_T*2:SCOUT_T);}
 function reclaimNeed(t){return tierOf(t)===0?FIRST_T:((t.kind==="lot"||t.kind==="cache")?RECLAIM_LOT_T:RECLAIM_T);}

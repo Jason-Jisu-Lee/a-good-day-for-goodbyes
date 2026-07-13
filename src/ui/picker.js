@@ -19,8 +19,7 @@ const n=picker.set.size;
 if(n>0){
 let line;
 if(picker.type==="gather"){
-const r=n*(sel.kind==="grocery"?FOOD_PM:MAT_PM);
-line="+"+r+"/MIN";
+line="+"+genPM(n)+"/MIN";
 }else{
 const need=picker.type==="scout"?scoutNeed(sel):(picker.type==="clear"?CLEAR_T:reclaimNeed(sel));
 line=Math.ceil(need/mult(n))+"S";
