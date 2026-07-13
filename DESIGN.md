@@ -22,8 +22,14 @@ expected; material + resident tiles core; early food bleed intended.
 - RESOURCE TILES stay; resources = the PRESTIGE currency; pushing
   deeper tiers = more resources + higher-quality tiles. Rest of the
   mechanics TBD ("a lot of mechanic is going to change").
-- Story/title brainstorm in progress; story layered on top of the
-  core loop.
+- STORY DIRECTION CHOSEN (user 07-13, "straight apocalypse"): THE
+  LAST TOWN. A void ate the world; one town holds it out with
+  failing light. Player strips the surface to stock the bunker
+  before the light dies. Prestige = one more expedition wave back
+  up (surface re-swallowed between trips = the reset). Goodbyes =
+  the town, the surface, volunteers who go up knowing the door may
+  close without them. The void needs a name (user names it). Told
+  show-don't-tell: found-tile vignettes, no text walls.
 
 ## Fantasy
 Never labor: attention + decisions only. Gather survivors, learn them,
