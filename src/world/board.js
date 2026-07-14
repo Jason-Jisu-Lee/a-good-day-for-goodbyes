@@ -13,11 +13,11 @@ const dy=t.gy<OB0?OB0-t.gy:(t.gy>OB1?t.gy-OB1:0);
 const m=dx+dy;
 return m<=0?0:(m===1?1:2);
 }
-function revealedT(t){return t.state==="scouted"||t.state==="owned";}
+function revealedT(t){return t.state==="owned";}
 function ownedAdjacent(t){for(const o of G.tiles){if(o.state!=="owned")continue;if(Math.abs(o.gx-t.gx)+Math.abs(o.gy-t.gy)===1)return true;}return false;}
-function adjRevealed(t){for(const o of G.tiles){if(!revealedT(o))continue;if(Math.abs(o.gx-t.gx)+Math.abs(o.gy-t.gy)===1)return true;}return false;}
-function drawnTile(t){return revealedT(t)||isOrigin(t)||(G.opened&&adjRevealed(t));}
+function drawnTile(t){return t.state==="owned"||isOrigin(t)||(G.opened&&ownedAdjacent(t));}
 function visibleTile(t){return drawnTile(t);}
+function extinguishable(t){return t.state!=="owned"&&drawnTile(t)&&ownedAdjacent(t);}
 function tileAt(mx,my){
 const d=DXY();
 for(const t of G.tiles){

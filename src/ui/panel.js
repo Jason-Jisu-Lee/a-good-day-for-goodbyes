@@ -9,27 +9,26 @@ const l=L();
 if(!sel)return;
 const t=sel;
 edgeR(l.pnX,l.pnY,l.pnW,l.pnH,DIM);
-const name=t.state==="unknown"?"UNKNOWN":KIND_NAME[t.kind];
-text7(name,l.pnX+16,l.pnY+14,2);
-let status=t.state.toUpperCase();
-if(t.state==="owned"&&t.blocked)status="BLOCKED";
-if(t.action)status=t.action.toUpperCase()+"ING";
+const dark=t.state!=="owned";
+text7(dark?"DARKNESS":KIND_NAME[t.kind],l.pnX+16,l.pnY+14,2);
+let status=dark?"STRENGTH "+darkEff(t):"CLEAR";
+if(t.action==="extinguish")status="EXTINGUISHING";
 text7(status,l.pnX+16,l.pnY+40,1,null,MID);
 let y=l.pnY+60;
-if(t.action){
-const n=arrived(t).length,c=crew(t);
+if(t.action==="extinguish"){
+const c=crew(t),p=crewPower(t),eff=darkEff(t);
 text7(c.map(s=>s.name).join(" "),l.pnX+16,y,1,null,MID);y+=16;
-if(n>0){const rem=Math.ceil((1-t.progress)*t.need/mult(n));text7(rem+"S LEFT",l.pnX+16,y,1,null,MID);}
+text7("PWR "+p+" / STR "+eff,l.pnX+16,y,1,null,p>0&&p<eff?DANGER:MID);y+=16;
+if(p>0){const rem=Math.ceil((1-t.progress)*eff*EXT_SECS/p);text7(rem+"S LEFT",l.pnX+16,y,1,null,MID);}
+y+=22;btn("stop","PULL BACK",l.pnX+16,y,140);
 return;
 }
 if(picker){drawPicker(y);return;}
-if(t.state==="unknown"&&ownedAdjacent(t)){btn("act_scout","SCOUT",l.pnX+16,y,140);y+=56;}
-if(t.state==="scouted"){btn("act_reclaim","RECLAIM",l.pnX+16,y,140);y+=56;}
-if(t.state==="owned"&&t.blocked){
-text7("COST "+CLEAR_COST+" MATERIALS",l.pnX+16,y,1,null,MID);y+=20;
-btn("act_clear","CLEAR",l.pnX+16,y,140,G.mats>=CLEAR_COST);y+=56;
+if(dark){
+if(extinguishable(t))btn("act_extinguish","EXTINGUISH",l.pnX+16,y,150,G.survivors.some(s=>!s.task));
+return;
 }
-if(t.state==="owned"&&!t.blocked&&(t.kind==="grocery"||t.kind==="scrap")){
+if(t.kind==="grocery"||t.kind==="scrap"){
 const n=crew(t).length;
 if(n>0){text7(n+"/"+GATHER_SLOTS+" WORKING",l.pnX+16,y,1,null,MID);y+=20;btn("stop","STOP",l.pnX+16,y,120);y+=56;}
 else{btn("act_gather","GATHER",l.pnX+16,y,140);y+=56;}

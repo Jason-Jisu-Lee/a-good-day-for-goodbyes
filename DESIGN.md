@@ -31,6 +31,38 @@ expected; material + resident tiles core; early food bleed intended.
   close without them. The void needs a name (user names it). Told
   show-don't-tell: found-tile vignettes, no text walls.
 
+### EXTINGUISH CORE — Phase 1 BUILT (07-13)
+Replaces scout/reclaim with one verb. Every unowned tile carries a
+DARKNESS STRENGTH (DARK_TIER=[1,2,3] for tiers 0/1/2, stored per
+tile, extensible to deeper tiers by growing the grid). Effective
+strength = base - (ownedNeighbors-1), min 1 (first cleared neighbor
+is what makes a tile reachable; each ADDITIONAL owned neighbor
+softens it by 1). So the first tile of any tier is the hardest
+"breach", then it eases as you surround = intended spike-then-relief.
+- EXTINGUISH (= light + claim, one action): assign any number of
+  survivors, combined POWER is additive (1 each, SURV_POWER). Fill
+  time = darkEff*EXT_SECS/power (EXT_SECS=4). Finish -> owned +
+  reveal kind + kind effect. Picker shows PWR n / STR m + seconds +
+  risk warning; no crew cap (unlike GATHER's 1 slot).
+- DEATH: when power <= effective strength (tier>0 only; tier 0 =
+  tutorial, death-free), each working survivor rolls
+  DEATH_RATE*(strength-power+1) per second. A survivor can fall
+  mid-job; the rest keep going. Verified: pwr2 vs str3 kills someone
+  ~43% of runs, still clears ~84%. PULL BACK aborts and retreats
+  (progress retained), so death is always a chosen risk.
+- FOUND ITEM: a BROKEN TOOL tile in tier 1; clearing it makes a
+  survivor power 2 (teaches "items add power"; per-survivor equip +
+  divide-the-crew strategy comes later).
+- Survivors: start 2, cap 6, power field, found at CAMPFIRE tiles
+  (rescue on clear). Mystery origin tile = the first-extinguish
+  tutorial (strength 1, auto-claims, opens tier 1). Material/food
+  auto-gen, housing, food/hunger all still run untouched. Save v5.
+- DEFERRED to Phase 2 (needs the core to feel right first, per
+  user): hostile darkness that ATTACKS owned tiles from tier 3 and
+  creeps inward; prestige resource tile + shop; the run-end trigger
+  (user decides once playable). Board still 6x6 (tiers 0-2); tiers
+  3+ = grow the grid later.
+
 ## Fantasy
 Never labor: attention + decisions only. Gather survivors, learn them,
 keep them alive, decide who to save. Complete story, real ending, not

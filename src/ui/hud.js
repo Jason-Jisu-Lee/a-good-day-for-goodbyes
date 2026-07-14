@@ -11,7 +11,7 @@ text7("FOOD "+Math.floor(G.food),16,l.hud,2);
 let inc=0;
 const tally={};
 for(const t of G.tiles){
-if(t.state==="owned"&&!t.blocked&&t.kind==="grocery"&&!t.action){
+if(t.state==="owned"&&t.kind==="grocery"&&!t.action){
 const r=genPM(arrived(t).length);
 inc+=r;tally[r]=(tally[r]||0)+1;
 }
@@ -25,5 +25,6 @@ text7("-"+expn+"/MIN",16,l.hud+36,1,null,MID);
 if(hover==="inc")tip(16,l.hud+52,srcs.length?srcs:["0 X "+GEN_PM+"/MIN"]);
 if(hover==="exp")tip(16,l.hud+52,[G.survivors.length+" X "+(60/EAT_EVERY)+"/MIN"]);
 if(G.matsSeen||G.mats>0)text7("MATERIALS "+Math.floor(G.mats),160,l.hud,2);
+text7("SURVIVORS "+G.survivors.length+"/6",160,l.hud+22,1,null,MID);
 text7("DAY "+G.day,16,H-24,1,null,MID);
 }

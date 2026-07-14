@@ -1,23 +1,17 @@
 function drawTileVisual(t,x,y){
-const l=L();
-if(t.state==="unknown"){
-const danger=tierOf(t)>=2;
-cx.globalAlpha=danger?0.6:0.45;
-stampTile(x,y,danger);
-cx.globalAlpha=0.9;
-text7("?",x,y-9*l.sc,2,"c",danger?DANGER:FG);
+if(t.state!=="owned"){
+cx.globalAlpha=0.4;
+stampTile(x,y);
 cx.globalAlpha=1;
+const s=Math.min(darkEff(t),8);
+const pip=3,gap=2,tot=s*pip+(s-1)*gap;
+let px0=x-tot/2;
+for(let i=0;i<s;i++){px(px0,y-1.5,pip,pip,FG);px0+=pip+gap;}
 return;
 }
-cx.globalAlpha=t.state==="owned"?1:0.55;
 if(t.kind==="house"){stampTile(x,y);if(!stampHouse(x,y))text7("HOUSE",x,y-3,1,"c");}
 else if(t.kind==="house2"){stampTile(x,y);if(!stampApt(x,y))text7("APT",x,y-3,1,"c");}
-else{
-stampTile(x,y);
-const lb=KIND_LABEL[t.kind];
-if(lb)text7(lb,x,y-3,1,"c");
-}
-cx.globalAlpha=1;
+else{stampTile(x,y);const lb=KIND_LABEL[t.kind];if(lb)text7(lb,x,y-3,1,"c");}
 }
 function drawTiles(){
 const l=L();

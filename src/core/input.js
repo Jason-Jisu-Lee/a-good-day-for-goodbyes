@@ -70,9 +70,7 @@ return;
 }
 if(id==="volM"||id==="volF")return;
 if(id.startsWith("act_")){
-const type=id.slice(4);
-const pre=type==="gather"?[]:G.survivors.filter(s=>!s.task&&!s.hungry).slice(0,1);
-picker={type,set:new Set(pre)};
+picker={type:id.slice(4),set:new Set()};
 return;
 }
 if(id.startsWith("pick_")){
@@ -80,7 +78,7 @@ const rest=id.slice(5);
 if(rest==="go"){
 if(picker.set.size>0){
 for(const s of picker.set)if(s.task)s.task=null;
-assign(sel,picker.type==="gather"?"gather":picker.type,[...picker.set]);
+assign(sel,picker.type,[...picker.set]);
 picker=null;
 }
 return;
