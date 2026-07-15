@@ -59,12 +59,48 @@ softens it by 1). So the first tile of any tier is the hardest
   tier 2, clear grants G.pr +1, shown in HUD when >0; prestige spend
   deferred). User will name both later.
 - DARK BLINK (user 07-13, CORRECTED 07-14): blink = the ATTACK
-  signal ONLY. Darkness does not attack until tier 3 (Phase 2), so
-  NO tile blinks yet; frontier/unclaimed dark tiles render STATIC
-  (faint stamp + strength pips). Applying blink to every dark tile
-  was wrong (made the tier-0 mystery look attacked). Reserved for
-  Phase-2 owned-tiles-under-attack: hard alpha toggle, period
-  shrinks as the tile's light HP drops (lower HP = faster blink).
+  signal ONLY. Frontier/unclaimed dark tiles render STATIC (faint
+  stamp + strength pips). See ATTACK LAYER for the attack blink.
+
+### ATTACK LAYER — Phase 2 v1 BUILT (07-14)
+Hostile darkness. TIERS UNCAPPED: tierOf now returns real ring
+distance (0-4 on the 6x6; was capped at 2). DARK_TIER=[1,2,3,4,5]
+so deeper = stronger (tier 3 = str 4, tier 4 corners = str 5). Tier
+3 = attacks begin; tier 4 corners = future prestige spot. Growing
+to tiers 5-8 = bigger grid later.
+- TRIGGER (user "attacks ONLY after tier 3"): G.attackOn latches
+  true the moment the player owns ANY tier-3 tile. Before that
+  (tiers 0-2 play) zero attacks = calm expansion. Reaching tier 3
+  on the 6x6 is deep, so attacks naturally start once established.
+- ATTACK: owned tiles carry atk 0..1. A targeted tile's atk rises
+  1/ATTACK_SECS per sec (ATTACK_SECS=20). At atk>=1 the tile
+  REVERTS TO DARK (user "after ~20s attacked, unclaim entirely"):
+  production stops, must re-extinguish to reclaim, and it stops
+  being an owned neighbor so adjacent tiles get slightly harder
+  (loss cascades). "TAKEN" float on flip.
+- TARGETING: one attack at a time (v1, gentle). ~ATTACK_EVERY=15s
+  after the last resolves, darkness picks the OUTERMOST owned
+  frontier tile (owned + adjacent to dark) and starts attacking.
+  Scaling to multiple simultaneous / creep-inward = later.
+- DEFEND: select an attacked tile -> DEFEND -> assign survivors
+  (reuses extinguish verb, no crew cap). While >=1 defender is
+  present atk falls (DEFEND_SECS=8 at 1 body, faster with more);
+  atk 0 = secured, survivors freed. PULL BACK retreats (atk
+  resumes). V1 SIMPLIFICATION: defense needs only a body, no
+  power-vs-strength or death yet (extinguish claim still has both).
+- ATTACK BLINK: attacked owned tile flashes RED (re-stamp danger
+  tile) on a period that SHRINKS as atk rises (0.9s -> 0.3s), so a
+  tile about to be taken flickers fast. This is where the blink
+  the user asked for actually lives now.
+- PICKER CLARITY (user 07-14): survivor rows show current job;
+  BUSY gatherers show their task in their own color (so you see
+  "REED IG-R" before pulling them); idle = MID "IDLE"; locked
+  (extinguishing/defending) = dimmed + unselectable (PULL BACK
+  first). statusOf: gather->IG-R/FOOD, extinguish->EXTINGUISHING
+  (dark) / DEFENDING (owned).
+- OPEN: run-end when darkness reaches/takes the origin core (can be
+  attacked once it's the last frontier); death-while-defending;
+  attack scaling. All user calls once this feels right.
 - Survivors: start 2, cap 6, power field, found at CAMPFIRE tiles
   (rescue on clear). Mystery origin tile = the first-extinguish
   tutorial (strength 1, auto-claims, opens tier 1). Material/food

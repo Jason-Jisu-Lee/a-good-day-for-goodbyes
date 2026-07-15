@@ -8,7 +8,8 @@ function statusOf(s){
 if(s.hungry)return "HUNGRY";
 if(!s.task)return "IDLE";
 if(G.t<s.arriveAt)return "WALKING";
-if(s.task.type==="gather")return s.task.tile.kind==="grocery"?"FOOD":"MATERIALS";
+if(s.task.type==="gather")return s.task.tile.kind==="grocery"?"FOOD":"IG-R";
+if(s.task.type==="extinguish")return s.task.tile.state==="owned"?"DEFENDING":"EXTINGUISHING";
 return s.task.type.toUpperCase()+"ING";
 }
 function recruit(t){

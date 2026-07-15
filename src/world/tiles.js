@@ -12,6 +12,10 @@ return;
 if(t.kind==="house"){stampTile(x,y);if(!stampHouse(x,y))text7("HOUSE",x,y-3,1,"c");}
 else if(t.kind==="house2"){stampTile(x,y);if(!stampApt(x,y))text7("APT",x,y-3,1,"c");}
 else{stampTile(x,y);const lb=KIND_LABEL[t.kind];if(lb)text7(lb,x,y-3,1,"c");}
+if(t.atk>0){
+const period=0.9-0.6*Math.min(t.atk,1);
+if((performance.now()/1000)%period<period*0.5)stampTile(x,y,true);
+}
 }
 function drawTiles(){
 const l=L();

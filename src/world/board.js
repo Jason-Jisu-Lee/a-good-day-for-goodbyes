@@ -10,14 +10,14 @@ function isOrigin(t){return t.gx>=OB0&&t.gx<=OB1&&t.gy>=OB0&&t.gy<=OB1;}
 function tierOf(t){
 const dx=t.gx<OB0?OB0-t.gx:(t.gx>OB1?t.gx-OB1:0);
 const dy=t.gy<OB0?OB0-t.gy:(t.gy>OB1?t.gy-OB1:0);
-const m=dx+dy;
-return m<=0?0:(m===1?1:2);
+return dx+dy;
 }
 function revealedT(t){return t.state==="owned";}
 function ownedAdjacent(t){for(const o of G.tiles){if(o.state!=="owned")continue;if(Math.abs(o.gx-t.gx)+Math.abs(o.gy-t.gy)===1)return true;}return false;}
 function drawnTile(t){return t.state==="owned"||isOrigin(t)||(G.opened&&ownedAdjacent(t));}
 function visibleTile(t){return drawnTile(t);}
 function extinguishable(t){return t.state!=="owned"&&drawnTile(t)&&ownedAdjacent(t);}
+function frontierT(t){if(t.state!=="owned")return false;for(const o of G.tiles){if(o.state==="owned")continue;if(Math.abs(o.gx-t.gx)+Math.abs(o.gy-t.gy)===1)return true;}return false;}
 function tileAt(mx,my){
 const d=DXY();
 for(const t of G.tiles){

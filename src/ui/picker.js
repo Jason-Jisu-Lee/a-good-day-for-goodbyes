@@ -15,11 +15,12 @@ if(hover===id)px(l.pnX+8,y-4,l.pnW-16,44,"#141414");
 edgeR(l.pnX+16,y+8,14,14,lk?DIM:(on?FG:MID));
 if(on&&!lk){px(l.pnX+19,y+11,8,8,FG);}
 text7(s.name,l.pnX+42,y+6,1,null,lk?DIM:FG);
-text7(statusOf(s),l.pnX+42,y+20,1,null,lk?DIM:MID);
+text7(statusOf(s),l.pnX+42,y+20,1,null,lk?DIM:(s.task?s.col:MID));
 y+=48;
 }
 const n=picker.set.size;
 if(picker.type==="gather"){text7("+"+genPM(n)+"/MIN",l.pnX+16,y,2);y+=30;}
+else if(sel.state==="owned"){if(n>0)text7(n+" DEFENDING",l.pnX+16,y,2);y+=30;}
 else if(n>0){
 let p=0;for(const s of picker.set)p+=s.power||SURV_POWER;
 const eff=darkEff(sel),risk=p<eff;
