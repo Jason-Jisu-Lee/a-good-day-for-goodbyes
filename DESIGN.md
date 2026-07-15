@@ -58,12 +58,13 @@ softens it by 1). So the first tile of any tier is the hardest
   internally). Prestige resource tile = "P-R" (new kind "pr", 2 in
   tier 2, clear grants G.pr +1, shown in HUD when >0; prestige spend
   deferred). User will name both later.
-- DARK BLINK (user 07-13): every visible dark tile pulses (hard
-  alpha toggle 0.6/0.15, per-frame via performance.now). Blink
-  period = 0.3*strength+0.25s, so LOWER strength = FASTER blink
-  (weak/softened tiles flicker, strong tiles pulse slow). Same
-  animation will drive Phase-2 owned-tiles-under-attack (blink by
-  remaining light HP).
+- DARK BLINK (user 07-13, CORRECTED 07-14): blink = the ATTACK
+  signal ONLY. Darkness does not attack until tier 3 (Phase 2), so
+  NO tile blinks yet; frontier/unclaimed dark tiles render STATIC
+  (faint stamp + strength pips). Applying blink to every dark tile
+  was wrong (made the tier-0 mystery look attacked). Reserved for
+  Phase-2 owned-tiles-under-attack: hard alpha toggle, period
+  shrinks as the tile's light HP drops (lower HP = faster blink).
 - Survivors: start 2, cap 6, power field, found at CAMPFIRE tiles
   (rescue on clear). Mystery origin tile = the first-extinguish
   tutorial (strength 1, auto-claims, opens tier 1). Material/food

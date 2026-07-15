@@ -1,15 +1,12 @@
 function drawTileVisual(t,x,y){
 if(t.state!=="owned"){
-const hp=darkEff(t);
-const period=0.3*hp+0.25;
-const on=(performance.now()/1000)%period<period*0.5;
-cx.globalAlpha=on?0.6:0.15;
+cx.globalAlpha=0.4;
 stampTile(x,y);
-const s=Math.min(hp,8);
+cx.globalAlpha=1;
+const s=Math.min(darkEff(t),8);
 const pip=3,gap=2,tot=s*pip+(s-1)*gap;
 let px0=x-tot/2;
 for(let i=0;i<s;i++){px(px0,y-1.5,pip,pip,FG);px0+=pip+gap;}
-cx.globalAlpha=1;
 return;
 }
 if(t.kind==="house"){stampTile(x,y);if(!stampHouse(x,y))text7("HOUSE",x,y-3,1,"c");}
