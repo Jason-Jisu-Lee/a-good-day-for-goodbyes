@@ -68,10 +68,12 @@ distance (0-4 on the 6x6; was capped at 2). DARK_TIER=[1,2,3,4,5]
 so deeper = stronger (tier 3 = str 4, tier 4 corners = str 5). Tier
 3 = attacks begin; tier 4 corners = future prestige spot. Growing
 to tiers 5-8 = bigger grid later.
-- TRIGGER (user "attacks ONLY after tier 3"): G.attackOn latches
-  true the moment the player owns ANY tier-3 tile. Before that
-  (tiers 0-2 play) zero attacks = calm expansion. Reaching tier 3
-  on the 6x6 is deep, so attacks naturally start once established.
+- TRIGGER (user 07-14 REVISED to tier 1): ONLY tier 0 is safe.
+  When the player claims their FIRST tier-1 tile, a 40-50s grace
+  (ARM_MIN/ARM_MAX, rolled once) starts; when it elapses
+  G.attackOn latches true. Silent (no countdown UI). Tier-0 tiles
+  are NEVER targeted (spawner excludes tier 0), so the origin core
+  can't fall = darkness eats inward but stops at tier 0.
 - ATTACK: owned tiles carry atk 0..1. A targeted tile's atk rises
   1/ATTACK_SECS per sec (ATTACK_SECS=20). At atk>=1 the tile
   REVERTS TO DARK (user "after ~20s attacked, unclaim entirely"):
@@ -98,9 +100,9 @@ to tiers 5-8 = bigger grid later.
   (extinguishing/defending) = dimmed + unselectable (PULL BACK
   first). statusOf: gather->IG-R/FOOD, extinguish->EXTINGUISHING
   (dark) / DEFENDING (owned).
-- OPEN: run-end when darkness reaches/takes the origin core (can be
-  attacked once it's the last frontier); death-while-defending;
-  attack scaling. All user calls once this feels right.
+- OPEN: run-end trigger (core is now safe, so NOT core-fall; TBD);
+  death-while-defending; attack scaling (multiple at once, creep
+  inward). All user calls once this feels right.
 - Survivors: start 2, cap 6, power field, found at CAMPFIRE tiles
   (rescue on clear). Mystery origin tile = the first-extinguish
   tutorial (strength 1, auto-claims, opens tier 1). Material/food

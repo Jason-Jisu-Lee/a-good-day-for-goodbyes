@@ -29,14 +29,17 @@ spawnFloat(p.x,p.y-d.hh-4,"+1");
 }
 }
 }
-if(!G.attackOn&&G.tiles.some(t=>t.state==="owned"&&tierOf(t)>=ATTACK_TIER))G.attackOn=true;
+if(!G.attackOn){
+if(G.armT<0){if(G.tiles.some(t=>t.state==="owned"&&tierOf(t)>=ATTACK_TIER))G.armT=ARM_MIN+Math.random()*(ARM_MAX-ARM_MIN);}
+else{G.armT-=dt;if(G.armT<=0)G.attackOn=true;}
+}
 if(G.attackOn){
 if(G.tiles.some(t=>t.atk>0))G.atkTimer=ATTACK_EVERY;
 else{
 G.atkTimer=(G.atkTimer||0)-dt;
 if(G.atkTimer<=0){
 G.atkTimer=ATTACK_EVERY;
-const cands=G.tiles.filter(t=>t.state==="owned"&&!(t.atk>0)&&frontierT(t));
+const cands=G.tiles.filter(t=>t.state==="owned"&&!(t.atk>0)&&tierOf(t)>=1&&frontierT(t));
 if(cands.length){cands.sort((a,b)=>tierOf(b)-tierOf(a));cands[0].atk=0.001;}
 }
 }
