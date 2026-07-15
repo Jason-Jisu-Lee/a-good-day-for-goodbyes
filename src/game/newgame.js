@@ -6,7 +6,7 @@ const bag1=["scrap","grocery","house2","camp","item","lot","lot","lot"];
 if(Math.random()<0.5)bag1[6]="camp";
 shuffle(bag1);
 let b1=0;
-const bag2=["scrap","scrap","scrap","grocery","grocery","camp","camp","cache","cache","cache"];
+const bag2=["scrap","scrap","scrap","grocery","grocery","camp","camp","cache","pr","pr"];
 while(bag2.length<24)bag2.push("lot");
 shuffle(bag2);
 let b2=0;
@@ -27,6 +27,6 @@ const survivors=[
 {name:"MARA",face:0,col:SURV_COLS[0],x:0,y:0,task:null,arriveAt:0,eatT:EAT_EVERY*0.6,hungry:false,power:SURV_POWER},
 {name:"REED",face:1,col:SURV_COLS[1],x:0,y:0,task:null,arriveAt:0,eatT:EAT_EVERY,hungry:false,power:SURV_POWER}
 ];
-G={v:5,t:0,day:1,dayT:0,food:START_FOOD,mats:0,matsSeen:false,opened:false,tiles,survivors,names:shuffle(NAME_BAG.slice()),faces:[2,3,4]};
+G={v:5,t:0,day:1,dayT:0,food:START_FOOD,mats:0,pr:0,matsSeen:false,opened:false,tiles,survivors,names:shuffle(NAME_BAG.slice()),faces:[2,3,4]};
 for(let i=0;i<G.survivors.length;i++){const sp=idleSpot(G.survivors[i],i);G.survivors[i].x=sp.x;G.survivors[i].y=sp.y;}
 }

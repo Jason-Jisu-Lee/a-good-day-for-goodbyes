@@ -53,6 +53,17 @@ softens it by 1). So the first tile of any tier is the hardest
 - FOUND ITEM: a BROKEN TOOL tile in tier 1; clearing it makes a
   survivor power 2 (teaches "items add power"; per-survivor equip +
   divide-the-crew strategy comes later).
+- RESOURCE NAMES (user 07-13, PLACEHOLDERS): in-game resource tile +
+  counter = "IG-R" (was scrap/materials; kind id still "scrap"
+  internally). Prestige resource tile = "P-R" (new kind "pr", 2 in
+  tier 2, clear grants G.pr +1, shown in HUD when >0; prestige spend
+  deferred). User will name both later.
+- DARK BLINK (user 07-13): every visible dark tile pulses (hard
+  alpha toggle 0.6/0.15, per-frame via performance.now). Blink
+  period = 0.3*strength+0.25s, so LOWER strength = FASTER blink
+  (weak/softened tiles flicker, strong tiles pulse slow). Same
+  animation will drive Phase-2 owned-tiles-under-attack (blink by
+  remaining light HP).
 - Survivors: start 2, cap 6, power field, found at CAMPFIRE tiles
   (rescue on clear). Mystery origin tile = the first-extinguish
   tutorial (strength 1, auto-claims, opens tier 1). Material/food

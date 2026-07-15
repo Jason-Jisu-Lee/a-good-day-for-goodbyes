@@ -24,7 +24,8 @@ text7("+"+inc+"/MIN",16,l.hud+22,1,null,MID);
 text7("-"+expn+"/MIN",16,l.hud+36,1,null,MID);
 if(hover==="inc")tip(16,l.hud+52,srcs.length?srcs:["0 X "+GEN_PM+"/MIN"]);
 if(hover==="exp")tip(16,l.hud+52,[G.survivors.length+" X "+(60/EAT_EVERY)+"/MIN"]);
-if(G.matsSeen||G.mats>0)text7("MATERIALS "+Math.floor(G.mats),160,l.hud,2);
+if(G.matsSeen||G.mats>0)text7("IG-R "+Math.floor(G.mats),160,l.hud,2);
+if(G.pr>0)text7("P-R "+G.pr,300,l.hud,2);
 text7("SURVIVORS "+G.survivors.length+"/6",160,l.hud+22,1,null,MID);
 text7("DAY "+G.day,16,H-24,1,null,MID);
 }
