@@ -20,8 +20,8 @@ if(t.action==="extinguish"){
 const c=crew(t);
 text7(c.map(s=>s.name).join(" "),l.pnX+16,y,1,null,MID);y+=16;
 if(dark){
-const p=crewPower(t),eff=darkEff(t);
-text7("PWR "+p+" / STR "+eff,l.pnX+16,y,1,null,p>0&&p<eff?DANGER:MID);y+=16;
+const p=crewPower(t),eff=darkEff(t),pct=Math.round(deathPct(tierOf(t),p)*100);
+text7("PWR "+p+(pct>0?"   "+pct+"% DEATH":""),l.pnX+16,y,1,null,pct>0?DANGER:MID);y+=16;
 if(p>0){const rem=Math.ceil((1-t.progress)*eff*EXT_SECS/p);text7(rem+"S LEFT",l.pnX+16,y,1,null,MID);}
 }else{
 const n=arrived(t).length;

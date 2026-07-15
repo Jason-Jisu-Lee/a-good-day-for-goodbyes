@@ -23,9 +23,9 @@ if(picker.type==="gather"){text7("+"+genPM(n)+"/MIN",l.pnX+16,y,2);y+=30;}
 else if(sel.state==="owned"){if(n>0)text7(n+" DEFENDING",l.pnX+16,y,2);y+=30;}
 else if(n>0){
 let p=0;for(const s of picker.set)p+=s.power||SURV_POWER;
-const eff=darkEff(sel),risk=p<eff;
-text7("PWR "+p+" / STR "+eff,l.pnX+16,y,2,null,risk?DANGER:FG);
-text7(Math.ceil(eff*EXT_SECS/p)+"S"+(risk?"   DEATH RISK":(p===eff?"   AT RISK":"")),l.pnX+16,y+22,1,null,risk?DANGER:MID);
+const eff=darkEff(sel),pct=Math.round(deathPct(tierOf(sel),p)*100);
+text7("PWR "+p+"   "+Math.ceil(eff*EXT_SECS/p)+"S",l.pnX+16,y,2,null,pct>0?DANGER:FG);
+text7(pct>0?pct+"% DEATH RISK":"SAFE",l.pnX+16,y+22,1,null,pct>0?DANGER:MID);
 y+=48;
 }else y+=30;
 btn("pick_go","START",l.pnX+16,y,80,n>0);

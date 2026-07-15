@@ -1,5 +1,6 @@
+function persistPR(){if(!G||!G.pr)return;try{const m=(parseInt(localStorage.getItem("goodbyes_pr")||"0",10)||0)+G.pr;localStorage.setItem("goodbyes_pr",String(m));}catch(e){}}
 function save(){
-if(saveGag||!G)return;
+if(saveGag||!G||overT>=0)return;
 const data={v:5,t:G.t,day:G.day,dayT:G.dayT,food:G.food,mats:G.mats,pr:G.pr||0,matsSeen:G.matsSeen,opened:G.opened,attackOn:!!G.attackOn,armT:G.armT,atkTimer:G.atkTimer||0,names:G.names,faces:G.faces,
 tiles:G.tiles.map(t=>({gx:t.gx,gy:t.gy,kind:t.kind,state:t.state,dark:t.dark||0,atk:t.atk||0,progress:t.progress,action:t.action})),
 survivors:G.survivors.map(s=>({name:s.name,face:s.face,col:s.col,x:Math.round(s.x),y:Math.round(s.y),eatT:s.eatT,hungry:s.hungry,power:s.power||SURV_POWER,

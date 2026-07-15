@@ -44,12 +44,23 @@ softens it by 1). So the first tile of any tier is the hardest
   time = darkEff*EXT_SECS/power (EXT_SECS=4). Finish -> owned +
   reveal kind + kind effect. Picker shows PWR n / STR m + seconds +
   risk warning; no crew cap (unlike GATHER's 1 slot).
-- DEATH: when power <= effective strength (tier>0 only; tier 0 =
-  tutorial, death-free), each working survivor rolls
-  DEATH_RATE*(strength-power+1) per second. A survivor can fall
-  mid-job; the rest keep going. Verified: pwr2 vs str3 kills someone
-  ~43% of runs, still clears ~84%. PULL BACK aborts and retreats
-  (progress retained), so death is always a chosen risk.
+- DEATH = PERCENTAGE (user 07-14, was per-tick): each survivor on
+  the task independently rolls a fixed % ONCE at completion.
+  deathPct = clamp((darkBase(tier)-power+1)*DEATH_STEP, 0, DEATH_CAP)
+  = 20% per point you are under the tier's BASE strength, cap 80%,
+  0% if power>base. CONSISTENT PER TIER: uses darkBase NOT darkEff,
+  so surrounding a tile (fewer lit neighbors) never changes death %
+  (user: "don't make it harder due to no lit tiles"). Softening now
+  affects SPEED only. Tier 0 death-free (tutorial). Shown in picker
+  ("N% DEATH RISK" / "SAFE") and panel. If some survive -> tile
+  claimed; if ALL assigned die -> task CANCELED (tile stays dark).
+  PULL BACK still retreats pre-completion.
+- GAME OVER (user 07-14): when the LAST survivor anywhere dies,
+  "GAME OVER" fades in over the dying town (overT ramp), then after
+  OVER_DUR=3s returns to main menu. P-R PERSISTS: on death the
+  run's G.pr is banked to localStorage "goodbyes_pr" (persistPR)
+  for the future shop; the run save is wiped. No autosave during
+  the game-over fade. Menu shows NEW GAME.
 - FOUND ITEM: a BROKEN TOOL tile in tier 1; clearing it makes a
   survivor power 2 (teaches "items add power"; per-survivor equip +
   divide-the-crew strategy comes later).
