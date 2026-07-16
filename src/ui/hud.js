@@ -8,24 +8,29 @@ for(let i=0;i<lines.length;i++)text7(lines[i],x+6,y+5+i*14,1);
 function drawHUD(){
 const l=L();
 text7("FOOD "+Math.floor(G.food),16,l.hud,2);
-let inc=0;
-const tally={};
+let nf=0,nm=0;
 for(const t of G.tiles){
-if(t.state==="owned"&&t.kind==="grocery"&&!t.action){
-const r=genPM(arrived(t).length);
-inc+=r;tally[r]=(tally[r]||0)+1;
+if(t.state!=="owned")continue;
+if(t.kind==="grocery")nf++;
+else if(t.kind==="scrap")nm++;
 }
-}
-const srcs=Object.keys(tally).sort((a,b)=>a-b).map(r=>tally[r]+" X "+r+"/MIN");
-const expn=G.survivors.length*(60/EAT_EVERY);
+const inc=nf*FOOD_PER_TILE;
+const expn=G.survivors.length*FOOD_PER_SURV;
 uiButtons.push({id:"inc",x:14,y:l.hud+20,w:96,h:13,en:true});
 uiButtons.push({id:"exp",x:14,y:l.hud+34,w:96,h:13,en:true});
-text7("+"+inc+"/MIN",16,l.hud+22,1,null,MID);
-text7("-"+expn+"/MIN",16,l.hud+36,1,null,MID);
-if(hover==="inc")tip(16,l.hud+52,srcs.length?srcs:["0 X "+GEN_PM+"/MIN"]);
-if(hover==="exp")tip(16,l.hud+52,[G.survivors.length+" X "+(60/EAT_EVERY)+"/MIN"]);
-if(G.matsSeen||G.mats>0)text7("IG-R "+Math.floor(G.mats),160,l.hud,2);
-if(G.pr>0)text7("P-R "+G.pr,300,l.hud,2);
-text7("SURVIVORS "+G.survivors.length+"/6",160,l.hud+22,1,null,MID);
+text7("+"+inc+"/TURN",16,l.hud+22,1,null,MID);
+text7("-"+expn+"/TURN",16,l.hud+36,1,null,MID);
+if(hover==="inc")tip(16,l.hud+52,[nf+" X "+FOOD_PER_TILE+"/TURN"]);
+if(hover==="exp")tip(16,l.hud+52,[G.survivors.length+" X "+FOOD_PER_SURV+"/TURN"]);
+if(G.matsSeen||G.mats>0){
+text7("MATERIAL "+Math.floor(G.mats),160,l.hud,2);
+uiButtons.push({id:"minc",x:158,y:l.hud+20,w:96,h:13,en:true});
+text7("+"+nm*MAT_PER_TILE+"/TURN",160,l.hud+22,1,null,MID);
+if(hover==="minc")tip(160,l.hud+38,[nm+" X "+MAT_PER_TILE+"/TURN"]);
+}
+if(G.pr>0)text7("EMBER "+G.pr,300,l.hud,2);
+const cap=G.tiles.filter(t=>t.state==="owned"&&(t.kind==="house"||t.kind==="house2")).length;
+text7("SURVIVORS "+G.survivors.length+"/"+cap,160,l.hud+36,1,null,MID);
 text7("DAY "+G.day,16,H-24,1,null,MID);
+btn("endturn","END TURN",W/2-75,H-58,150);
 }

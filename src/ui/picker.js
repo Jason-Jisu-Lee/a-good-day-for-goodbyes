@@ -1,12 +1,9 @@
 function drawPicker(y){
 const l=L();
-let hd=picker.type.toUpperCase();
-if(picker.type==="gather")hd+=" "+picker.set.size+"/"+GATHER_SLOTS;
-text7(hd,l.pnX+16,y,1,null,MID);y+=18;
-const full=picker.type==="gather"&&picker.set.size>=GATHER_SLOTS;
+text7(picker.type==="extinguish"?(sel.state==="owned"?"DEFEND":"RECLAIM"):picker.type.toUpperCase(),l.pnX+16,y,1,null,MID);y+=18;
 for(const s of G.survivors){
 const on=picker.set.has(s);
-const lk=lockedS(s)||(full&&!on);
+const lk=lockedS(s)&&!on;
 const id="pick_"+G.survivors.indexOf(s);
 if(!lk){
 uiButtons.push({id,x:l.pnX+8,y:y-4,w:l.pnW-16,h:44,en:true});
@@ -19,12 +16,11 @@ text7(statusOf(s),l.pnX+42,y+20,1,null,lk?DIM:(s.task?s.col:MID));
 y+=48;
 }
 const n=picker.set.size;
-if(picker.type==="gather"){text7("+"+genPM(n)+"/MIN",l.pnX+16,y,2);y+=30;}
-else if(sel.state==="owned"){if(n>0)text7(n+" DEFENDING",l.pnX+16,y,2);y+=30;}
+if(sel.state==="owned"){if(n>0)text7(n+" DEFENDING",l.pnX+16,y,2);y+=30;}
 else if(n>0){
 let p=0;for(const s of picker.set)p+=s.power||SURV_POWER;
-const eff=darkEff(sel),pct=Math.round(deathPct(tierOf(sel),p)*100);
-text7("PWR "+p+"   "+Math.ceil(eff*EXT_SECS/p)+"S",l.pnX+16,y,2,null,pct>0?DANGER:FG);
+const tn=reclaimTurns(tierOf(sel)),pct=Math.round(deathPct(tierOf(sel),p)*100);
+text7("PWR "+p+"   "+tn+(tn===1?" TURN":" TURNS"),l.pnX+16,y,2,null,pct>0?DANGER:FG);
 text7(pct>0?pct+"% DEATH RISK":"SAFE",l.pnX+16,y+22,1,null,pct>0?DANGER:MID);
 y+=48;
 }else y+=30;

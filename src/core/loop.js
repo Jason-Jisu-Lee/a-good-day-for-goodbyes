@@ -16,19 +16,12 @@ const a=Math.min(1,overT/1.5);
 cx.save();cx.globalAlpha=a;
 px(0,0,W,H,BG);
 text7("GAME OVER",W/2,H/2-24,4,"c",FG);
-if(G&&G.pr>0)text7("P-R BANKED "+G.pr,W/2,H/2+18,2,"c",MID);
+if(G&&G.pr>0)text7("EMBER BANKED "+G.pr,W/2,H/2+18,2,"c",MID);
 cx.restore();
 }
 const fs=innerWidth>=screen.width-2&&innerHeight>=screen.height-2;
 if(!fs)edgeR(0,0,W,H,"#1c1c1c");
 }
-let simLast=Date.now();
-setInterval(()=>{
-const now=Date.now();
-const dt=Math.min(2,(now-simLast)/1000);
-simLast=now;
-if(mode==="game"&&G)sim(dt*ts);
-},100);
 setInterval(save,10000);
 document.addEventListener("visibilitychange",()=>{if(document.hidden)save();});
 let last=performance.now();
@@ -44,7 +37,7 @@ hoverA+=((hoverTile?1:0)-hoverA)*Math.min(1,dt*10);
 frames++;fpsT+=dt;if(fpsT>=1){fps=frames;frames=0;fpsT=0;}
 if(!dbg.hidden){
 let line="win "+innerWidth+"x"+innerHeight+" | dpr "+dpr+" | scr "+screen.width+"x"+screen.height+" | S "+S+" | k "+k.toFixed(2);
-if(G)line+=" | fps "+fps+" | day "+G.day+" | food "+G.food.toFixed(1)+" | mats "+G.mats.toFixed(1)+" | pop "+G.survivors.length+" | x"+ts;
+if(G)line+=" | fps "+fps+" | day "+G.day+" | food "+G.food+" | mats "+G.mats+" | pop "+G.survivors.length;
 document.getElementById("dbgstat").textContent=line;
 }
 draw();

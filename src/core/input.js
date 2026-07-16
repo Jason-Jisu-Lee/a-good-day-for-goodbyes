@@ -69,6 +69,7 @@ mode="menu";fade=0;fading=false;
 return;
 }
 if(id==="volM"||id==="volF")return;
+if(id==="endturn"){endTurn();return;}
 if(id.startsWith("act_")){
 picker={type:id.slice(4),set:new Set()};
 return;
@@ -87,7 +88,7 @@ if(rest==="no"){picker=null;return;}
 const s=G.survivors[parseInt(rest,10)];
 if(lockedS(s))return;
 if(picker.set.has(s))picker.set.delete(s);
-else if(!(picker.type==="gather"&&picker.set.size>=GATHER_SLOTS))picker.set.add(s);
+else picker.set.add(s);
 return;
 }
 if(id==="stop"){releaseCrew(sel);return;}

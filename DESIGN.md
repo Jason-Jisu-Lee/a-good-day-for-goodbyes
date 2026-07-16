@@ -31,6 +31,63 @@ expected; material + resident tiles core; early food bleed intended.
   close without them. The void needs a name (user names it). Told
   show-don't-tell: found-tile vignettes, no text walls.
 
+### 07-16 TURN-BASED PIVOT (user-locked; supersedes ALL real-time
+economy below)
+Game is turn-based, Rebuild-shaped. Real-time sim DEAD: no /min,
+no /sec, no wall-clock timers, no real-time progress bars. DAY =
+turn counter; END TURN button (bottom-center) resolves everything.
+- Economy per END TURN: each owned FOOD tile +2, each owned
+  MATERIAL tile +1 (passive, no stationing; GATHER verb + slots
+  REMOVED), each survivor eats 3. Numbers user-locked.
+- RECLAIM = fixed turns per tier (T1=1 T2=2 T3=3), any crew size;
+  power only affects death roll on the finishing turn (tier<=1
+  safe as locked). PULL BACK resets progress. Tile shows "NT"
+  remaining while worked.
+- ATTACKS (turn-scale, Claude placeholder numbers, NEED TUNING):
+  arm 3 turns after first tier-1 claim, one attack per 3 turns on
+  highest-tier owned frontier tile; attacked tile = dimmed + red
+  stamp + "FALLS NEXT TURN"; any defender assigned by next END
+  TURN repels it ("HELD"), else tile lost ("TAKEN").
+- Hunger/eat timers DEAD. Starvation OPEN: food floors at 0 with
+  no penalty yet; user must pick a rule.
+- Balance flag (watch-equilibrium): start = +2/-6 = net -4/turn,
+  10 food = 3 turns of grace; tier-1 holds 1 food tile (+2 =
+  net -2). Deliberately tight or needs retune; user verdict
+  pending after playtest.
+- Save v6 (v5 saves discarded -> NEW GAME). Survivor walk stays
+  as pure visual. Verified: 26-check node turn test ALL PASS +
+  #game screenshot.
+
+### 07-15 SESSION LOCKS (branch v.3)
+- VERB = RECLAIM (user-locked, replaces EXTINGUISH everywhere
+  player-facing; code keeps extinguish internally). Status
+  RECLAIMING; defend stays DEFEND/DEFENDING.
+- Survivor death by darkness = "CONSUMED" (float text, was LOST).
+- Tier 1 = ZERO death risk reclaiming (deathPct 0 for tier<=1);
+  danger starts tier 2.
+- Currency placeholders: MATERIAL (in-run, was IG-R/SCRAP) +
+  EMBER (banked, was P-R). User named.
+- Tier-1 bag fixed: 1 camp + 1 food + 2 material + 2 item + 2 lot.
+- Mystery origin tile always resolves to MATERIAL tile.
+- HUD survivors = current/housing-cap (owned house+apt count),
+  total roster hidden. OPEN: camp recruit can exceed cap (3/2);
+  housing gate undecided.
+- Attack visual: tile brightness dims with atk progress + DANGER
+  bar above tile = time to loss (blink/flash dead). Reclaimable
+  dark tile = faint outline only, strength pips REMOVED.
+- Darkness intensity concept: DENSITY direction liked but "not
+  intuitive enough" — unresolved; NO number, NO "strength" word.
+  Encode-in-rendering (tile erosion) proposed, needs user eyes.
+- FEED mechanism direction (dark = hungry, bargain/sate) +
+  RAID risk/reward direction both liked; light/connection
+  mechanics REJECTED ("boring puzzle game", "not a cool darkness
+  game"). Feed materials brainstormed: deuterium/isotopes/
+  antimatter/magnetite/phosphor (scientific salvage, distinct
+  feed verbs). Nothing built yet.
+- Survivor marker rework in progress (lab_markers.html): circle
+  too plain; minimal primitives (pixel/tally/spark) rejected as
+  "absolutely nothing"; user wants FEW crafted-quality options.
+
 ### EXTINGUISH CORE — Phase 1 BUILT (07-13)
 Replaces scout/reclaim with one verb. Every unowned tile carries a
 DARKNESS STRENGTH (DARK_TIER=[1,2,3] for tiers 0/1/2, stored per
