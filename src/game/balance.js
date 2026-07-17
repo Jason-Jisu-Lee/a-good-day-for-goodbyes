@@ -10,5 +10,5 @@ function taskDays(S,n){return Math.max(1,Math.min(DAYS_CAP,effNeed(S,n)));}
 function taskRisk(S,n){const o=effNeed(S,n)-DAYS_CAP;return o>0?Math.min(RISK_CAP,Math.round(o*RISK_STEP*100)/100):0;}
 function baseDays(S){return taskDays(S,minCrew(S));}
 function crewUseful(S,n){return n<minCrew(S)||taskRisk(S,n)>0||taskDays(S,n)>1;}
-function attackStrength(day){return day<8?1:Math.min(5,Math.floor((day-8)/4)+2);}
+function attackStrength(day){return day<8?1:Math.floor((day-8)/4)+2;}
 function atkGap(n){return rollRange(n<=1?ATK_SECOND:ATK_REST);}

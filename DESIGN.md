@@ -58,6 +58,29 @@ turn counter; END TURN button (bottom-center) resolves everything.
   as pure visual. Verified: 26-check node turn test ALL PASS +
   #game screenshot.
 
+### 07-17 UNIFIED SURVIVOR-DAY MATH (user-locked)
+One rule for tiles + attacks: need = strength - crew + 1 survivor-
+days, shifted by (consumed-1) at high strength; days = need capped
+at 3; each day past the cap = +33% risk (33/66/99). CONSUMED
+count: strength 4-5 = 1 survivor, 6-7 = 2, 8-9 = 3 (floor((S-2)/2),
+auto-extends). MIN CREW = consumed count; below it = NOT POSSIBLE
+(picker gates START). Risk = ONE roll for the group at completion,
+takes exactly the consumed count at random; if the whole crew is
+consumed the job fails. T6@2crew = 33% lose-both gamble = INTENDED
+(user confirmed). Tiers 1-3 risk-free = intended pacing brake (day
+cost delays expansion; post-prestige bonuses speed it later).
+- ATTACKS: first day 5-7, second +5-6, third+ +4-7. Strength by
+  ARRIVAL DAY (not count): d5-7=1, 8-11=2, 12-15=3, 16-19=4,
+  20-23=5, UNCAPPED beyond (grows +1 per 4 days forever; late
+  attacks outpace bare crews = prestige pressure). Defense = same
+  ladder, multi-day; tile holds while defended; abandoned/lost
+  roll = TAKEN.
+- FUTURE (user, not built): tools/items/prestige grant "+1
+  survivor worth" of strength, likely light-themed pending story;
+  effective crew = survivors + gear.
+- 6x6 board tops at tier 4 corners; tier 6+ math live but waits
+  for grid growth. Save v8.
+
 ### 07-15 SESSION LOCKS (branch v.3)
 - VERB = RECLAIM (user-locked, replaces EXTINGUISH everywhere
   player-facing; code keeps extinguish internally). Status
