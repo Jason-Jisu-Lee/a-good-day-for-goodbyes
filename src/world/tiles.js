@@ -20,7 +20,7 @@ if(!drawnTile(t))continue;
 const p=tpos(t);
 const lift=t===hoverTile?hoverA*3*Math.max(l.sc,0.5):0;
 drawTileVisual(t,p.x,p.y-lift);
-if(t.action&&t.state!=="owned"){
+if(t.action&&t.turnsLeft>0&&(t.state!=="owned"||t.atk)){
 const d=DXY();
 text7(t.turnsLeft+"D",p.x,p.y-d.hh-12,1,"c",FG);
 }

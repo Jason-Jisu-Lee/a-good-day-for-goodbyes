@@ -10,7 +10,7 @@ while(bag2.length<24)bag2.push("lot");
 shuffle(bag2);
 let b2=0;
 for(let gy=0;gy<GRID;gy++)for(let gx=0;gx<GRID;gx++){
-const t={gx,gy,kind:"lot",state:"dark",turnsLeft:0,action:null,atk:false};
+const t={gx,gy,kind:"lot",state:"dark",turnsLeft:0,action:null,atk:false,atkS:0};
 const tier=tierOf(t);
 if(tier===0){
 t.kind=originKinds[oi++];
@@ -19,13 +19,13 @@ else t.state="owned";
 }else{
 t.kind=tier===1?bag1[b1++]:bag2[b2++%bag2.length];
 }
-if(t.state!=="owned")t.turnsLeft=reclaimTurns(tier);
+if(t.state!=="owned")t.turnsLeft=taskDays(Math.max(1,tier),1);
 tiles.push(t);
 }
 const survivors=[
 {name:"MARA",face:0,col:SURV_COLS[0],x:0,y:0,task:null},
 {name:"REED",face:1,col:SURV_COLS[1],x:0,y:0,task:null}
 ];
-G={v:7,day:1,food:START_FOOD,mats:0,pr:0,matsSeen:false,opened:false,atkDay:ATK_DAY_MIN+Math.floor(Math.random()*(ATK_DAY_MAX-ATK_DAY_MIN+1)),atkT:0,tiles,survivors,names:shuffle(NAME_BAG.slice()),faces:[2,3,4]};
+G={v:8,day:1,food:START_FOOD,mats:0,pr:0,matsSeen:false,opened:false,atkN:0,nextAtk:rollRange(ATK_FIRST),tiles,survivors,names:shuffle(NAME_BAG.slice()),faces:[2,3,4]};
 for(let i=0;i<G.survivors.length;i++){const sp=idleSpot(G.survivors[i],i);G.survivors[i].x=sp.x;G.survivors[i].y=sp.y;}
 }

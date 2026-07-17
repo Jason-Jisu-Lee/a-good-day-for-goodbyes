@@ -1,7 +1,8 @@
 function drawPicker(y){
 const l=L();
 text7(picker.type==="extinguish"?(sel.state==="owned"?"DEFEND":"RECLAIM"):picker.type.toUpperCase(),l.pnX+16,y,1,null,MID);y+=18;
-const capped=sel.state==="owned"?picker.set.size>=1:!crewUseful(tierOf(sel),picker.set.size);
+const S=sel.state==="owned"?sel.atkS:tileStrength(sel);
+const capped=!crewUseful(S,picker.set.size);
 for(const s of G.survivors){
 const on=picker.set.has(s);
 const lk=(lockedS(s)||capped)&&!on;
@@ -17,9 +18,8 @@ text7(statusOf(s),l.pnX+42,y+20,1,null,lk?DIM:(s.task?s.col:MID));
 y+=48;
 }
 const n=picker.set.size;
-if(sel.state==="owned"){if(n>0)text7("DEFENDING",l.pnX+16,y,2);y+=30;}
-else if(n>0){
-const tn=reclaimTurns(tierOf(sel),n),pct=Math.round(deathPct(tierOf(sel),n)*100);
+if(n>0){
+const tn=taskDays(S,n),pct=Math.round(taskRisk(S,n)*100);
 text7(tn+(tn===1?" DAY":" DAYS"),l.pnX+16,y,2,null,pct>0?DANGER:FG);
 if(pct>0)text7(pct+"% RISK",l.pnX+16,y+22,1,null,DANGER);
 y+=48;

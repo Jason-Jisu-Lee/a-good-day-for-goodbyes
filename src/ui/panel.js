@@ -12,7 +12,7 @@ edgeR(l.pnX,l.pnY,l.pnW,l.pnH,DIM);
 const dark=t.state!=="owned";
 const atk=!!t.atk;
 text7(dark?"DARKNESS":(atk?"UNDER ATTACK":KIND_NAME[t.kind]),l.pnX+16,l.pnY+14,2,null,atk?DANGER:FG);
-const tn0=reclaimTurns(tierOf(t));
+const tn0=taskDays(tileStrength(t),1);
 let status=dark?tn0+(tn0===1?" DAY":" DAYS"):(atk?"FALLS NEXT DAY":"");
 if(t.action==="extinguish")status=dark?"RECLAIMING":"DEFENDING";
 if(!dark&&!atk&&t.kind==="grocery")status="+"+FOOD_PER_TILE+"/DAY";
@@ -22,8 +22,9 @@ let y=l.pnY+60;
 if(t.action==="extinguish"){
 const c=crew(t);
 text7(c.map(s=>s.name).join(" "),l.pnX+16,y,1,null,MID);y+=16;
-if(dark){
-const pct=Math.round(deathPct(tierOf(t),crew(t).length)*100);
+const S=dark?tileStrength(t):(atk?t.atkS:0);
+if(S>0){
+const pct=Math.round(taskRisk(S,c.length)*100);
 if(pct>0){text7(pct+"% RISK",l.pnX+16,y,1,null,DANGER);y+=16;}
 text7(t.turnsLeft+(t.turnsLeft===1?" DAY LEFT":" DAYS LEFT"),l.pnX+16,y,1,null,MID);
 }
