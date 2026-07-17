@@ -1,6 +1,5 @@
 function resolveReclaim(t){
-const power=crewPower(t);
-const pct=deathPct(tierOf(t),power);
+const pct=deathPct(tierOf(t),crew(t).length);
 let alive=0;
 for(const s of crew(t)){
 if(pct>0&&Math.random()<pct){killSurvivor(s);const q=tpos(t),d=DXY();spawnFloat(q.x,q.y-d.hh-4,"CONSUMED");}

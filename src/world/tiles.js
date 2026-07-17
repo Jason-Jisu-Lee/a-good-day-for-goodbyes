@@ -5,12 +5,9 @@ stampTile(x,y);
 cx.globalAlpha=1;
 return;
 }
-cx.globalAlpha=t.atk?0.45:1;
-if(t.kind==="house"){stampTile(x,y);if(!stampHouse(x,y))text7("HOUSE",x,y-3,1,"c");}
-else if(t.kind==="house2"){stampTile(x,y);if(!stampApt(x,y))text7("APT",x,y-3,1,"c");}
-else{stampTile(x,y);const lb=KIND_LABEL[t.kind];if(lb)text7(lb,x,y-3,1,"c");}
-cx.globalAlpha=1;
-if(t.atk)stampTile(x,y,true);
+if(t.kind==="house"){stampTile(x,y,t.atk);if(!stampHouse(x,y))text7("HOUSE",x,y-3,1,"c");}
+else if(t.kind==="house2"){stampTile(x,y,t.atk);if(!stampApt(x,y))text7("APT",x,y-3,1,"c");}
+else{stampTile(x,y,t.atk);const lb=KIND_LABEL[t.kind];if(lb)text7(lb,x,y-3,1,"c");}
 }
 function drawTiles(){
 const l=L();
@@ -23,7 +20,7 @@ const lift=t===hoverTile?hoverA*3*Math.max(l.sc,0.5):0;
 drawTileVisual(t,p.x,p.y-lift);
 if(t.action&&t.state!=="owned"){
 const d=DXY();
-text7(t.turnsLeft+"T",p.x,p.y-d.hh-12,1,"c",FG);
+text7(t.turnsLeft+"D",p.x,p.y-d.hh-12,1,"c",FG);
 }
 }
 }

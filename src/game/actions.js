@@ -17,6 +17,6 @@ if(t.kind==="mysteryroll")t.kind="scrap";
 if(t.kind==="camp"){t.kind="lot";recruit(t);}
 else if(t.kind==="cache"){G.mats+=10;t.kind="lot";}
 else if(t.kind==="pr"){G.pr=(G.pr||0)+1;t.kind="lot";}
-else if(t.kind==="item"){const s=c[0]||G.survivors[0];if(s)s.power=(s.power||SURV_POWER)+1;t.kind="lot";}
+else if(t.kind==="item"){G.mats+=10;t.kind="lot";}
 for(const s of c)s.task=null;
 }

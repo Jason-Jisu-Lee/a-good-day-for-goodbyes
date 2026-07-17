@@ -88,7 +88,7 @@ if(rest==="no"){picker=null;return;}
 const s=G.survivors[parseInt(rest,10)];
 if(lockedS(s))return;
 if(picker.set.has(s))picker.set.delete(s);
-else picker.set.add(s);
+else if(picker.set.size<1)picker.set.add(s);
 return;
 }
 if(id==="stop"){releaseCrew(sel);return;}

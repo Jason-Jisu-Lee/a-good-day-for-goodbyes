@@ -12,19 +12,20 @@ edgeR(l.pnX,l.pnY,l.pnW,l.pnH,DIM);
 const dark=t.state!=="owned";
 const atk=!!t.atk;
 text7(dark?"DARKNESS":(atk?"UNDER ATTACK":KIND_NAME[t.kind]),l.pnX+16,l.pnY+14,2,null,atk?DANGER:FG);
-let status=dark?reclaimTurns(tierOf(t))+" TURNS":(atk?"FALLS NEXT TURN":"");
+const tn0=reclaimTurns(tierOf(t));
+let status=dark?tn0+(tn0===1?" DAY":" DAYS"):(atk?"FALLS NEXT DAY":"");
 if(t.action==="extinguish")status=dark?"RECLAIMING":"DEFENDING";
-if(!dark&&!atk&&t.kind==="grocery")status="+"+FOOD_PER_TILE+"/TURN";
-if(!dark&&!atk&&t.kind==="scrap")status="+"+MAT_PER_TILE+"/TURN";
+if(!dark&&!atk&&t.kind==="grocery")status="+"+FOOD_PER_TILE+"/DAY";
+if(!dark&&!atk&&t.kind==="scrap")status="+"+MAT_PER_TILE+"/DAY";
 text7(status,l.pnX+16,l.pnY+40,1,null,atk&&!t.action?DANGER:MID);
 let y=l.pnY+60;
 if(t.action==="extinguish"){
 const c=crew(t);
 text7(c.map(s=>s.name).join(" "),l.pnX+16,y,1,null,MID);y+=16;
 if(dark){
-const p=crewPower(t),pct=Math.round(deathPct(tierOf(t),p)*100);
-text7("PWR "+p+(pct>0?"   "+pct+"% DEATH":""),l.pnX+16,y,1,null,pct>0?DANGER:MID);y+=16;
-text7(t.turnsLeft+(t.turnsLeft===1?" TURN LEFT":" TURNS LEFT"),l.pnX+16,y,1,null,MID);
+const pct=Math.round(deathPct(tierOf(t),crew(t).length)*100);
+if(pct>0){text7(pct+"% DEATH",l.pnX+16,y,1,null,DANGER);y+=16;}
+text7(t.turnsLeft+(t.turnsLeft===1?" DAY LEFT":" DAYS LEFT"),l.pnX+16,y,1,null,MID);
 }
 y+=22;btn("stop","PULL BACK",l.pnX+16,y,140);
 return;

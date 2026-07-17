@@ -18,19 +18,19 @@ const inc=nf*FOOD_PER_TILE;
 const expn=G.survivors.length*FOOD_PER_SURV;
 uiButtons.push({id:"inc",x:14,y:l.hud+20,w:96,h:13,en:true});
 uiButtons.push({id:"exp",x:14,y:l.hud+34,w:96,h:13,en:true});
-text7("+"+inc+"/TURN",16,l.hud+22,1,null,MID);
-text7("-"+expn+"/TURN",16,l.hud+36,1,null,MID);
-if(hover==="inc")tip(16,l.hud+52,[nf+" X "+FOOD_PER_TILE+"/TURN"]);
-if(hover==="exp")tip(16,l.hud+52,[G.survivors.length+" X "+FOOD_PER_SURV+"/TURN"]);
+text7("+"+inc+"/DAY",16,l.hud+22,1,null,FG);
+text7("-"+expn+"/DAY",16,l.hud+36,1,null,FG);
+if(hover==="inc")tip(16,l.hud+52,["FOOD TILES "+nf,nf+" X "+FOOD_PER_TILE+"/DAY"]);
+if(hover==="exp")tip(16,l.hud+52,["SURVIVORS "+G.survivors.length,G.survivors.length+" X "+FOOD_PER_SURV+"/DAY"]);
 if(G.matsSeen||G.mats>0){
 text7("MATERIAL "+Math.floor(G.mats),160,l.hud,2);
 uiButtons.push({id:"minc",x:158,y:l.hud+20,w:96,h:13,en:true});
-text7("+"+nm*MAT_PER_TILE+"/TURN",160,l.hud+22,1,null,MID);
-if(hover==="minc")tip(160,l.hud+38,[nm+" X "+MAT_PER_TILE+"/TURN"]);
+text7("+"+nm*MAT_PER_TILE+"/DAY",160,l.hud+22,1,null,FG);
+if(hover==="minc")tip(160,l.hud+38,["MATERIAL TILES "+nm,nm+" X "+MAT_PER_TILE+"/DAY"]);
 }
 if(G.pr>0)text7("EMBER "+G.pr,300,l.hud,2);
 const cap=G.tiles.filter(t=>t.state==="owned"&&(t.kind==="house"||t.kind==="house2")).length;
 text7("SURVIVORS "+G.survivors.length+"/"+cap,160,l.hud+36,1,null,MID);
 text7("DAY "+G.day,16,H-24,1,null,MID);
-btn("endturn","END TURN",W/2-75,H-58,150);
+btn("endturn","END DAY",W/2-75,H-58,150);
 }

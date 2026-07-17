@@ -1,7 +1,6 @@
 function workSpot(t,i){const p=tpos(t),l=L(),d=DXY();const off=[[0,5],[-10,2],[10,2],[0,9]][i%4];return {x:p.x+off[0]*l.sc,y:p.y+d.hh+off[1]*l.sc};}
 function idleSpot(s,i){const l=L(),d=DXY();const cx0=l.ox,cy0=l.oy+(OB0+OB1)*d.dy;const off=[[-13,3],[13,-3],[-5,-9],[5,9],[-13,-3],[13,3]][i%6];return {x:cx0+off[0]*l.sc,y:cy0+off[1]*l.sc};}
 function crew(t){return G.survivors.filter(s=>s.task&&s.task.tile===t);}
-function crewPower(t){let p=0;for(const s of crew(t))p+=s.power||SURV_POWER;return p;}
 function killSurvivor(s){const i=G.survivors.indexOf(s);if(i<0)return;s.task=null;G.survivors.splice(i,1);}
 function statusOf(s){
 if(!s.task)return "IDLE";
@@ -13,7 +12,7 @@ if(G.survivors.length>=6)return;
 const name=G.names.pop()||"ASH";
 const face=G.faces.length?G.faces.shift():1;
 const p=tpos(t),d=DXY();
-const s={name,face,col:SURV_COLS[G.survivors.length%SURV_COLS.length],x:p.x,y:p.y+d.hh+4,task:null,power:SURV_POWER};
+const s={name,face,col:SURV_COLS[G.survivors.length%SURV_COLS.length],x:p.x,y:p.y+d.hh+4,task:null};
 G.survivors.push(s);
 }
 function visual(dt){
