@@ -34,7 +34,16 @@ if(G.items&&G.items.p2>0)text7("PLACEHOLDER2 "+G.items.p2,440,l.hud+14,1,null,MI
 const cap=G.tiles.filter(t=>t.state==="owned"&&(t.kind==="house"||t.kind==="house2")).length;
 text7("SURVIVORS "+G.survivors.length+"/"+cap,160,l.hud+36,1,null,MID);
 text7("DAY "+G.day,16,H-24,1,null,MID);
-if(G.day>=G.tutDay&&!G.zoomTipSeen){
+let tb=null;
+if(G.tut===1)tb="SELECT A DARK TILE";
+else if(G.tut===2&&G.tiles.some(t=>t.action))tb="TASKS RESOLVE AT END DAY";
+else if(!G.atkTipSeen&&G.tiles.some(t=>t.atk))tb="DARKNESS ATTACKS";
+if(tb){
+const tw=tw7(tb,1)+32,bx=W/2-tw/2,by=54;
+px(bx,by,tw,44,BG);
+edgeR(bx,by,tw,44,MID);
+text7(tb,W/2,by+15,1,"c",FG);
+}else if(G.day>=G.tutDay&&!G.zoomTipSeen){
 const msg=("ontouchstart" in window)?"PINCH: ZOOM MAP":"MOUSE WHEEL: ZOOM MAP";
 const tw=tw7(msg,1)+32;
 const bx=W/2-tw/2,by=54;

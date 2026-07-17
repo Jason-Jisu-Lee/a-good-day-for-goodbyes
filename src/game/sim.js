@@ -53,6 +53,7 @@ else if(t.kind==="scrap"){G.mats+=MAT_PER_TILE;spawnFloat(p.x,p.y-d.hh-4,"+"+MAT
 }
 G.food=Math.max(0,G.food-FOOD_PER_SURV*G.survivors.length);
 if(G.mats>0&&!G.matsSeen)G.matsSeen=true;
+G.tut=0;
 G.day++;
 if(G.day>=G.nextAtk&&!G.tiles.some(t=>t.atk)){
 const cands=G.tiles.filter(t=>t.state==="owned"&&tierOf(t)>=1&&frontierT(t));
