@@ -24,7 +24,7 @@ const c=crew(t);
 text7(c.map(s=>s.name).join(" "),l.pnX+16,y,1,null,MID);y+=16;
 if(dark){
 const pct=Math.round(deathPct(tierOf(t),crew(t).length)*100);
-if(pct>0){text7(pct+"% DEATH",l.pnX+16,y,1,null,DANGER);y+=16;}
+if(pct>0){text7(pct+"% RISK",l.pnX+16,y,1,null,DANGER);y+=16;}
 text7(t.turnsLeft+(t.turnsLeft===1?" DAY LEFT":" DAYS LEFT"),l.pnX+16,y,1,null,MID);
 }
 y+=22;btn("stop","PULL BACK",l.pnX+16,y,140);

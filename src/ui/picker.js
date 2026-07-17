@@ -20,7 +20,7 @@ if(sel.state==="owned"){if(n>0)text7("DEFENDING",l.pnX+16,y,2);y+=30;}
 else if(n>0){
 const tn=reclaimTurns(tierOf(sel)),pct=Math.round(deathPct(tierOf(sel),n)*100);
 text7(tn+(tn===1?" DAY":" DAYS"),l.pnX+16,y,2,null,pct>0?DANGER:FG);
-text7(pct>0?pct+"% DEATH RISK":"SAFE",l.pnX+16,y+22,1,null,pct>0?DANGER:MID);
+if(pct>0)text7(pct+"% RISK",l.pnX+16,y+22,1,null,DANGER);
 y+=48;
 }else y+=30;
 btn("pick_go","START",l.pnX+16,y,80,n>0);
