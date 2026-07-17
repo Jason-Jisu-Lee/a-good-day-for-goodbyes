@@ -23,6 +23,9 @@ for(const t of G.tiles){
 if(t.action==="extinguish"&&t.state!=="owned"&&crew(t).length>0){
 t.turnsLeft--;
 if(t.turnsLeft<=0)resolveReclaim(t);
+}else if(t.action==="clear"&&t.state==="owned"&&!t.atk){
+t.turnsLeft--;
+if(t.turnsLeft<=0)finishRubble(t);
 }
 }
 for(const t of G.tiles){

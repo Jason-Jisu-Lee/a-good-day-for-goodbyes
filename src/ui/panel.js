@@ -18,7 +18,7 @@ if(t.action==="extinguish")status=dark?"RECLAIMING":"DEFENDING";
 const gw=!dark&&!atk?crew(t).filter(s=>s.task.type==="gather").length:0;
 if(!dark&&!atk&&t.kind==="grocery")status="+"+(FOOD_PER_TILE+GATHER_BONUS*gw)+"/DAY";
 if(!dark&&!atk&&t.kind==="scrap")status="+"+(MAT_PER_TILE+GATHER_BONUS*gw)+"/DAY";
-if(!dark&&!atk&&t.kind==="rubble")status=RUBBLE_COST+" MATERIAL";
+if(!dark&&!atk&&t.kind==="rubble")status=t.action==="clear"?"CLEARING":RUBBLE_COST+" MATERIAL   "+(t.clearD||1)+(( t.clearD||1)===1?" DAY":" DAYS");
 text7(status,l.pnX+16,l.pnY+40,1,null,atk&&!t.action?DANGER:MID);
 let y=l.pnY+60;
 if(t.action==="extinguish"){
@@ -36,7 +36,11 @@ return;
 if(picker){drawPicker(y);return;}
 if(dark){if(extinguishable(t))btn("act_extinguish","RECLAIM",l.pnX+16,y,150,G.survivors.some(s=>!lockedS(s)));return;}
 if(atk){btn("act_extinguish","DEFEND",l.pnX+16,y,150,G.survivors.some(s=>!lockedS(s)));return;}
-if(t.kind==="rubble"){btn("clear","CLEAR",l.pnX+16,y,120,G.mats>=RUBBLE_COST);return;}
+if(t.kind==="rubble"){
+if(t.action==="clear"){text7(t.turnsLeft+(t.turnsLeft===1?" DAY LEFT":" DAYS LEFT"),l.pnX+16,y,1,null,MID);return;}
+btn("clear","CLEAR",l.pnX+16,y,120,G.mats>=RUBBLE_COST);
+return;
+}
 if(t.kind==="grocery"||t.kind==="scrap"){
 if(gw>0){
 text7(crew(t).filter(s=>s.task.type==="gather").map(s=>s.name).join(" "),l.pnX+16,y,1,null,MID);y+=20;
