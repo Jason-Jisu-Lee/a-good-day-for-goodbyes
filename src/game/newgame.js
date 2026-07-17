@@ -2,7 +2,7 @@ function newGame(){
 const tiles=[];
 const originKinds=shuffle(["house","house","grocery","mystery"]);
 let oi=0;
-const bag1=["camp","grocery","scrap","scrap","item","item","lot","lot"];
+const bag1=["camp","grocery","scrap","scrap","lot","lot","lot","lot"];
 shuffle(bag1);
 let b1=0;
 const bag2=["scrap","scrap","scrap","grocery","grocery","camp","camp","cache","pr","pr"];
@@ -26,6 +26,6 @@ const survivors=[
 {name:"MARA",face:0,col:SURV_COLS[0],x:0,y:0,task:null},
 {name:"REED",face:1,col:SURV_COLS[1],x:0,y:0,task:null}
 ];
-G={v:6,day:1,food:START_FOOD,mats:0,pr:0,matsSeen:false,opened:false,attackOn:false,armT:-1,atkT:ATTACK_EVERY_T,tiles,survivors,names:shuffle(NAME_BAG.slice()),faces:[2,3,4]};
+G={v:7,day:1,food:START_FOOD,mats:0,pr:0,matsSeen:false,opened:false,atkDay:ATK_DAY_MIN+Math.floor(Math.random()*(ATK_DAY_MAX-ATK_DAY_MIN+1)),atkT:0,tiles,survivors,names:shuffle(NAME_BAG.slice()),faces:[2,3,4]};
 for(let i=0;i<G.survivors.length;i++){const sp=idleSpot(G.survivors[i],i);G.survivors[i].x=sp.x;G.survivors[i].y=sp.y;}
 }

@@ -2,7 +2,7 @@ function lockedS(s){return !!s.task;}
 function assign(t,type,members){
 for(const s of members)s.task={type,tile:t};
 if(type==="extinguish"){
-if(t.action!=="extinguish"&&t.state!=="owned")t.turnsLeft=reclaimTurns(tierOf(t));
+if(t.state!=="owned")t.turnsLeft=reclaimTurns(tierOf(t),crew(t).length);
 t.action="extinguish";
 }
 }
@@ -17,6 +17,5 @@ if(t.kind==="mysteryroll")t.kind="scrap";
 if(t.kind==="camp"){t.kind="lot";recruit(t);}
 else if(t.kind==="cache"){G.mats+=10;t.kind="lot";}
 else if(t.kind==="pr"){G.pr=(G.pr||0)+1;t.kind="lot";}
-else if(t.kind==="item"){G.mats+=10;t.kind="lot";}
 for(const s of c)s.task=null;
 }

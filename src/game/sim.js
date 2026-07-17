@@ -23,21 +23,6 @@ if(def>0){t.atk=false;releaseCrew(t);spawnFloat(q.x,q.y-d.hh-4,"HELD");}
 else{t.atk=false;t.state="dark";t.turnsLeft=reclaimTurns(tierOf(t));if(t.action)releaseCrew(t);spawnFloat(q.x,q.y-d.hh-4,"TAKEN");}
 }
 }
-if(!G.attackOn){
-if(G.armT<0){if(G.tiles.some(t=>t.state==="owned"&&tierOf(t)>=ATTACK_TIER))G.armT=ATTACK_GRACE_T;}
-else{G.armT--;if(G.armT<=0)G.attackOn=true;}
-}
-if(G.attackOn){
-if(G.tiles.some(t=>t.atk))G.atkT=ATTACK_EVERY_T;
-else{
-G.atkT--;
-if(G.atkT<=0){
-G.atkT=ATTACK_EVERY_T;
-const cands=G.tiles.filter(t=>t.state==="owned"&&!t.atk&&tierOf(t)>=1&&frontierT(t));
-if(cands.length){cands.sort((a,b)=>tierOf(b)-tierOf(a));cands[0].atk=true;}
-}
-}
-}
 for(const t of G.tiles){
 if(t.state==="owned"&&!t.atk){
 const p=tpos(t),d=DXY();
@@ -48,6 +33,17 @@ else if(t.kind==="scrap"){G.mats+=MAT_PER_TILE;spawnFloat(p.x,p.y-d.hh-4,"+"+MAT
 G.food=Math.max(0,G.food-FOOD_PER_SURV*G.survivors.length);
 if(G.mats>0&&!G.matsSeen)G.matsSeen=true;
 G.day++;
+if(G.day>=G.atkDay){
+if(G.tiles.some(t=>t.atk))G.atkT=ATTACK_EVERY_T;
+else{
+G.atkT--;
+if(G.atkT<=0){
+G.atkT=ATTACK_EVERY_T;
+const cands=G.tiles.filter(t=>t.state==="owned"&&!t.atk&&tierOf(t)>=1&&frontierT(t));
+if(cands.length){cands.sort((a,b)=>tierOf(b)-tierOf(a));cands[0].atk=true;}
+}
+}
+}
 if(G.survivors.length===0&&overT<0){overT=0;persistPR();}
 save();
 }
