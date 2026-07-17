@@ -8,6 +8,16 @@ t.action="extinguish";
 }
 }
 function releaseCrew(t){for(const s of crew(t))s.task=null;t.action=null;if(t.state!=="owned")t.turnsLeft=baseDays(tileStrength(t));}
+function clearRubble(t){
+if(t.kind!=="rubble"||t.state!=="owned"||G.mats<RUBBLE_COST)return;
+G.mats-=RUBBLE_COST;
+const p=tpos(t),d=DXY();
+const r=Math.random();
+if(r<0.4){G.food+=RUBBLE_FOOD;spawnFloat(p.x,p.y-d.hh-4,"+"+RUBBLE_FOOD);}
+else if(r<0.7){G.items.p1++;spawnFloat(p.x,p.y-d.hh-4,"PLACEHOLDER1");}
+else{G.items.p2++;spawnFloat(p.x,p.y-d.hh-4,"PLACEHOLDER2");}
+t.kind="lot";
+}
 function finish(t){
 const c=crew(t);
 t.action=null;

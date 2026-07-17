@@ -1,8 +1,11 @@
 function drawGame(){
 uiButtons=[];
+cx.save();
+cx.translate(Math.round(camX*S),Math.round(camY*S));
 drawTiles();
 drawSurvivors();
 drawFloats();
+cx.restore();
 drawHUD();
 drawTopbar();
 drawPanel();
@@ -27,7 +30,7 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden)save();});
 let last=performance.now();
 function step(t){
 const dt=Math.min(100,t-last)/1000;last=t;
-if(fading){fade=Math.min(1,fade+dt*3.5);if(fade>=1){fading=false;if(!G&&!load())newGame();mode="game";menuMusic(false);}}
+if(fading){fade=Math.min(1,fade+dt*3.5);if(fade>=1){fading=false;if(!G&&!load())newGame();mode="game";resetCam();menuMusic(false);}}
 if(overT>=0){overT+=dt;if(overT>=OVER_DUR){try{localStorage.removeItem("goodbyes_save");}catch(e){}G=null;sel=null;picker=null;hoverTile=null;mode="menu";overT=-1;fade=0;fading=false;menuMusic(true);}}
 if(mode==="game"&&G){
 visual(dt);

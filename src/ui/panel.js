@@ -17,6 +17,7 @@ let status=dark?tn0+(tn0===1?" DAY":" DAYS"):(atk?"FALLS NEXT DAY":"");
 if(t.action==="extinguish")status=dark?"RECLAIMING":"DEFENDING";
 if(!dark&&!atk&&t.kind==="grocery")status="+"+FOOD_PER_TILE+"/DAY";
 if(!dark&&!atk&&t.kind==="scrap")status="+"+MAT_PER_TILE+"/DAY";
+if(!dark&&!atk&&t.kind==="rubble")status=RUBBLE_COST+" MATERIAL";
 text7(status,l.pnX+16,l.pnY+40,1,null,atk&&!t.action?DANGER:MID);
 let y=l.pnY+60;
 if(t.action==="extinguish"){
@@ -34,4 +35,5 @@ return;
 if(picker){drawPicker(y);return;}
 if(dark){if(extinguishable(t))btn("act_extinguish","RECLAIM",l.pnX+16,y,150,G.survivors.some(s=>!s.task));return;}
 if(atk){btn("act_extinguish","DEFEND",l.pnX+16,y,150,G.survivors.some(s=>!s.task));return;}
+if(t.kind==="rubble"){btn("clear","CLEAR",l.pnX+16,y,120,G.mats>=RUBBLE_COST);return;}
 }

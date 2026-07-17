@@ -1,5 +1,5 @@
 const cv=document.getElementById("cv"),cx=cv.getContext("2d");
-let W=960,H=540,k=1,S=1,dpr=1,PORT=false;
+let W=960,H=540,k=1,S=1,dpr=1,PORT=false,camX=0,camY=0;
 
 function rr(v){return Math.round(v*S);}
 function px(x,y,w,h,col){cx.fillStyle=col;const a=rr(x),b=rr(y);cx.fillRect(a,b,rr(x+w)-a,rr(y+h)-b);}

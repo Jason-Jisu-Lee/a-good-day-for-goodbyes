@@ -1,4 +1,5 @@
 function toLogical(e){const r=cv.getBoundingClientRect();return {x:(e.clientX-r.left)/k,y:(e.clientY-r.top)/k};}
+let panDrag=null;
 cv.addEventListener("pointerdown",e=>{
 musicGesture();
 if(mode!=="game")return;
@@ -10,6 +11,10 @@ if(volDrag==="volM")OPT.volM=volFromX(p.x);else OPT.volF=volFromX(p.x);
 return;
 }
 }
+for(const b of uiButtons)if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h)return;
+const l=L();
+if(sel&&p.x>=l.pnX&&p.x<=l.pnX+l.pnW&&p.y>=l.pnY&&p.y<=l.pnY+l.pnH)return;
+panDrag={sx:p.x,sy:p.y,cx0:camX,cy0:camY,moved:false};
 });
 cv.addEventListener("pointermove",e=>{
 const p=toLogical(e);
@@ -17,6 +22,18 @@ if(volDrag){
 if(volDrag==="volM")OPT.volM=volFromX(p.x);else OPT.volF=volFromX(p.x);
 musicVol();
 return;
+}
+if(panDrag){
+const dx=p.x-panDrag.sx,dy=p.y-panDrag.sy;
+if(Math.abs(dx)+Math.abs(dy)>6)panDrag.moved=true;
+if(panDrag.moved){
+camX=panDrag.cx0+dx;
+camY=panDrag.cy0+dy;
+clampCam();
+hoverTile=null;hover=null;
+cv.style.cursor="grabbing";
+return;
+}
 }
 let h=null;
 if(mode==="menu"){for(const b of menuButtons)if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h)h=b.id;hoverTile=null;}
@@ -31,6 +48,11 @@ cv.style.cursor=(h&&h!=="none")||hoverTile?"pointer":"default";
 });
 cv.addEventListener("pointerup",e=>{
 if(volDrag){volDrag=null;optSave();return;}
+if(panDrag){
+const moved=panDrag.moved;
+panDrag=null;
+if(moved)return;
+}
 const p=toLogical(e);
 if(mode==="menu"){
 for(const b of menuButtons){if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){
@@ -92,6 +114,7 @@ else if(crewUseful(sel.state==="owned"?sel.atkS:tileStrength(sel),picker.set.siz
 return;
 }
 if(id==="stop"){releaseCrew(sel);return;}
+if(id==="clear"){clearRubble(sel);return;}
 }
 addEventListener("keydown",e=>{
 musicGesture();
