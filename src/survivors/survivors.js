@@ -9,7 +9,7 @@ return s.task.type.toUpperCase()+"ING";
 }
 function recruit(t){
 if(G.survivors.length>=6)return;
-const name=G.names.pop()||"ASH";
+const name=G.names.shift()||"ASH";
 const face=G.faces.length?G.faces.shift():1;
 const p=tpos(t),d=DXY();
 const s={name,face,col:SURV_COLS[G.survivors.length%SURV_COLS.length],x:p.x,y:p.y+d.hh+4,task:null};
