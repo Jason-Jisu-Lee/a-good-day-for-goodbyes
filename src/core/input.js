@@ -1,9 +1,23 @@
 function toLogical(e){const r=cv.getBoundingClientRect();return {x:(e.clientX-r.left)/k,y:(e.clientY-r.top)/k};}
-let panDrag=null;
+let panDrag=null,pinch=null;
+const ptrs=new Map();
+cv.addEventListener("wheel",e=>{
+if(mode!=="game"||!G)return;
+e.preventDefault();
+const p=toLogical(e);
+setZoom(zoomS*(e.deltaY<0?1.1:0.9),p.x,p.y);
+},{passive:false});
 cv.addEventListener("pointerdown",e=>{
 musicGesture();
 if(mode!=="game")return;
 const p=toLogical(e);
+ptrs.set(e.pointerId,p);
+if(ptrs.size===2){
+const a=[...ptrs.values()];
+pinch={d0:Math.hypot(a[1].x-a[0].x,a[1].y-a[0].y),z0:zoomS,mx:(a[0].x+a[1].x)/2,my:(a[0].y+a[1].y)/2};
+panDrag=null;
+return;
+}
 for(const b of uiButtons){
 if((b.id==="volM"||b.id==="volF")&&p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){
 volDrag=b.id;
@@ -18,6 +32,13 @@ panDrag={sx:p.x,sy:p.y,cx0:camX,cy0:camY,moved:false};
 });
 cv.addEventListener("pointermove",e=>{
 const p=toLogical(e);
+if(ptrs.has(e.pointerId))ptrs.set(e.pointerId,p);
+if(pinch&&ptrs.size===2){
+const a=[...ptrs.values()];
+const d=Math.hypot(a[1].x-a[0].x,a[1].y-a[0].y);
+if(d>0&&pinch.d0>0)setZoom(pinch.z0*d/pinch.d0,pinch.mx,pinch.my);
+return;
+}
 if(volDrag){
 if(volDrag==="volM")OPT.volM=volFromX(p.x);else OPT.volF=volFromX(p.x);
 musicVol();
@@ -47,6 +68,8 @@ hover=h;
 cv.style.cursor=(h&&h!=="none")||hoverTile?"pointer":"default";
 });
 cv.addEventListener("pointerup",e=>{
+ptrs.delete(e.pointerId);
+if(pinch){if(ptrs.size<2)pinch=null;return;}
 if(volDrag){volDrag=null;optSave();return;}
 if(panDrag){
 const moved=panDrag.moved;
@@ -115,7 +138,13 @@ return;
 }
 if(id==="stop"){releaseCrew(sel);return;}
 if(id==="clear"){clearRubble(sel);return;}
+if(id==="ztip"){G.zoomTipSeen=true;return;}
 }
+cv.addEventListener("pointercancel",e=>{
+ptrs.delete(e.pointerId);
+if(ptrs.size<2)pinch=null;
+panDrag=null;
+});
 addEventListener("keydown",e=>{
 musicGesture();
 if(e.key==="`"){toggleDbg();return;}

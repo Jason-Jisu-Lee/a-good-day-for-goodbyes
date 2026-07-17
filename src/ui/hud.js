@@ -34,5 +34,14 @@ if(G.items&&G.items.p2>0)text7("PLACEHOLDER2 "+G.items.p2,440,l.hud+14,1,null,MI
 const cap=G.tiles.filter(t=>t.state==="owned"&&(t.kind==="house"||t.kind==="house2")).length;
 text7("SURVIVORS "+G.survivors.length+"/"+cap,160,l.hud+36,1,null,MID);
 text7("DAY "+G.day,16,H-24,1,null,MID);
+if(G.day>=G.tutDay&&!G.zoomTipSeen){
+const msg=("ontouchstart" in window)?"PINCH: ZOOM MAP":"MOUSE WHEEL: ZOOM MAP";
+const tw=tw7(msg,1)+32;
+const bx=W/2-tw/2,by=54;
+px(bx,by,tw,44,BG);
+edgeR(bx,by,tw,44,MID);
+text7(msg,W/2,by+15,1,"c",FG);
+uiButtons.push({id:"ztip",x:bx,y:by,w:tw,h:44,en:true});
+}
 btn("endturn","END DAY",W/2-75,H-58,150);
 }
