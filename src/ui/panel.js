@@ -12,7 +12,7 @@ edgeR(l.pnX,l.pnY,l.pnW,l.pnH,DIM);
 const dark=t.state!=="owned";
 const atk=!!t.atk;
 text7(dark?"DARKNESS":(atk?"UNDER ATTACK":KIND_NAME[t.kind]),l.pnX+16,l.pnY+14,2,null,atk?DANGER:FG);
-const tn0=taskDays(tileStrength(t),1);
+const tn0=baseDays(tileStrength(t));
 let status=dark?tn0+(tn0===1?" DAY":" DAYS"):(atk?"FALLS NEXT DAY":"");
 if(t.action==="extinguish")status=dark?"RECLAIMING":"DEFENDING";
 if(!dark&&!atk&&t.kind==="grocery")status="+"+FOOD_PER_TILE+"/DAY";

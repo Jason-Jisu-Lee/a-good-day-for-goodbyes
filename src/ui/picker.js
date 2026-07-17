@@ -18,12 +18,16 @@ text7(statusOf(s),l.pnX+42,y+20,1,null,lk?DIM:(s.task?s.col:MID));
 y+=48;
 }
 const n=picker.set.size;
-if(n>0){
+const short=n<minCrew(S);
+if(n>0&&short){
+text7("NOT POSSIBLE",l.pnX+16,y,2,null,DANGER);
+y+=48;
+}else if(n>0){
 const tn=taskDays(S,n),pct=Math.round(taskRisk(S,n)*100);
 text7(tn+(tn===1?" DAY":" DAYS"),l.pnX+16,y,2,null,pct>0?DANGER:FG);
 if(pct>0)text7(pct+"% RISK",l.pnX+16,y+22,1,null,DANGER);
 y+=48;
 }else y+=30;
-btn("pick_go","START",l.pnX+16,y,80,n>0);
+btn("pick_go","START",l.pnX+16,y,80,n>0&&!short);
 btn("pick_no","CANCEL",l.pnX+100,y,80);
 }

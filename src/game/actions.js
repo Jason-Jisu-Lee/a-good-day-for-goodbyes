@@ -7,7 +7,7 @@ else if(t.atk)t.turnsLeft=taskDays(t.atkS,crew(t).length);
 t.action="extinguish";
 }
 }
-function releaseCrew(t){for(const s of crew(t))s.task=null;t.action=null;if(t.state!=="owned")t.turnsLeft=taskDays(tileStrength(t),1);}
+function releaseCrew(t){for(const s of crew(t))s.task=null;t.action=null;if(t.state!=="owned")t.turnsLeft=baseDays(tileStrength(t));}
 function finish(t){
 const c=crew(t);
 t.action=null;

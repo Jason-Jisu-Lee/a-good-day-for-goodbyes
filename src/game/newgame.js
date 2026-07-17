@@ -19,7 +19,7 @@ else t.state="owned";
 }else{
 t.kind=tier===1?bag1[b1++]:bag2[b2++%bag2.length];
 }
-if(t.state!=="owned")t.turnsLeft=taskDays(Math.max(1,tier),1);
+if(t.state!=="owned")t.turnsLeft=baseDays(Math.max(1,tier));
 tiles.push(t);
 }
 const survivors=[

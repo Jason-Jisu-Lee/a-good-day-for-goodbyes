@@ -1,12 +1,22 @@
-function resolveReclaim(t){
-const pct=taskRisk(tileStrength(t),crew(t).length);
-let alive=0;
-for(const s of crew(t)){
-if(pct>0&&Math.random()<pct){killSurvivor(s);const q=tpos(t),d=DXY();spawnFloat(q.x,q.y-d.hh-4,"CONSUMED");}
-else alive++;
+function rollConsumed(S,c,q,d){
+const pct=taskRisk(S,c.length);
+let dead=[];
+if(pct>0&&Math.random()<pct){
+const pool=c.slice();
+for(let i=0;i<consumedN(S)&&pool.length;i++){
+const s=pool.splice(Math.floor(Math.random()*pool.length),1)[0];
+killSurvivor(s);
+spawnFloat(q.x,q.y-d.hh-4,"CONSUMED");
+dead.push(s);
 }
+}
+return c.length-dead.length;
+}
+function resolveReclaim(t){
+const q=tpos(t),d=DXY();
+const alive=rollConsumed(tileStrength(t),crew(t),q,d);
 if(alive>0)finish(t);
-else{t.action=null;t.turnsLeft=taskDays(tileStrength(t),1);}
+else{t.action=null;t.turnsLeft=baseDays(tileStrength(t));}
 }
 function endTurn(){
 for(const t of G.tiles){
@@ -22,18 +32,13 @@ const c=t.action==="extinguish"?crew(t):[];
 if(c.length>0){
 t.turnsLeft--;
 if(t.turnsLeft<=0){
-const pct=taskRisk(t.atkS,c.length);
-let alive=0;
-for(const s of c){
-if(pct>0&&Math.random()<pct){killSurvivor(s);spawnFloat(q.x,q.y-d.hh-4,"CONSUMED");}
-else alive++;
-}
+const alive=rollConsumed(t.atkS,c,q,d);
 t.atk=false;t.atkS=0;releaseCrew(t);
 if(alive>0)spawnFloat(q.x,q.y-d.hh-4,"HELD");
-else{t.state="dark";t.turnsLeft=taskDays(tileStrength(t),1);spawnFloat(q.x,q.y-d.hh-4,"TAKEN");}
+else{t.state="dark";t.turnsLeft=baseDays(tileStrength(t));spawnFloat(q.x,q.y-d.hh-4,"TAKEN");}
 }
 }else{
-t.atk=false;t.atkS=0;t.state="dark";t.turnsLeft=taskDays(tileStrength(t),1);
+t.atk=false;t.atkS=0;t.state="dark";t.turnsLeft=baseDays(tileStrength(t));
 if(t.action)releaseCrew(t);
 spawnFloat(q.x,q.y-d.hh-4,"TAKEN");
 }
