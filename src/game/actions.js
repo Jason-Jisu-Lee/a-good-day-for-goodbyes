@@ -1,9 +1,10 @@
-function lockedS(s){return !!s.task;}
+function lockedS(s){return !!(s.task&&s.task.type!=="gather");}
+function defCrew(t){return crew(t).filter(s=>s.task.type==="extinguish");}
 function assign(t,type,members){
 for(const s of members)s.task={type,tile:t};
 if(type==="extinguish"){
 if(t.state!=="owned")t.turnsLeft=taskDays(tileStrength(t),crew(t).length);
-else if(t.atk)t.turnsLeft=taskDays(t.atkS,crew(t).length);
+else if(t.atk)t.turnsLeft=taskDays(t.atkS,defCrew(t).length);
 t.action="extinguish";
 }
 }

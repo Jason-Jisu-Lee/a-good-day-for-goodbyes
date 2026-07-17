@@ -137,7 +137,7 @@ if(rest==="no"){picker=null;return;}
 const s=G.survivors[parseInt(rest,10)];
 if(lockedS(s))return;
 if(picker.set.has(s))picker.set.delete(s);
-else if(crewUseful(sel.state==="owned"?sel.atkS:tileStrength(sel),picker.set.size))picker.set.add(s);
+else if(picker.type==="gather"?picker.set.size<GATHER_SLOTS:crewUseful(sel.state==="owned"?sel.atkS:tileStrength(sel),picker.set.size))picker.set.add(s);
 return;
 }
 if(id==="stop"){releaseCrew(sel);return;}
