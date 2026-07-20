@@ -51,8 +51,8 @@ for(const t of G.tiles){
 if(t.state==="owned"&&!t.atk){
 const p=tpos(t),d=DXY();
 const w=crew(t).filter(s=>s.task.type==="gather").length;
-if(t.kind==="grocery"){const r=FOOD_PER_TILE+GATHER_BONUS*w;G.food+=r;spawnFloat(p.x,p.y-d.hh-4,"+"+r);}
-else if(t.kind==="scrap"){const r=MAT_PER_TILE+GATHER_BONUS*w;G.mats+=r;spawnFloat(p.x,p.y-d.hh-4,"+"+r);}
+if(t.kind==="grocery"){const r=tilePassive(t)+GATHER_BONUS*w;G.food+=r;spawnFloat(p.x,p.y-d.hh-4,"+"+r);}
+else if(t.kind==="scrap"){const r=tilePassive(t)+GATHER_BONUS*w;G.mats+=r;spawnFloat(p.x,p.y-d.hh-4,"+"+r);}
 }
 }
 G.food=Math.max(0,G.food-FOOD_PER_SURV*G.survivors.length);
@@ -70,6 +70,12 @@ G.atkN=(G.atkN||0)+1;
 G.nextAtk=G.day+atkGap(G.atkN);
 }
 }
-if(G.survivors.length===0&&overT<0){overT=0;persistPR();}
+if(G.day%BO_EVERY===0){G.boDay=G.day+BO_LEAD;boWordStart();}
+if(G.boDay&&G.day>=G.boDay){
+G.boDay=0;
+if((G.light||0)<LIGHT_NEED)endRun();
+}
+if(G.survivors.length===0)endRun();
 save();
 }
+function endRun(){if(overT<0){overT=0;metaBank();}}

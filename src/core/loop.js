@@ -13,7 +13,9 @@ drawPanel();
 function draw(){
 px(0,0,W,H,BG);
 if(mode==="menu")drawMenu();
+else if(mode==="shop")drawShop();
 else drawGame();
+drawBlackoutWord();
 if(overT>=0){
 const a=Math.min(1,overT/1.5);
 cx.save();cx.globalAlpha=a;
@@ -31,7 +33,8 @@ let last=performance.now();
 function step(t){
 const dt=Math.min(100,t-last)/1000;last=t;
 if(fading){fade=Math.min(1,fade+dt*3.5);if(fade>=1){fading=false;if(!G&&!load())newGame();mode="game";resetCam();menuMusic(false);}}
-if(overT>=0){overT+=dt;if(overT>=OVER_DUR){try{localStorage.removeItem("goodbyes_save");}catch(e){}G=null;sel=null;picker=null;hoverTile=null;mode="menu";overT=-1;fade=0;fading=false;menuMusic(true);}}
+if(overT>=0){overT+=dt;if(overT>=OVER_DUR){try{localStorage.removeItem("goodbyes_save");}catch(e){}G=null;sel=null;picker=null;hoverTile=null;mode="shop";overT=-1;fade=0;fading=false;menuMusic(true);}}
+updateBlackout(dt);
 if(mode==="game"&&G){
 visual(dt);
 updateFloats(dt);

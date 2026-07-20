@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>BLACKOUT word lab</title>
+<style>
+body{margin:0;background:#0a0a0a;color:#888;font:13px "Segoe UI",sans-serif;display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px}
+canvas{outline:1px solid #222}
+.row{display:flex;gap:10px}
+button{background:#111;border:1px solid #444;color:#ccc;font:13px "Segoe UI",sans-serif;padding:8px 18px;cursor:pointer}
+button.on{border-color:#e3c15c;color:#e3c15c}
+.note{max-width:960px;color:#666}
+</style>
+</head>
+<body>
+<div>BLACKOUT word treatments. Same yellow #e3c15c, same size, same spot, plays once over mock UI. Click to replay.</div>
+<canvas id="cv" width="960" height="540"></canvas>
+<div class="row">
+<button data-v="0" class="on">1 FADE</button>
+<button data-v="1">2 TRACK-IN</button>
+<button data-v="2">3 FLICKER</button>
+<button data-v="3">4 WORLD DIM</button>
+</div>
+<div class="note">1 FADE: plain fade in, hold, fade out. 2 TRACK-IN: letters start wide and settle while fading in (cinematic). 3 FLICKER: stutters on like failing power, holds, blinks out. 4 WORLD DIM: whole screen sinks dark while the word passes over it.</div>
+<script>
+const cv=document.getElementById("cv"),cx=cv.getContext("2d");
+const W=960,H=540,YEL="#e3c15c",FONT='"Segoe UI",system-ui,Arial,sans-serif';
+let variant=0,t=0,last=performance.now();
+document.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
+document.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
+b.classList.add("on");
+variant=+b.dataset.v;t=0;
+}));
+cv.addEventListener("click",()=>{t=0;});
+function mock(){
+cx.fillStyle="#000";cx.fillRect(0,0,W,H);
+cx.strokeStyle="#2a2a2a";cx.lineWidth=1;
+const ox=W/2,oy=150,dx=48,dy=24;
+for(let gx=0;gx<8;gx++)for(let gy=0;gy<8;gy++){
+const x=ox+(gx-gy)*dx,y=oy+(gx+gy)*dy;
+cx.beginPath();
+cx.moveTo(x,y-17);cx.lineTo(x+34,y);cx.lineTo(x,y+17);cx.lineTo(x-34,y);cx.closePath();
+cx.stroke();
+}
+cx.fillStyle="#f2f2f0";cx.font="600 20px "+FONT;
+cx.fillText("FOOD 14",16,14);
+cx.fillText("MATERIAL 6",160,14);
+cx.font="600 10px "+FONT;
+cx.fillStyle="#777";
+cx.fillText("+4/DAY",16,40);
+cx.fillText("-6/DAY",16,54);
+cx.fillText("DAY 10",16,H-32);
+cx.strokeStyle="#333";cx.strokeRect(W-204,60,188,392);
+cx.strokeStyle="#f2f2f0";cx.strokeRect(W/2-75,H-58,150,44);
+cx.font="600 20px "+FONT;cx.fillStyle="#f2f2f0";
+cx.textAlign="center";cx.fillText("END DAY",W/2,H-43);cx.textAlign="left";
+}
+function env(tt){return tt<0.7?tt/0.7:(tt<2.2?1:Math.max(0,(3.2-tt)/1));}
+function flickA(tt){
+const seg=[[0,0.06,1],[0.06,0.16,0],[0.16,0.3,1],[0.3,0.4,0],[0.4,0.47,0.5],[0.47,2.5,1],[2.5,2.58,0],[2.58,2.75,1],[2.75,9,0]];
+for(const s of seg)if(tt>=s[0]&&tt<s[1])return s[2];
+return 0;
+}
+function word(alpha,gap){
+if(alpha<=0)return;
+cx.save();
+cx.globalAlpha=alpha;
+cx.font="800 52px "+FONT;
+cx.textBaseline="top";
+cx.fillStyle=YEL;
+const s="BLACKOUT";
+const ws=[...s].map(ch=>cx.measureText(ch).width);
+let tw=ws.reduce((a,w)=>a+w+gap,-gap);
+let x=W/2-tw/2;
+for(let i=0;i<s.length;i++){cx.fillText(s[i],x,H/2-34);x+=ws[i]+gap;}
+cx.restore();
+}
+function draw(){
+mock();
+if(variant===3){
+const a=env(t);
+cx.fillStyle="rgba(0,0,0,"+(0.65*a)+")";
+cx.fillRect(0,0,W,H);
+word(a,22);
+}else if(variant===0)word(env(t),22);
+else if(variant===1){
+const p=Math.min(1,t/0.9),e=1-Math.pow(1-p,3);
+word(env(t),22+30*(1-e));
+}else if(variant===2)word(flickA(t),22);
+}
+function step(now){
+t+=Math.min(100,now-last)/1000;last=now;
+draw();
+requestAnimationFrame(step);
+}
+requestAnimationFrame(step);
+</script>
+</body>
+</html>

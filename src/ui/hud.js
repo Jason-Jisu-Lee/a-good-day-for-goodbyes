@@ -5,40 +5,36 @@ px(x,y,w+12,lines.length*14+8,BG);
 edgeR(x,y,w+12,lines.length*14+8,DIM);
 for(let i=0;i<lines.length;i++)text7(lines[i],x+6,y+5+i*14,1);
 }
+function rateInfo(kind){
+const m=new Map();
+let tot=0,n=0;
+for(const t of G.tiles){
+if(t.state!=="owned"||t.kind!==kind)continue;
+const w=crew(t).filter(s=>s.task.type==="gather").length;
+const r=tilePassive(t)+GATHER_BONUS*w;
+tot+=r;n++;
+const key=r+"/DAY"+(w?" WORKED":"");
+m.set(key,(m.get(key)||0)+1);
+}
+const lines=[...m.entries()].sort((a,b)=>parseInt(a[0])-parseInt(b[0])).map(([k,c])=>c+" X "+k);
+return {tot,n,lines};
+}
 function drawHUD(){
 const l=L();
 text7("FOOD "+Math.floor(G.food),16,l.hud,2);
-let nf=0,nm=0,wf=0,wm=0;
-for(const t of G.tiles){
-if(t.state!=="owned")continue;
-const w=crew(t).filter(s=>s.task.type==="gather").length;
-if(t.kind==="grocery"){nf++;wf+=w;}
-else if(t.kind==="scrap"){nm++;wm+=w;}
-}
-const inc=nf*FOOD_PER_TILE+wf*GATHER_BONUS;
-const minc=nm*MAT_PER_TILE+wm*GATHER_BONUS;
+const fi=rateInfo("grocery"),mi=rateInfo("scrap");
 const expn=G.survivors.length*FOOD_PER_SURV;
 uiButtons.push({id:"inc",x:14,y:l.hud+20,w:96,h:13,en:true});
 uiButtons.push({id:"exp",x:14,y:l.hud+34,w:96,h:13,en:true});
-text7("+"+inc+"/DAY",16,l.hud+22,1,null,FG);
+text7("+"+fi.tot+"/DAY",16,l.hud+22,1,null,FG);
 text7("-"+expn+"/DAY",16,l.hud+36,1,null,FG);
-if(hover==="inc"){
-const lines=["FOOD TILES "+nf];
-if(nf-wf>0)lines.push((nf-wf)+" X "+FOOD_PER_TILE+"/DAY");
-if(wf>0)lines.push(wf+" X "+(FOOD_PER_TILE+GATHER_BONUS)+"/DAY WORKED");
-tip(16,l.hud+52,lines);
-}
+if(hover==="inc")tip(16,l.hud+52,["FOOD TILES "+fi.n,...fi.lines]);
 if(hover==="exp")tip(16,l.hud+52,["SURVIVORS "+G.survivors.length,G.survivors.length+" X "+FOOD_PER_SURV+"/DAY"]);
 if(G.matsSeen||G.mats>0){
 text7("MATERIAL "+Math.floor(G.mats),160,l.hud,2);
 uiButtons.push({id:"minc",x:158,y:l.hud+20,w:96,h:13,en:true});
-text7("+"+minc+"/DAY",160,l.hud+22,1,null,FG);
-if(hover==="minc"){
-const lines=["MATERIAL TILES "+nm];
-if(nm-wm>0)lines.push((nm-wm)+" X "+MAT_PER_TILE+"/DAY");
-if(wm>0)lines.push(wm+" X "+(MAT_PER_TILE+GATHER_BONUS)+"/DAY WORKED");
-tip(160,l.hud+38,lines);
-}
+text7("+"+mi.tot+"/DAY",160,l.hud+22,1,null,FG);
+if(hover==="minc")tip(160,l.hud+38,["MATERIAL TILES "+mi.n,...mi.lines]);
 }
 if(G.pr>0)text7("EMBER "+G.pr,300,l.hud,2);
 if(G.items&&G.items.p1>0)text7("PLACEHOLDER1 "+G.items.p1,440,l.hud,1,null,MID);

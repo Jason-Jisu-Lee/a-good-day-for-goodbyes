@@ -97,6 +97,35 @@ cost delays expansion; post-prestige bonuses speed it later).
   project-wide (user order; THE BLACK is the only enemy, no
   creature art ever).
 
+### 07-19 BLACKOUT + EMBER SHOP (user; save v10, meta storage)
+- BLACKOUT event: every 10 days (day 10, 20, ...) the word BLACKOUT
+  fades in and out ONCE over all UI, yellow #e3c15c (user: Valorant
+  vibe, artistic, not too strong; lab_blackout.html has 4 treatments
+  for user pick, plain FADE is live in game). 2 days later the
+  blackout HITS: city needs LIGHT >= LIGHT_NEED (1, placeholder) or
+  the run is CONSUMED (game over). NO way to accrue light yet
+  (intended; light source design later). Timing will vary by many
+  factors later; BO_EVERY/BO_LEAD/LIGHT_NEED in balance.js.
+- RUN END flow: GAME OVER screen (3s) -> EMBER UPGRADES shop ->
+  CONTINUE -> main menu. Run embers bank to permanent META on any
+  run end (all dead or consumed).
+- META storage: localStorage goodbyes_meta {emb, upMat, upFood},
+  survives save wipes; legacy goodbyes_pr auto-migrates in.
+- EMBER UPGRADES shop: 4 categories MATERIAL TILE / FOOD TILE /
+  EMBER TILE / MISC. Only the first two have an upgrade now:
+  +10% chance per point that a spawned material/food tile is a
+  +2/DAY tile (t.b2, passive 2 instead of 1; stationed bonus
+  unchanged on top). Cap 3 points = 30% (user; was 100%, tweaked
+  same message). EMBER TILE + MISC empty for now.
+- PLACEHOLDERS flagged for user: upgrade cost (1 EMBER each),
+  upgrade row label (+2/DAY TILE), MISC category name, LIGHT_NEED
+  value, in-game word treatment (lab pick pending).
+- Verified: 25-check node harness (warn day 10, hit day 12, light
+  survives, cycle repeats day 20/22, bank, buy caps, 30% observed
+  spawn rate over 300 boards, v10 roundtrip) + headless shots
+  (menu, game, shop landscape+portrait, word over UI). Dead code
+  swept (blit/blitS removed); all components <=170 lines.
+
 ### 07-15 SESSION LOCKS (branch v.3)
 - VERB = RECLAIM (user-locked, replaces EXTINGUISH everywhere
   player-facing; code keeps extinguish internally). Status

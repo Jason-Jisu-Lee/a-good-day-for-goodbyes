@@ -118,9 +118,10 @@ resolves to first-survivor tutorial, then EMPTY LOT.)
   wired). FLAG: spawns NOWHERE right now (not in origin, not in any
   tier bag).
 - FOOD: owned = +1 FOOD per day passive; STATION 1 survivor = +3
-  more (4 total).
+  more (4 total). EMBER UPGRADE can make one spawn as a +2/day
+  variant (10/20/30% chance).
 - MATERIAL: owned = +1 MATERIAL per day passive; STATION 1 survivor
-  = +3 more (4 total).
+  = +3 more (4 total). Same +2/day upgrade variant as FOOD.
 - RUBBLE: pay 10 MATERIAL upfront, clears in 1-2 days, becomes
   EMPTY LOT. Finish roll: 40% +5 FOOD / 30% PLACEHOLDER1 / 30%
   PLACEHOLDER2 (items pending design).

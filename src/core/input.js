@@ -85,6 +85,10 @@ if(b.id==="QUIT GAME")window.close();
 }}
 return;
 }
+if(mode==="shop"){
+for(const b of uiButtons)if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){if(b.en)shopClick(b.id);return;}
+return;
+}
 for(const b of uiButtons){
 if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){
 if(!b.en)return;
