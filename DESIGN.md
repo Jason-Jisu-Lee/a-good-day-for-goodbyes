@@ -81,6 +81,14 @@ cost delays expansion; post-prestige bonuses speed it later).
 - 6x6 board tops at tier 4 corners; tier 6+ math live but waits
   for grid growth. Save v8.
 
+### 07-19 TILE PAYOUTS (user)
+- SUPPLY CACHE reclaim = 2-5 MATERIAL or 2-5 FOOD (50/50 which,
+  amount rolled; CACHE_ROLL in balance.js). Supersedes flat +10.
+- EMBER tile spawn = 0 for now (removed from all tier bags;
+  finish/HUD code stays for later). Percentage discussion pending.
+- Per-tier tile count table lives in TILES.md (user plugs values,
+  Claude syncs newgame.js bags). Row sums must equal tier size.
+
 ### 07-15 SESSION LOCKS (branch v.3)
 - VERB = RECLAIM (user-locked, replaces EXTINGUISH everywhere
   player-facing; code keeps extinguish internally). Status

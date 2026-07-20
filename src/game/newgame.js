@@ -5,14 +5,14 @@ let oi=0;
 const bags={
 1:shuffle(["camp","grocery","scrap","rubble","lot","lot","lot","lot"]),
 2:shuffle(["camp","camp","grocery","grocery","scrap","rubble","cache","lot","lot","lot","lot","lot"]),
-3:shuffle(["camp","grocery","grocery","scrap","scrap","rubble","rubble","pr","lot","lot","lot","lot","lot","lot","lot","lot"]),
-4:shuffle(["grocery","grocery","scrap","scrap","rubble","rubble","pr","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot"]),
-5:shuffle(["grocery","grocery","grocery","scrap","scrap","scrap","rubble","rubble","rubble","pr","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot"]),
+3:shuffle(["camp","grocery","grocery","scrap","scrap","rubble","rubble","lot","lot","lot","lot","lot","lot","lot","lot","lot"]),
+4:shuffle(["grocery","grocery","scrap","scrap","rubble","rubble","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot"]),
+5:shuffle(["grocery","grocery","grocery","scrap","scrap","scrap","rubble","rubble","rubble","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot"]),
 6:shuffle(["grocery","grocery","scrap","scrap","scrap","scrap","rubble","rubble","rubble","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot"]),
-7:shuffle(["grocery","grocery","scrap","scrap","scrap","scrap","rubble","rubble","pr","lot","lot","lot","lot","lot","lot","lot"]),
+7:shuffle(["grocery","grocery","scrap","scrap","scrap","scrap","rubble","rubble","lot","lot","lot","lot","lot","lot","lot","lot"]),
 8:shuffle(["grocery","grocery","scrap","scrap","scrap","scrap","rubble","rubble","lot","lot","lot","lot"]),
-9:shuffle(["grocery","grocery","scrap","scrap","scrap","rubble","pr","lot"]),
-10:shuffle(["grocery","scrap","scrap","pr"])
+9:shuffle(["grocery","grocery","scrap","scrap","scrap","rubble","lot","lot"]),
+10:shuffle(["grocery","scrap","scrap","lot"])
 };
 const bi={};
 for(let gy=0;gy<GRID;gy++)for(let gx=0;gx<GRID;gx++){
