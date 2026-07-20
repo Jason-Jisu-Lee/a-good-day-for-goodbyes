@@ -2,8 +2,9 @@ const START_FOOD=20,FOOD_PER_TILE=1,FOOD_PER_SURV=2,MAT_PER_TILE=1,SPEED=40;
 const RUBBLE_COST=10,RUBBLE_FOOD=5,GATHER_BONUS=3,GATHER_SLOTS=1,CACHE_ROLL=[2,5];
 const OVER_DUR=3,DAYS_CAP=3,RISK_STEP=0.33,RISK_CAP=0.99;
 const ATK_FIRST=[5,7],ATK_SECOND=[5,6],ATK_REST=[4,7];
-const BO_EVERY=10,BO_LEAD=2,LIGHT_NEED=1,BO_FAST_STEP=0.07;
+const BO_EVERY=10,BO_LEAD=2,LIGHT_NEED=1,BO_FAST_STEP=0.07,BO_GROW=15,BO_GROW_CAP=115;
 function boFastChance(count){return count<=1?0:Math.min(1,BO_FAST_STEP*(count-1));}
+function boHeightVS(count){return 1+Math.min(BO_GROW_CAP,BO_GROW*(Math.max(1,count)-1))/100;}
 function tilePassive(t){return (t.kind==="grocery"?FOOD_PER_TILE:MAT_PER_TILE)+(t.b2?1:0);}
 function rollRange(r){return r[0]+Math.floor(Math.random()*(r[1]-r[0]+1));}
 function tileStrength(t){return Math.max(1,tierOf(t));}

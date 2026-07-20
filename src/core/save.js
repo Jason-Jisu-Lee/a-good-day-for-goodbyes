@@ -1,6 +1,6 @@
 function save(){
 if(saveGag||!G||overT>=0)return;
-const data={v:10,day:G.day,food:G.food,mats:G.mats,pr:G.pr||0,light:G.light||0,boDay:G.boDay||0,boCount:G.boCount||0,items:{p1:G.items&&G.items.p1||0,p2:G.items&&G.items.p2||0},tutDay:G.tutDay||3,zoomTipSeen:!!G.zoomTipSeen,tut:G.tut||0,atkTipSeen:!!G.atkTipSeen,matsSeen:G.matsSeen,opened:G.opened,atkN:G.atkN||0,nextAtk:G.nextAtk,names:G.names,faces:G.faces,
+const data={v:10,day:G.day,food:G.food,mats:G.mats,pr:G.pr||0,light:G.light||0,boDay:G.boDay||0,boCount:G.boCount||0,boFast:!!G.boFast,items:{p1:G.items&&G.items.p1||0,p2:G.items&&G.items.p2||0},tutDay:G.tutDay||3,zoomTipSeen:!!G.zoomTipSeen,tut:G.tut||0,atkTipSeen:!!G.atkTipSeen,matsSeen:G.matsSeen,opened:G.opened,atkN:G.atkN||0,nextAtk:G.nextAtk,names:G.names,faces:G.faces,
 tiles:G.tiles.map(t=>({gx:t.gx,gy:t.gy,kind:t.kind,state:t.state,turnsLeft:t.turnsLeft||0,atk:!!t.atk,atkS:t.atkS||0,clearD:t.clearD||0,b2:!!t.b2,action:t.action})),
 survivors:G.survivors.map(s=>({name:s.name,face:s.face,col:s.col,x:Math.round(s.x),y:Math.round(s.y),
 task:s.task?{type:s.task.type,gx:s.task.tile.gx,gy:s.task.tile.gy}:null}))};
@@ -13,7 +13,7 @@ if(!raw)return false;
 const d=JSON.parse(raw);
 if(d.v!==10)return false;
 const opened=!d.tiles.some(t=>t.gx>=OB0&&t.gx<=OB1&&t.gy>=OB0&&t.gy<=OB1&&t.state!=="owned");
-G={v:10,day:d.day,food:d.food,mats:d.mats,pr:d.pr||0,light:d.light||0,boDay:d.boDay||0,boCount:d.boCount||0,items:{p1:d.items&&d.items.p1||0,p2:d.items&&d.items.p2||0},tutDay:d.tutDay==null?3:d.tutDay,zoomTipSeen:!!d.zoomTipSeen,tut:d.tut||0,atkTipSeen:!!d.atkTipSeen,matsSeen:!!d.matsSeen||d.mats>0,opened,atkN:d.atkN||0,nextAtk:d.nextAtk==null?rollRange(ATK_FIRST):d.nextAtk,tiles:[],survivors:[]};
+G={v:10,day:d.day,food:d.food,mats:d.mats,pr:d.pr||0,light:d.light||0,boDay:d.boDay||0,boCount:d.boCount||0,boFast:!!d.boFast,items:{p1:d.items&&d.items.p1||0,p2:d.items&&d.items.p2||0},tutDay:d.tutDay==null?3:d.tutDay,zoomTipSeen:!!d.zoomTipSeen,tut:d.tut||0,atkTipSeen:!!d.atkTipSeen,matsSeen:!!d.matsSeen||d.mats>0,opened,atkN:d.atkN||0,nextAtk:d.nextAtk==null?rollRange(ATK_FIRST):d.nextAtk,tiles:[],survivors:[]};
 G.tiles=d.tiles.map(t=>({gx:t.gx,gy:t.gy,kind:t.kind,state:t.state,turnsLeft:t.turnsLeft||0,atk:!!t.atk,atkS:t.atkS||0,clearD:t.clearD||0,b2:!!t.b2,action:t.action}));
 G.survivors=d.survivors.map((s,i)=>{
 const sv={name:s.name,face:s.face,col:s.col||SURV_COLS[i%SURV_COLS.length],x:s.x,y:s.y,task:null};

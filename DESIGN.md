@@ -99,12 +99,15 @@ cost delays expansion; post-prestige bonuses speed it later).
 
 ### 07-19 BLACKOUT + EMBER SHOP (user; save v10, meta storage)
 - BLACKOUT event: every 10 days (day 10, 20, ...) the word BLACKOUT
-  fills the screen (94% width, Segoe Black) with WORLD-DIM (0.5
-  black wash over the town), plain fade in/out ONCE, yellow #e3c15c
-  (user 07-20: world-dim chosen, big, no letter motion, dim reduced
-  from 0.72). CLICK anywhere = fast dismiss (0.3s out) so repeat
-  runs never wait it out. lab_blackout.html = 4 HEIGHT variants
-  (normal / +10% / +20% tall / bigger font) awaiting user pick.
+  fills the screen (94% width, TAHOMA BOLD) with WORLD-DIM (0.5
+  black wash over the town), plain fade in/out ONCE (2.8s), yellow
+  #e3c15c (user 07-20). CLICK anywhere = fast dismiss (0.3s out,
+  only once fully faded in) so repeat runs never wait it out.
+- WORD HEIGHT grows +15% per blackout event, capped +115%
+  (boHeightVS(boCount): event1 0%, event2 +15%, ... event9+ +115%
+  vertical stretch). Font/height locked 07-20 from lab.
+- RED WORD: a FAST (1-day) blackout renders DANGER red (#c8493f)
+  not yellow = the tell it hits in 1 day. G.boFast set at the roll.
   LEAD days later the
   blackout HITS: city needs LIGHT >= LIGHT_NEED (1, placeholder) or
   the run is CONSUMED (game over). NO way to accrue light yet
