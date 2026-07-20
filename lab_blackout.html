@@ -13,17 +13,23 @@ button.on{border-color:#e3c15c;color:#e3c15c}
 </style>
 </head>
 <body>
-<div>All +90% tall, plain fade. Original vs Tahoma vs Impact. Impact has a lighter dim so the world shows through. Click canvas = dismiss / replay.</div>
+<div>Height compare. Segoe Black 0/90/150%, Tahoma 0/60/90/120/150%. Dim 0.5, plain fade. Click canvas = dismiss / replay.</div>
 <canvas id="cv" width="960" height="540"></canvas>
 <div class="row" id="btns"></div>
 <div class="note" id="desc"></div>
 <script>
 const cv=document.getElementById("cv"),cx=cv.getContext("2d");
 const W=960,H=540,YEL="#e3c15c";
+const SB='"Segoe UI Black","Segoe UI",sans-serif',TA='Tahoma,Geneva,sans-serif';
 const VARS=[
-{n:"SEGOE BLACK (ORIG)",fam:'"Segoe UI Black","Segoe UI",sans-serif',wt:"800",vs:1.90,wf:0.94,sp:0.10,cap:150,dim:0.5,d:"the original / current live font. Heavy block."},
-{n:"TAHOMA",fam:'Tahoma,Geneva,sans-serif',wt:"700",vs:1.90,wf:0.94,sp:0.10,cap:150,dim:0.5,d:"bold humanist sans. Clean, sturdy, not blocky."},
-{n:"IMPACT",fam:'Impact,Haettenschweiler,"Arial Narrow",sans-serif',wt:"400",vs:1.90,wf:0.94,sp:0.06,cap:190,dim:0.35,d:"condensed poster face, lighter dim (0.35) so the huge letters don't black out the world."}
+{n:"SEGOE 0%",fam:SB,wt:"800",vs:1.00,wf:0.94,sp:0.10,cap:150,dim:0.5,d:"Segoe Black, normal height."},
+{n:"SEGOE +90%",fam:SB,wt:"800",vs:1.90,wf:0.94,sp:0.10,cap:150,dim:0.5,d:"Segoe Black, 90% taller."},
+{n:"SEGOE +150%",fam:SB,wt:"800",vs:2.50,wf:0.94,sp:0.10,cap:150,dim:0.5,d:"Segoe Black, 150% taller."},
+{n:"TAHOMA 0%",fam:TA,wt:"700",vs:1.00,wf:0.94,sp:0.10,cap:150,dim:0.5,d:"Tahoma, normal height."},
+{n:"TAHOMA +60%",fam:TA,wt:"700",vs:1.60,wf:0.94,sp:0.10,cap:150,dim:0.5,d:"Tahoma, 60% taller."},
+{n:"TAHOMA +90%",fam:TA,wt:"700",vs:1.90,wf:0.94,sp:0.10,cap:150,dim:0.5,d:"Tahoma, 90% taller."},
+{n:"TAHOMA +120%",fam:TA,wt:"700",vs:2.20,wf:0.94,sp:0.10,cap:150,dim:0.5,d:"Tahoma, 120% taller."},
+{n:"TAHOMA +150%",fam:TA,wt:"700",vs:2.50,wf:0.94,sp:0.10,cap:150,dim:0.5,d:"Tahoma, 150% taller."}
 ];
 let vi=0,t=0,out=-1,outA=0,last=performance.now();
 const brow=document.getElementById("btns"),desc=document.getElementById("desc");
