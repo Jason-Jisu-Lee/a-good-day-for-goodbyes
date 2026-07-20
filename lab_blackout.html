@@ -4,33 +4,45 @@
 <meta charset="utf-8">
 <title>BLACKOUT word lab</title>
 <style>
-body{margin:0;background:#0a0a0a;color:#888;font:13px "Segoe UI",sans-serif;display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px}
+body{margin:0;background:#0a0a0a;color:#888;font:13px "Segoe UI",sans-serif;display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px}
 canvas{outline:1px solid #222}
-.row{display:flex;gap:10px}
-button{background:#111;border:1px solid #444;color:#ccc;font:13px "Segoe UI",sans-serif;padding:8px 18px;cursor:pointer}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:960px}
+button{background:#111;border:1px solid #444;color:#ccc;font:13px "Segoe UI",sans-serif;padding:7px 14px;cursor:pointer}
 button.on{border-color:#e3c15c;color:#e3c15c}
-.note{max-width:960px;color:#666}
+.note{max-width:960px;color:#666;text-align:center}
 </style>
 </head>
 <body>
-<div>BLACKOUT word treatments. Same yellow #e3c15c, same size, same spot, plays once over mock UI. Click to replay.</div>
+<div>WORLD-DIM treatment, word fills the screen. Track-in motion (letters settle in from wide). Click canvas to replay. Pick a font below.</div>
 <canvas id="cv" width="960" height="540"></canvas>
-<div class="row">
-<button data-v="0" class="on">1 FADE</button>
-<button data-v="1">2 TRACK-IN</button>
-<button data-v="2">3 FLICKER</button>
-<button data-v="3">4 WORLD DIM</button>
-</div>
-<div class="note">1 FADE: plain fade in, hold, fade out. 2 TRACK-IN: letters start wide and settle while fading in (cinematic). 3 FLICKER: stutters on like failing power, holds, blinks out. 4 WORLD DIM: whole screen sinks dark while the word passes over it.</div>
+<div class="row" id="fonts"></div>
+<div class="note" id="desc"></div>
 <script>
 const cv=document.getElementById("cv"),cx=cv.getContext("2d");
-const W=960,H=540,YEL="#e3c15c",FONT='"Segoe UI",system-ui,Arial,sans-serif';
-let variant=0,t=0,last=performance.now();
-document.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
-document.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
-b.classList.add("on");
-variant=+b.dataset.v;t=0;
-}));
+const W=960,H=540,YEL="#e3c15c";
+const FONTS=[
+{n:"SEGOE BLACK",fam:'"Segoe UI Black","Segoe UI",sans-serif',wt:"800",sp:0.10,d:"heavy sans, the game's own family pushed to max weight. Cohesive, safe."},
+{n:"IMPACT",fam:'Impact,"Arial Narrow Bold",sans-serif',wt:"400",sp:0.06,d:"condensed poster face. Loud, tabloid, in-your-face. Very out of place."},
+{n:"ARIAL BLACK",fam:'"Arial Black",sans-serif',wt:"900",sp:0.10,d:"fat grotesque. Blunt and industrial."},
+{n:"BAHNSCHRIFT",fam:'Bahnschrift,"DIN",sans-serif',wt:"700",sp:0.14,d:"German DIN signage. Technical, cold, modern. Reads like a warning label."},
+{n:"FRANKLIN",fam:'"Franklin Gothic Medium","Arial Narrow",sans-serif',wt:"600",sp:0.10,d:"newspaper headline gothic. Classic, urgent."},
+{n:"GEORGIA IT",fam:'Georgia,"Times New Roman",serif',wt:"700 italic",sp:0.06,d:"serif italic. Elegant, literary, eerily calm. Most out of place."},
+{n:"TIMES",fam:'"Times New Roman",serif',wt:"700",sp:0.06,d:"upright serif. Official, gravestone-formal."},
+{n:"CONSOLAS",fam:'Consolas,"Courier New",monospace',wt:"700",sp:0.10,d:"terminal mono. Glitch / system-failure feel."},
+{n:"COURIER",fam:'"Courier New",monospace',wt:"700",sp:0.06,d:"typewriter. Analog, dossier, end-of-the-world memo."},
+{n:"CONSTANTIA",fam:'Constantia,Georgia,serif',wt:"700",sp:0.06,d:"humanist serif. Softer, book-like."},
+{n:"TREBUCHET",fam:'"Trebuchet MS",sans-serif',wt:"700",sp:0.10,d:"humanist sans. Friendly, rounder."},
+{n:"CAMBRIA",fam:'Cambria,Georgia,serif',wt:"700",sp:0.06,d:"sturdy serif built for screens."}
+];
+let fi=5,t=0,last=performance.now();
+const frow=document.getElementById("fonts"),desc=document.getElementById("desc");
+FONTS.forEach((f,i)=>{
+const b=document.createElement("button");
+b.textContent=f.n;b.className=i===fi?"on":"";
+b.onclick=()=>{fi=i;t=0;[...frow.children].forEach(c=>c.classList.remove("on"));b.classList.add("on");desc.textContent=f.d;};
+frow.appendChild(b);
+});
+desc.textContent=FONTS[fi].d;
 cv.addEventListener("click",()=>{t=0;});
 function mock(){
 cx.fillStyle="#000";cx.fillRect(0,0,W,H);
@@ -42,58 +54,47 @@ cx.beginPath();
 cx.moveTo(x,y-17);cx.lineTo(x+34,y);cx.lineTo(x,y+17);cx.lineTo(x-34,y);cx.closePath();
 cx.stroke();
 }
-cx.fillStyle="#f2f2f0";cx.font="600 20px "+FONT;
-cx.fillText("FOOD 14",16,14);
-cx.fillText("MATERIAL 6",160,14);
-cx.font="600 10px "+FONT;
-cx.fillStyle="#777";
-cx.fillText("+4/DAY",16,40);
-cx.fillText("-6/DAY",16,54);
+cx.fillStyle="#f2f2f0";cx.font="600 20px 'Segoe UI'";
+cx.fillText("FOOD 14",16,14);cx.fillText("MATERIAL 6",160,14);
+cx.font="600 10px 'Segoe UI'";cx.fillStyle="#777";
 cx.fillText("DAY 10",16,H-32);
 cx.strokeStyle="#333";cx.strokeRect(W-204,60,188,392);
 cx.strokeStyle="#f2f2f0";cx.strokeRect(W/2-75,H-58,150,44);
-cx.font="600 20px "+FONT;cx.fillStyle="#f2f2f0";
+cx.font="600 20px 'Segoe UI'";cx.fillStyle="#f2f2f0";
 cx.textAlign="center";cx.fillText("END DAY",W/2,H-43);cx.textAlign="left";
 }
-function env(tt){return tt<0.7?tt/0.7:(tt<2.2?1:Math.max(0,(3.2-tt)/1));}
-function flickA(tt){
-const seg=[[0,0.06,1],[0.06,0.16,0],[0.16,0.3,1],[0.3,0.4,0],[0.4,0.47,0.5],[0.47,2.5,1],[2.5,2.58,0],[2.58,2.75,1],[2.75,9,0]];
-for(const s of seg)if(tt>=s[0]&&tt<s[1])return s[2];
-return 0;
-}
-function word(alpha,gap){
-if(alpha<=0)return;
+function env(tt){return tt<0.7?tt/0.7:(tt<2.4?1:Math.max(0,(3.4-tt)/1));}
+function drawWord(){
+const f=FONTS[fi],a=env(t);
+if(a<=0)return;
+mock();
 cx.save();
-cx.globalAlpha=alpha;
-cx.font="800 52px "+FONT;
-cx.textBaseline="top";
+cx.fillStyle="rgba(0,0,0,"+(0.72*a)+")";
+cx.fillRect(0,0,W,H);
+cx.globalAlpha=a;
 cx.fillStyle=YEL;
-const s="BLACKOUT";
+cx.textBaseline="middle";cx.textAlign="left";
+const s="BLACKOUT",target=W*0.94;
+cx.font=f.wt+" 100px "+f.fam;
+const w0=[...s].map(ch=>cx.measureText(ch).width);
+const tw0=w0.reduce((p,w)=>p+w,0)+100*f.sp*(s.length-1);
+let size=Math.min(150,100*target/tw0);
+const p=Math.min(1,t/0.9),e=1-Math.pow(1-p,3);
+const sp=f.sp+(1-e)*0.5;
+cx.font=f.wt+" "+size+"px "+f.fam;
 const ws=[...s].map(ch=>cx.measureText(ch).width);
-let tw=ws.reduce((a,w)=>a+w+gap,-gap);
-let x=W/2-tw/2;
-for(let i=0;i<s.length;i++){cx.fillText(s[i],x,H/2-34);x+=ws[i]+gap;}
+const gap=size*sp;
+let tw=ws.reduce((pv,w)=>pv+w+gap,-gap);
+if(tw>target){size*=target/tw;cx.font=f.wt+" "+size+"px "+f.fam;}
+const ws2=[...s].map(ch=>cx.measureText(ch).width);
+const gap2=size*sp;
+let tw2=ws2.reduce((pv,w)=>pv+w+gap2,-gap2);
+let x=W/2-tw2/2;
+for(let i=0;i<s.length;i++){cx.fillText(s[i],x,H/2);x+=ws2[i]+gap2;}
 cx.restore();
 }
-function draw(){
-mock();
-if(variant===3){
-const a=env(t);
-cx.fillStyle="rgba(0,0,0,"+(0.65*a)+")";
-cx.fillRect(0,0,W,H);
-word(a,22);
-}else if(variant===0)word(env(t),22);
-else if(variant===1){
-const p=Math.min(1,t/0.9),e=1-Math.pow(1-p,3);
-word(env(t),22+30*(1-e));
-}else if(variant===2)word(flickA(t),22);
-}
-function step(now){
-t+=Math.min(100,now-last)/1000;last=now;
-draw();
-requestAnimationFrame(step);
-}
-requestAnimationFrame(step);
+function step(now){t+=Math.min(100,now-last)/1000;last=now;if(t<0.001)mock();drawWord();if(env(t)<=0&&t>0.5)mock();requestAnimationFrame(step);}
+mock();requestAnimationFrame(step);
 </script>
 </body>
 </html>
