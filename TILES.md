@@ -3,67 +3,81 @@
 User edits this file freely. Claude syncs DESIGN.md and the game
 after each editing pass. Names marked (placeholder) need user naming.
 
-## Grid naming (chess style, prepared for 12x12)
+## Grid naming (chess style; live build = full 12x12, 144 tiles)
 - Columns A-L left to right, rows 1-12 top to bottom.
 - Tile name = column + row: "F6", "H7".
 - The logical grid is square; the screen just draws it rotated 45deg.
 - ORIGIN block = the exact center 2x2: F6 G6 F7 G7.
-- Current build's 4x4 world = the center block, columns E-H rows 5-8.
-- Scales to 12x12 with no renaming ever; 15x15 would need one more
-  column letter and is currently out of scope.
+- Screen corners: A1 top, L1 right, A12 left, L12 bottom.
 
-## Tiers (user 07-12; TIER replaces "ring")
+## Tiers (synced 07-19 to board.js tierOf; supersedes 07-12 spec)
+- TIER = ring distance from the origin block (dx+dy, Manhattan).
+  Rings render as squares around the origin on screen.
 - TIER 0: origin 4 (F6 G6 F7 G7). Safe.
-- TIER 1: the 8 edge-adjacent tiles (F5 G5 E6 H6 E7 H7 F8 G8).
-  Scout base 12s (origin mystery included). AT LEAST 2 of the 8 are
-  DANGER tiles with 1 zombie each (draft, playtest pending).
-- TIER 2: the 4 diagonal corners (E5 H5 E8 H8) + the entire next
-  ring (D4..I9 outline, 20 tiles). Scout base 24s. Unscavenged tier
-  2 renders SLIGHTLY RED = danger warning.
-- TIER 3: next ring (C3..J10 outline). Scout base 36s.
-- Pattern: +12s scout base per tier.
+- Sizes 0-10: 4 / 8 / 12 / 16 / 20 / 24 / 20 / 16 / 12 / 8 / 4.
+  Grows +4 per tier to 24 at tier 5, then the board edge clips it
+  back down; tier 10 = the 4 corners (A1 L1 A12 L12).
+- TIER 1 = F5 G5 E6 H6 E7 H7 F8 G8.
+- TIER 2 = F4 G4 E5 H5 D6 I6 D7 I7 E8 H8 F9 G9.
+- Darkness strength = tier. Reclaim days / crew / death risk all
+  come from the survivor-day math (DESIGN.md 07-17). Old scout
+  seconds dead (real-time dead).
 
 ## Name map (drawn exactly like the screen; origin in brackets)
 
 ```
-                              C3
-                           C4    D3
-                        C5    D4    E3
-                     C6    D5    E4    F3
-                  C7    D6    E5    F4    G3
-               C8    D7    E6    F5    G4    H3
-            C9    D8    E7   [F6]   G5    H4    I3
-         C10   D9    E8   [F7]  [G6]   H5    I4    J3
-            D10   E9    F8   [G7]   H6    I5    J4
-               E10   F9    G8    H7    I6    J5
-                  F10   G9    H8    I7    J6
-                     G10   H9    I8    J7
-                        H10   I9    J8
-                           I10   J9
-                              J10
+                                 A1
+                              A2    B1
+                           A3    B2    C1
+                        A4    B3    C2    D1
+                     A5    B4    C3    D2    E1
+                  A6    B5    C4    D3    E2    F1
+               A7    B6    C5    D4    E3    F2    G1
+            A8    B7    C6    D5    E4    F3    G2    H1
+         A9    B8    C7    D6    E5    F4    G3    H2    I1
+      A10   B9    C8    D7    E6    F5    G4    H3    I2    J1
+   A11   B10   C9    D8    E7   [F6]   G5    H4    I3    J2    K1
+A12   B11   C10   D9    E8   [F7]  [G6]   H5    I4    J3    K2    L1
+   B12   C11   D10   E9    F8   [G7]   H6    I5    J4    K3    L2
+      C12   D11   E10   F9    G8    H7    I6    J5    K4    L3
+         D12   E11   F10   G9    H8    I7    J6    K5    L4
+            E12   F11   G10   H9    I8    J7    K6    L5
+               F12   G11   H10   I9    J8    K7    L6
+                  G12   H11   I10   J9    K8    L7
+                     H12   I11   J10   K9    L8
+                        I12   J11   K10   L9
+                           J12   K11   L10
+                              K12   L11
+                                 L12
 ```
 
-## Tier map (same shape; 0 origin, 1-3 outward)
+## Tier map (same shape; 0 origin, 1-10 outward)
 
 ```
-                               3
-                            3     3
-                         3     2     3
-                      3     2     2     3
-                   3     2     2     2     3
-                3     2     1     1     2     3
-             3     2     1    [0]    1     2     3
-          3     2     2    [0]   [0]    2     2     3
-             3     2     1    [0]    1     2     3
-                3     2     1     1     2     3
-                   3     2     2     2     3
-                      3     2     2     3
-                         3     2     3
-                            3     3
-                               3
+                                 10
+                              9     9
+                           8     8     8
+                        7     7     7     7
+                     6     6     6     6     6
+                  5     5     5     5     5     5
+               5     4     4     4     4     4     5
+            6     4     3     3     3     3     4     6
+         7     5     3     2     2     2     3     5     7
+      8     6     4     2     1     1     2     4     6     8
+   9     7     5     3     1    [0]    1     3     5     7     9
+10    8     6     4     2    [0]   [0]    2     4     6     8     10
+   9     7     5     3     1    [0]    1     3     5     7     9
+      8     6     4     2     1     1     2     4     6     8
+         7     5     3     2     2     2     3     5     7
+            6     4     3     3     3     3     4     6
+               5     4     4     4     4     4     5
+                  5     5     5     5     5     5
+                     6     6     6     6     6
+                        7     7     7     7
+                           8     8     8
+                              9     9
+                                 10
 ```
-(Tier 1 = F5 G5 E6 H6 E7 H7 F8 G8. Tier 2 = E5 H5 E8 H8 corners +
-the D4..I9 ring. Tier 3 = the C3..J10 ring.)
 
 ## Zombies (user 07-12; data live, combat not built)
 - ALL tier-2 tiles carry 1 zombie (07-12, supersedes ">=2 danger in
