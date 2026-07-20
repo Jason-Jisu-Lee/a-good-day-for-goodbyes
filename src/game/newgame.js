@@ -4,7 +4,7 @@ const originKinds=shuffle(["house","house","grocery","mystery"]);
 let oi=0;
 const bags={
 1:shuffle(["camp","grocery","scrap","rubble","lot","lot","lot","lot"]),
-2:shuffle(["camp","camp","grocery","grocery","scrap","rubble","cache","lot","lot","lot","lot","lot"]),
+2:shuffle(["camp","camp","grocery","grocery","scrap","rubble","cache","light","light","lot","lot","lot"]),
 3:shuffle(["camp","grocery","grocery","scrap","scrap","rubble","rubble","lot","lot","lot","lot","lot","lot","lot","lot","lot"]),
 4:shuffle(["grocery","grocery","scrap","scrap","rubble","rubble","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot"]),
 5:shuffle(["grocery","grocery","grocery","scrap","scrap","scrap","rubble","rubble","rubble","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot","lot"]),

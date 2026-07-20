@@ -36,9 +36,10 @@ uiButtons.push({id:"minc",x:158,y:l.hud+20,w:96,h:13,en:true});
 text7("+"+mi.tot+"/DAY",160,l.hud+22,1,null,FG);
 if(hover==="minc")tip(160,l.hud+38,["MATERIAL TILES "+mi.n,...mi.lines]);
 }
-if(G.pr>0)text7("EMBER "+G.pr,300,l.hud,2);
-if(G.items&&G.items.p1>0)text7("PLACEHOLDER1 "+G.items.p1,440,l.hud,1,null,MID);
-if(G.items&&G.items.p2>0)text7("PLACEHOLDER2 "+G.items.p2,440,l.hud+14,1,null,MID);
+if((G.light||0)>0)text7("LIGHT "+G.light,300,l.hud,2);
+if(G.pr>0)text7("EMBER "+G.pr,440,l.hud,2);
+if(G.items&&G.items.p1>0)text7("PLACEHOLDER1 "+G.items.p1,580,l.hud,1,null,MID);
+if(G.items&&G.items.p2>0)text7("PLACEHOLDER2 "+G.items.p2,580,l.hud+14,1,null,MID);
 const cap=G.tiles.filter(t=>t.state==="owned"&&(t.kind==="house"||t.kind==="house2")).length;
 text7("SURVIVORS "+G.survivors.length+"/"+cap,160,l.hud+36,1,null,MID);
 text7("DAY "+G.day,16,H-24,1,null,MID);

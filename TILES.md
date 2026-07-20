@@ -93,18 +93,18 @@ sum to TILES. LOT flattened 07-19 (user: near-equal, rises slowly);
 freed slots sit in TBD = kinds user decides later. TBD generates as
 EMPTY LOT in game until assigned, so play is unchanged for now.
 
-| TIER | TILES | CAMP | FOOD | MATERIAL | RUBBLE | CACHE | EMBER | LOT | TBD |
-|------|-------|------|------|----------|--------|-------|-------|-----|-----|
-| 1    | 8     | 1    | 1    | 1        | 1      | 0     | 0     | 4   | 0   |
-| 2    | 12    | 2    | 2    | 1        | 1      | 1     | 0     | 5   | 0   |
-| 3    | 16    | 1    | 2    | 2        | 2      | 0     | 0     | 6   | 3   |
-| 4    | 20    | 0    | 2    | 2        | 2      | 0     | 0     | 6   | 8   |
-| 5    | 24    | 0    | 3    | 3        | 3      | 0     | 0     | 7   | 8   |
-| 6    | 20    | 0    | 2    | 4        | 3      | 0     | 0     | 7   | 4   |
-| 7    | 16    | 0    | 2    | 4        | 2      | 0     | 0     | 7   | 1   |
-| 8    | 12    | 0    | 2    | 4        | 2      | 0     | 0     | 4   | 0   |
-| 9    | 8     | 0    | 2    | 3        | 1      | 0     | 0     | 2   | 0   |
-| 10   | 4     | 0    | 1    | 2        | 0      | 0     | 0     | 1   | 0   |
+| TIER | TILES | CAMP | FOOD | MATERIAL | RUBBLE | CACHE | LIGHT | EMBER | LOT | TBD |
+|------|-------|------|------|----------|--------|-------|-------|-------|-----|-----|
+| 1    | 8     | 1    | 1    | 1        | 1      | 0     | 0     | 0     | 4   | 0   |
+| 2    | 12    | 2    | 2    | 1        | 1      | 1     | 2     | 0     | 3   | 0   |
+| 3    | 16    | 1    | 2    | 2        | 2      | 0     | 0     | 0     | 6   | 3   |
+| 4    | 20    | 0    | 2    | 2        | 2      | 0     | 0     | 0     | 6   | 8   |
+| 5    | 24    | 0    | 3    | 3        | 3      | 0     | 0     | 0     | 7   | 8   |
+| 6    | 20    | 0    | 2    | 4        | 3      | 0     | 0     | 0     | 7   | 4   |
+| 7    | 16    | 0    | 2    | 4        | 2      | 0     | 0     | 0     | 7   | 1   |
+| 8    | 12    | 0    | 2    | 4        | 2      | 0     | 0     | 0     | 4   | 0   |
+| 9    | 8     | 0    | 2    | 3        | 1      | 0     | 0     | 0     | 2   | 0   |
+| 10   | 4     | 0    | 1    | 2        | 0      | 0     | 0     | 0     | 1   | 0   |
 
 LOT curve: 4 5 6 6 7 7 7 then 4 2 1 (tiers 8-10 shrink to 12/8/4
 tiles, fewer lots natural). TBD total = 24 slots open.
@@ -128,6 +128,9 @@ resolves to first-survivor tutorial, then EMPTY LOT.)
 - CAMPFIRE: reclaim = 1 recruit joins, becomes EMPTY LOT.
 - SUPPLY CACHE: reclaim = 2-5 MATERIAL or 2-5 FOOD (50/50),
   becomes EMPTY LOT.
+- LIGHT: reclaim = +1 LIGHT point, becomes EMPTY LOT. LIGHT is the
+  blackout-survival currency (city needs LIGHT >= need or CONSUMED).
+  2 per run in tier 2. HUD shows LIGHT once first point earned.
 - EMBER: reclaim = +1 EMBER banked, becomes EMPTY LOT. Spawn 0 for
   now (percentage discussion pending).
 - EMPTY LOT: empty ground. REBUILD (user 07-19, not built yet):

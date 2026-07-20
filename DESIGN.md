@@ -110,8 +110,11 @@ cost delays expansion; post-prestige bonuses speed it later).
   not yellow = the tell it hits in 1 day. G.boFast set at the roll.
   LEAD days later the
   blackout HITS: city needs LIGHT >= LIGHT_NEED (1, placeholder) or
-  the run is CONSUMED (game over). NO way to accrue light yet
-  (intended; light source design later).
+  the run is CONSUMED (game over).
+- LIGHT TILE (user 07-20): new tile, reclaim = +1 LIGHT, becomes
+  EMPTY LOT. 2 per run in tier 2 (bag: -2 lot). HUD shows LIGHT
+  count once the first point is earned. Float "+LIGHT" on reclaim.
+  This is the first light source; more/tuning later.
 - LEAD TIME (user 07-20): 1st blackout ALWAYS 2 days to prepare.
   From the 2nd on, escalating chance of a FAST blackout (1 day lead
   instead of 2): boFastChance = 7% * (eventCount-1), capped 100%
