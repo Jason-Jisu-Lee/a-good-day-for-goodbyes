@@ -88,6 +88,10 @@ cost delays expansion; post-prestige bonuses speed it later).
   finish/HUD code stays for later). Percentage discussion pending.
 - Per-tier tile count table lives in TILES.md (user plugs values,
   Claude syncs newgame.js bags). Row sums must equal tier size.
+- LOT counts flattened (user 07-19: near-equal, rises slowly):
+  4 5 6 6 7 7 7 4 2 1 across tiers 1-10. Freed mid-tier slots =
+  TBD column (24 total), kinds decided later; TBD generates as
+  EMPTY LOT in game until assigned (bags unchanged in code).
 
 ### 07-15 SESSION LOCKS (branch v.3)
 - VERB = RECLAIM (user-locked, replaces EXTINGUISH everywhere

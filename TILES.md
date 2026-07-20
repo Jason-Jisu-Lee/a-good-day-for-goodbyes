@@ -92,21 +92,25 @@ the D4..I9 ring. Tier 3 = the C3..J10 ring.)
 
 ## Tier tile table (user plugs in counts, Claude syncs newgame.js)
 Cells = exact tile counts per tier (bag draw, not %). Each row must
-sum to TILES. Values below = what the game generates today (07-19,
-ember zeroed pending percentage discussion).
+sum to TILES. LOT flattened 07-19 (user: near-equal, rises slowly);
+freed slots sit in TBD = kinds user decides later. TBD generates as
+EMPTY LOT in game until assigned, so play is unchanged for now.
 
-| TIER | TILES | CAMP | FOOD | MATERIAL | RUBBLE | CACHE | EMBER | LOT |
-|------|-------|------|------|----------|--------|-------|-------|-----|
-| 1    | 8     | 1    | 1    | 1        | 1      | 0     | 0     | 4   |
-| 2    | 12    | 2    | 2    | 1        | 1      | 1     | 0     | 5   |
-| 3    | 16    | 1    | 2    | 2        | 2      | 0     | 0     | 9   |
-| 4    | 20    | 0    | 2    | 2        | 2      | 0     | 0     | 14  |
-| 5    | 24    | 0    | 3    | 3        | 3      | 0     | 0     | 15  |
-| 6    | 20    | 0    | 2    | 4        | 3      | 0     | 0     | 11  |
-| 7    | 16    | 0    | 2    | 4        | 2      | 0     | 0     | 8   |
-| 8    | 12    | 0    | 2    | 4        | 2      | 0     | 0     | 4   |
-| 9    | 8     | 0    | 2    | 3        | 1      | 0     | 0     | 2   |
-| 10   | 4     | 0    | 1    | 2        | 0      | 0     | 0     | 1   |
+| TIER | TILES | CAMP | FOOD | MATERIAL | RUBBLE | CACHE | EMBER | LOT | TBD |
+|------|-------|------|------|----------|--------|-------|-------|-----|-----|
+| 1    | 8     | 1    | 1    | 1        | 1      | 0     | 0     | 4   | 0   |
+| 2    | 12    | 2    | 2    | 1        | 1      | 1     | 0     | 5   | 0   |
+| 3    | 16    | 1    | 2    | 2        | 2      | 0     | 0     | 6   | 3   |
+| 4    | 20    | 0    | 2    | 2        | 2      | 0     | 0     | 6   | 8   |
+| 5    | 24    | 0    | 3    | 3        | 3      | 0     | 0     | 7   | 8   |
+| 6    | 20    | 0    | 2    | 4        | 3      | 0     | 0     | 7   | 4   |
+| 7    | 16    | 0    | 2    | 4        | 2      | 0     | 0     | 7   | 1   |
+| 8    | 12    | 0    | 2    | 4        | 2      | 0     | 0     | 4   | 0   |
+| 9    | 8     | 0    | 2    | 3        | 1      | 0     | 0     | 2   | 0   |
+| 10   | 4     | 0    | 1    | 2        | 0      | 0     | 0     | 1   | 0   |
+
+LOT curve: 4 5 6 6 7 7 7 then 4 2 1 (tiers 8-10 shrink to 12/8/4
+tiles, fewer lots natural). TBD total = 24 slots open.
 
 (Tier 0 = origin, fixed: 2 HOUSE + 1 FOOD + 1 MYSTERY. Mystery
 resolves to first-survivor tutorial, then EMPTY LOT.)
