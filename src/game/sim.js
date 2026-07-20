@@ -72,13 +72,14 @@ G.nextAtk=G.day+atkGap(G.atkN);
 }
 if(G.day%BO_EVERY===0){
 G.boCount=(G.boCount||0)+1;
+G.boNeed=boDark(G.boCount);
 G.boFast=Math.random()<boFastChance(G.boCount);
 G.boDay=G.day+(G.boFast?1:BO_LEAD);
 boWordStart();
 }
 if(G.boDay&&G.day>=G.boDay){
 G.boDay=0;
-if((G.light||0)<LIGHT_NEED)endRun();
+if((G.light||0)<(G.boNeed||0))endRun();
 }
 if(G.survivors.length===0)endRun();
 save();

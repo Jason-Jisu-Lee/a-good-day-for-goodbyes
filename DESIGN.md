@@ -109,8 +109,13 @@ cost delays expansion; post-prestige bonuses speed it later).
 - RED WORD: a FAST (1-day) blackout renders DANGER red (#c8493f)
   not yellow = the tell it hits in 1 day. G.boFast set at the roll.
   LEAD days later the
-  blackout HITS: city needs LIGHT >= LIGHT_NEED (1, placeholder) or
-  the run is CONSUMED (game over).
+  blackout HITS: city needs LIGHT >= DARKNESS(boCount) or the run
+  is CONSUMED (game over). DARKNESS = (n+1)(n+2)/2 per event: 1st 3,
+  2nd 6, 3rd 10, 4th 15, 5th 21, 6th 28... (gap grows +1 each). Meet
+  or exceed = survive, nothing else happens. boNeed stores the
+  value at warning. TERM "DARKNESS" = working placeholder (user 07-20
+  rejects strength/power/density; final name TBD). Visual reference:
+  doc_threats.html (blackout + tile SIEGE numbers).
 - LIGHT TILE (user 07-20): new tile, reclaim = +1 LIGHT, becomes
   EMPTY LOT. 2 per run in tier 2 (bag: -2 lot). HUD shows LIGHT
   count once the first point is earned. Float "+LIGHT" on reclaim.

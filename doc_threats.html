@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>THE BLACK - threat reference</title>
+<style>
+:root{--yel:#e3c15c;--red:#c8493f;--fg:#f2f2f0;--mid:#8a8a86;--dim:#333;--bg:#0a0a0a;--card:#131313}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.5 "Segoe UI",system-ui,sans-serif;padding:32px;max-width:1100px;margin:0 auto}
+h1{font-weight:800;letter-spacing:2px;font-size:30px;margin:0 0 4px}
+h1 .sub{color:var(--mid);font-weight:400;font-size:14px;letter-spacing:1px;display:block;margin-top:6px}
+h2{font-weight:800;letter-spacing:1px;font-size:20px;margin:0;padding:0}
+.tag{display:inline-block;font-size:11px;letter-spacing:1px;padding:2px 8px;border:1px solid var(--dim);border-radius:2px;color:var(--mid);vertical-align:middle;margin-left:10px}
+.card{background:var(--card);border:1px solid var(--dim);border-radius:6px;padding:24px;margin:20px 0}
+.lead{color:var(--mid);font-size:15px;margin:8px 0 20px;max-width:70ch}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:7px 12px;border-bottom:1px solid #222}
+th{color:var(--mid);font-weight:600;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+td.n{font-weight:700;text-align:right}
+.bars{display:flex;align-items:flex-end;gap:8px;height:200px;margin:14px 0 4px;padding-top:10px}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.bar .fill{width:100%;background:linear-gradient(180deg,var(--yel),#8a743a);border-radius:3px 3px 0 0;min-height:2px}
+.bar .v{font-weight:700;font-size:13px;margin-bottom:5px}
+.bar .x{color:var(--mid);font-size:11px;margin-top:6px}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 2px}
+.step{border:1px solid var(--dim);border-radius:4px;padding:8px 12px;font-size:13px}
+.step b{color:var(--yel)}
+.arrow{color:var(--mid)}
+.red{color:var(--red)}.yel{color:var(--yel)}
+.note{font-size:13px;color:var(--mid);margin-top:14px;border-left:2px solid var(--dim);padding-left:12px}
+.pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:700;letter-spacing:.5px}
+.pill.red{background:rgba(200,73,63,.16);color:var(--red)}
+.pill.yel{background:rgba(227,193,92,.16);color:var(--yel)}
+.flag{background:rgba(227,193,92,.08);border:1px solid #4a411f;border-radius:6px;padding:14px 18px;margin:18px 0;font-size:13px;color:#d8cfa8}
+.flag b{color:var(--yel)}
+code{background:#000;border:1px solid #222;border-radius:3px;padding:1px 6px;font:12px "Consolas",monospace;color:var(--yel)}
+.formula{font:13px "Consolas",monospace;color:var(--mid);margin-top:10px}
+</style>
+</head>
+<body>
+<h1>THE BLACK
+<span class="sub">Two ways the dark comes for the town. Reference for tuning. Numbers live in balance.js.</span></h1>
+
+<div class="flag">
+<b>NAMING OPEN.</b> Two working terms need a real name (no "strength / power / density"):
+the blackout's dark value (called <b>DARKNESS</b> below) and the per-tile event
+(called <b>SIEGE</b> below). Options in the chat.
+</div>
+
+<div class="card">
+<h2>BLACKOUT <span class="tag">city-wide &middot; every 10 days</span></h2>
+<div class="lead">Every 10 days the failing light is tested against the rising dark. The town's
+total <span class="yel">LIGHT</span> must MEET OR EXCEED the blackout's DARKNESS, or the town is
+CONSUMED and the run ends.</div>
+
+<div class="flow">
+<div class="step">Day 10, 20, 30&hellip; <b>BLACKOUT</b> word fills the screen</div>
+<span class="arrow">&rarr;</span>
+<div class="step">wait <b>LEAD</b> days</div>
+<span class="arrow">&rarr;</span>
+<div class="step">it HITS: <span class="yel">LIGHT</span> &ge; DARKNESS ? survive : <span class="red">CONSUMED</span></div>
+</div>
+
+<div class="grid" style="margin-top:22px">
+<div>
+<h2 style="font-size:15px">DARKNESS by blackout</h2>
+<div class="bars">
+<div class="bar"><span class="v">3</span><div class="fill" style="height:5%"></div><span class="x">1st</span></div>
+<div class="bar"><span class="v">6</span><div class="fill" style="height:9%"></div><span class="x">2nd</span></div>
+<div class="bar"><span class="v">10</span><div class="fill" style="height:15%"></div><span class="x">3rd</span></div>
+<div class="bar"><span class="v">15</span><div class="fill" style="height:23%"></div><span class="x">4th</span></div>
+<div class="bar"><span class="v">21</span><div class="fill" style="height:32%"></div><span class="x">5th</span></div>
+<div class="bar"><span class="v">28</span><div class="fill" style="height:42%"></div><span class="x">6th</span></div>
+<div class="bar"><span class="v">36</span><div class="fill" style="height:55%"></div><span class="x">7th</span></div>
+<div class="bar"><span class="v">45</span><div class="fill" style="height:68%"></div><span class="x">8th</span></div>
+<div class="bar"><span class="v">55</span><div class="fill" style="height:83%"></div><span class="x">9th</span></div>
+<div class="bar"><span class="v">66</span><div class="fill" style="height:100%"></div><span class="x">10th</span></div>
+</div>
+<div class="formula">gap grows +1 each time: +3, +4, +5, +6&hellip; &nbsp; DARKNESS(n) = (n+1)(n+2)/2</div>
+</div>
+<div>
+<h2 style="font-size:15px">LEAD time to prepare</h2>
+<table>
+<tr><th>Blackout</th><th>Lead</th><th>Fast chance</th><th>Word</th></tr>
+<tr><td>1st</td><td class="n">2 days</td><td class="n">0%</td><td><span class="pill yel">YELLOW</span></td></tr>
+<tr><td>2nd</td><td class="n">2 or 1</td><td class="n">7%</td><td><span class="pill yel">YELLOW</span>/<span class="pill red">RED</span></td></tr>
+<tr><td>3rd</td><td class="n">2 or 1</td><td class="n">14%</td><td><span class="pill yel">YELLOW</span>/<span class="pill red">RED</span></td></tr>
+<tr><td>4th</td><td class="n">2 or 1</td><td class="n">21%</td><td><span class="pill yel">YELLOW</span>/<span class="pill red">RED</span></td></tr>
+<tr><td>&hellip;15th+</td><td class="n">1 day</td><td class="n">100%</td><td><span class="pill red">RED</span></td></tr>
+</table>
+<div class="note">A <b>FAST</b> blackout hits in 1 day instead of 2. The word turns
+<span class="red">red</span> to warn you. First blackout is always a safe 2-day yellow.
+The word also grows <code>+15%</code> taller each blackout (cap +115%).</div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h2>SIEGE <span class="tag">single tile &middot; ongoing</span></h2>
+<div class="lead">Separate from the blackout. The Black reaches onto ONE owned frontier tile and
+will take it. Assign survivors to hold it by the next END DAY, or the tile is lost back to darkness.</div>
+
+<div class="flow">
+<div class="step">around day 5-7, once you own a tier 1+ frontier tile</div>
+<span class="arrow">&rarr;</span>
+<div class="step">a tile is marked <span class="red">FALLS NEXT DAY</span></div>
+<span class="arrow">&rarr;</span>
+<div class="step">defenders assigned ? <b>HELD</b> : <span class="red">TAKEN</span></div>
+</div>
+
+<div class="grid" style="margin-top:22px">
+<div>
+<h2 style="font-size:15px">SIEGE force by day arrived</h2>
+<table>
+<tr><th>Arrives day</th><th>Force</th></tr>
+<tr><td>before 8</td><td class="n">1</td></tr>
+<tr><td>8 - 11</td><td class="n">2</td></tr>
+<tr><td>12 - 15</td><td class="n">3</td></tr>
+<tr><td>16 - 19</td><td class="n">4</td></tr>
+<tr><td>20 - 23</td><td class="n">5</td></tr>
+<tr><td>every +4 days</td><td class="n">+1 (uncapped)</td></tr>
+</table>
+<div class="formula">FORCE(day) = day &lt; 8 ? 1 : floor((day-8)/4) + 2</div>
+</div>
+<div>
+<h2 style="font-size:15px">Timing &amp; defense</h2>
+<table>
+<tr><th>Which</th><th>Days until next</th></tr>
+<tr><td>first siege</td><td class="n">5 - 7</td></tr>
+<tr><td>second</td><td class="n">5 - 6</td></tr>
+<tr><td>rest</td><td class="n">4 - 7</td></tr>
+</table>
+<div class="note">Only one siege at a time. Defense uses the same survivor-day math as
+reclaiming: needed survivor-days = FORCE - crew + 1, capped at 3 days, each day past
+the cap adds risk. Undefended = the tile falls next turn.</div>
+</div>
+</div>
+</div>
+
+<div class="flag">
+<b>BLACKOUT vs SIEGE.</b> BLACKOUT is the whole-town clock (LIGHT vs DARKNESS, run-ending).
+SIEGE is a local skirmish over a single tile (survivors vs FORCE, costs you ground, not the run).
+Both scale with time; only the blackout ends the run.
+</div>
+
+</body>
+</html>
