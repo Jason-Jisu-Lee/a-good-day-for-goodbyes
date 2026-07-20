@@ -10,7 +10,13 @@ if(G&&G.boDay>0){if(boT<0){if(darkR<0)darkR=0;else darkR+=dt;}}
 else darkR=-1;
 }
 function darkVisible(){return !!(G&&G.boDay>0&&darkR>=0);}
-function darkAlpha(){if(darkR<0)return 0;const p=Math.min(1,darkR/2.5);return p*p;}
+function darkAlpha(){if(darkR<0)return 0;const p=Math.min(1,darkR/1.2);return p*p;}
+function darkShown(){
+const need=(G&&G.boNeed)||0;
+if(darkR<1.2)return Math.min(1,need);
+const q=Math.min(1,(darkR-1.2)/1.3);
+return Math.max(1,Math.round(1+(need-1)*q*q));
+}
 function drawBlackoutWord(){
 if(boT<0)return;
 const a=boOut>=0?boOutA*Math.max(0,1-(boT-boOut)/0.3):boEnv(boT);
