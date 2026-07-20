@@ -10,6 +10,7 @@ setZoom(zoomS*(e.deltaY<0?1.1:0.9),p.x,p.y);
 cv.addEventListener("pointerdown",e=>{
 musicGesture();
 if(mode!=="game")return;
+if(boT>=0&&boOut<0){boDismiss();return;}
 const p=toLogical(e);
 ptrs.set(e.pointerId,p);
 if(ptrs.size===2){

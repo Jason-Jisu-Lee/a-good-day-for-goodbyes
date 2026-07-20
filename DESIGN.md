@@ -99,9 +99,13 @@ cost delays expansion; post-prestige bonuses speed it later).
 
 ### 07-19 BLACKOUT + EMBER SHOP (user; save v10, meta storage)
 - BLACKOUT event: every 10 days (day 10, 20, ...) the word BLACKOUT
-  fades in and out ONCE over all UI, yellow #e3c15c (user: Valorant
-  vibe, artistic, not too strong; lab_blackout.html has 4 treatments
-  for user pick, plain FADE is live in game). 2 days later the
+  fills the screen (94% width, Segoe Black) with WORLD-DIM (0.5
+  black wash over the town), plain fade in/out ONCE, yellow #e3c15c
+  (user 07-20: world-dim chosen, big, no letter motion, dim reduced
+  from 0.72). CLICK anywhere = fast dismiss (0.3s out) so repeat
+  runs never wait it out. lab_blackout.html = 4 HEIGHT variants
+  (normal / +10% / +20% tall / bigger font) awaiting user pick.
+  2 days later the
   blackout HITS: city needs LIGHT >= LIGHT_NEED (1, placeholder) or
   the run is CONSUMED (game over). NO way to accrue light yet
   (intended; light source design later). Timing will vary by many
