@@ -13,11 +13,9 @@ idle identity at all), some SILENT time constraint (felt pressure, no
 countdown UI). Fixed skeleton: tiers 0-8, prestige tile at tier 4,
 bunker after tier 8 (harder remix, finale), multiple prestiges
 expected; material + resident tiles core; early food bleed intended.
-- ENEMY DECIDED (user 07-13): THE BLACK. Zombies dead (no enemy art
-  needed; threatened tiles FADE instead of hosting drawn enemies).
-  Tier-2 zombie prototype + red danger tiles to be stripped when the
-  new mechanics build starts. TILES.md zombie drafts stale (user's
-  file; flag, do not edit unsolicited).
+- ENEMY DECIDED (user 07-13): THE BLACK. No enemy art needed;
+  threatened tiles FADE instead of hosting drawn enemies. All prior
+  enemy drafts purged project-wide 07-19 (user order).
 - NEW START (user 07-13 intent): 1 tile, 1 survivor.
 - RESOURCE TILES stay; resources = the PRESTIGE currency; pushing
   deeper tiers = more resources + higher-quality tiles. Rest of the
@@ -92,6 +90,12 @@ cost delays expansion; post-prestige bonuses speed it later).
   4 5 6 6 7 7 7 4 2 1 across tiers 1-10. Freed mid-tier slots =
   TBD column (24 total), kinds decided later; TBD generates as
   EMPTY LOT in game until assigned (bags unchanged in code).
+- EMPTY LOT REBUILD (user 07-19, direction, not built): a lot can
+  be rebuilt into a FOOD, MATERIAL, or HOUSE tile. Cost / time /
+  rules pending.
+- Full tile list synced into TILES.md; all old-enemy drafts deleted
+  project-wide (user order; THE BLACK is the only enemy, no
+  creature art ever).
 
 ### 07-15 SESSION LOCKS (branch v.3)
 - VERB = RECLAIM (user-locked, replaces EXTINGUISH everywhere
@@ -350,15 +354,12 @@ violations, volunteers improvements)
   Materials (07-11, was 25; cache accepted by user). Camp reclaim =
   recruit (bag JUNE OKON IVY CALEB NOOR SAGE), tile -> lot. Max 6
   survivors.
-- TIERS (user 07-12, replaces "ring"; map in TILES.md): tier 0 =
-  origin 4; tier 1 = 8 edge tiles, scout 12s, >=2 danger tiles (1
-  zombie each, draft); tier 2 = 4 corners + next ring, 24s,
-  unscavenged renders slightly red (danger hint); tier 3 = next
-  ring, 36s. +12s per tier. Grid names: chess A-L x 1-12, origin =
-  F6 G6 F7 G7, prepared for 12x12.
-- Zombie draft: dark intense red, 1 per danger tile, speed 6 px/s
-  ABSOLUTE (speeds never derived from other actors; upgrades never
-  leak). Not built; user playtesting the tier-1 feel first.
+- TIERS (user 07-12, replaces "ring"; superseded 07-19: tiers 0-10
+  Manhattan rings, maps in TILES.md). Grid names: chess A-L x 1-12,
+  origin = F6 G6 F7 G7.
+- SPEED/STAT LAW: actor speeds and balance stats are ABSOLUTE
+  constants, never live-derived from another actor's stat; survivor
+  upgrades never leak to enemies.
 - Shelter (TILES.md, user 07-12): house 1, apartment 2. Not
   implemented yet.
 
@@ -385,9 +386,6 @@ violations, volunteers improvements)
   display 700 8px/scale). Gear, note, speaker, steam, discord =
   canvas-path vector icons. Nothing on the stage rasterizes from
   pixel tables anymore.
-- DANGER TILES VISUAL (user 07-12): every tier-2 tile carries 1
-  zombie (z=1 stored); unscouted tier-2 "?" renders RED (#c8493f
-  tinted tile lines + red "?", alpha 0.6). Combat itself not built.
 - STREET FADE RULE v2 (user 07-12): corridors flanked by at least
   one REVEALED tile = full 0.55 (they outline the town, never fade).
   Fade-outs exist ONLY as lane extensions: a corridor between two
@@ -516,8 +514,8 @@ violations, volunteers improvements)
   in-game as tribute.
 
 ## Enemy
-- UNDECIDED: zombies vs AI robots. Placeholder-architected, swaps
-  without rework.
+- THE BLACK (user 07-13, decided). Threatened tiles fade; no enemy
+  art, no drawn creatures, ever.
 
 ## Current build (07-11, v15 scripts)
 - Menu: NEW GAME / SETTINGS / QUIT GAME (+ dead WISHLIST/DISCORD);
@@ -577,9 +575,9 @@ violations, volunteers improvements)
   autonomously (prep is the game, fight is the exam); 2-3 weapons at
   ~15 materials; blueprint -> workshop -> weapon chain; stats decided
   after first combat playtest. Tile candidates listed in TILES.md.
-- TILES.md = user's tile + tier working sheet (scout bases 12/24/36s,
-  shelter 2/4, tier map, zombie draft). User editing pass pending;
-  sync game + this file after.
+- TILES.md = user's tile + tier working sheet (12x12 maps, tier
+  tile table, full tile list). User editing pass pending; sync game
+  + this file after.
 - Enemy pick; stat system; survivor count; safe-opening pacing.
 - Remaining tile icons in the extracted language (food, scrapyard,
   camp, park, lot, police): user references or derive from the two

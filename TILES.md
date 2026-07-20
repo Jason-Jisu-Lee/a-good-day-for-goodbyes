@@ -79,21 +79,6 @@ A12   B11   C10   D9    E8   [F7]  [G6]   H5    I4    J3    K2    L1
                                  10
 ```
 
-## Zombies (user 07-12; data live, combat not built)
-- ALL tier-2 tiles carry 1 zombie (07-12, supersedes ">=2 danger in
-  tier 1"; tier 1 stays safe pending playtest note below). Stored on
-  the tile (z=1) at generation.
-- Danger read: unscouted tier-2 "?" tiles render RED (tile lines +
-  "?" in #c8493f).
-- Zombie color: dark intense red.
-- Zombie speed: 6 px/s ABSOLUTE (set once from 15% of the then
-  survivor speed; NEVER derived live, so survivor speed upgrades
-  never speed up zombies).
-- SPEED LAW: every actor speed is an absolute constant, never a
-  percentage of another actor's stat.
-- OPEN: the earlier ">=2 danger tiles inside tier 1" draft: dead or
-  alive? (Tier 1 currently generates safe.)
-
 ## Early design intent (user 07-12)
 - Opening = gather materials hard while scouting, opening tiles,
   finding survivors: preparation for what comes.
@@ -101,8 +86,6 @@ A12   B11   C10   D9    E8   [F7]  [G6]   H5    I4    J3    K2    L1
   of tiles, so no-progress filler tiles are a problem.
 - OPEN (user thinking): more random tile types so boards are not
   mostly resident/food/material (those stay the main ones).
-- OPEN: exact tier-1 pool composition (old 12-tile pool below needs
-  a re-spec against tiers + danger count). Playtest first.
 
 ## Tier tile table (user plugs in counts, Claude syncs newgame.js)
 Cells = exact tile counts per tier (bag draw, not %). Each row must
@@ -129,37 +112,40 @@ tiles, fewer lots natural). TBD total = 24 slots open.
 (Tier 0 = origin, fixed: 2 HOUSE + 1 FOOD + 1 MYSTERY. Mystery
 resolves to first-survivor tutorial, then EMPTY LOT.)
 
-## Tiles (exist in game today)
-- HOUSE (single house): shelter for 1 survivor (07-12, was 2).
-- APARTMENT: shelter for 2 survivors (07-12, was 4).
-- FOOD (name locked): food, 5/min per gatherer.
-- SCRAPYARD (name locked): materials, 3/min per gatherer.
-- RUBBLE: blocked. CLEAR = 20s + 20 materials, becomes EMPTY LOT.
-  Later: build onto cleared lots.
-- CAMP (placeholder): reclaim = 1 recruit joins, tile becomes EMPTY
-  LOT.
+## Full tile list (in game today; synced 07-19, turn-based)
+- HOUSE: origin building. Owned house = +1 to the HUD survivor cap.
+- APARTMENT: exists in code, +1 cap like HOUSE (2 designed, not
+  wired). FLAG: spawns NOWHERE right now (not in origin, not in any
+  tier bag).
+- FOOD: owned = +1 FOOD per day passive; STATION 1 survivor = +3
+  more (4 total).
+- MATERIAL: owned = +1 MATERIAL per day passive; STATION 1 survivor
+  = +3 more (4 total).
+- RUBBLE: pay 10 MATERIAL upfront, clears in 1-2 days, becomes
+  EMPTY LOT. Finish roll: 40% +5 FOOD / 30% PLACEHOLDER1 / 30%
+  PLACEHOLDER2 (items pending design).
+- CAMPFIRE: reclaim = 1 recruit joins, becomes EMPTY LOT.
 - SUPPLY CACHE: reclaim = 2-5 MATERIAL or 2-5 FOOD (50/50),
   becomes EMPTY LOT.
-- EMPTY LOT: empty ground. Future build site.
-- MYSTERY: unknown until scouted, 12s. Reveal roll v1: FOOD 40 /
-  SUPPLY CACHE 35 / EMPTY LOT 25.
+- EMBER: reclaim = +1 EMBER banked, becomes EMPTY LOT. Spawn 0 for
+  now (percentage discussion pending).
+- EMPTY LOT: empty ground. REBUILD (user 07-19, not built yet):
+  a lot can be rebuilt into a FOOD, MATERIAL, or HOUSE tile.
+  Cost / time / rules pending.
+- UNKNOWN (origin mystery): tutorial tile; reclaim = first survivor
+  joins, becomes EMPTY LOT.
 
 ## Tiles (designed, not built yet)
 - HOSPITAL: health (sickness, medication), arrives mid game.
 
-## Shelter (not wired into the game yet)
-- House 1 + apartment 2. Concept arrives in-game when capacity
-  matters (concepts one by one).
-
-## Current in-game pool (per run, 12 tiles, PRE-TIER spec)
-- 2 SCRAPYARD, 1 FOOD, 1 APARTMENT, 1 CAMP (50% chance of a 2nd
-  CAMP), rest EMPTY LOT.
+## Shelter (partially wired)
+- HUD shows SURVIVORS n/cap; cap = owned HOUSE + APARTMENT count
+  (each +1 today). Designed: house 1, apartment 2. Cap not enforced
+  on recruiting yet.
 
 ## Origin 2x2 (user 07-12)
 - 2 HOUSE + 1 FOOD + 1 MYSTERY, arrangement random.
-- RUBBLE out of the origin. FLAG: rubble now spawns nowhere (ring
-  pool has none), so CLEAR + the early material sink are dormant
-  until rubble joins a tier pool.
+- RUBBLE out of the origin (spawns in tiers 1-9 per the table).
 
 ## Tile candidates (Claude brainstorm 07-12; user picks, names
 placeholder)
@@ -168,9 +154,9 @@ placeholder)
   (blueprint + small materials) / POLICE STATION (finished weapon,
   danger-guarded) / RADIO TOWER (pings a far tile) / SCHOOL (+1
   stat training).
-- Risk + variance: NEST (extra zombies, rich loot) / LOCKED SHELTER
-  (pay materials, random big payout) / HIDEOUT (recruit + personal
-  item) / COLLAPSED STORE (rubble in front of a fat cache).
+- Risk + variance: LOCKED SHELTER (pay materials, random big
+  payout) / HIDEOUT (recruit + personal item) / COLLAPSED STORE
+  (rubble in front of a fat cache).
 - Utility, one each: WATER TOWER (slows food drain) / WATCHTOWER
   (danger hints on neighbors) / GENERATOR (power, bunker prereq).
 - Tone: CHURCH (happiness later) / CEMETERY (goodbye place for dead
@@ -195,9 +181,7 @@ placeholder)
 - Nature: park, forest.
 - The bunker tile (endgame, one per run).
 
-## Scaling questions (open)
-- Do reclaim/clear times also scale per tier?
-
 ## UI note
-- Floating text live: gathering pops a "+1" that rises and fades
-  above the tile, one per whole resource.
+- Floating text live: one-time payouts (rubble finish roll) and
+  CONSUMED pop above the tile. Cache payout has NO float yet
+  (flagged; random food-or-material outcome is invisible).

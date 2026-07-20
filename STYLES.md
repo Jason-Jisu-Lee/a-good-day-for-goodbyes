@@ -34,7 +34,7 @@ then locked or dropped. Stars (*) = my picks for THIS game.
     smoke. Pairs with 1 for fog of war. (google: Return of the Obra
     Dinn, old Macintosh art)
 3.  * SILHOUETTE. Solid black or white shapes, zero interior detail.
-    Perfect for zombie hordes, trees, skylines. Menace without gore.
+    Perfect for crowds, trees, skylines. Menace without gore.
 4.  * GEOMETRIC MINIMAL. Circles, squares, lines only, nothing
     representational. Markers, maps, abstract UI. (google: Mini Metro)
 5.  * BITMAP-TYPE UI. Tiny pixel fonts as the main visual element.
