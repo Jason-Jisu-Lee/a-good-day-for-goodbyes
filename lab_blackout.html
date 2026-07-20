@@ -13,7 +13,7 @@ button.on{border-color:#e3c15c;color:#e3c15c}
 </style>
 </head>
 <body>
-<div>All +90% tall, reduced dim (0.5), plain fade, no motion. Compare font weight. Click canvas = fast dismiss / replay.</div>
+<div>All +90% tall, dim 0.5, plain fade. Medium-bold faces with character (not thin, not block). Click canvas = fast dismiss / replay.</div>
 <canvas id="cv" width="960" height="540"></canvas>
 <div class="row" id="btns"></div>
 <div class="note" id="desc"></div>
@@ -21,10 +21,12 @@ button.on{border-color:#e3c15c;color:#e3c15c}
 const cv=document.getElementById("cv"),cx=cv.getContext("2d");
 const W=960,H=540,YEL="#e3c15c",DIM=0.5;
 const VARS=[
-{n:"SEGOE BLACK",fam:'"Segoe UI Black","Segoe UI",sans-serif',wt:"800",vs:1.90,wf:0.94,sp:0.10,cap:150,d:"current: heaviest weight. Thick."},
-{n:"SEGOE SEMIBOLD",fam:'"Segoe UI",sans-serif',wt:"600",vs:1.90,wf:0.94,sp:0.10,cap:150,d:"same family, medium weight. Cleaner, less block."},
-{n:"SEGOE LIGHT",fam:'"Segoe UI Light","Segoe UI",sans-serif',wt:"300",vs:1.90,wf:0.94,sp:0.14,cap:150,d:"thin weight. Elegant, fragile, spacious."},
-{n:"BAHNSCHRIFT",fam:'Bahnschrift,"DIN Condensed",sans-serif',wt:"400",vs:1.90,wf:0.94,sp:0.12,cap:150,d:"condensed DIN signage. Technical, tall, warning-label feel."}
+{n:"IMPACT",fam:'Impact,Haettenschweiler,"Arial Narrow",sans-serif',wt:"400",vs:1.90,wf:0.94,sp:0.06,cap:190,d:"condensed poster face. Bold but narrow, not wide-thick. Loud."},
+{n:"FRANKLIN",fam:'"Franklin Gothic Medium","Arial Narrow",sans-serif',wt:"700",vs:1.90,wf:0.94,sp:0.10,cap:150,d:"newspaper headline gothic. Solid, urgent, has character."},
+{n:"TAHOMA",fam:'Tahoma,Geneva,sans-serif',wt:"700",vs:1.90,wf:0.94,sp:0.10,cap:150,d:"bold humanist sans. Clean, sturdy, not blocky."},
+{n:"GEORGIA",fam:'Georgia,serif',wt:"700",vs:1.90,wf:0.94,sp:0.08,cap:150,d:"bold serif. Formal, characterful, gravestone weight."},
+{n:"CONSOLAS",fam:'Consolas,"Lucida Console",monospace',wt:"700",vs:1.90,wf:0.94,sp:0.08,cap:150,d:"bold monospace. Terminal / system-failure feel."},
+{n:"CANDARA",fam:'Candara,Corbel,sans-serif',wt:"700",vs:1.90,wf:0.94,sp:0.10,cap:150,d:"bold humanist with warmth. Softer, organic."}
 ];
 let vi=0,t=0,out=-1,outA=0,last=performance.now();
 const brow=document.getElementById("btns"),desc=document.getElementById("desc");

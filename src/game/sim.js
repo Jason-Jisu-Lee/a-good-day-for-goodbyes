@@ -70,7 +70,12 @@ G.atkN=(G.atkN||0)+1;
 G.nextAtk=G.day+atkGap(G.atkN);
 }
 }
-if(G.day%BO_EVERY===0){G.boDay=G.day+BO_LEAD;boWordStart();}
+if(G.day%BO_EVERY===0){
+G.boCount=(G.boCount||0)+1;
+const fast=Math.random()<boFastChance(G.boCount);
+G.boDay=G.day+(fast?1:BO_LEAD);
+boWordStart();
+}
 if(G.boDay&&G.day>=G.boDay){
 G.boDay=0;
 if((G.light||0)<LIGHT_NEED)endRun();

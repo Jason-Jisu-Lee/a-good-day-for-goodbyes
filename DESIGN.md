@@ -105,11 +105,17 @@ cost delays expansion; post-prestige bonuses speed it later).
   from 0.72). CLICK anywhere = fast dismiss (0.3s out) so repeat
   runs never wait it out. lab_blackout.html = 4 HEIGHT variants
   (normal / +10% / +20% tall / bigger font) awaiting user pick.
-  2 days later the
+  LEAD days later the
   blackout HITS: city needs LIGHT >= LIGHT_NEED (1, placeholder) or
   the run is CONSUMED (game over). NO way to accrue light yet
-  (intended; light source design later). Timing will vary by many
-  factors later; BO_EVERY/BO_LEAD/LIGHT_NEED in balance.js.
+  (intended; light source design later).
+- LEAD TIME (user 07-20): 1st blackout ALWAYS 2 days to prepare.
+  From the 2nd on, escalating chance of a FAST blackout (1 day lead
+  instead of 2): boFastChance = 7% * (eventCount-1), capped 100%
+  (event 2 = 7%, event 3 = 14%, ... event 15+ = 100%). Rolled when
+  the warning fires. BO_EVERY/BO_LEAD/LIGHT_NEED/BO_FAST_STEP in
+  balance.js; G.boCount tracks events. No visual tell that a given
+  blackout is fast (silent pressure; add cue later if wanted).
 - RUN END flow: GAME OVER screen (3s) -> EMBER UPGRADES shop ->
   CONTINUE -> main menu. Run embers bank to permanent META on any
   run end (all dead or consumed).
