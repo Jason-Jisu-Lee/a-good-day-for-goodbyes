@@ -37,6 +37,13 @@ text7("+"+mi.tot+"/DAY",160,l.hud+22,1,null,FG);
 if(hover==="minc")tip(160,l.hud+38,["MATERIAL TILES "+mi.n,...mi.lines]);
 }
 if((G.light||0)>0)text7("LIGHT "+G.light,300,l.hud,2);
+if(darkVisible()){
+let dx=300;
+if((G.light||0)>0)dx=300+tw7("LIGHT "+G.light,2)+16;
+cx.save();cx.globalAlpha=darkAlpha();
+text7(String(G.boNeed||0),dx,l.hud,2,null,DANGER);
+cx.restore();
+}
 if(G.pr>0)text7("EMBER "+G.pr,440,l.hud,2);
 if(G.items&&G.items.p1>0)text7("PLACEHOLDER1 "+G.items.p1,580,l.hud,1,null,MID);
 if(G.items&&G.items.p2>0)text7("PLACEHOLDER2 "+G.items.p2,580,l.hud+14,1,null,MID);

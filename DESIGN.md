@@ -113,9 +113,17 @@ cost delays expansion; post-prestige bonuses speed it later).
   is CONSUMED (game over). DARKNESS = (n+1)(n+2)/2 per event: 1st 3,
   2nd 6, 3rd 10, 4th 15, 5th 21, 6th 28... (gap grows +1 each). Meet
   or exceed = survive, nothing else happens. boNeed stores the
-  value at warning. TERM "DARKNESS" = working placeholder (user 07-20
-  rejects strength/power/density; final name TBD). Visual reference:
-  doc_threats.html (blackout + tile SIEGE numbers).
+  value at warning.
+- DARK NUMBER has NO NAME (user 07-20): it is a bare RED number that
+  CREEPS IN (slow ease-in fade, darkAlpha p*p over 2.5s) next to the
+  LIGHT readout ONCE the BLACKOUT word has fully faded. Shows through
+  the whole lead window, clears when the blackout resolves. If LIGHT
+  is 0 (no LIGHT text) the number appears at the LIGHT slot. Reveal
+  effect = lab_darkreveal.html (fade/flicker/count-up/seep/bleed)
+  awaiting user pick; SLOW FADE is live. Sound later.
+- TILE EVENT NAMED "CREEP" (user 07-20; was SIEGE placeholder): the
+  per-tile darkness attack, separate from blackout. Visual reference:
+  doc_threats.html (blackout + CREEP numbers).
 - LIGHT TILE (user 07-20): new tile, reclaim = +1 LIGHT, becomes
   EMPTY LOT. 2 per run in tier 2 (bag: -2 lot). HUD shows LIGHT
   count once the first point is earned. Float "+LIGHT" on reclaim.

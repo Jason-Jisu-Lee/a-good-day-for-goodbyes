@@ -1,14 +1,16 @@
 const BO_YEL="#e3c15c";
 const BO_FAM='Tahoma,Geneva,sans-serif',BO_WT="700",BO_SP=0.1,BO_DIM=0.5;
-let boT=-1,boOut=-1,boOutA=0;
-function boWordStart(){boT=0;boOut=-1;}
+let boT=-1,boOut=-1,boOutA=0,darkR=-1;
+function boWordStart(){boT=0;boOut=-1;darkR=-1;}
 function boEnv(t){return t<0.6?t/0.6:(t<1.8?1:Math.max(0,(2.8-t)/1));}
 function boDismiss(){if(boT>=0.6&&boOut<0){boOut=boT;boOutA=boEnv(boT);}}
 function updateBlackout(dt){
-if(boT<0)return;
-boT+=dt;
-if(boOut>=0?(boT-boOut)>=0.3:boT>=2.8)boT=-1;
+if(boT>=0){boT+=dt;if(boOut>=0?(boT-boOut)>=0.3:boT>=2.8)boT=-1;}
+if(G&&G.boDay>0){if(boT<0){if(darkR<0)darkR=0;else darkR+=dt;}}
+else darkR=-1;
 }
+function darkVisible(){return !!(G&&G.boDay>0&&darkR>=0);}
+function darkAlpha(){if(darkR<0)return 0;const p=Math.min(1,darkR/2.5);return p*p;}
 function drawBlackoutWord(){
 if(boT<0)return;
 const a=boOut>=0?boOutA*Math.max(0,1-(boT-boOut)/0.3):boEnv(boT);
