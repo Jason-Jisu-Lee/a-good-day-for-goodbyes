@@ -13,18 +13,18 @@ button.on{border-color:#e3c15c;color:#e3c15c}
 </style>
 </head>
 <body>
-<div>Segoe Black, reduced dim (0.5), plain fade in/out, no letter motion. Click the canvas = fast dismiss (like a player skipping it). Pick a height.</div>
+<div>All +90% tall, reduced dim (0.5), plain fade, no motion. Compare font weight. Click canvas = fast dismiss / replay.</div>
 <canvas id="cv" width="960" height="540"></canvas>
 <div class="row" id="btns"></div>
 <div class="note" id="desc"></div>
 <script>
 const cv=document.getElementById("cv"),cx=cv.getContext("2d");
 const W=960,H=540,YEL="#e3c15c",DIM=0.5;
-const FAM='"Segoe UI Black","Segoe UI",sans-serif',WT="800";
 const VARS=[
-{n:"NORMAL",vs:1.0,wf:0.94,sp:0.10,cap:150,d:"current height."},
-{n:"+50% TALL",vs:1.50,wf:0.94,sp:0.10,cap:150,d:"letters stretched 50% taller, same width."},
-{n:"+90% TALL",vs:1.90,wf:0.94,sp:0.10,cap:150,d:"letters stretched 90% taller, same width."}
+{n:"SEGOE BLACK",fam:'"Segoe UI Black","Segoe UI",sans-serif',wt:"800",vs:1.90,wf:0.94,sp:0.10,cap:150,d:"current: heaviest weight. Thick."},
+{n:"SEGOE SEMIBOLD",fam:'"Segoe UI",sans-serif',wt:"600",vs:1.90,wf:0.94,sp:0.10,cap:150,d:"same family, medium weight. Cleaner, less block."},
+{n:"SEGOE LIGHT",fam:'"Segoe UI Light","Segoe UI",sans-serif',wt:"300",vs:1.90,wf:0.94,sp:0.14,cap:150,d:"thin weight. Elegant, fragile, spacious."},
+{n:"BAHNSCHRIFT",fam:'Bahnschrift,"DIN Condensed",sans-serif',wt:"400",vs:1.90,wf:0.94,sp:0.12,cap:150,d:"condensed DIN signage. Technical, tall, warning-label feel."}
 ];
 let vi=0,t=0,out=-1,outA=0,last=performance.now();
 const brow=document.getElementById("btns"),desc=document.getElementById("desc");
@@ -66,11 +66,11 @@ cx.fillStyle="rgba(0,0,0,"+(DIM*a)+")";cx.fillRect(0,0,W,H);
 cx.globalAlpha=a;cx.fillStyle=YEL;
 cx.textBaseline="middle";cx.textAlign="left";
 const s="BLACKOUT",target=W*v.wf;
-cx.font=WT+" 100px "+FAM;
+cx.font=v.wt+" 100px "+v.fam;
 const w0=[...s].map(ch=>cx.measureText(ch).width);
 const tw0=w0.reduce((p,w)=>p+w,0)+100*v.sp*(s.length-1);
 const size=Math.min(v.cap,100*target/tw0);
-cx.font=WT+" "+size+"px "+FAM;
+cx.font=v.wt+" "+size+"px "+v.fam;
 const ws=[...s].map(ch=>cx.measureText(ch).width);
 const gap=size*v.sp;
 let tw=ws.reduce((p,w)=>p+w+gap,-gap);
