@@ -22,10 +22,10 @@ const cv=document.getElementById("cv"),cx=cv.getContext("2d");
 const W=960,H=540,YEL="#e3c15c",DIM=0.5;
 const FAM='"Segoe UI Black","Segoe UI",sans-serif',WT="800";
 const VARS=[
-{n:"1 NORMAL",vs:1.0,wf:0.94,sp:0.10,cap:150,d:"current height."},
-{n:"2 +10% TALL",vs:1.10,wf:0.94,sp:0.10,cap:150,d:"letters stretched 10% taller, same width."},
-{n:"3 +20% TALL",vs:1.20,wf:0.94,sp:0.10,cap:150,d:"letters stretched 20% taller, same width."},
-{n:"4 BIGGER FONT",vs:1.0,wf:0.99,sp:0.03,cap:240,d:"bigger glyphs: fills 99% width with tight spacing, no stretch."}
+{n:"NORMAL",vs:1.0,wf:0.94,sp:0.10,cap:150,d:"current height."},
+{n:"+10% TALL",vs:1.10,wf:0.94,sp:0.10,cap:150,d:"letters stretched 10% taller, same width."},
+{n:"+20% TALL",vs:1.20,wf:0.94,sp:0.10,cap:150,d:"letters stretched 20% taller, same width."},
+{n:"+50% TALL",vs:1.50,wf:0.94,sp:0.10,cap:150,d:"letters stretched 50% taller, same width."}
 ];
 let vi=0,t=0,out=-1,outA=0,last=performance.now();
 const brow=document.getElementById("btns"),desc=document.getElementById("desc");
@@ -36,10 +36,11 @@ b.onclick=()=>{vi=i;t=0;out=-1;[...brow.children].forEach(c=>c.classList.remove(
 brow.appendChild(b);
 });
 desc.textContent=VARS[vi].d;
-function env(tt){return tt<0.6?tt/0.6:(tt<2.4?1:Math.max(0,(3.4-tt)/1));}
+function env(tt){return tt<0.6?tt/0.6:(tt<1.8?1:Math.max(0,(2.8-tt)/1));}
 cv.addEventListener("click",()=>{
-if(t>=0&&out<0){out=t;outA=env(t);}
-else{t=0;out=-1;}
+const a=out>=0?outA*Math.max(0,1-(t-out)/0.3):env(t);
+if(a<=0){t=0;out=-1;}
+else if(t>=0.6&&out<0){out=t;outA=env(t);}
 });
 function mock(){
 cx.fillStyle="#000";cx.fillRect(0,0,W,H);

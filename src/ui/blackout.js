@@ -2,12 +2,12 @@ const BO_YEL="#e3c15c";
 const BO_FAM='"Segoe UI Black","Segoe UI",sans-serif',BO_WT="800",BO_SP=0.1,BO_DIM=0.5;
 let boT=-1,boOut=-1,boOutA=0;
 function boWordStart(){boT=0;boOut=-1;}
-function boEnv(t){return t<0.6?t/0.6:(t<2.4?1:Math.max(0,(3.4-t)/1));}
-function boDismiss(){if(boT>=0&&boOut<0){boOut=boT;boOutA=boEnv(boT);}}
+function boEnv(t){return t<0.6?t/0.6:(t<1.8?1:Math.max(0,(2.8-t)/1));}
+function boDismiss(){if(boT>=0.6&&boOut<0){boOut=boT;boOutA=boEnv(boT);}}
 function updateBlackout(dt){
 if(boT<0)return;
 boT+=dt;
-if(boOut>=0?(boT-boOut)>=0.3:boT>=3.4)boT=-1;
+if(boOut>=0?(boT-boOut)>=0.3:boT>=2.8)boT=-1;
 }
 function drawBlackoutWord(){
 if(boT<0)return;
