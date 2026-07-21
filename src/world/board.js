@@ -34,8 +34,20 @@ clampCam();
 }
 function clampCam(){
 const l=L(),d=DXY();
-const minX=l.ox-(GRID-1)*d.dx-d.hw,maxX=l.ox+(GRID-1)*d.dx+d.hw;
-const minY=l.oy-d.hh,maxY=l.oy+2*(GRID-1)*d.dy+d.hh;
+let minX=l.ox-(GRID-1)*d.dx-d.hw,maxX=l.ox+(GRID-1)*d.dx+d.hw;
+let minY=l.oy-d.hh,maxY=l.oy+2*(GRID-1)*d.dy+d.hh;
+if(G){
+let mnX=Infinity,mxX=-Infinity,mnY=Infinity,mxY=-Infinity;
+for(const t of G.tiles){
+if(!drawnTile(t))continue;
+const p=tpos(t);
+if(p.x<mnX)mnX=p.x;
+if(p.x>mxX)mxX=p.x;
+if(p.y<mnY)mnY=p.y;
+if(p.y>mxY)mxY=p.y;
+}
+if(mnX<Infinity){minX=mnX-d.hw;maxX=mxX+d.hw;minY=mnY-d.hh;maxY=mxY+d.hh;}
+}
 camX=Math.max(160-maxX,Math.min(camX,W-160-minX));
 camY=Math.max(120-maxY,Math.min(camY,H-120-minY));
 }

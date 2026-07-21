@@ -104,6 +104,13 @@ cost delays expansion; post-prestige bonuses speed it later).
 - Transient ZOOM BAR on the RIGHT edge while zooming: vertical
   track, center notch at default, marker at current zoom; fades
   ~1.4s after the last zoom input. Indicator only, not draggable.
+- PAN CLAMP FIXED (user 07-20, "getting lost"): camera bounds now
+  come from the CURRENTLY DRAWN tiles' bounding box (town + its
+  dark frontier), not the full 12x12 grid; the old full-grid clamp
+  let the visible town pan fully off-screen early game because the
+  bbox was mostly unrevealed void. Margins unchanged (160px X,
+  120px Y of drawn region always on screen). Bounds grow as tiles
+  reveal; full board = identical to old behavior.
 
 ### 07-19 TILE PAYOUTS (user)
 - SUPPLY CACHE reclaim = 2-5 MATERIAL or 2-5 FOOD (50/50 which,
