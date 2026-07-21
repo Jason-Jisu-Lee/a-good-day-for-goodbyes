@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>menu audio viz lab</title>
+<style>
+body{margin:0;background:#0a0a0a;color:#888;font:13px "Segoe UI",sans-serif;display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px}
+canvas{outline:1px solid #222}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center}
+button{background:#111;border:1px solid #444;color:#ccc;font:13px "Segoe UI",sans-serif;padding:7px 16px;cursor:pointer}
+button.on{border-color:#e3c15c;color:#e3c15c}
+.note{max-width:960px;color:#666;text-align:center}
+#fb{display:none;color:#c8493f}
+</style>
+</head>
+<body>
+<div>Menu music visualizer. Real track, real 960x540 stage. Press PLAY, then switch modes while it plays. Drums = bass spikes drive the motion.</div>
+<canvas id="cv" width="960" height="540"></canvas>
+<div class="row">
+<button id="play">PLAY</button>
+<span id="lvl">AUDIO 0%</span>
+<span id="fb">browser blocked file audio <button id="pick">LOAD MP3</button><input id="fi" type="file" accept="audio/*" style="display:none"></span>
+</div>
+<div class="row" id="btns"></div>
+<div class="note" id="desc"></div>
+<script>
+const cv=document.getElementById("cv"),cx=cv.getContext("2d");
+const W=960,H=540,CXX=W/2,CY=H/2,FONT='"Segoe UI",system-ui,sans-serif';
+const A=new Audio("../asset/soundtrack/main_screen.mp3?v=1");A.loop=true;
+let ac=null,an=null,freq=null,wave=null,playing=false,started=0,maxLvl=0;
+let bass=0,treb=0,lvl=0,ema=0.05,lastBeat=0,beatFlash=0;
+const rings=[];
+const MODES=[
+{n:"BREATHING LATTICE",d:"the diamond street grid covers the void and breathes with the bass; hi-hats flicker random crossings. The town language itself is the visual."},
+{n:"DRUM RIPPLES",d:"every drum hit throws an expanding diamond ring out from the center, like something knocking under the floor. Calm between hits."},
+{n:"SMOKE SCOPE",d:"the live waveform drifts as a white thread with ghost trails, curling like smoke in a dark bar. The most 'substances' one."},
+{n:"SPECTRUM CITY",d:"the frequencies stand as a 1-bit skyline with a faint reflection below, jumping with the drums. A city equalizer."}
+];
+let mi=0;
+const brow=document.getElementById("btns"),desc=document.getElementById("desc");
+MODES.forEach((m,i)=>{
+const b=document.createElement("button");
+b.textContent=m.n;b.className=i===mi?"on":"";
+b.onclick=()=>{mi=i;[...brow.children].forEach(c=>c.classList.remove("on"));b.classList.add("on");desc.textContent=m.d;cx.fillStyle="#000";cx.fillRect(0,0,W,H);};
+brow.appendChild(b);
+});
+desc.textContent=MODES[mi].d;
+document.getElementById("play").onclick=()=>{
+if(!ac){
+ac=new (window.AudioContext||window.webkitAudioContext)();
+const s=ac.createMediaElementSource(A);
+an=ac.createAnalyser();an.fftSize=2048;an.smoothingTimeConstant=0.75;
+s.connect(an);an.connect(ac.destination);
+freq=new Uint8Array(an.frequencyBinCount);
+wave=new Uint8Array(an.fftSize);
+}
+if(playing){A.pause();playing=false;document.getElementById("play").textContent="PLAY";}
+else{ac.resume();A.play();playing=true;started=performance.now();maxLvl=0;document.getElementById("play").textContent="PAUSE";}
+};
+document.getElementById("pick").onclick=()=>document.getElementById("fi").click();
+document.getElementById("fi").onchange=e=>{
+if(e.target.files[0]){A.src=URL.createObjectURL(e.target.files[0]);A.play();started=performance.now();maxLvl=0;document.getElementById("fb").style.display="none";}
+};
+function analyse(t){
+an.getByteFrequencyData(freq);
+an.getByteTimeDomainData(wave);
+let b=0;for(let i=2;i<14;i++)b+=freq[i];bass=b/12/255;
+let tr=0;for(let i=300;i<600;i++)tr+=freq[i];treb=tr/300/255;
+let s=0;for(let i=0;i<400;i++)s+=freq[i];lvl=s/400/255;
+if(lvl>maxLvl)maxLvl=lvl;
+if(bass>ema*1.35+0.02&&t-lastBeat>140){lastBeat=t;beatFlash=1;rings.push({r:14,a:0.85,w:1.5+bass*5});}
+ema=ema*0.95+bass*0.05;
+beatFlash*=0.9;
+document.getElementById("lvl").textContent="AUDIO "+Math.round(lvl*100)+"%";
+if(playing&&t-started>3000&&maxLvl<0.01)document.getElementById("fb").style.display="inline";
+}
+function dia(x,y,hw,hh){
+cx.beginPath();
+cx.moveTo(x,y-hh);cx.lineTo(x+hw,y);cx.lineTo(x,y+hh);cx.lineTo(x-hw,y);
+cx.closePath();
+}
+function drawLattice(){
+cx.fillStyle="#000";cx.fillRect(0,0,W,H);
+cx.save();
+cx.translate(CXX,CY);cx.scale(1+bass*0.09,1+bass*0.09);cx.translate(-CXX,-CY);
+cx.strokeStyle="#f2f2f0";
+cx.globalAlpha=0.05+bass*0.38;
+cx.lineWidth=1;
+for(let c=-W*0.6;c<H+W*0.6;c+=48){
+cx.beginPath();cx.moveTo(0,c);cx.lineTo(W,c+W*0.5);cx.stroke();
+cx.beginPath();cx.moveTo(0,c);cx.lineTo(W,c-W*0.5);cx.stroke();
+}
+cx.globalAlpha=Math.min(0.5,treb*1.6);
+for(let i=0;i<6;i++){
+const gx=Math.floor(Math.random()*16)-8,gy=Math.floor(Math.random()*16)-8;
+dia(CXX+(gx-gy)*48,CY+(gx+gy)*24,34.5,17.25);
+cx.fillStyle="#f2f2f0";cx.fill();
+}
+cx.restore();
+cx.globalAlpha=1;
+}
+function drawRipples(){
+cx.fillStyle="#000";cx.fillRect(0,0,W,H);
+cx.strokeStyle="#f2f2f0";
+cx.globalAlpha=0.25+lvl*0.5;
+cx.lineWidth=1.5;
+dia(CXX,CY,40+lvl*30,20+lvl*15);
+cx.stroke();
+for(let i=rings.length-1;i>=0;i--){
+const r=rings[i];
+r.r+=3.2+bass*11;r.a*=0.958;
+if(r.a<0.02||r.r>W){rings.splice(i,1);continue;}
+cx.globalAlpha=r.a;cx.lineWidth=r.w;
+dia(CXX,CY,r.r,r.r/2);
+cx.stroke();
+}
+cx.globalAlpha=1;
+}
+function drawScope(){
+cx.fillStyle="rgba(0,0,0,0.07)";cx.fillRect(0,0,W,H);
+cx.strokeStyle="#f2f2f0";
+cx.globalAlpha=0.3+lvl*0.45;
+cx.lineWidth=1.2;
+cx.beginPath();
+const drift=Math.sin(performance.now()/900)*40*lvl;
+for(let x=0;x<=W;x+=4){
+const v=(wave[Math.floor(x/W*(wave.length-1))]-128)/128;
+const y=CY+drift+v*(50+lvl*300);
+x===0?cx.moveTo(x,y):cx.lineTo(x,y);
+}
+cx.stroke();
+cx.globalAlpha=1;
+}
+function drawCity(){
+cx.fillStyle="#000";cx.fillRect(0,0,W,H);
+const base=H*0.72,nb=72,bw=W/nb;
+for(let i=0;i<nb;i++){
+const bin=Math.floor(Math.pow(i/nb,1.7)*350)+2;
+const h=freq[bin]/255*(130+beatFlash*90);
+cx.globalAlpha=0.55;
+cx.fillStyle="#f2f2f0";
+cx.fillRect(i*bw+1,base-h,bw-2,h);
+cx.globalAlpha=0.1;
+cx.fillRect(i*bw+1,base+3,bw-2,h*0.5);
+}
+cx.globalAlpha=1;
+}
+function drawTitle(){
+cx.font="700 30px "+FONT;
+cx.textAlign="center";cx.textBaseline="alphabetic";
+cx.fillStyle="#f2f2f0";
+cx.globalAlpha=0.92;
+cx.fillText("A GOOD DAY FOR GOODBYES",CXX,150);
+cx.globalAlpha=1;
+cx.textAlign="left";
+}
+function frame(t){
+if(an&&playing)analyse(t);
+if(an){
+const m=MODES[mi].n;
+if(m==="BREATHING LATTICE")drawLattice();
+else if(m==="DRUM RIPPLES")drawRipples();
+else if(m==="SMOKE SCOPE")drawScope();
+else drawCity();
+}else{cx.fillStyle="#000";cx.fillRect(0,0,W,H);}
+drawTitle();
+requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
