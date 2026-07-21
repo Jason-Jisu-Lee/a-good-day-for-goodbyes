@@ -145,8 +145,8 @@ violations, volunteers improvements)
   #e3c15c; FAST (1-day) blackout = DANGER red #c8493f word = the
   only tell. Word height grows +15% per event, capped +115%.
 - Lead: warning at day N*10, hit 2 days later. 1st blackout always 2
-  days. From the 2nd: fast (1-day) chance = 7% x (events-1), capped
-  100%, rolled at the warning.
+  days. From the 2nd: fast (1-day) chance = 5% x (events-1), capped
+  40% (user 07-20; was 7%/100%), rolled at the warning.
 - At the hit: LIGHT >= (n+1)(n+2)/2 (3/6/10/15/21/28...) or the run
   is CONSUMED. Meet or exceed = survive, nothing else happens.
 - DARK readout (locked 07-20): "BLACKOUT N" all red next to LIGHT,
