@@ -79,6 +79,16 @@ cost delays expansion; post-prestige bonuses speed it later).
 - 6x6 board tops at tier 4 corners; tier 6+ math live but waits
   for grid growth. Save v8.
 
+### 07-20 HOUSE AURA BUG FIXED
+- smooth_house_only + smooth_apt_only carried ~4000 OPAQUE BLACK
+  pixels each = leftover crop background around the building
+  (the known "crops have opaque black bg" trap). Downscale blit
+  smeared that black over tile lines = dark aura around houses.
+- Fix: flood-fill from the image border across non-bright pixels;
+  every outside-reachable dark pixel -> alpha 0. Interior blacks
+  (enclosed by the white body) kept for occlusion. Assets bumped
+  ?v=2; pre-fix originals in ref/backup_aura/ (gitignored).
+
 ### 07-20 TUTORIAL PURGE + ZOOM (user)
 - ALL text tutorials DELETED except the zoom tip (SELECT A DARK
   TILE / TASKS RESOLVE AT END DAY / DARKNESS ATTACKS gone; G.tut +

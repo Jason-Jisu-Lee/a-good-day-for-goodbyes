@@ -1,5 +1,5 @@
-const T_HOUSE=new Image();T_HOUSE.src="asset/tiles/smooth_house_only.png?v=1";
-const T_APT=new Image();T_APT.src="asset/tiles/smooth_apt_only.png?v=1";
+const T_HOUSE=new Image();T_HOUSE.src="asset/tiles/smooth_house_only.png?v=2";
+const T_APT=new Image();T_APT.src="asset/tiles/smooth_apt_only.png?v=2";
 const T_TILE=new Image();T_TILE.src="asset/tiles/smooth_tile.png?v=2";
 function smoothBlit(img,x,y,w,h){
 cx.save();
