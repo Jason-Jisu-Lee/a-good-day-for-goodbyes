@@ -1,5 +1,5 @@
 function toLogical(e){const r=cv.getBoundingClientRect();return {x:(e.clientX-r.left)/k,y:(e.clientY-r.top)/k};}
-let panDrag=null,pinch=null;
+let panDrag=null,pinch=null,dblT=0,dblX=0,dblY=0;
 const ptrs=new Map();
 cv.addEventListener("wheel",e=>{
 if(mode!=="game"||!G)return;
@@ -77,6 +77,7 @@ const moved=panDrag.moved;
 panDrag=null;
 if(moved)return;
 }
+if(mode==="game"&&boT>=0)return;
 const p=toLogical(e);
 if(mode==="menu"){
 for(const b of menuButtons){if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){
@@ -104,7 +105,14 @@ const inPanel=sel&&p.x>=l.pnX&&p.x<=l.pnX+l.pnW&&p.y>=l.pnY&&p.y<=l.pnY+l.pnH;
 if(t){
 sel=t;picker=null;
 }
-else if(!inPanel&&p.y>40){sel=null;picker=null;}
+else if(!inPanel&&p.y>40){
+sel=null;picker=null;
+const now=performance.now();
+if(now-dblT<400&&Math.abs(p.x-dblX)<24&&Math.abs(p.y-dblY)<24){
+recenterCam();
+dblT=0;
+}else{dblT=now;dblX=p.x;dblY=p.y;}
+}
 });
 function clickUI(id){
 if(id!=="abandon")abandonArm=false;

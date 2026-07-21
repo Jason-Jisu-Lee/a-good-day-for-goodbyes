@@ -25,12 +25,15 @@ clampCam();
 function DXY(){const l=L();return {dx:48*l.sc,dy:24*l.sc,hw:34.5*l.sc,hh:17.25*l.sc};}
 function tpos(t){const l=L(),d=DXY();return {x:l.ox+(t.gx-t.gy)*d.dx,y:l.oy+(t.gx+t.gy)*d.dy};}
 function tAt(gx,gy){return gx>=0&&gx<GRID&&gy>=0&&gy<GRID?G.tiles[gy*GRID+gx]:null;}
-function resetCam(){
-zoomS=ZOOM_DEF;
+function recenterCam(){
 const l=L(),d=DXY();
 camX=0;
 camY=Math.round(H/2-(l.oy+(OB0+OB1)*d.dy));
 clampCam();
+}
+function resetCam(){
+zoomS=ZOOM_DEF;
+recenterCam();
 }
 function clampCam(){
 const l=L(),d=DXY();

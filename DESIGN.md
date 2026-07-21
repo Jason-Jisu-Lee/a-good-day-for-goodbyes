@@ -104,6 +104,15 @@ cost delays expansion; post-prestige bonuses speed it later).
 - Transient ZOOM BAR on the RIGHT edge while zooming: vertical
   track, center notch at default, marker at current zoom; fades
   ~1.4s after the last zoom input. Indicator only, not draggable.
+- RECENTER (user 07-20, approved from suggestion): DOUBLE-CLICK /
+  double-tap on EMPTY SPACE snaps the camera back to the origin
+  block (position only, ZOOM UNTOUCHED; 400ms window, 24px slop).
+  Single empty-click still deselects as before. No UI hint yet;
+  discoverability accepted as "players find out" for now.
+- BLACKOUT CLICK-THROUGH GUARD: while the BLACKOUT word is up,
+  pointer-UP events are swallowed too (pointer-down already was);
+  before this a dismissing click could also fire whatever was
+  under it (e.g. END DAY) on release.
 - PAN CLAMP FIXED (user 07-20, "getting lost"): camera bounds now
   come from the CURRENTLY DRAWN tiles' bounding box (town + its
   dark frontier), not the full 12x12 grid; the old full-grid clamp
