@@ -1,11 +1,12 @@
 const GRID=12,OB0=5,OB1=6;
-let zoomS=1,zoomBarT=0;
+const ZOOM_MIN=0.75,ZOOM_MAX=1.75,ZOOM_DEF=1.25;
+let zoomS=ZOOM_DEF,zoomBarT=0;
 function L(){
 if(PORT)return {ox:W/2,oy:Math.round(H*0.18),sc:zoomS,pnX:W/2-225,pnY:Math.round(H*0.4896),pnW:450,pnH:300,hud:20};
 return {ox:W/2,oy:H/2-120,sc:zoomS,pnX:W-204,pnY:60,pnW:188,pnH:392,hud:12};
 }
 function setZoom(nz,px2,py2){
-nz=Math.max(0.5,Math.min(1.5,nz));
+nz=Math.max(ZOOM_MIN,Math.min(ZOOM_MAX,nz));
 zoomBarT=1.4;
 if(nz===zoomS)return;
 const l=L(),r=nz/zoomS;
@@ -24,7 +25,7 @@ function DXY(){const l=L();return {dx:48*l.sc,dy:24*l.sc,hw:34.5*l.sc,hh:17.25*l
 function tpos(t){const l=L(),d=DXY();return {x:l.ox+(t.gx-t.gy)*d.dx,y:l.oy+(t.gx+t.gy)*d.dy};}
 function tAt(gx,gy){return gx>=0&&gx<GRID&&gy>=0&&gy<GRID?G.tiles[gy*GRID+gx]:null;}
 function resetCam(){
-zoomS=1;
+zoomS=ZOOM_DEF;
 const l=L(),d=DXY();
 camX=0;
 camY=Math.round(H/2-(l.oy+(OB0+OB1)*d.dy));

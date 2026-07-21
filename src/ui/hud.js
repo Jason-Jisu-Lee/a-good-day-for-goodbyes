@@ -69,7 +69,7 @@ cx.globalAlpha=a;
 const ty=Math.round(H*0.3),th=Math.round(H*0.4),bx=W-11;
 px(bx,ty,3,th,DIM);
 px(bx-2,ty+Math.round(th/2)-1,7,2,MID);
-const p=(zoomS-0.5)/1;
+const p=(zoomS-ZOOM_MIN)/(ZOOM_MAX-ZOOM_MIN);
 const my=ty+th-Math.round(p*th);
 px(bx-2,my-5,7,10,FG);
 cx.restore();
