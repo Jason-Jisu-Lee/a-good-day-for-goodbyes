@@ -274,10 +274,12 @@ violations, volunteers improvements)
   BACK); crew below the minimum = task idles with red NOT POSSIBLE
   (defense below minimum = tile falls at END DAY, matching the old
   cannot-start rule).
-- DARK TILE LABELS (user 07-20, "placeholders, not empty tiles"):
-  drawn dark tiles show their kind label (FOOD MATERIAL RUBBLE CAMP
-  CACHE LIGHT EMBER) at the same 0.4 dim as the stamp. Lots and the
-  origin mystery stay unlabeled.
+- UNKNOWN LAW (user 07-21, hard rule): an unclaimed tile NEVER
+  reveals its kind, anywhere (no tile label, no panel hint). The
+  not-knowing is the point of reclaiming. A 07-21 label pass
+  violated this (misread of "placeholders, not empty tiles") and
+  was reverted same day. What that request actually meant = OPEN,
+  user clarifying.
 - Floor fill geometry corrected 07-20: art diamond measured from
   smooth_tile.png ink (center y+3, half 35.5x17.5 at x1) -> floor
   center y+3*sc, half 31.5x15.5. The first pass used the input hit

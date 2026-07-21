@@ -2,8 +2,6 @@ function drawTileVisual(t,x,y){
 if(t.state!=="owned"){
 cx.globalAlpha=0.4;
 stampTile(x,y);
-const lb=KIND_LABEL[t.kind];
-if(lb)text7(lb,x,y-3,1,"c");
 cx.globalAlpha=1;
 return;
 }
