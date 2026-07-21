@@ -66,7 +66,7 @@ violations, volunteers improvements)
   user edits; row sums must equal tier size).
 - Tile kinds (code id = player name): house HOUSE, house2 APARTMENT
   (kept, currently in no spawn bag), grocery FOOD, scrap MATERIAL,
-  rubble RUBBLE, camp CAMPFIRE (label CAMP, name pass pending),
+  rubble RUBBLE, camp CAMPFIRE (label locked 07-21),
   cache SUPPLY CACHE, light LIGHT, lot EMPTY LOT, pr EMBER (spawn 0
   for now, code kept; percentage discussion pending), mysteryroll
   UNKNOWN (origin only).
@@ -102,9 +102,12 @@ violations, volunteers improvements)
   Finish pays 40% +5 FOOD / 30% PLACEHOLDER1 / 30% PLACEHOLDER2
   (item identities TBD; counts shown in HUD once owned).
 - CAMPFIRE reclaim = recruit (bag REED JUNE OKON IVY SAGE, fallback
-  ASH), tile becomes lot. Hard cap 6 survivors; HUD shows
-  current/housing cap (owned house+apartment count). Housing gate
-  rule OPEN (recruit can exceed housing).
+  ASH); the tile STAYS CAMPFIRE with its label, like FOOD/MATERIAL
+  (user 07-21; was: became blank lot). Future direction (user, not
+  built): CAMPFIRE can be CLEARED and re-used (e.g. as a material
+  tile); rules pending with EMPTY LOT REBUILD. Hard cap 6
+  survivors; HUD shows current/housing cap (owned house+apartment
+  count). Housing gate rule OPEN (recruit can exceed housing).
 - LIGHT tile (2 in tier 2, the only light source yet): reclaim = +1
   LIGHT, tile becomes lot, "+LIGHT" float. HUD LIGHT counter appears
   at first point. More sources/tuning later.
@@ -277,9 +280,9 @@ violations, volunteers improvements)
 - UNKNOWN LAW (user 07-21, hard rule): an unclaimed tile NEVER
   reveals its kind, anywhere (no tile label, no panel hint). The
   not-knowing is the point of reclaiming. A 07-21 label pass
-  violated this (misread of "placeholders, not empty tiles") and
-  was reverted same day. What that request actually meant = OPEN,
-  user clarifying.
+  violated this and was reverted same day. The request actually
+  meant: OWNED camps must stay labeled CAMPFIRE tiles, not convert
+  to blank lots (built 07-21, see Turn economy).
 - Floor fill geometry corrected 07-20: art diamond measured from
   smooth_tile.png ink (center y+3, half 35.5x17.5 at x1) -> floor
   center y+3*sc, half 31.5x15.5. The first pass used the input hit
@@ -420,7 +423,7 @@ violations, volunteers improvements)
 - EMPTY LOT REBUILD rules; PLACEHOLDER1/2 item identities; shop
   EMBER TILE + MISC categories; upgrade costs.
 - Survivor marker pick (CREST/BANNER/CAIRN); tile icons (user
-  references); naming: CAMP/CAMPFIRE final, void name, MISC name.
+  references); naming: void name, MISC name.
 - Darkness rendering (density/erosion, needs user eyes); story lock;
   survivor stat system; permadeath review.
 - Tutorial visuals rework; SETTINGS menu button no-op; WISHLIST/
