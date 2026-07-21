@@ -6,6 +6,7 @@ drawTiles();
 drawSurvivors();
 drawFloats();
 cx.restore();
+drawBeats();
 drawHUD();
 drawTopbar();
 drawPanel();
@@ -36,6 +37,7 @@ if(fading){fade=Math.min(1,fade+dt*3.5);if(fade>=1){fading=false;if(!G&&!load())
 if(overT>=0){overT+=dt;if(overT>=OVER_DUR){try{localStorage.removeItem("goodbyes_save");}catch(e){}G=null;sel=null;picker=null;hoverTile=null;mode="shop";overT=-1;fade=0;fading=false;menuMusic(true);}}
 updateBlackout(dt);
 if(mode==="game"&&G){
+beatsUpdate(dt);
 visual(dt);
 updateFloats(dt);
 hoverA+=((hoverTile?1:0)-hoverA)*Math.min(1,dt*10);

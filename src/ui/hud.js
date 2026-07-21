@@ -78,5 +78,6 @@ const my=ty+th-Math.round(p*th);
 px(bx-2,my-5,7,10,FG);
 cx.restore();
 }
+drawRoster();
 btn("endturn","END DAY",W/2-75,H-58,150);
 }

@@ -1,5 +1,6 @@
-let fN=0;
+let fN=0,floatSink=null;
 function spawnFloat(x,y,txt){
+if(floatSink){floatSink.push({x,y,txt});return;}
 fN++;
 if(floats.length>40)floats.shift();
 floats.push({x:x+(fN%3-1)*8,y,t:0,txt});

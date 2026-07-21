@@ -15,8 +15,35 @@ menuButtons.push({id:"DISCORD",label:"DISCORD",x:x0+g1+44-8,y:bs.dy-10,w:g2+16,h
 menuButtons.push({id:"MMUTE",x:W-40,y:8,w:32,h:32,mute:true});
 return bs;
 }
+let vizLast=0;
+function drawMenuViz(){
+const now=performance.now();
+const dt=vizLast?Math.min(0.1,(now-vizLast)/1000):0.016;
+vizLast=now;
+const n=64,sp=menuSpectrum(n,dt);
+const hz=H-30,bw=W/n,maxH=42;
+cx.save();
+cx.scale(S,S);
+cx.fillStyle=FG;
+for(let i=0;i<n;i++){
+const h=Math.max(1,sp[i]*maxH);
+const x=i*bw+1,w=bw-2;
+cx.globalAlpha=0.22*(1-fade);
+cx.fillRect(x,hz-h,w,h);
+const rh=h*0.4;
+for(let yy=0;yy<rh;yy+=2){
+cx.globalAlpha=0.1*(1-yy/rh)*(1-fade);
+cx.fillRect(x,hz+3+yy,w,1);
+}
+}
+cx.globalAlpha=0.14*(1-fade);
+cx.fillRect(0,hz,W,1);
+cx.restore();
+cx.globalAlpha=1;
+}
 function drawMenu(){
 const bs=menuLayout();
+drawMenuViz();
 cx.globalAlpha=1-fade;
 text3("A GOOD DAY FOR GOODBYES",W/2,bs.ty,bs.ts,"c");
 for(const b of menuButtons){

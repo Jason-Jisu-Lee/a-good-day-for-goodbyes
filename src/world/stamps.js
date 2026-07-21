@@ -34,14 +34,14 @@ T_TILE_RED=c;
 return c;
 }
 function floorFill(x,y){
-const l=L(),d=DXY(),i=3.5*l.sc;
+const l=L(),fy=y+3*l.sc,hw=31.5*l.sc,hh=15.5*l.sc;
 cx.save();
 cx.scale(S,S);
 cx.beginPath();
-cx.moveTo(x,y-d.hh+i*d.hh/d.hw);
-cx.lineTo(x+d.hw-i,y);
-cx.lineTo(x,y+d.hh-i*d.hh/d.hw);
-cx.lineTo(x-d.hw+i,y);
+cx.moveTo(x,fy-hh);
+cx.lineTo(x+hw,fy);
+cx.lineTo(x,fy+hh);
+cx.lineTo(x-hw,fy);
 cx.closePath();
 cx.fillStyle="#20201e";
 cx.fill();

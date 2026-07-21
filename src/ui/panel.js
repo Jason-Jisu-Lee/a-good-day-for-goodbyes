@@ -20,19 +20,24 @@ if(!dark&&!atk&&(t.kind==="grocery"||t.kind==="scrap"))status="+"+(tilePassive(t
 if(!dark&&!atk&&t.kind==="rubble")status=t.action==="clear"?"CLEARING":RUBBLE_COST+" MATERIAL   "+(t.clearD||1)+(( t.clearD||1)===1?" DAY":" DAYS");
 text7(status,l.pnX+16,l.pnY+40,1,null,atk&&!t.action?DANGER:MID);
 let y=l.pnY+60;
+if(picker){drawPicker(y);return;}
 if(t.action==="extinguish"){
 const c=dark?crew(t):defCrew(t);
 text7(c.map(s=>s.name).join(" "),l.pnX+16,y,1,null,MID);y+=16;
 const S=dark?tileStrength(t):(atk?t.atkS:0);
 if(S>0){
+if(c.length<minCrew(S)){
+text7("NOT POSSIBLE",l.pnX+16,y,1,null,DANGER);y+=16;
+}else{
 const pct=Math.round(taskRisk(S,c.length)*100);
 if(pct>0){text7(pct+"% RISK",l.pnX+16,y,1,null,DANGER);y+=16;}
 text7(t.turnsLeft+(t.turnsLeft===1?" DAY LEFT":" DAYS LEFT"),l.pnX+16,y,1,null,MID);
 }
-y+=22;btn("stop","PULL BACK",l.pnX+16,y,140);
+}
+y+=22;btn("crew_add","CREW",l.pnX+16,y,120);y+=52;
+btn("stop","PULL BACK",l.pnX+16,y,140);
 return;
 }
-if(picker){drawPicker(y);return;}
 if(dark){if(extinguishable(t))btn("act_extinguish","RECLAIM",l.pnX+16,y,150,G.survivors.some(s=>!lockedS(s)));return;}
 if(atk){btn("act_extinguish","DEFEND",l.pnX+16,y,150,G.survivors.some(s=>!lockedS(s)));return;}
 if(t.kind==="rubble"){

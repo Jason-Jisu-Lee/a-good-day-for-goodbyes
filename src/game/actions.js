@@ -1,12 +1,17 @@
 function lockedS(s){return !!(s.task&&s.task.type!=="gather");}
 function defCrew(t){return crew(t).filter(s=>s.task.type==="extinguish");}
-function assign(t,type,members){
-for(const s of members)s.task={type,tile:t};
-if(type==="extinguish"){
-if(t.state!=="owned")t.turnsLeft=taskDays(tileStrength(t),crew(t).length);
-else if(t.atk)t.turnsLeft=taskDays(t.atkS,defCrew(t).length);
-t.action="extinguish";
+function recrewTile(t,added){
+const c=t.state==="owned"?defCrew(t):crew(t);
+if(c.length===0){
+if(t.state==="owned")t.action=null;
+else releaseCrew(t);
+return;
 }
+const S=t.state==="owned"?t.atkS:tileStrength(t);
+const fresh=taskDays(S,c.length);
+const was=t.action==="extinguish"&&t.turnsLeft>0;
+t.action="extinguish";
+t.turnsLeft=added&&was?Math.min(t.turnsLeft,fresh):fresh;
 }
 function releaseCrew(t){for(const s of crew(t))s.task=null;t.action=null;if(t.state!=="owned")t.turnsLeft=baseDays(tileStrength(t));}
 function clearRubble(t){

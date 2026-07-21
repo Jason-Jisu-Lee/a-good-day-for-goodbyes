@@ -11,6 +11,7 @@ cv.addEventListener("pointerdown",e=>{
 musicGesture();
 if(mode!=="game")return;
 if(boT>=0){if(boT>=0.6&&boOut<0)boDismiss();return;}
+if(beatsActive())return;
 const p=toLogical(e);
 ptrs.set(e.pointerId,p);
 if(ptrs.size===2){
@@ -78,6 +79,7 @@ panDrag=null;
 if(moved)return;
 }
 if(mode==="game"&&boT>=0)return;
+if(mode==="game"&&beatsActive()){beatsSkipAll();return;}
 const p=toLogical(e);
 if(mode==="menu"){
 for(const b of menuButtons){if(p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h){
@@ -129,28 +131,38 @@ mode="menu";fade=0;fading=false;
 return;
 }
 if(id==="volM"||id==="volF")return;
-if(id==="endturn"){endTurn();return;}
+if(id==="endturn"){if(beatsActive())return;picker=null;endTurn();return;}
 if(id.startsWith("act_")){
-picker={type:id.slice(4),set:new Set()};
+picker={type:id.slice(4)};
 return;
 }
 if(id.startsWith("pick_")){
-const rest=id.slice(5);
-if(rest==="go"){
-if(picker.set.size>0){
-for(const s of picker.set)if(s.task)s.task=null;
-assign(sel,picker.type,[...picker.set]);
-picker=null;
-}
+if(!picker||!sel)return;
+const s=G.survivors[parseInt(id.slice(5),10)];
+if(!s)return;
+const tt=pickTaskType();
+const on=s.task&&s.task.type===tt&&s.task.tile===sel;
+if(on){
+s.task=null;
+if(tt==="extinguish")recrewTile(sel,false);
 return;
 }
-if(rest==="no"){picker=null;return;}
-const s=G.survivors[parseInt(rest,10)];
 if(lockedS(s))return;
-if(picker.set.has(s))picker.set.delete(s);
-else if(picker.type==="gather"?picker.set.size<GATHER_SLOTS:crewUseful(sel.state==="owned"?sel.atkS:tileStrength(sel),picker.set.size))picker.set.add(s);
+if(tt==="gather"){
+if(pickSet().length>=GATHER_SLOTS)return;
+if(s.task)s.task=null;
+s.task={type:"gather",tile:sel};
 return;
 }
+if(sel.state==="owned"&&!sel.atk)return;
+const S=sel.state==="owned"?sel.atkS:tileStrength(sel);
+if(!crewUseful(S,pickSet().length))return;
+if(s.task)s.task=null;
+s.task={type:"extinguish",tile:sel};
+recrewTile(sel,true);
+return;
+}
+if(id==="crew_add"){if(!sel)return;picker={type:sel.state==="owned"&&!sel.atk?"gather":"extinguish"};return;}
 if(id==="stop"){releaseCrew(sel);return;}
 if(id==="clear"){clearRubble(sel);return;}
 if(id==="ztip"){G.zoomTipSeen=true;return;}

@@ -19,10 +19,18 @@ if(alive>0)finish(t);
 else{t.action=null;t.turnsLeft=baseDays(tileStrength(t));}
 }
 function endTurn(){
+beatsBegin();
+let boFire=false;
 for(const t of G.tiles){
-if(t.action==="extinguish"&&t.state!=="owned"&&crew(t).length>0){
+if(t.action==="extinguish"&&t.state!=="owned"&&crew(t).length>=minCrew(tileStrength(t))){
+const ev=beatEv(t);
 t.turnsLeft--;
-if(t.turnsLeft<=0)resolveReclaim(t);
+if(t.turnsLeft<=0){
+floatSink=ev.floats;
+resolveReclaim(t);
+floatSink=null;
+beatOut(ev,t);
+}else beatWork(ev,t);
 }else if(t.action==="clear"&&t.state==="owned"&&!t.atk){
 t.turnsLeft--;
 if(t.turnsLeft<=0)finishRubble(t);
@@ -32,14 +40,18 @@ for(const t of G.tiles){
 if(t.state==="owned"&&t.atk){
 const q=tpos(t),d=DXY();
 const c=t.action==="extinguish"?defCrew(t):[];
-if(c.length>0){
+if(c.length>=minCrew(t.atkS)){
+const ev=beatEv(t);
 t.turnsLeft--;
 if(t.turnsLeft<=0){
+floatSink=ev.floats;
 const alive=rollConsumed(t.atkS,c,q,d);
 t.atk=false;t.atkS=0;releaseCrew(t);
 if(alive>0)spawnFloat(q.x,q.y-d.hh-4,"HELD");
 else{t.state="dark";t.turnsLeft=baseDays(tileStrength(t));spawnFloat(q.x,q.y-d.hh-4,"TAKEN");}
-}
+floatSink=null;
+beatOut(ev,t);
+}else beatWork(ev,t);
 }else{
 t.atk=false;t.atkS=0;t.state="dark";t.turnsLeft=baseDays(tileStrength(t));
 releaseCrew(t);
@@ -74,13 +86,14 @@ G.boCount=(G.boCount||0)+1;
 G.boNeed=boDark(G.boCount);
 G.boFast=Math.random()<boFastChance(G.boCount);
 G.boDay=G.day+(G.boFast?1:BO_LEAD);
-boWordStart();
+boFire=true;
 }
 if(G.boDay&&G.day>=G.boDay){
 G.boDay=0;
 if((G.light||0)<(G.boNeed||0))endRun();
 }
 if(G.survivors.length===0)endRun();
+beatsEnd(boFire);
 save();
 }
-function endRun(){if(overT<0){overT=0;metaBank();}}
+function endRun(){if(overT<0){overT=0;beatsClear();metaBank();}}

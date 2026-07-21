@@ -2,6 +2,8 @@ function drawTileVisual(t,x,y){
 if(t.state!=="owned"){
 cx.globalAlpha=0.4;
 stampTile(x,y);
+const lb=KIND_LABEL[t.kind];
+if(lb)text7(lb,x,y-3,1,"c");
 cx.globalAlpha=1;
 return;
 }
@@ -19,8 +21,10 @@ for(const t of sorted){
 if(!drawnTile(t))continue;
 const p=tpos(t);
 const lift=t===hoverTile?hoverA*3*Math.max(l.sc,0.5):0;
-drawTileVisual(t,p.x,p.y-lift);
-if(t.action&&t.turnsLeft>0&&(t.state!=="owned"||t.atk||t.action==="clear")){
+const bp=beatPrevFor(t);
+const vt=bp?{kind:bp.prev.kind,state:bp.prev.state,atk:false}:t;
+drawTileVisual(vt,p.x,p.y-lift);
+if(!bp&&t.action&&t.turnsLeft>0&&(t.state!=="owned"||t.atk||t.action==="clear")){
 const d=DXY();
 text7(t.turnsLeft+"D",p.x,p.y-d.hh-12,1,"c",FG);
 }

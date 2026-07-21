@@ -171,7 +171,9 @@ violations, volunteers improvements)
   point), "+2/DAY TILE" row label, MISC category name.
 - Save v10, single slot (goodbyes_save); non-v10 saves discarded, no
   migrations. Autosave: 10s interval + visibilitychange + END DAY +
-  menu exit; wipe gags autosave until reload.
+  menu exit; wipe gags autosave until reload. 07-21 crash fix:
+  load() never restored the recruit name/face bags, so any CAMPFIRE
+  reclaim after save+reload crashed; bags now restored.
 
 ## Survivors (the heart)
 - Recruiting = major event, not a stat bump. Target: name, age,
@@ -216,7 +218,43 @@ violations, volunteers improvements)
   antimatter/magnetite/phosphor (scientific salvage, distinct feed
   verbs). Nothing built.
 
+## END DAY beats (user-locked 07-20 from lab/lab_endday.html; BUILT
+07-21, refinement pass later)
+- On END DAY, resolutions play as sequential BEATS, one per resolving
+  task, 0.7s each, random order. Click anywhere mid-sequence = skip
+  all (the confirm-all).
+- STYLE = SPOTLIGHT (user pick, "more obvious"): world dims like a
+  small blackout, only the resolving tile stays bright, crew pulses
+  on it; snaps back between beats.
+- AUDIO = WARM JAZZ BLIPS (user pick): procedural WebAudio per
+  action: material thunk+resolve, food pluck, survivor rising
+  3-note arp, cache coin blips, still-working muted low tick.
+- Beat events: reclaim complete (tile kindles + kind reveal),
+  survivor found, food/material tile, cache payout, still-working
+  (tile stays dark), defense HELD / TAKEN, all-crew-consumed FAIL.
+  Undefended falls + gather/passive floats stay instant (no crew =
+  no beat). Resolution floats (+N, CONSUMED...) emit at each beat's
+  end; resolved tiles keep their pre-END-DAY look until their beat
+  plays. Blackout word waits for the last beat. Run end skips beats
+  entirely. SFX volume = the note panel SFX slider.
+- Implementation: src/ui/beats.js; sim.js endTurn captures events;
+  input swallows all clicks during playback (any click = skip all).
+  Refinement pass later (user: "we'll refine this UI later").
+
 ## UI (current build)
+- SURVIVOR ROSTER (user 07-21): left side under the HUD block
+  (src/ui/roster.js): one row per survivor, color dot + name +
+  status (IDLE / RECLAIMING / DEFENDING / GATHERING). IDLE rows
+  bright, busy rows dim, so all-dim = everyone occupied = ready to
+  END DAY.
+- MENU VISUALIZER (user 07-21, SPECTRUM CITY pick, toned down):
+  64-bar skyline along the menu bottom (max 42px, 0.22 alpha) over
+  a faint horizon line, with a dithered reflection dissolving
+  downward into black = the town's light standing over the void.
+  Bars ride the menu jazz via a WebAudio analyser. LOCAL CAVEAT:
+  Chrome blocks analysing file:// audio, so local runs show a slow
+  synthetic breathing instead; real reaction appears on itch/https.
+  User wants it fancier later; this is the non-intrusive baseline.
 - HUD: FOOD + "+N/DAY" "-N/DAY" rows; MATERIAL once first seen;
   LIGHT when >0; BLACKOUT readout when armed; EMBER when >0;
   PLACEHOLDER1/2 item counts when owned; SURVIVORS n/cap; DAY
@@ -225,6 +263,25 @@ violations, volunteers improvements)
   Panel: DARKNESS + days estimate for dark tiles; RECLAIM / DEFEND /
   CLEAR / GATHER / STOP / PULL BACK verbs; crew names, "N% RISK" in
   red, "N DAYS LEFT".
+- LIVE CREW ASSIGN (user 07-20, replaces START button): clicking a
+  survivor row assigns them to the tile's action INSTANTLY; more
+  clicks add crew; clicking an assigned row removes them. No
+  START/CANCEL (click away / ESC / same tile closes the list).
+  CREW button on a working tile reopens the list to add more.
+  PLACEHOLDER RULES (Claude, need user verdict): adding crew
+  mid-task never resets progress (days = min(current, recomputed));
+  removing crew recomputes fresh (progress reset, same as PULL
+  BACK); crew below the minimum = task idles with red NOT POSSIBLE
+  (defense below minimum = tile falls at END DAY, matching the old
+  cannot-start rule).
+- DARK TILE LABELS (user 07-20, "placeholders, not empty tiles"):
+  drawn dark tiles show their kind label (FOOD MATERIAL RUBBLE CAMP
+  CACHE LIGHT EMBER) at the same 0.4 dim as the stamp. Lots and the
+  origin mystery stay unlabeled.
+- Floor fill geometry corrected 07-20: art diamond measured from
+  smooth_tile.png ink (center y+3, half 35.5x17.5 at x1) -> floor
+  center y+3*sc, half 31.5x15.5. The first pass used the input hit
+  diamond and sat 4px high.
 - Floating text on grants ("+N", "+LIGHT", "PLACEHOLDER1"...), rises
   and fades, rAF-driven, cosmetic, never saved.
 - Zoom: 9 fixed levels, 0.75x-1.75x, default 1.25x dead center, step
