@@ -33,6 +33,20 @@ g.fillRect(0,0,c.width,c.height);
 T_TILE_RED=c;
 return c;
 }
+function floorFill(x,y){
+const l=L(),d=DXY(),i=3.5*l.sc;
+cx.save();
+cx.scale(S,S);
+cx.beginPath();
+cx.moveTo(x,y-d.hh+i*d.hh/d.hw);
+cx.lineTo(x+d.hw-i,y);
+cx.lineTo(x,y+d.hh-i*d.hh/d.hw);
+cx.lineTo(x-d.hw+i,y);
+cx.closePath();
+cx.fillStyle="#20201e";
+cx.fill();
+cx.restore();
+}
 function stampTile(x,y,danger){
 const l=L();
 if(T_TILE.width){

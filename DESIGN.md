@@ -345,12 +345,14 @@ violations, volunteers improvements)
   fight is the exam); 2-3 weapons ~15 materials; stats after first
   combat playtest.
 - Tile visual design IN PROGRESS (m2/tiles_design branch).
-  OWNERSHIP READABILITY VERDICT = FLOOR FILL (user 07-20, from
-  lab/lab_ownership.html): owned tiles get a solid dark floor
-  (#20201e, diamond inset 3.5) under the tile stamp; unowned stay
-  hollow 0.4-alpha wireframe. Town = solid ground, dark = hollow.
-  NOT IMPLEMENTED YET (awaits user go). Labs live in lab/; delete
-  the folder once everything in it is locked.
+  OWNERSHIP READABILITY = FLOOR FILL, BUILT 07-20 (user pick from
+  lab/lab_ownership.html, scoped by user to EMPTY LOTS only since
+  other kinds get their own visuals later): owned lot = solid dark
+  floor (#20201e, diamond inset 3.5) under the tile stamp; all
+  other owned kinds unchanged; unowned stay hollow 0.4-alpha
+  wireframe. Town = solid ground, dark = hollow. Verified headless
+  (first load unchanged, forced-lots shot). Labs live in lab/;
+  delete the folder once everything in it is locked.
 - TILES.md editing pass (user); TBD column kinds (24 slots); sync
   bags after.
 - Balance verdicts: starvation rule; housing gate; attack tuning
