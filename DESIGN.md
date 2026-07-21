@@ -344,8 +344,13 @@ violations, volunteers improvements)
   slice. Direction: fights resolve autonomously (prep is the game,
   fight is the exam); 2-3 weapons ~15 materials; stats after first
   combat playtest.
-- Tile visual design IN PROGRESS (m2/tiles_design branch): user
-  picking from demo (floor fill, dither...), verdict pending.
+- Tile visual design IN PROGRESS (m2/tiles_design branch).
+  OWNERSHIP READABILITY VERDICT = FLOOR FILL (user 07-20, from
+  lab/lab_ownership.html): owned tiles get a solid dark floor
+  (#20201e, diamond inset 3.5) under the tile stamp; unowned stay
+  hollow 0.4-alpha wireframe. Town = solid ground, dark = hollow.
+  NOT IMPLEMENTED YET (awaits user go). Labs live in lab/; delete
+  the folder once everything in it is locked.
 - TILES.md editing pass (user); TBD column kinds (24 slots); sync
   bags after.
 - Balance verdicts: starvation rule; housing gate; attack tuning
