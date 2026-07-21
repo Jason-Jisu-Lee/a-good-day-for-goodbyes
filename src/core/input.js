@@ -5,7 +5,7 @@ cv.addEventListener("wheel",e=>{
 if(mode!=="game"||!G)return;
 e.preventDefault();
 const p=toLogical(e);
-setZoom(zoomS*(e.deltaY<0?1.1:0.9),p.x,p.y);
+setZoom(zoomS+(e.deltaY<0?ZOOM_STEP:-ZOOM_STEP),p.x,p.y);
 },{passive:false});
 cv.addEventListener("pointerdown",e=>{
 musicGesture();

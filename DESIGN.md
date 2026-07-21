@@ -95,9 +95,11 @@ cost delays expansion; post-prestige bonuses speed it later).
   atkTipSeen state removed). Tutorial visuals need a rework pass
   later (user: current style sucks, direction unknown).
 - Zoom tip moved to LEFT SIDE (was top-center), vertically centered.
-- Zoom range 0.75x-1.75x, DEFAULT 1.25x (user 07-20: old 0.5 min
-  too far out, default too far, more zoom-in wanted). Default =
-  exact middle of the range (bar notch rule). ZOOM_MIN/MAX/DEF in
+- ZOOM = 9 FIXED LEVELS (user 07-20, replaces continuous): default
+  1.25x dead center, 4 levels in (to 1.75x), 4 levels out (to
+  0.75x), step 0.125 (exact binary fraction, no float drift). One
+  wheel notch = one level; pinch snaps to nearest level. Bar shows
+  9 tick marks, center tick = default. ZOOM_MIN/MAX/DEF/STEP in
   board.js.
 - Transient ZOOM BAR on the RIGHT edge while zooming: vertical
   track, center notch at default, marker at current zoom; fades

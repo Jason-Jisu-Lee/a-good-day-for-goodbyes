@@ -68,6 +68,10 @@ cx.save();
 cx.globalAlpha=a;
 const ty=Math.round(H*0.3),th=Math.round(H*0.4),bx=W-11;
 px(bx,ty,3,th,DIM);
+for(let i=0;i<=8;i++){
+const yy=ty+th-Math.round(i/8*th);
+px(bx-1,yy,5,1,i===4?MID:DIM);
+}
 px(bx-2,ty+Math.round(th/2)-1,7,2,MID);
 const p=(zoomS-ZOOM_MIN)/(ZOOM_MAX-ZOOM_MIN);
 const my=ty+th-Math.round(p*th);

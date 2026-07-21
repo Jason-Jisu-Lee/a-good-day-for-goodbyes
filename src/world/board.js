@@ -1,5 +1,5 @@
 const GRID=12,OB0=5,OB1=6;
-const ZOOM_MIN=0.75,ZOOM_MAX=1.75,ZOOM_DEF=1.25;
+const ZOOM_MIN=0.75,ZOOM_MAX=1.75,ZOOM_DEF=1.25,ZOOM_STEP=0.125;
 let zoomS=ZOOM_DEF,zoomBarT=0;
 function L(){
 if(PORT)return {ox:W/2,oy:Math.round(H*0.18),sc:zoomS,pnX:W/2-225,pnY:Math.round(H*0.4896),pnW:450,pnH:300,hud:20};
@@ -7,6 +7,7 @@ return {ox:W/2,oy:H/2-120,sc:zoomS,pnX:W-204,pnY:60,pnW:188,pnH:392,hud:12};
 }
 function setZoom(nz,px2,py2){
 nz=Math.max(ZOOM_MIN,Math.min(ZOOM_MAX,nz));
+nz=ZOOM_MIN+Math.round((nz-ZOOM_MIN)/ZOOM_STEP)*ZOOM_STEP;
 zoomBarT=1.4;
 if(nz===zoomS)return;
 const l=L(),r=nz/zoomS;
