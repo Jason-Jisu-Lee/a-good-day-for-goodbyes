@@ -79,6 +79,18 @@ cost delays expansion; post-prestige bonuses speed it later).
 - 6x6 board tops at tier 4 corners; tier 6+ math live but waits
   for grid growth. Save v8.
 
+### 07-20 TUTORIAL PURGE + ZOOM (user)
+- ALL text tutorials DELETED except the zoom tip (SELECT A DARK
+  TILE / TASKS RESOLVE AT END DAY / DARKNESS ATTACKS gone; G.tut +
+  atkTipSeen state removed). Tutorial visuals need a rework pass
+  later (user: current style sucks, direction unknown).
+- Zoom tip moved to LEFT SIDE (was top-center), vertically centered.
+- Zoom range now 0.5x-1.5x (zoom IN enabled, was capped 1.0);
+  default 1.0 = exact middle of the range.
+- Transient ZOOM BAR on the RIGHT edge while zooming: vertical
+  track, center notch at default, marker at current zoom; fades
+  ~1.4s after the last zoom input. Indicator only, not draggable.
+
 ### 07-19 TILE PAYOUTS (user)
 - SUPPLY CACHE reclaim = 2-5 MATERIAL or 2-5 FOOD (50/50 which,
   amount rolled; CACHE_ROLL in balance.js). Supersedes flat +10.

@@ -1,11 +1,12 @@
 const GRID=12,OB0=5,OB1=6;
-let zoomS=1;
+let zoomS=1,zoomBarT=0;
 function L(){
 if(PORT)return {ox:W/2,oy:Math.round(H*0.18),sc:zoomS,pnX:W/2-225,pnY:Math.round(H*0.4896),pnW:450,pnH:300,hud:20};
 return {ox:W/2,oy:H/2-120,sc:zoomS,pnX:W-204,pnY:60,pnW:188,pnH:392,hud:12};
 }
 function setZoom(nz,px2,py2){
-nz=Math.max(0.5,Math.min(1,nz));
+nz=Math.max(0.5,Math.min(1.5,nz));
+zoomBarT=1.4;
 if(nz===zoomS)return;
 const l=L(),r=nz/zoomS;
 if(G){

@@ -57,7 +57,6 @@ else if(t.kind==="scrap"){const r=tilePassive(t)+GATHER_BONUS*w;G.mats+=r;spawnF
 }
 G.food=Math.max(0,G.food-FOOD_PER_SURV*G.survivors.length);
 if(G.mats>0&&!G.matsSeen)G.matsSeen=true;
-G.tut=0;
 G.day++;
 if(G.day>=G.nextAtk&&!G.tiles.some(t=>t.atk)){
 const cands=G.tiles.filter(t=>t.state==="owned"&&tierOf(t)>=1&&frontierT(t));

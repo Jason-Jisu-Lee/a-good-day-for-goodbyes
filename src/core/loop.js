@@ -39,6 +39,7 @@ if(mode==="game"&&G){
 visual(dt);
 updateFloats(dt);
 hoverA+=((hoverTile?1:0)-hoverA)*Math.min(1,dt*10);
+if(zoomBarT>0)zoomBarT=Math.max(0,zoomBarT-dt);
 }
 frames++;fpsT+=dt;if(fpsT>=1){fps=frames;frames=0;fpsT=0;}
 if(!dbg.hidden){

@@ -53,23 +53,26 @@ if(G.items&&G.items.p2>0)text7("PLACEHOLDER2 "+G.items.p2,580,l.hud+14,1,null,MI
 const cap=G.tiles.filter(t=>t.state==="owned"&&(t.kind==="house"||t.kind==="house2")).length;
 text7("SURVIVORS "+G.survivors.length+"/"+cap,160,l.hud+36,1,null,MID);
 text7("DAY "+G.day,16,H-24,1,null,MID);
-let tb=null;
-if(G.tut===1)tb="SELECT A DARK TILE";
-else if(G.tut===2&&G.tiles.some(t=>t.action))tb="TASKS RESOLVE AT END DAY";
-else if(!G.atkTipSeen&&G.tiles.some(t=>t.atk))tb="DARKNESS ATTACKS";
-if(tb){
-const tw=tw7(tb,1)+32,bx=W/2-tw/2,by=54;
-px(bx,by,tw,44,BG);
-edgeR(bx,by,tw,44,MID);
-text7(tb,W/2,by+15,1,"c",FG);
-}else if(G.day>=G.tutDay&&!G.zoomTipSeen){
+if(G.day>=G.tutDay&&!G.zoomTipSeen){
 const msg=("ontouchstart" in window)?"PINCH: ZOOM MAP":"MOUSE WHEEL: ZOOM MAP";
 const tw=tw7(msg,1)+32;
-const bx=W/2-tw/2,by=54;
+const bx=16,by=Math.round(H/2)-22;
 px(bx,by,tw,44,BG);
 edgeR(bx,by,tw,44,MID);
-text7(msg,W/2,by+15,1,"c",FG);
+text7(msg,bx+16,by+15,1,null,FG);
 uiButtons.push({id:"ztip",x:bx,y:by,w:tw,h:44,en:true});
+}
+if(zoomBarT>0){
+const a=Math.min(1,zoomBarT/0.3);
+cx.save();
+cx.globalAlpha=a;
+const ty=Math.round(H*0.3),th=Math.round(H*0.4),bx=W-11;
+px(bx,ty,3,th,DIM);
+px(bx-2,ty+Math.round(th/2)-1,7,2,MID);
+const p=(zoomS-0.5)/1;
+const my=ty+th-Math.round(p*th);
+px(bx-2,my-5,7,10,FG);
+cx.restore();
 }
 btn("endturn","END DAY",W/2-75,H-58,150);
 }

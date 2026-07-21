@@ -103,8 +103,6 @@ const l=L();
 const inPanel=sel&&p.x>=l.pnX&&p.x<=l.pnX+l.pnW&&p.y>=l.pnY&&p.y<=l.pnY+l.pnH;
 if(t){
 sel=t;picker=null;
-if(G.tut===1&&t.state!=="owned")G.tut=2;
-if(t.atk)G.atkTipSeen=true;
 }
 else if(!inPanel&&p.y>40){sel=null;picker=null;}
 });
