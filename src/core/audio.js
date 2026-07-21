@@ -25,7 +25,7 @@ if(p&&p.catch)p.catch(()=>{musicPending=true;});
 }
 let AAC=null,AN=null,ANF=null,synthT=0;
 function menuAnalyser(){
-if(AN||!(window.AudioContext||window.webkitAudioContext))return;
+if(AN||location.protocol==="file:"||!(window.AudioContext||window.webkitAudioContext))return;
 try{
 AAC=new (window.AudioContext||window.webkitAudioContext)();
 AN=AAC.createAnalyser();
