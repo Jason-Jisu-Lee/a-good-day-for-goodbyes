@@ -24,6 +24,17 @@ return true;
 }catch(e){return false;}
 }
 function hasSave(){try{return localStorage.getItem("goodbyes_save")!==null;}catch(e){return false;}}
+let sdCache=-1;
+function saveDay(){
+if(G)return G.day;
+if(sdCache<0){
+try{
+const raw=localStorage.getItem("goodbyes_save");
+sdCache=raw?(JSON.parse(raw).day||0):0;
+}catch(e){sdCache=0;}
+}
+return sdCache;
+}
 function wipe(){
 saveGag=true;
 try{localStorage.removeItem("goodbyes_save");}catch(e){}

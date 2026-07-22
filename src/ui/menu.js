@@ -1,12 +1,12 @@
 function menuLayout(){
 const port=H>W;
-const mains=[hasSave()||G?"CONTINUE":"NEW GAME","SETTINGS","QUIT GAME"];
+const mains=(hasSave()||G)?[{id:"CONTINUE",label:"DAY "+saveDay()},{id:"SETTINGS",label:"SETTINGS"},{id:"QUIT GAME",label:"QUIT GAME"}]:[{id:"NEW GAME",label:"NEW GAME"},{id:"SETTINGS",label:"SETTINGS"},{id:"QUIT GAME",label:"QUIT GAME"}];
 const bs=port?{ty:Math.round(H*0.229),ts:3,by:Math.round(H*0.448),bh:64,bsc:3,dy:Math.round(H*0.904)}:{ty:Math.round(H*0.278),ts:4,by:Math.round(H*0.519),bh:52,bsc:3,dy:Math.round(H*0.9)};
 menuButtons=[];
 for(let i=0;i<mains.length;i++){
-const label=mains[i];
+const {id,label}=mains[i];
 const w=tw3(label,bs.bsc)+56;const h=48;
-menuButtons.push({id:label,label,x:W/2-w/2,y:bs.by+i*bs.bh-h/2+8,w,h,scale:bs.bsc,ty:bs.by+i*bs.bh});
+menuButtons.push({id,label,x:W/2-w/2,y:bs.by+i*bs.bh-h/2+8,w,h,scale:bs.bsc,ty:bs.by+i*bs.bh});
 }
 menuButtons.push({id:"WISHLIST",x:W-116,y:8,w:32,h:32,ic:"steam",ix:W-114,iy:12,dead:true});
 menuButtons.push({id:"DISCORD",x:W-78,y:8,w:32,h:32,ic:"discord",ix:W-76,iy:12,dead:true});
