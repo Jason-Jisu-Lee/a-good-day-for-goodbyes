@@ -74,13 +74,15 @@ violations, volunteers improvements)
   non-mystery tiles start owned. Mystery illuminate = becomes a
   MATERIAL or FOOD tile (50/50) + opens the board (user 07-22; no
   longer recruits, for cap 4).
-- Tier bags (newgame.js): t1 = camp/grocery/scrap/rubble/4 lot; t2 =
-  camp/2 grocery/scrap/rubble/cache/2 light/4 lot; t3-t10 =
-  grocery/scrap/rubble/lot mixes, lot-heavy mid tiers, bags shrink
-  outward (t10 = grocery/2 scrap/lot). RECRUIT SOURCES = exactly 1
-  CAMPFIRE each in tiers 1/2/3, 0 elsewhere (user 07-22, cap 4).
-  LOT counts flattened 07-19; freed mid-tier slots = TBD column in
-  TILES.md (24 total), kinds decided later, generate as EMPTY LOT.
+- Tier spawn = SPEC-DRIVEN (newgame.js TIER_SPEC, user 07-22): per
+  tier a set of kinds with fixed OR ranged counts (a range rolls
+  UNIFORM per board), lots fill the remainder to tier size. Full
+  table + percentages in TILES.md. Key facts: CAMP only tiers 1-3
+  (exactly 1 each = the 3 recruits); LIGHT starts tier 3; RUBBLE
+  starts tier 4; EMBER tiers 4+. Tiers 1-5 user-locked, 6-10 Claude
+  draft pending playtest. Verified over 500 boards. BALANCE FLAG:
+  LIGHT now tier 3+ (0-1), first blackout needs LIGHT>=3 by day 10 =
+  may be too tight (playtest).
 - Reveal rule (no fog): undiscovered = pure black, nothing drawn,
   unclickable. Drawn = owned tiles + origin block + (once the board
   is opened) anything edge-adjacent to an owned tile. Unowned drawn
@@ -467,6 +469,14 @@ violations, volunteers improvements)
   delete the folder once everything in it is locked.
 - TILES.md editing pass (user); TBD column kinds (24 slots); sync
   bags after.
+- DOG COMPANION (user 07-22, parked): a 5th survivor = a dog, found
+  in TIER 6. Not built. Revisit when building tier 6: does it lift
+  SURV_CAP to 5, and how does it interact with sole-survivor / MC
+  rules (likely a companion, exempt from both). TILES.md tier-6 note
+  is the reminder.
+- Tiers 6-10 spawn spec = Claude draft; finalize after playtesting
+  tiers 1-5. LIGHT scarcity (tier 3+, 0-1) vs day-10 blackout (needs
+  3) may be too tight = watch, maybe add an earlier light source.
 - Balance verdicts: housing gate (do houses still gate anything now
   that the HUD shows /4 and shelter is unenforced?); attack tuning
   (placeholder ladder); EMBER tile spawn %; run-skeleton depth

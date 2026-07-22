@@ -95,28 +95,47 @@ A12   B11   C10   D9    E8   [F7]  [G6]   H5    I4    J3    K2    L1
   it resolves 50/50 to a MATERIAL or FOOD tile + opens the board.
 - Recruit names (placeholder): REED, JUNE, OKON. Faces 2/3/4.
 
-## Tier tile table (user plugs in counts, Claude syncs newgame.js)
-Cells = exact tile counts per tier (bag draw, not %). Each row must
-sum to TILES. LOT flattened 07-19 (user: near-equal, rises slowly);
-freed slots sit in TBD = kinds user decides later. TBD generates as
-EMPTY LOT in game until assigned, so play is unchanged for now.
-CAMP column locked to 1/1/1 in tiers 1-3 (the 3 recruits), 0 else.
+## Tier spawn spec (07-22; live in newgame.js TIER_SPEC)
+Each count ROLLS UNIFORM per board (a range = each value equally
+likely). The rest of the tier fills with EMPTY LOT. RUBBLE starts
+tier 4; LIGHT starts tier 3; CAMP only tiers 1-3 (the 3 recruits).
+Tiers 1-5 = USER-LOCKED. Tiers 6-10 = CLAUDE DRAFT (*), playtest
+pending. "-" = none.
 
-| TIER | TILES | CAMP | FOOD | MATERIAL | RUBBLE | CACHE | LIGHT | EMBER | LOT | TBD |
-|------|-------|------|------|----------|--------|-------|-------|-------|-----|-----|
-| 1    | 8     | 1    | 1    | 1        | 1      | 0     | 0     | 0     | 4   | 0   |
-| 2    | 12    | 1    | 2    | 1        | 1      | 1     | 2     | 0     | 4   | 0   |
-| 3    | 16    | 1    | 2    | 2        | 2      | 0     | 0     | 0     | 6   | 3   |
-| 4    | 20    | 0    | 2    | 2        | 2      | 0     | 0     | 0     | 6   | 8   |
-| 5    | 24    | 0    | 3    | 3        | 3      | 0     | 0     | 0     | 7   | 8   |
-| 6    | 20    | 0    | 2    | 4        | 3      | 0     | 0     | 0     | 7   | 4   |
-| 7    | 16    | 0    | 2    | 4        | 2      | 0     | 0     | 0     | 7   | 1   |
-| 8    | 12    | 0    | 2    | 4        | 2      | 0     | 0     | 0     | 4   | 0   |
-| 9    | 8     | 0    | 2    | 3        | 1      | 0     | 0     | 0     | 2   | 0   |
-| 10   | 4     | 0    | 1    | 2        | 0      | 0     | 0     | 0     | 1   | 0   |
+| TIER | SIZE | CAMP | FOOD | MATERIAL | CACHE | LIGHT | RUBBLE | EMBER | ~LOT |
+|------|------|------|------|----------|-------|-------|--------|-------|------|
+| 1    | 8    | 1    | 1    | 1        | 1     | -     | -      | -     | 4    |
+| 2    | 12   | 1    | 0-2  | 1        | 0-2   | -     | -      | -     | ~8   |
+| 3    | 16   | 1    | 1-2  | 1-2      | 1-2   | 0-1   | -      | -     | ~10  |
+| 4    | 20   | -    | 1-2  | 1-2      | 1-2   | 1-2   | 2      | 0-1   | ~11  |
+| 5    | 24   | -    | 1-3  | 1-3      | 1-2   | 1-2   | 2      | 1     | ~14  |
+| 6*   | 20   | -    | 2-3  | 2-3      | 1-2   | 1-2   | 2-3    | 0-1   | ~6   |
+| 7*   | 16   | -    | 1-2  | 2-3      | 1-2   | 1-2   | 2      | 0-1   | ~4   |
+| 8*   | 12   | -    | 1-2  | 2-3      | 1     | 0-1   | 2      | 0-1   | ~2   |
+| 9*   | 8    | -    | 1    | 1-2      | 1     | 0-1   | 1      | 0-1   | ~1   |
+| 10*  | 4    | -    | 1    | 1        | -     | 0-1   | -      | 0-1   | ~0-2 |
 
-LOT curve: 4 5 6 6 7 7 7 then 4 2 1 (tiers 8-10 shrink to 12/8/4
-tiles, fewer lots natural). TBD total = 24 slots open.
+Range percentages (uniform roll, each value equally likely):
+- 0-1 = 50% / 50%        (avg 0.5)
+- 0-2 = 33% / 33% / 33%  (avg 1.0)
+- 1-2 = 50% / 50%        (avg 1.5)
+- 1-3 = 33% / 33% / 33%  (avg 2.0)
+- 2-3 = 50% / 50%        (avg 2.5)
+- a fixed number (e.g. RUBBLE 2) = 100% that count.
+~LOT = whatever's left after the rolled tiles fill to SIZE (so it
+also varies board to board). Verified over 500 boards: tier averages
+match these ranges.
+
+BALANCE FLAG (Claude): LIGHT now first appears tier 3 (was tier 2)
+and only 0-1 there. First BLACKOUT (day 10) needs LIGHT >= 3, so a
+run may hit it before enough LIGHT exists = likely early death.
+Intended pressure or too tight? Playtest will tell.
+
+DOG COMPANION (user 07-22, NOT built): a 5th "survivor" - a dog -
+found somewhere in TIER 6. Details TBD; revisit when building tier
+6. Interactions to settle then: does it lift SURV_CAP to 5, and does
+it count for the sole-survivor / MC-death rules (probably not - it
+is a companion, not MARA-or-recruit).
 
 (Tier 0 = origin, fixed: 2 HOUSE + 1 FOOD + 1 MYSTERY. Mystery =
 tutorial first-illuminate: resolves 50/50 to MATERIAL or FOOD +
