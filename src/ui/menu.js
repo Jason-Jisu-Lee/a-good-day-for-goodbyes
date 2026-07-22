@@ -8,8 +8,8 @@ const label=mains[i];
 const w=tw3(label,bs.bsc)+56;const h=48;
 menuButtons.push({id:label,label,x:W/2-w/2,y:bs.by+i*bs.bh-h/2+8,w,h,scale:bs.bsc,ty:bs.by+i*bs.bh});
 }
-menuButtons.push({id:"WISHLIST",x:W-40,y:46,w:32,h:32,ic:"steam",ix:W-38,iy:50,dead:true});
-menuButtons.push({id:"DISCORD",x:W-40,y:84,w:32,h:32,ic:"discord",ix:W-38,iy:88,dead:true});
+menuButtons.push({id:"WISHLIST",x:W-116,y:8,w:32,h:32,ic:"steam",ix:W-114,iy:12,dead:true});
+menuButtons.push({id:"DISCORD",x:W-78,y:8,w:32,h:32,ic:"discord",ix:W-76,iy:12,dead:true});
 menuButtons.push({id:"MMUTE",x:W-40,y:8,w:32,h:32,mute:true});
 return bs;
 }
