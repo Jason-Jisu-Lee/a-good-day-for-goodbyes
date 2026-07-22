@@ -8,7 +8,7 @@ if(s.task.type==="extinguish")return "ILLUMINATING";
 return s.task.type.toUpperCase()+"ING";
 }
 function recruit(t){
-if(G.survivors.length>=6)return;
+if(G.survivors.length>=SURV_CAP)return;
 const name=G.names.shift()||"ASH";
 const face=G.faces.length?G.faces.shift():1;
 const p=tpos(t),d=DXY();

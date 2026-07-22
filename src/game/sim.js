@@ -116,4 +116,4 @@ else if(G.survivors.length===1&&(G.peak||0)>=4&&!G.soleMusic){G.soleMusic=true;p
 beatsEnd(boFire);
 save();
 }
-function endRun(){if(overT<0){overT=0;beatsClear();metaBank();}}
+function endRun(){if(overT<0){overT=0;stopDies();beatsClear();metaBank();}}

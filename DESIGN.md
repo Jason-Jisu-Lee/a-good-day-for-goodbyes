@@ -71,14 +71,16 @@ violations, volunteers improvements)
   for now, code kept; percentage discussion pending), mysteryroll
   UNKNOWN (origin only).
 - Origin bag: 2 house + 1 grocery + 1 mystery, shuffled; the three
-  non-mystery tiles start owned. Mystery illuminate = recruit +
-  tile becomes CAMPFIRE (user 07-21; was lot) + opens the board.
+  non-mystery tiles start owned. Mystery illuminate = becomes a
+  MATERIAL tile + opens the board (user 07-22; no longer recruits,
+  for cap 4).
 - Tier bags (newgame.js): t1 = camp/grocery/scrap/rubble/4 lot; t2 =
-  2 camp/2 grocery/scrap/rubble/cache/2 light/3 lot; t3-t10 =
+  camp/2 grocery/scrap/rubble/cache/2 light/4 lot; t3-t10 =
   grocery/scrap/rubble/lot mixes, lot-heavy mid tiers, bags shrink
-  outward (t10 = grocery/2 scrap/lot). LOT counts flattened per user
-  07-19; freed mid-tier slots = TBD column in TILES.md (24 total),
-  kinds decided later, generate as EMPTY LOT until assigned.
+  outward (t10 = grocery/2 scrap/lot). RECRUIT SOURCES = exactly 1
+  CAMPFIRE each in tiers 1/2/3, 0 elsewhere (user 07-22, cap 4).
+  LOT counts flattened 07-19; freed mid-tier slots = TBD column in
+  TILES.md (24 total), kinds decided later, generate as EMPTY LOT.
 - Reveal rule (no fog): undiscovered = pure black, nothing drawn,
   unclickable. Drawn = owned tiles + origin block + (once the board
   is opened) anything edge-adjacent to an owned tile. Unowned drawn
@@ -107,13 +109,13 @@ violations, volunteers improvements)
 - RUBBLE: CLEAR costs 10 MATERIAL, takes 1-2 days (rolled per tile).
   Finish pays 40% +5 FOOD / 30% PLACEHOLDER1 / 30% PLACEHOLDER2
   (item identities TBD; counts shown in HUD once owned).
-- CAMPFIRE reclaim = recruit (bag REED JUNE OKON IVY SAGE, fallback
-  ASH); the tile STAYS CAMPFIRE with its label, like FOOD/MATERIAL
-  (user 07-21; was: became blank lot). Future direction (user, not
-  built): CAMPFIRE can be CLEARED and re-used (e.g. as a material
-  tile); rules pending with EMPTY LOT REBUILD. Hard cap 6
-  survivors; HUD shows current/housing cap (owned house+apartment
-  count). Housing gate rule OPEN (recruit can exceed housing).
+- CAMPFIRE illuminate = recruit (bag REED JUNE OKON, fallback ASH);
+  the tile STAYS CAMPFIRE with its label, like FOOD/MATERIAL (user
+  07-21). Exactly 3 campfires per run (tiers 1/2/3). ROSTER CAP = 4
+  (SURV_CAP, user 07-22): MARA + 3 recruits. Future (not built):
+  CAMPFIRE can be CLEARED and re-used. HUD still shows current /
+  housing cap (owned house+apartment count); housing gate rule OPEN
+  and now separate from the roster cap (flag: HUD may want /4).
 - LIGHT tile (2 in tier 2, the only light source yet): reclaim = +1
   LIGHT, tile becomes lot, "+LIGHT" float. HUD LIGHT counter appears
   at first point. More sources/tuning later.
@@ -175,14 +177,13 @@ violations, volunteers improvements)
   last-one starvation) the run ends IMMEDIATELY regardless of other
   survivors. Because her death ends the run, any lone survivor is
   necessarily MARA.
-- SOLE-SURVIVOR STINGER (user 07-21): once the roster has ever
-  reached 4 (G.peak), the first time it falls to just MARA,
-  survivor_dies.mp3 plays ONCE (asset/soundtrack/, 112k mp3, raw in
-  ref/, music-slider volume) - the "only the MC remains, endgame is
-  near" beat. Never plays when MARA herself dies (that is plain
-  game over). G.peak / G.soleMusic persisted. OPEN: is the intended
-  roster exactly 4 (MC + 3)? Current cap is still 6 / recruit bag 5;
-  the stinger gates on peak>=4 so it works either way.
+- SOLE-SURVIVOR STINGER (user 07-21): once the roster has reached 4
+  (G.peak; = the full roster now), the first time it falls to just
+  MARA, survivor_dies.mp3 plays ONCE (asset/soundtrack/, 112k mp3,
+  raw in ref/, music-slider volume) - the "only the MC remains,
+  endgame is near" beat. Never plays when MARA herself dies (that is
+  plain game over). Stinger STOPS on run end (endRun) and on
+  entering menu/shop (07-22). G.peak / G.soleMusic persisted.
 - Run ends: last survivor dies, or blackout unmet. GAME OVER fades
   over the dying town (3s) -> EMBER UPGRADES shop -> CONTINUE ->
   main menu. Run save wiped; run embers bank to META on any end.
@@ -466,11 +467,9 @@ violations, volunteers improvements)
   delete the folder once everything in it is locked.
 - TILES.md editing pass (user); TBD column kinds (24 slots); sync
   bags after.
-- Roster size intent: user talks in terms of "4 survivors" (MC +
-  3) but code cap is 6, recruit bag 5. Reconcile: cap to 4 + trim
-  recruit sources, or keep 6? Sole-survivor stinger already works
-  either way (peak>=4 gate).
-- Balance verdicts: housing gate; attack tuning
+- Balance verdicts: housing gate (HUD shows /houses, roster cap is
+  now a separate hard 4 - decide if HUD should show /4); attack
+  tuning
   (placeholder ladder); EMBER tile spawn %; run-skeleton depth
   re-pin (prestige/bunker tiers vs 0-10 board); pacing pass.
 - EMPTY LOT REBUILD rules; PLACEHOLDER1/2 item identities; shop

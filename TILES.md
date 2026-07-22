@@ -87,16 +87,25 @@ A12   B11   C10   D9    E8   [F7]  [G6]   H5    I4    J3    K2    L1
 - OPEN (user thinking): more random tile types so boards are not
   mostly resident/food/material (those stay the main ones).
 
+## Survivors + recruit sources (user-locked 07-22)
+- ROSTER CAP = 4: MARA (MC, starts) + exactly 3 recruits.
+- Recruits come from CAMPFIRE tiles: EXACTLY 1 in tier 1, 1 in tier
+  2, 1 in tier 3. Zero campfires anywhere else.
+- Origin MYSTERY does NOT recruit (was the old "first survivor");
+  it resolves to a MATERIAL tile + opens the board.
+- Recruit names (placeholder): REED, JUNE, OKON. Faces 2/3/4.
+
 ## Tier tile table (user plugs in counts, Claude syncs newgame.js)
 Cells = exact tile counts per tier (bag draw, not %). Each row must
 sum to TILES. LOT flattened 07-19 (user: near-equal, rises slowly);
 freed slots sit in TBD = kinds user decides later. TBD generates as
 EMPTY LOT in game until assigned, so play is unchanged for now.
+CAMP column locked to 1/1/1 in tiers 1-3 (the 3 recruits), 0 else.
 
 | TIER | TILES | CAMP | FOOD | MATERIAL | RUBBLE | CACHE | LIGHT | EMBER | LOT | TBD |
 |------|-------|------|------|----------|--------|-------|-------|-------|-----|-----|
 | 1    | 8     | 1    | 1    | 1        | 1      | 0     | 0     | 0     | 4   | 0   |
-| 2    | 12    | 2    | 2    | 1        | 1      | 1     | 2     | 0     | 3   | 0   |
+| 2    | 12    | 1    | 2    | 1        | 1      | 1     | 2     | 0     | 4   | 0   |
 | 3    | 16    | 1    | 2    | 2        | 2      | 0     | 0     | 0     | 6   | 3   |
 | 4    | 20    | 0    | 2    | 2        | 2      | 0     | 0     | 0     | 6   | 8   |
 | 5    | 24    | 0    | 3    | 3        | 3      | 0     | 0     | 0     | 7   | 8   |
@@ -109,8 +118,9 @@ EMPTY LOT in game until assigned, so play is unchanged for now.
 LOT curve: 4 5 6 6 7 7 7 then 4 2 1 (tiers 8-10 shrink to 12/8/4
 tiles, fewer lots natural). TBD total = 24 slots open.
 
-(Tier 0 = origin, fixed: 2 HOUSE + 1 FOOD + 1 MYSTERY. Mystery
-resolves to first-survivor tutorial, then EMPTY LOT.)
+(Tier 0 = origin, fixed: 2 HOUSE + 1 FOOD + 1 MYSTERY. Mystery =
+tutorial first-illuminate: resolves to a MATERIAL tile + opens the
+board. No longer recruits, 07-22 cap-4 change.)
 
 ## Full tile list (in game today; synced 07-19, turn-based)
 - HOUSE: origin building. Owned house = +1 to the HUD survivor cap.
@@ -125,7 +135,9 @@ resolves to first-survivor tutorial, then EMPTY LOT.)
 - RUBBLE: pay 10 MATERIAL upfront, clears in 1-2 days, becomes
   EMPTY LOT. Finish roll: 40% +5 FOOD / 30% PLACEHOLDER1 / 30%
   PLACEHOLDER2 (items pending design).
-- CAMPFIRE: reclaim = 1 recruit joins, becomes EMPTY LOT.
+- CAMPFIRE: illuminate = 1 recruit joins; tile STAYS a labeled
+  CAMPFIRE (07-21). Exactly 3 per run (1 each in tiers 1/2/3).
+  Future: can be CLEARED and re-used as another tile (not built).
 - SUPPLY CACHE: reclaim = 2-5 MATERIAL or 2-5 FOOD (50/50),
   becomes EMPTY LOT.
 - LIGHT: reclaim = +1 LIGHT point, becomes EMPTY LOT. LIGHT is the
@@ -136,8 +148,8 @@ resolves to first-survivor tutorial, then EMPTY LOT.)
 - EMPTY LOT: empty ground. REBUILD (user 07-19, not built yet):
   a lot can be rebuilt into a FOOD, MATERIAL, or HOUSE tile.
   Cost / time / rules pending.
-- UNKNOWN (origin mystery): tutorial tile; reclaim = first survivor
-  joins, becomes EMPTY LOT.
+- UNKNOWN (origin mystery): tutorial tile; illuminate = becomes a
+  MATERIAL tile + opens the board (07-22: no longer recruits, cap 4).
 
 ## Tiles (designed, not built yet)
 - HOSPITAL: health (sickness, medication), arrives mid game.
