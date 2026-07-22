@@ -71,8 +71,8 @@ violations, volunteers improvements)
   for now, code kept; percentage discussion pending), mysteryroll
   UNKNOWN (origin only).
 - Origin bag: 2 house + 1 grocery + 1 mystery, shuffled; the three
-  non-mystery tiles start owned. Mystery reclaim = recruit + tile
-  becomes lot + opens the board (first reclaim sets opened).
+  non-mystery tiles start owned. Mystery illuminate = recruit +
+  tile becomes CAMPFIRE (user 07-21; was lot) + opens the board.
 - Tier bags (newgame.js): t1 = camp/grocery/scrap/rubble/4 lot; t2 =
   2 camp/2 grocery/scrap/rubble/cache/2 light/3 lot; t3-t10 =
   grocery/scrap/rubble/lot mixes, lot-heavy mid tiers, bags shrink
@@ -112,9 +112,11 @@ violations, volunteers improvements)
   LIGHT, tile becomes lot, "+LIGHT" float. HUD LIGHT counter appears
   at first point. More sources/tuning later.
 
-## Reclaim + risk (UNIFIED SURVIVOR-DAY MATH, user-locked 07-17)
-- Verb = RECLAIM player-facing (code keeps "extinguish" internally).
-  PULL BACK resets progress. Death = CONSUMED.
+## Illuminate + risk (UNIFIED SURVIVOR-DAY MATH, user-locked 07-17)
+- Verb = ILLUMINATE (user 07-21, replaces RECLAIM everywhere
+  player-facing, covers defending too; "illuminate darkness"; code
+  keeps "extinguish" internally). Untick-all resets progress.
+  Death = CONSUMED. Attacked undefended tile = "CONSUMED IN 1 DAY".
 - Tile strength S = tier (min 1). CONSUMED count: S<4 = 0, S 4-5 =
   1, 6-7 = 2, 8-9 = 3 (floor((S-2)/2), auto-extends). MIN CREW =
   consumed count (min 1); below it = picker gates START.

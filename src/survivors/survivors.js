@@ -4,7 +4,7 @@ function crew(t){return G.survivors.filter(s=>s.task&&s.task.tile===t);}
 function killSurvivor(s){const i=G.survivors.indexOf(s);if(i<0)return;s.task=null;G.survivors.splice(i,1);}
 function statusOf(s){
 if(!s.task)return "IDLE";
-if(s.task.type==="extinguish")return s.task.tile.state==="owned"?"DEFENDING":"RECLAIMING";
+if(s.task.type==="extinguish")return "ILLUMINATING";
 return s.task.type.toUpperCase()+"ING";
 }
 function recruit(t){

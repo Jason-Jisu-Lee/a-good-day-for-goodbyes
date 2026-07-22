@@ -17,7 +17,7 @@ else if(k==="scrap"){ev.label="MATERIAL";ev.au="material";}
 else if(k==="cache"){ev.label="SUPPLY CACHE";ev.au="cache";}
 else if(k==="light"){ev.label="LIGHT";ev.au="cache";}
 else if(k==="pr"){ev.label="EMBER";ev.au="cache";}
-else{ev.label="RECLAIMED";ev.au="material";}
+else{ev.label="ILLUMINATED";ev.au="material";}
 }else{ev.out="fail";ev.label="CONSUMED";ev.au="taken";}
 beatCap.push(ev);
 }

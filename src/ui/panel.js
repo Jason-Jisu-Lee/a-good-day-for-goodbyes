@@ -16,7 +16,7 @@ else text7(atk?"UNDER ATTACK":KIND_NAME[t.kind],l.pnX+16,l.pnY+14,2,null,atk?DAN
 const tn0=baseDays(tileStrength(t));
 let status="";
 if(dark)status=t.action?"":tn0+(tn0===1?" DAY":" DAYS");
-else if(atk)status=t.action==="extinguish"?"":"FALLS NEXT DAY";
+else if(atk)status=t.action==="extinguish"?"":"CONSUMED IN 1 DAY";
 const gw=!dark&&!atk?crew(t).filter(s=>s.task.type==="gather").length:0;
 if(!dark&&!atk&&(t.kind==="grocery"||t.kind==="scrap"))status="+"+(tilePassive(t)+GATHER_BONUS*gw)+"/DAY";
 if(!dark&&!atk&&t.kind==="rubble")status=t.action==="clear"?"CLEARING":RUBBLE_COST+" MATERIAL   "+(t.clearD||1)+(( t.clearD||1)===1?" DAY":" DAYS");
@@ -32,7 +32,7 @@ if(dark){
 if(extinguishable(t)){picker={type:"extinguish"};drawPicker(y);}
 return;
 }
-if(atk){btn("act_extinguish","DEFEND",l.pnX+16,y,150,G.survivors.some(s=>!lockedS(s)));return;}
+if(atk){btn("act_extinguish","ILLUMINATE",l.pnX+16,y,150,G.survivors.some(s=>!lockedS(s)));return;}
 if(t.kind==="rubble"){
 if(t.action==="clear"){text7(t.turnsLeft+(t.turnsLeft===1?" DAY LEFT":" DAYS LEFT"),l.pnX+16,y,1,null,MID);return;}
 btn("clear","CLEAR",l.pnX+16,y,120,G.mats>=RUBBLE_COST);
