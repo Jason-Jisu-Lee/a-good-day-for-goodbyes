@@ -143,20 +143,21 @@ violations, volunteers improvements)
 
 ## Blackout + LIGHT (07-19/20; word treatment locked from lab)
 - Every 10 days the word BLACKOUT fills the screen (94% width,
-  TAHOMA BOLD, world-dim 0.5 wash), plain fade in/out once (2.8s);
-  click = fast dismiss (0.3s) only after fully faded in. Yellow
-  #e3c15c; FAST (1-day) blackout = DANGER red #c8493f word = the
-  only tell. Word height grows +15% per event, capped +115%.
+  TAHOMA BOLD, world-dim 0.5 wash), plain fade in/out once (3.36s
+  total, +20% user 07-21: in 0.72 / hold to 2.16 / out 1.2); click
+  = fast dismiss (0.3s) only after fully faded in. Yellow #e3c15c;
+  FAST (1-day) blackout = DANGER red #c8493f word = the only tell.
+  Word height grows +15% per event, capped +115%.
 - Lead: warning at day N*10, hit 2 days later. 1st blackout always 2
   days. From the 2nd: fast (1-day) chance = 5% x (events-1), capped
   40% (user 07-20; was 7%/100%), rolled at the warning.
 - At the hit: LIGHT >= (n+1)(n+2)/2 (3/6/10/15/21/28...) or the run
   is CONSUMED. Meet or exceed = survive, nothing else happens.
-- DARK readout (locked 07-20): "BLACKOUT N" all red next to LIGHT,
-  appears once the word fully fades; fades in 1.2s at 1, counter
-  accelerates 1 -> N over 1.3s; shows through the lead window,
-  clears on resolve. Takes the LIGHT slot if LIGHT = 0; EMBER
-  shifts right on collision. Sound later.
+- DARK readout (retimed 07-21): "BLACKOUT N" all red next to LIGHT.
+  Word fully fades -> 2s of nothing -> readout fades in VERY slowly
+  (3.5s) at 1 -> counter accelerates 1 -> N over 1.3s. Shows
+  through the lead window, clears on resolve. Takes the LIGHT slot
+  if LIGHT = 0; EMBER shifts right on collision. Sound later.
 - No light source before tier 2 = runs can end day 12; INTENDED.
 - While the word is up, pointer down AND up are swallowed
   (click-through guard, 07-20).

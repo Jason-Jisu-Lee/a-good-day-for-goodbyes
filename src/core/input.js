@@ -10,7 +10,7 @@ setZoom(zoomS+(e.deltaY<0?ZOOM_STEP:-ZOOM_STEP),p.x,p.y);
 cv.addEventListener("pointerdown",e=>{
 musicGesture();
 if(mode!=="game")return;
-if(boT>=0){if(boT>=0.6&&boOut<0)boDismiss();return;}
+if(boT>=0){if(boT>=0.72&&boOut<0)boDismiss();return;}
 if(beatsActive())return;
 const p=toLogical(e);
 ptrs.set(e.pointerId,p);
@@ -132,7 +132,7 @@ mode="menu";fade=0;fading=false;
 return;
 }
 if(id==="volM"||id==="volF")return;
-if(id==="endturn"){if(beatsActive())return;picker=null;endTurn();return;}
+if(id==="endturn"){if(beatsActive())return;sel=null;picker=null;endTurn();return;}
 if(id.startsWith("act_")){
 picker={type:id.slice(4)};
 return;

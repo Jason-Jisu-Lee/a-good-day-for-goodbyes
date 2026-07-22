@@ -2,19 +2,19 @@ const BO_YEL="#e3c15c";
 const BO_FAM='Tahoma,Geneva,sans-serif',BO_WT="700",BO_SP=0.1,BO_DIM=0.5;
 let boT=-1,boOut=-1,boOutA=0,darkR=-1;
 function boWordStart(){boT=0;boOut=-1;darkR=-1;}
-function boEnv(t){return t<0.6?t/0.6:(t<1.8?1:Math.max(0,(2.8-t)/1));}
-function boDismiss(){if(boT>=0.6&&boOut<0){boOut=boT;boOutA=boEnv(boT);}}
+function boEnv(t){return t<0.72?t/0.72:(t<2.16?1:Math.max(0,(3.36-t)/1.2));}
+function boDismiss(){if(boT>=0.72&&boOut<0){boOut=boT;boOutA=boEnv(boT);}}
 function updateBlackout(dt){
-if(boT>=0){boT+=dt;if(boOut>=0?(boT-boOut)>=0.3:boT>=2.8)boT=-1;}
+if(boT>=0){boT+=dt;if(boOut>=0?(boT-boOut)>=0.3:boT>=3.36)boT=-1;}
 if(G&&G.boDay>0){if(boT<0){if(darkR<0)darkR=0;else darkR+=dt;}}
 else darkR=-1;
 }
-function darkVisible(){return !!(G&&G.boDay>0&&darkR>=0);}
-function darkAlpha(){if(darkR<0)return 0;const p=Math.min(1,darkR/1.2);return p*p;}
+function darkVisible(){return !!(G&&G.boDay>0&&darkR>=2);}
+function darkAlpha(){if(darkR<2)return 0;const p=Math.min(1,(darkR-2)/3.5);return p*p;}
 function darkShown(){
 const need=(G&&G.boNeed)||0;
-if(darkR<1.2)return Math.min(1,need);
-const q=Math.min(1,(darkR-1.2)/1.3);
+if(darkR<5.5)return Math.min(1,need);
+const q=Math.min(1,(darkR-5.5)/1.3);
 return Math.max(1,Math.round(1+(need-1)*q*q));
 }
 function drawBlackoutWord(){
