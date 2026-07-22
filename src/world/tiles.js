@@ -1,3 +1,14 @@
+function tileLabel(s,x,y){
+const l=L();
+cx.save();
+cx.scale(S,S);
+cx.font="600 10px "+FONT_STACK;
+cx.textBaseline="middle";
+cx.textAlign="center";
+cx.fillStyle=FG;
+cx.fillText(s,x,y+3*l.sc);
+cx.restore();
+}
 function drawTileVisual(t,x,y){
 if(t.state!=="owned"){
 cx.globalAlpha=0.4;
@@ -6,9 +17,9 @@ cx.globalAlpha=1;
 return;
 }
 if(t.atk)cx.globalAlpha=0.25+0.7*(0.5+0.5*Math.sin(performance.now()/1200*Math.PI*2));
-if(t.kind==="house"){stampTile(x,y,t.atk);if(!stampHouse(x,y))text7("HOUSE",x,y-3,1,"c");}
-else if(t.kind==="house2"){stampTile(x,y,t.atk);if(!stampApt(x,y))text7("APT",x,y-3,1,"c");}
-else{if(t.kind==="lot")floorFill(x,y);stampTile(x,y,t.atk);const lb=KIND_LABEL[t.kind];if(lb)text7(lb,x,y-3,1,"c");}
+if(t.kind==="house"){stampTile(x,y,t.atk);if(!stampHouse(x,y))tileLabel("HOUSE",x,y);}
+else if(t.kind==="house2"){stampTile(x,y,t.atk);if(!stampApt(x,y))tileLabel("APT",x,y);}
+else{if(t.kind==="lot")floorFill(x,y);stampTile(x,y,t.atk);const lb=KIND_LABEL[t.kind];if(lb)tileLabel(lb,x,y);}
 cx.globalAlpha=1;
 }
 function drawTiles(){
