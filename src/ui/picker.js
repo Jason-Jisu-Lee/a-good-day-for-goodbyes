@@ -7,8 +7,7 @@ function drawPicker(y){
 const l=L();
 const gather=picker.type==="gather";
 const set=pickSet();
-let hd=gather?"GATHER "+set.length+"/"+GATHER_SLOTS:(sel.state==="owned"?"DEFEND":"RECLAIM");
-text7(hd,l.pnX+16,y,1,null,MID);y+=18;
+if(gather){text7("GATHER "+set.length+"/"+GATHER_SLOTS,l.pnX+16,y,1,null,MID);y+=18;}
 const S=gather?0:(sel.state==="owned"?sel.atkS:tileStrength(sel));
 const capped=gather?set.length>=GATHER_SLOTS:!crewUseful(S,set.length);
 for(const s of G.survivors){
