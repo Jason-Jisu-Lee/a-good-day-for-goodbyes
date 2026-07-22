@@ -25,12 +25,9 @@ text7(statusOf(s),l.pnX+42,y+20,1,null,lk?DIM:(s.task?s.col:MID));
 y+=48;
 }
 const n=set.length;
-if(gather){
-const base=sel.kind==="grocery"?FOOD_PER_TILE:MAT_PER_TILE;
-text7("+"+(base+GATHER_BONUS*n)+"/DAY",l.pnX+16,y,2);
-}else if(n>0&&n<minCrew(S)){
+if(!gather&&n>0&&n<minCrew(S)){
 text7("NOT POSSIBLE",l.pnX+16,y,2,null,DANGER);
-}else if(n>0){
+}else if(!gather&&n>0){
 const tn=sel.action==="extinguish"&&sel.turnsLeft>0?sel.turnsLeft:taskDays(S,n);
 const pct=Math.round(taskRisk(S,n)*100);
 text7(tn+(tn===1?" DAY":" DAYS"),l.pnX+16,y,2,null,pct>0?DANGER:FG);

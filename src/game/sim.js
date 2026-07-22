@@ -68,6 +68,11 @@ else if(t.kind==="scrap"){const r=tilePassive(t)+GATHER_BONUS*w;G.mats+=r;spawnF
 }
 }
 G.food=Math.max(0,G.food-FOOD_PER_SURV*G.survivors.length);
+if(G.food===0&&G.survivors.length>0){
+const s=G.survivors[Math.floor(Math.random()*G.survivors.length)];
+beatStarve(s);
+killSurvivor(s);
+}
 if(G.mats>0&&!G.matsSeen)G.matsSeen=true;
 G.day++;
 if(G.day>=G.nextAtk&&!G.tiles.some(t=>t.atk)){

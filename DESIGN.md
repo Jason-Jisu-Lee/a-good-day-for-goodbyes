@@ -94,8 +94,12 @@ violations, volunteers improvements)
   Meta-upgraded +2/DAY tiles (t.b2) pay +2 passive instead.
 - GATHER (live, stationing): default tiles cap 1 slot; each
   stationed survivor adds +3/DAY on top. Interruptible (STOP).
-- Each survivor eats 2 FOOD per day. Food floors at 0; STARVATION
-  RULE OPEN (no penalty yet; user must pick).
+- Each survivor eats 2 FOOD per day. STARVATION (user-locked
+  07-21): if FOOD is 0 at end of day, one random survivor dies
+  (red STARVED beat); every day it stays 0, another dies. Net: you
+  must end each day with >=1 FOOD or someone starves. (Triggers on
+  FOOD==0 exactly, including breaking even to 0 - see Open/next for
+  the deficit-based alternative.)
 - SUPPLY CACHE reclaim = 2-5 MATERIAL or 2-5 FOOD (50/50 which,
   amount rolled; CACHE_ROLL).
 - RUBBLE: CLEAR costs 10 MATERIAL, takes 1-2 days (rolled per tile).
@@ -227,17 +231,22 @@ violations, volunteers improvements)
 ## END DAY beats (user-locked 07-20 from lab/lab_endday.html; BUILT
 07-21, refinement pass later)
 - On END DAY, resolutions play as sequential BEATS, one per resolving
-  task, 1.0s each (user 07-21, was 0.7s), random order. Click
-  anywhere mid-sequence = skip all (the confirm-all).
+  task, random order. VARIABLE DWELL (user 07-21, industry-standard
+  two-tier): routine beats (resource illuminated, still-working)
+  ~0.5s, dramatic beats (SURVIVOR / CONSUMED / TAKEN / HELD /
+  STARVED) ~1.25s; each successive beat shaved ~6% (floor 60%) so
+  big turns do not drag. Click anywhere mid-sequence = skip all
+  (the confirm-all). Speed/skip preference toggle = deferred.
 - STYLE = SPOTLIGHT (user pick, "more obvious"): world dims like a
   small blackout, only the resolving tile stays bright, crew pulses
   on it; snaps back between beats.
 - AUDIO = WARM JAZZ BLIPS (user pick): procedural WebAudio per
   action: material thunk+resolve, food pluck, survivor rising
   3-note arp, cache coin blips, still-working muted low tick.
-- Beat events: reclaim complete (tile kindles + kind reveal),
+- Beat events: illuminate complete (tile kindles + kind reveal),
   survivor found, food/material tile, cache payout, still-working
-  (tile stays dark), defense HELD / TAKEN, all-crew-consumed FAIL.
+  (tile stays dark), defense HELD / TAKEN, all-crew-consumed FAIL,
+  STARVED (tile-less beat at the dying survivor).
   Undefended falls + gather/passive floats stay instant (no crew =
   no beat). Resolution floats (+N, CONSUMED...) emit at each beat's
   end; resolved tiles keep their pre-END-DAY look until their beat
@@ -282,13 +291,16 @@ violations, volunteers improvements)
   survivor row assigns them to the tile's action INSTANTLY; more
   clicks add crew; clicking an assigned row removes them. No
   START/CANCEL (click away / ESC closes, ESC also deselects).
-- ONE-CLICK RECLAIM FLOW (user 07-21): selecting a dark reclaimable
-  tile opens the survivor list DIRECTLY (RECLAIM button removed;
-  reclaim is the only action). Selecting a tile with a crew on it
-  reopens the same list; tapping an assigned survivor unassigns
-  them. CREW + PULL BACK buttons removed; pull back = untick
-  everyone (progress reset unchanged). DEFEND button on attacked
-  tiles kept for now.
+- ONE-CLICK ACTION FLOW (user 07-21): selecting a tile whose only
+  action is obvious opens the survivor list DIRECTLY, no verb
+  button. Applies to: dark illuminatable tiles (RECLAIM button
+  gone) AND owned FOOD/MATERIAL tiles (GATHER button gone). Tapping
+  an assigned survivor unassigns; CREW + PULL BACK + STOP buttons
+  all removed (untick everyone = old pull back / stop, progress
+  reset unchanged). Attacked tiles still use the ILLUMINATE button
+  for now (see Open/next).
+- Panel header (tile name / "?" / UNDER ATTACK) centered (user
+  07-21).
   PLACEHOLDER RULES (Claude, need user verdict): adding crew
   mid-task never resets progress (days = min(current, recomputed));
   removing crew recomputes fresh (progress reset, same as PULL
@@ -435,7 +447,14 @@ violations, volunteers improvements)
   delete the folder once everything in it is locked.
 - TILES.md editing pass (user); TBD column kinds (24 slots); sync
   bags after.
-- Balance verdicts: starvation rule; housing gate; attack tuning
+- Starvation triggers on FOOD==0 exactly (breaking even to 0 still
+  kills). Industry-standard alternative = deficit-based (die only
+  when income cannot cover the meal, i.e. FOOD would go negative);
+  user chose the exact-0 rule, flagged here if it feels harsh.
+- Attacked-tile ILLUMINATE button could fold into the same one-
+  click flow (defend is also the only action there); not done, not
+  asked.
+- Balance verdicts: housing gate; attack tuning
   (placeholder ladder); EMBER tile spawn %; run-skeleton depth
   re-pin (prestige/bunker tiers vs 0-10 board); pacing pass.
 - EMPTY LOT REBUILD rules; PLACEHOLDER1/2 item identities; shop

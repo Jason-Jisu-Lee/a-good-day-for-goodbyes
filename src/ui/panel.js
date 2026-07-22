@@ -11,8 +11,8 @@ const t=sel;
 edgeR(l.pnX,l.pnY,l.pnW,l.pnH,DIM);
 const dark=t.state!=="owned";
 const atk=!!t.atk;
-if(dark)text7("?",l.pnX+l.pnW/2,l.pnY+14,2,"c",FG);
-else text7(atk?"UNDER ATTACK":KIND_NAME[t.kind],l.pnX+16,l.pnY+14,2,null,atk?DANGER:FG);
+const hdr=dark?"?":(atk?"UNDER ATTACK":KIND_NAME[t.kind]);
+text7(hdr,l.pnX+l.pnW/2,l.pnY+14,2,"c",atk?DANGER:FG);
 const tn0=baseDays(tileStrength(t));
 let status="";
 if(dark)status=t.action?"":tn0+(tn0===1?" DAY":" DAYS");
@@ -39,10 +39,8 @@ btn("clear","CLEAR",l.pnX+16,y,120,G.mats>=RUBBLE_COST);
 return;
 }
 if(t.kind==="grocery"||t.kind==="scrap"){
-if(gw>0){
-text7(crew(t).filter(s=>s.task.type==="gather").map(s=>s.name).join(" "),l.pnX+16,y,1,null,MID);y+=20;
-btn("stop","STOP",l.pnX+16,y,120);
-}else btn("act_gather","GATHER",l.pnX+16,y,140,G.survivors.some(s=>!lockedS(s)));
+picker={type:"gather"};
+drawPicker(y);
 return;
 }
 }
