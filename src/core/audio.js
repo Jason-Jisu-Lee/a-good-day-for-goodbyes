@@ -39,17 +39,17 @@ ANF=new Uint8Array(AN.frequencyBinCount);
 }
 const MZ_N=24;
 const mzPrev=new Float32Array(MZ_N),mzThr=new Float32Array(MZ_N).fill(0.02),mzCool=new Float32Array(MZ_N),mzHist=new Float32Array(50);
-let mzHI=0,mzGm=0.2,mzLastBeat=0,mzQuietT=0,mzTok=6,mzPhr=0;
+let mzHI=0,mzGm=0.2,mzLastBeat=0,mzQuietT=0,mzTok=6,mzPhr=0,mzEmin=0.1,mzEmax=0.25,mzE=0;
 function menuAudio(dt,tms){
-const out={on:[],beat:0,quietK:1,phrase:0};
-let live=false,lvl=0;
+const out={on:[],beat:0,quietK:1,phrase:0,energy:0};
+let live=false,lvl=0,raw=0;
 for(let i=0;i<MZ_N;i++)mzCool[i]=Math.max(0,mzCool[i]-dt);
 mzTok=Math.min(12,mzTok+dt*25);
 if(AN&&!MUSIC.paused&&!OPT.mute){
 if(AAC.state==="suspended")AAC.resume();
 AN.getByteFrequencyData(ANF);
 let s=0;for(let i=0;i<300;i++)s+=ANF[i];
-const raw=s/300/255;
+raw=s/300/255;
 if(raw>0.008)live=true;
 mzGm=Math.max(mzGm*0.996,raw);
 const ag=0.9/Math.max(0.12,mzGm);
@@ -79,12 +79,19 @@ if(fl>m+sd*1.5+0.01&&tms-mzLastBeat>180){mzLastBeat=tms;out.beat=1;}
 if(!live){
 synthT+=dt;
 const q=(synthT%17)>14;
-lvl=q?0.02:0.35+0.2*Math.sin(synthT*0.5);
+raw=q?0.01:0.12+0.11*(Math.sin(synthT*0.45)*0.5+0.5)+0.02*Math.sin(synthT*3);
+lvl=raw*3;
 if(!q){
 if(Math.random()<dt*5&&mzTok>=1){out.on.push(Math.floor(Math.random()*MZ_N));mzTok-=1;}
 if(synthT*1000-mzLastBeat>950){mzLastBeat=synthT*1000;out.beat=1;}
 }
 }
+mzEmax=Math.max(raw,Math.max(0.12,mzEmax-dt*0.015));
+mzEmin=Math.min(raw,mzEmin+dt*0.015);
+let e=(raw-mzEmin)/Math.max(0.05,mzEmax-mzEmin);
+e=Math.pow(Math.max(0,Math.min(1,e)),1.7);
+mzE+=(e-mzE)*Math.min(1,e>mzE?dt*10:dt*2.5);
+out.energy=mzE;
 if(lvl<0.05)mzQuietT+=dt;else mzQuietT=0;
 out.quietK=Math.max(0,1-Math.max(0,mzQuietT-0.25)*2.5);
 mzPhr=Math.max(lvl,mzPhr*Math.exp(-dt/0.6));

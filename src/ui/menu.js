@@ -34,17 +34,17 @@ vizLast=now;
 const au=menuAudio(dt,now);
 vizBeatP=Math.max(0,vizBeatP-dt*6);
 if(au.beat)vizBeatP=1;
-const hz=H-26,qa=au.quietK*(1-fade);
+const hz=H-26,qa=au.quietK*(1-fade),en=au.energy;
 const surge=1+vizBeatP*0.7;
 cx.save();
 cx.scale(S,S);
 cx.fillStyle=FG;
 for(const b of VB){
-cx.globalAlpha=0.09*qa;
+cx.globalAlpha=(0.04+en*0.12)*qa;
 cx.fillRect(b.x,hz-b.h,b.w,1);
 cx.fillRect(b.x,hz-b.h,1,b.h);
 cx.fillRect(b.x+b.w-1,hz-b.h,1,b.h);
-if(b.ant){cx.globalAlpha=0.14*qa;cx.fillRect(b.x+(b.w>>1),hz-b.h-b.ant,1,b.ant);}
+if(b.ant){cx.globalAlpha=(0.06+en*0.14)*qa;cx.fillRect(b.x+(b.w>>1),hz-b.h-b.ant,1,b.ant);}
 let wi=0;
 for(let wy=hz-b.h+5;wy<hz-5;wy+=8)
 for(let wx=b.x+4;wx<b.x+b.w-4;wx+=7){
@@ -53,7 +53,7 @@ if(b.wl[wi]===undefined)b.wl[wi]=0;
 if(au.on.indexOf(k)>=0)b.wl[wi]=1;
 b.wl[wi]*=Math.exp(-dt/0.55);
 const r=((b.seed*31+wi*17)%97)/97;
-const base=Math.min(1,Math.max(0,(au.phrase*0.5-r*0.45)*6))*0.3;
+const base=r<en*0.85?0.12+en*0.55:0;
 const snap=b.wl[wi]>0.7?1:b.wl[wi]*0.8;
 const glow=Math.min(1,Math.max(snap,base)*surge)*qa;
 if(glow>0.03){
