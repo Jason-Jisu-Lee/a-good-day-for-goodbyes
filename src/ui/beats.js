@@ -1,5 +1,5 @@
 let beatQ=null,beatI=-1,beatT=0,beatCap=null,beatBo=false,beatAC=null;
-const BEAT_SECS=0.7;
+const BEAT_SECS=1.0;
 function beatsActive(){return beatQ!==null;}
 function beatsBegin(){beatCap=[];}
 function beatsClear(){beatQ=null;beatCap=null;beatBo=false;beatI=-1;}

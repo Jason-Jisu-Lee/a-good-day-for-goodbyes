@@ -106,6 +106,7 @@ const l=L();
 const inPanel=sel&&p.x>=l.pnX&&p.x<=l.pnX+l.pnW&&p.y>=l.pnY&&p.y<=l.pnY+l.pnH;
 if(t){
 sel=t;picker=null;
+if(t.action==="extinguish"||(t.state!=="owned"&&extinguishable(t)))picker={type:"extinguish"};
 }
 else if(!inPanel&&p.y>40){
 sel=null;picker=null;
@@ -162,7 +163,6 @@ s.task={type:"extinguish",tile:sel};
 recrewTile(sel,true);
 return;
 }
-if(id==="crew_add"){if(!sel)return;picker={type:sel.state==="owned"&&!sel.atk?"gather":"extinguish"};return;}
 if(id==="stop"){releaseCrew(sel);return;}
 if(id==="clear"){clearRubble(sel);return;}
 if(id==="ztip"){G.zoomTipSeen=true;return;}
@@ -177,7 +177,7 @@ musicGesture();
 if(e.key==="`"){toggleDbg();return;}
 if(e.key==="Escape"){
 if(mode==="game"){
-if(picker){picker=null;return;}
+if(picker){picker=null;sel=null;return;}
 if(sel){sel=null;return;}
 save();mode="menu";fade=0;fading=false;sel=null;picker=null;menuMusic(true);
 }

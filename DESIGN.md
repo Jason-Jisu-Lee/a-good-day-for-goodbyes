@@ -224,8 +224,8 @@ violations, volunteers improvements)
 ## END DAY beats (user-locked 07-20 from lab/lab_endday.html; BUILT
 07-21, refinement pass later)
 - On END DAY, resolutions play as sequential BEATS, one per resolving
-  task, 0.7s each, random order. Click anywhere mid-sequence = skip
-  all (the confirm-all).
+  task, 1.0s each (user 07-21, was 0.7s), random order. Click
+  anywhere mid-sequence = skip all (the confirm-all).
 - STYLE = SPOTLIGHT (user pick, "more obvious"): world dims like a
   small blackout, only the resolving tile stays bright, crew pulses
   on it; snaps back between beats.
@@ -278,8 +278,14 @@ violations, volunteers improvements)
 - LIVE CREW ASSIGN (user 07-20, replaces START button): clicking a
   survivor row assigns them to the tile's action INSTANTLY; more
   clicks add crew; clicking an assigned row removes them. No
-  START/CANCEL (click away / ESC / same tile closes the list).
-  CREW button on a working tile reopens the list to add more.
+  START/CANCEL (click away / ESC closes, ESC also deselects).
+- ONE-CLICK RECLAIM FLOW (user 07-21): selecting a dark reclaimable
+  tile opens the survivor list DIRECTLY (RECLAIM button removed;
+  reclaim is the only action). Selecting a tile with a crew on it
+  reopens the same list; tapping an assigned survivor unassigns
+  them. CREW + PULL BACK buttons removed; pull back = untick
+  everyone (progress reset unchanged). DEFEND button on attacked
+  tiles kept for now.
   PLACEHOLDER RULES (Claude, need user verdict): adding crew
   mid-task never resets progress (days = min(current, recomputed));
   removing crew recomputes fresh (progress reset, same as PULL
