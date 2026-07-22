@@ -14,7 +14,7 @@ button.on{border-color:#e3c15c;color:#e3c15c}
 </style>
 </head>
 <body>
-<div>8 menu visualizers. Real menu layout, real track. PLAY first, switch anytime. <span id="warn">file:// = no analysis, open via http://localhost:8123</span></div>
+<div>8 menu visualizers, v2 engine (auto-gain, fast decay, hot onsets). PLAY first. <span id="warn">file:// = no analysis, open via http://localhost:8123</span></div>
 <canvas id="cv" width="960" height="540"></canvas>
 <div class="row"><button id="play">PLAY</button><span id="lvl">AUDIO 0%</span></div>
 <div class="row" id="btns"></div>
@@ -27,12 +27,12 @@ const A=new Audio("../asset/soundtrack/main_screen.mp3?v=1");A.loop=true;
 let ac=null,an=null,freq=null,wave=null,playing=false;
 const NB=64;
 const bands=new Array(NB).fill(0),bandE=new Array(NB).fill(0.05),bandBeat=new Array(NB).fill(0);
-let bass=0,treb=0,lvl=0,ema=0.05,beatP=0,lastBeat=0,synthT=0,waveAmp=0;
+let bass=0,treb=0,lvl=0,ema=0.05,beatP=0,lastBeat=0,synthT=0,waveAmp=0,gm=0.2;
 document.getElementById("play").onclick=()=>{
 if(!ac){
 ac=new (window.AudioContext||window.webkitAudioContext)();
 const s=ac.createMediaElementSource(A);
-an=ac.createAnalyser();an.fftSize=1024;an.smoothingTimeConstant=0.75;
+an=ac.createAnalyser();an.fftSize=1024;an.smoothingTimeConstant=0.5;
 s.connect(an);an.connect(ac.destination);
 freq=new Uint8Array(an.frequencyBinCount);
 wave=new Uint8Array(an.fftSize);
@@ -47,33 +47,38 @@ let live=false;
 if(an&&playing){
 an.getByteFrequencyData(freq);
 an.getByteTimeDomainData(wave);
-let b=0;for(let i=2;i<12;i++)b+=freq[i];bass=b/10/255;
-let tr=0;for(let i=180;i<360;i++)tr+=freq[i];treb=tr/180/255;
-let s=0;for(let i=0;i<300;i++)s+=freq[i];lvl=s/300/255;
+let b=0;for(let i=2;i<12;i++)b+=freq[i];const rawBass=b/10/255;
+let tr=0;for(let i=180;i<360;i++)tr+=freq[i];const rawTreb=tr/180/255;
+let s=0;for(let i=0;i<300;i++)s+=freq[i];const rawLvl=s/300/255;
 let wa=0;for(let i=0;i<wave.length;i+=8)wa+=Math.abs(wave[i]-128);
 waveAmp=wa/(wave.length/8)/128;
-if(lvl>0.01)live=true;
+if(rawLvl>0.01)live=true;
+gm=Math.max(gm*0.996,rawLvl);
+const ag=0.92/Math.max(0.13,gm);
+lvl=Math.min(1,rawLvl*ag);
+bass=Math.min(1,rawBass*ag*0.9);
+treb=Math.min(1,rawTreb*ag*1.4);
 for(let i=0;i<NB;i++){
 const bin=Math.floor(Math.pow(i/NB,1.6)*330)+2;
-const v=freq[bin]/255;
-bands[i]=Math.max(v,bands[i]*0.88);
-bandBeat[i]=Math.max(0,bandBeat[i]-dt*4);
-if(v>bandE[i]*1.5+0.06)bandBeat[i]=1;
-bandE[i]=bandE[i]*0.92+v*0.08;
+const v=Math.min(1,Math.max(0,(freq[bin]/255-0.05)*1.15)*ag);
+bands[i]=v>bands[i]?v:bands[i]*0.72;
+bandBeat[i]=Math.max(0,bandBeat[i]-dt*3);
+if(v>bandE[i]*1.28+0.04)bandBeat[i]=1;
+bandE[i]=bandE[i]*0.9+v*0.1;
 }
-if(bass>ema*1.32+0.02&&t-lastBeat>150){lastBeat=t;beatP=1;}
-ema=ema*0.95+bass*0.05;
+if(rawBass>ema*1.26+0.015&&t-lastBeat>140){lastBeat=t;beatP=1;}
+ema=ema*0.94+rawBass*0.06;
 }
 if(!live){
-bass=0.14+0.1*Math.sin(synthT*0.8);treb=0.12+0.06*Math.sin(synthT*1.7);lvl=0.14+0.05*Math.sin(synthT*0.6);
-waveAmp=0.1+0.05*Math.sin(synthT*1.1);
+bass=0.3+0.25*Math.sin(synthT*0.9);treb=0.25+0.15*Math.sin(synthT*1.7);lvl=0.35+0.15*Math.sin(synthT*0.6);
+waveAmp=0.16+0.08*Math.sin(synthT*1.1);
 for(let i=0;i<NB;i++){
-bands[i]=0.14+0.1*Math.sin(synthT*0.7+i*0.4);
-bandBeat[i]=Math.max(0,bandBeat[i]-dt*4);
+bands[i]=Math.max(0,0.3+0.26*Math.sin(synthT*1.1+i*0.4)+0.1*Math.sin(synthT*2.3+i*1.3));
+bandBeat[i]=Math.max(0,bandBeat[i]-dt*3);
 }
-if(synthT-lastBeat/1000>1.15){lastBeat=synthT*1000;beatP=1;const k=Math.floor(Math.random()*NB);bandBeat[k]=1;}
+if(synthT*1000-lastBeat>900){lastBeat=synthT*1000;beatP=1;for(let k=0;k<5;k++)bandBeat[Math.floor(Math.random()*NB)]=1;}
 }
-beatP=Math.max(0,beatP-dt*3.2);
+beatP=Math.max(0,beatP-dt*3.6);
 document.getElementById("lvl").textContent="AUDIO "+Math.round(lvl*100)+"%";
 }
 function menuMock(skipTitle){
@@ -97,65 +102,75 @@ cx.globalAlpha=a;
 for(let yy=0;yy<h;yy+=step)cx.fillRect(x,y+yy,w,1);
 }
 const M=[];
-M.push({n:"SKYLINE",d:"the shipped baseline plus a living horizon: bars breathe along the bottom, the reflection dissolves into the void, and the horizon line itself swells and burns with the bass.",f(){
+M.push({n:"SKYLINE",d:"the shipped baseline, awake: full-range bars that actually fall between notes, brightness riding each band, the horizon flaring with the bass.",f(){
 const hz=H-30,bw=W/NB;
 cx.fillStyle=FG;
 for(let i=0;i<NB;i++){
-const h=Math.max(1,bands[i]*46);
-cx.globalAlpha=0.22;
+const h=Math.max(1,bands[i]*(52+beatP*14));
+cx.globalAlpha=0.16+bands[i]*0.3;
 cx.fillRect(i*bw+1,hz-h,bw-2,h);
-dith(i*bw+1,hz+3,bw-2,h*0.4,0.09,2);
+dith(i*bw+1,hz+3,bw-2,h*0.4,0.05+bands[i]*0.07,2);
 }
-const gl=1+Math.round(bass*3);
-cx.globalAlpha=0.15+bass*0.5;
+const gl=1+Math.round(bass*4);
+cx.globalAlpha=0.12+bass*0.6;
 cx.fillRect(0,hz-Math.floor(gl/2),W,gl);
 }});
 const TL=[];
 (function(){
-let x=6,i=0;
-while(x<W-30){
-const w=26+((i*47)%34),h=30+((i*31)%60);
-TL.push({x,w,h,seed:i*13,wl:[]});
-x+=w+6;i++;
+let x=4,i=0;
+while(x<W-40){
+const tall=i%5===2;
+const w=24+((i*47)%30);
+const h=tall?70+((i*31)%50):28+((i*31)%42);
+TL.push({x,w,h,seed:i*13,ant:tall&&i%2?4+i%6:0,wl:[]});
+x+=w+5;i++;
 }
 })();
-M.push({n:"TOWN LIGHTS",d:"no bars at all: a dark town where individual WINDOWS light with each note and fade after. Quiet passages let the town go black. The music is the people still awake.",f(){
+M.push({n:"TOWN LIGHTS",d:"a dark town, denser now: every band owns windows that flare on its notes and cool down after; drums wake a whole random building at once; the bass surges every lit window; reflection dissolves below.",f(dt){
 const hz=H-26;
+if(beatP>0.92){
+const b=TL[Math.floor(Math.random()*TL.length)];
+for(let k=0;k<40;k++)b.wl[k]=1;
+}
 cx.fillStyle=FG;
 for(const b of TL){
-cx.globalAlpha=0.1;
+cx.globalAlpha=0.12;
 cx.fillRect(b.x,hz-b.h,b.w,1);
 cx.fillRect(b.x,hz-b.h,1,b.h);
-cx.fillRect(b.x+b.w,hz-b.h,1,b.h);
+cx.fillRect(b.x+b.w-1,hz-b.h,1,b.h);
+if(b.ant){cx.globalAlpha=0.18;cx.fillRect(b.x+b.w/2,hz-b.h-b.ant,1,b.ant);}
 let wi=0;
-for(let wy=hz-b.h+6;wy<hz-6;wy+=10)
-for(let wx=b.x+5;wx<b.x+b.w-5;wx+=8){
+for(let wy=hz-b.h+5;wy<hz-5;wy+=8)
+for(let wx=b.x+4;wx<b.x+b.w-4;wx+=7){
 const k=(b.seed+wi*7)%NB;
-if(!b.wl[wi])b.wl[wi]=0;
-b.wl[wi]=Math.max(bandBeat[k]*0.9,b.wl[wi]*0.94);
-if(b.wl[wi]>0.04){
-cx.globalAlpha=b.wl[wi]*0.55;
-cx.fillRect(wx,wy,3,5);
+if(b.wl[wi]===undefined)b.wl[wi]=0;
+b.wl[wi]=Math.max(bandBeat[k],Math.max(bands[k]*0.55,b.wl[wi]*0.9));
+const glow=Math.min(1,b.wl[wi]*(1+bass*0.5));
+if(glow>0.06){
+cx.globalAlpha=glow*0.8;
+cx.fillRect(wx,wy,3,4);
 }
 wi++;
 }
+cx.globalAlpha=0.05+bass*0.05;
+for(let yy=0;yy<b.h*0.3;yy+=2)cx.fillRect(b.x,hz+3+yy,b.w,1);
 }
-cx.globalAlpha=0.08+bass*0.25;
+cx.globalAlpha=0.1+bass*0.4;
 cx.fillRect(0,hz,W,1);
 }});
-M.push({n:"EYE OF THE VOID",d:"the void itself hangs behind the title as a black disc you only see by its corona. Every band is a ray of light escaping; drums flare the whole rim. Silence lets the eye close.",f(){
+M.push({n:"EYE OF THE VOID",d:"the void hangs behind the title, visible only by its corona. Every band is a ray of escaping light, drums flare the whole rim, silence closes the eye.",f(){
 const cxx=W/2,cy=150,R=108;
 cx.fillStyle="#000";
 cx.beginPath();cx.arc(cxx,cy,R,0,Math.PI*2);cx.fill();
 cx.strokeStyle=FG;
-cx.globalAlpha=0.18+bass*0.4;
+cx.globalAlpha=0.15+bass*0.6;
 cx.lineWidth=1.5;
 cx.beginPath();cx.arc(cxx,cy,R,0,Math.PI*2);cx.stroke();
 cx.lineWidth=1;
 for(let i=0;i<72;i++){
 const a=i/72*Math.PI*2;
-const ln=3+bands[i%NB]*34+beatP*12;
-cx.globalAlpha=0.22+lvl*0.35;
+const ln=2+bands[i%NB]*46+beatP*16;
+cx.globalAlpha=0.16+bands[i%NB]*0.4;
 cx.beginPath();
 cx.moveTo(cxx+Math.cos(a)*(R+2),cy+Math.sin(a)*(R+2));
 cx.lineTo(cxx+Math.cos(a)*(R+2+ln),cy+Math.sin(a)*(R+2+ln));
@@ -163,61 +178,91 @@ cx.stroke();
 }
 }});
 const EKG={h:new Array(480).fill(0),i:0};
-M.push({n:"PULSE",d:"a hospital monitor line under the title: the town's actual heartbeat. It carries the live waveform, spikes hard on every drum, and flatlines in silence. The run is alive while the line moves.",f(){
-const y0=214;
+M.push({n:"PULSE",d:"the town's heartbeat under the title: live waveform, hard QRS spikes on drums, flatline in silence. Fills its sweep over ~8 seconds.",f(){
 let inj=0;
 if(beatP>0.85)inj=1;
-EKG.h[EKG.i]=waveAmp*46*(0.4+lvl*2)*(Math.random()>0.5?1:-1)+(inj?-34:0);
-if(inj){EKG.h[(EKG.i+1)%480]=22;EKG.h[(EKG.i+2)%480]=-8;}
+EKG.h[EKG.i]=waveAmp*70*(0.4+lvl*1.6)*(Math.random()>0.5?1:-1)+(inj?-40:0);
+if(inj){EKG.h[(EKG.i+1)%480]=26;EKG.h[(EKG.i+2)%480]=-10;}
 EKG.i=(EKG.i+1)%480;
+const y0=214;
 cx.strokeStyle=FG;
 cx.beginPath();
 for(let k=0;k<480;k++){
 const idx=(EKG.i+k)%480;
-const x=k*2;
-const y=y0+EKG.h[idx];
-k===0?cx.moveTo(x,y):cx.lineTo(x,y);
+k===0?cx.moveTo(k*2,y0+EKG.h[idx]):cx.lineTo(k*2,y0+EKG.h[idx]);
 }
-cx.globalAlpha=0.5;
+cx.globalAlpha=0.55;
 cx.lineWidth=1.2;
 cx.stroke();
 cx.globalAlpha=0.1;
 cx.fillStyle=FG;
 cx.fillRect(0,y0,W,1);
 }});
-const RAIN={d:[],r:[]};
-for(let i=0;i<140;i++)RAIN.d.push({x:Math.random()*W,y:Math.random()*H,sp:220+Math.random()*220,ln:8+Math.random()*9});
-M.push({n:"RAIN",d:"thin rain falls through the whole menu, heavier when the music swells. Every drum hit lands a drop hard enough to ripple the ground. Melancholy weather you can hear.",f(dt){
+const RAIN={d:[],r:[],sp:[],w:0,wT:0,flash:0,flashCd:0};
+for(let i=0;i<200;i++)RAIN.d.push({x:Math.random()*W,y:Math.random()*H,v:1+Math.random()});
+M.push({n:"RAIN",d:"the storm follows the song: drizzle in quiet verses, sheets in swells, the wind leaning with the melody. Drums land heavy drops that splash and ripple the ground, and the biggest bass hits flash the sky.",f(dt){
 const gy=H-42;
-const active=25+Math.floor(lvl*115);
+RAIN.wT+=dt;
+RAIN.w+=((Math.sin(RAIN.wT*0.4)*0.35+(treb-0.3)*0.5)-RAIN.w)*0.03;
+const active=30+Math.floor(lvl*lvl*170);
+const spd=(340+lvl*560);
 cx.fillStyle=FG;
+cx.strokeStyle=FG;
+cx.lineWidth=1;
 for(let i=0;i<active;i++){
 const d=RAIN.d[i];
-d.y+=d.sp*dt*(0.5+lvl*1.4);
-if(d.y>gy){d.y=-d.ln;d.x=Math.random()*W;}
-cx.globalAlpha=0.1+((i*29)%10)/10*0.14;
-cx.fillRect(d.x,d.y,1,d.ln);
+d.y+=spd*d.v*dt;
+d.x+=RAIN.w*spd*0.35*d.v*dt;
+if(d.y>gy){
+if(RAIN.sp.length<60)RAIN.sp.push({x:d.x,k:0});
+d.y=-14;d.x=Math.random()*W;
 }
-if(beatP>0.85)RAIN.r.push({x:60+Math.random()*(W-120),k:0});
-cx.strokeStyle=FG;
-for(let i=RAIN.r.length-1;i>=0;i--){
-const r=RAIN.r[i];
-r.k+=dt*1.8;
-if(r.k>=1){RAIN.r.splice(i,1);continue;}
-cx.globalAlpha=0.3*(1-r.k);
-cx.lineWidth=1;
+if(d.x>W)d.x-=W;if(d.x<0)d.x+=W;
+const ln=(9+lvl*13)*d.v;
+cx.globalAlpha=0.09+d.v*0.13;
 cx.beginPath();
-cx.ellipse(r.x,gy,r.k*60,r.k*18,0,0,Math.PI*2);
+cx.moveTo(d.x,d.y);
+cx.lineTo(d.x-RAIN.w*ln*0.35,d.y-ln);
 cx.stroke();
 }
-cx.globalAlpha=0.07;
+for(let i=RAIN.sp.length-1;i>=0;i--){
+const s=RAIN.sp[i];
+s.k+=dt*5;
+if(s.k>=1){RAIN.sp.splice(i,1);continue;}
+cx.globalAlpha=0.25*(1-s.k);
+cx.fillRect(s.x-2-s.k*3,gy-1,2,1);
+cx.fillRect(s.x+1+s.k*3,gy-1,2,1);
+}
+if(beatP>0.88)for(let k=0;k<2;k++)RAIN.r.push({x:60+Math.random()*(W-120),k:0});
+for(let i=RAIN.r.length-1;i>=0;i--){
+const r=RAIN.r[i];
+r.k+=dt*1.7;
+if(r.k>=1){RAIN.r.splice(i,1);continue;}
+cx.globalAlpha=0.35*(1-r.k);
+cx.beginPath();
+cx.ellipse(r.x,gy,r.k*70,r.k*20,0,0,Math.PI*2);
+cx.stroke();
+cx.globalAlpha=0.18*(1-r.k);
+cx.beginPath();
+cx.ellipse(r.x,gy,r.k*40,r.k*11,0,0,Math.PI*2);
+cx.stroke();
+}
+RAIN.flashCd-=dt;
+if(bass>0.85&&beatP>0.9&&RAIN.flashCd<=0){RAIN.flash=1;RAIN.flashCd=2.5;}
+if(RAIN.flash>0){
+cx.globalAlpha=RAIN.flash*0.07;
+cx.fillRect(0,0,W,H);
+RAIN.flash-=dt*6;
+}
+cx.globalAlpha=0.06+bass*0.3;
 cx.fillRect(0,gy,W,1);
+dith(0,gy+3,W,26,0.03+bass*0.05,3);
 }});
 const STAR={s:[],c:[]};
-M.push({n:"DYING STARS",d:"an empty sky where every note is born as a star and slowly dies. Strong beats briefly draw constellations between the young ones. Silence empties the sky completely.",f(dt){
+M.push({n:"DYING STARS",d:"every note is born as a star and slowly dies; beats draw brief constellations between the young ones; silence empties the sky.",f(dt){
 for(let i=0;i<NB;i++){
-if(bandBeat[i]>0.95&&STAR.s.length<90)
-STAR.s.push({x:i/NB*W+(Math.random()*40-20),y:36+((i*53+STAR.s.length*29)%190),a:0.75,tw:Math.random()*6});
+if(bandBeat[i]>0.95&&STAR.s.length<110)
+STAR.s.push({x:i/NB*W+(Math.random()*40-20),y:36+((i*53+STAR.s.length*29)%190),a:0.85,tw:Math.random()*6});
 }
 if(beatP>0.9&&STAR.s.length>4){
 const young=STAR.s.filter(s=>s.a>0.4);
@@ -230,9 +275,9 @@ STAR.c.push({p,k:0});
 cx.fillStyle=FG;
 for(let i=STAR.s.length-1;i>=0;i--){
 const s=STAR.s[i];
-s.a-=dt*0.09;s.tw+=dt*7;
+s.a-=dt*0.11;s.tw+=dt*8;
 if(s.a<=0){STAR.s.splice(i,1);continue;}
-cx.globalAlpha=s.a*(0.7+0.3*Math.sin(s.tw));
+cx.globalAlpha=s.a*(0.65+0.35*Math.sin(s.tw));
 cx.fillRect(s.x,s.y,s.a>0.5?2:1,s.a>0.5?2:1);
 }
 cx.strokeStyle=FG;
@@ -240,7 +285,7 @@ for(let i=STAR.c.length-1;i>=0;i--){
 const c=STAR.c[i];
 c.k+=dt*2;
 if(c.k>=1){STAR.c.splice(i,1);continue;}
-cx.globalAlpha=0.13*(1-c.k);
+cx.globalAlpha=0.15*(1-c.k);
 cx.beginPath();
 cx.moveTo(c.p[0].x,c.p[0].y);
 cx.lineTo(c.p[1].x,c.p[1].y);
@@ -250,35 +295,46 @@ cx.stroke();
 }});
 const ROT=document.createElement("canvas");ROT.width=W;ROT.height=300;
 const rcx=ROT.getContext("2d");
-M.push({n:"RECORD ROT",d:"the story device on the menu: the music writes itself into the record as rising dithered static, and the rot eats the oldest of it as it climbs. The whole background is the song decaying in real time.",f(){
+M.push({n:"RECORD ROT",d:"the music writes itself into the record as rising dithered static and the rot eats the oldest of it. The background is the song decaying in real time.",f(){
 rcx.drawImage(ROT,0,-1);
 rcx.clearRect(0,299,W,1);
 rcx.fillStyle="#fff";
 for(let c=0;c<96;c++){
 const e=bands[Math.floor(c/96*NB)];
-if(e>0.16&&Math.random()<e){
-rcx.globalAlpha=Math.min(0.9,e);
+if(e>0.12&&Math.random()<e*1.2){
+rcx.globalAlpha=Math.min(1,e*1.1);
 rcx.fillRect(c*10+Math.floor(Math.random()*8),299,2,1);
 }
 }
 for(let i=0;i<24;i++)rcx.clearRect(Math.random()*W,Math.random()*260,3,2);
-cx.globalAlpha=0.2;
+cx.globalAlpha=0.22;
 cx.drawImage(ROT,0,H-320);
 }});
-const TROT={r:0.5};
-M.push({n:"LIVING TITLE",d:"the title itself is the record: silence makes the letters rot away into dithered holes, sound heals them, every drum hit slams them back solid. The name of the game is kept alive by the song.",f(dt){
-const target=1-Math.min(1,lvl*3.5+beatP*0.8);
-TROT.r+=(target-TROT.r)*(target<TROT.r?0.12:0.014);
+const TROT={r:0.4,sp:[]};
+M.push({n:"LIVING TITLE",d:"the title fights the rot in real time now: quiet phrases eat visible holes into the letters, loud ones heal them, and every drum hit knocks bright sparks off the text. Always moving.",f(dt){
+const target=Math.min(0.8,Math.max(0.08,0.75-lvl*0.85));
+TROT.r+=(target-TROT.r)*(target<TROT.r?0.2:0.05);
+if(beatP>0.9)for(let k=0;k<9;k++)TROT.sp.push({x:W/2-250+Math.random()*500,y:138+Math.random()*26,vy:-14-Math.random()*22,a:0.8});
 cx.font="700 30px "+FONT;
 cx.textAlign="center";
 cx.fillStyle=FG;
+cx.globalAlpha=0.85+beatP*0.15;
 cx.fillText("A GOOD DAY FOR GOODBYES",W/2,160);
 cx.textAlign="left";
+cx.globalAlpha=1;
 cx.fillStyle="#000";
-const n=Math.floor(TROT.r*380);
+const n=Math.floor(TROT.r*430);
 for(let i=0;i<n;i++){
-cx.globalAlpha=0.75;
-cx.fillRect(W/2-255+Math.random()*510,132+Math.random()*36,1+Math.random()*3,2);
+cx.globalAlpha=0.8;
+cx.fillRect(W/2-255+Math.random()*510,133+Math.random()*35,1+Math.random()*3,2);
+}
+cx.fillStyle=FG;
+for(let i=TROT.sp.length-1;i>=0;i--){
+const s=TROT.sp[i];
+s.y+=s.vy*dt;s.a-=dt*1.6;
+if(s.a<=0){TROT.sp.splice(i,1);continue;}
+cx.globalAlpha=s.a;
+cx.fillRect(s.x,s.y,2,2);
 }
 },skipTitle:true});
 let mi=0;
