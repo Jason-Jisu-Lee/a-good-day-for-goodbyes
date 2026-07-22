@@ -92,7 +92,7 @@ A12   B11   C10   D9    E8   [F7]  [G6]   H5    I4    J3    K2    L1
 - Recruits come from CAMPFIRE tiles: EXACTLY 1 in tier 1, 1 in tier
   2, 1 in tier 3. Zero campfires anywhere else.
 - Origin MYSTERY does NOT recruit (was the old "first survivor");
-  it resolves to a MATERIAL tile + opens the board.
+  it resolves 50/50 to a MATERIAL or FOOD tile + opens the board.
 - Recruit names (placeholder): REED, JUNE, OKON. Faces 2/3/4.
 
 ## Tier tile table (user plugs in counts, Claude syncs newgame.js)
@@ -119,8 +119,8 @@ LOT curve: 4 5 6 6 7 7 7 then 4 2 1 (tiers 8-10 shrink to 12/8/4
 tiles, fewer lots natural). TBD total = 24 slots open.
 
 (Tier 0 = origin, fixed: 2 HOUSE + 1 FOOD + 1 MYSTERY. Mystery =
-tutorial first-illuminate: resolves to a MATERIAL tile + opens the
-board. No longer recruits, 07-22 cap-4 change.)
+tutorial first-illuminate: resolves 50/50 to MATERIAL or FOOD +
+opens the board. No longer recruits, 07-22 cap-4 change.)
 
 ## Full tile list (in game today; synced 07-19, turn-based)
 - HOUSE: origin building. Owned house = +1 to the HUD survivor cap.
@@ -149,7 +149,8 @@ board. No longer recruits, 07-22 cap-4 change.)
   a lot can be rebuilt into a FOOD, MATERIAL, or HOUSE tile.
   Cost / time / rules pending.
 - UNKNOWN (origin mystery): tutorial tile; illuminate = becomes a
-  MATERIAL tile + opens the board (07-22: no longer recruits, cap 4).
+  MATERIAL or FOOD tile (50/50) + opens the board (07-22: no longer
+  recruits, cap 4).
 
 ## Tiles (designed, not built yet)
 - HOSPITAL: health (sickness, medication), arrives mid game.

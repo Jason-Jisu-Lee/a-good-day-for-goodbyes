@@ -72,8 +72,8 @@ violations, volunteers improvements)
   UNKNOWN (origin only).
 - Origin bag: 2 house + 1 grocery + 1 mystery, shuffled; the three
   non-mystery tiles start owned. Mystery illuminate = becomes a
-  MATERIAL tile + opens the board (user 07-22; no longer recruits,
-  for cap 4).
+  MATERIAL or FOOD tile (50/50) + opens the board (user 07-22; no
+  longer recruits, for cap 4).
 - Tier bags (newgame.js): t1 = camp/grocery/scrap/rubble/4 lot; t2 =
   camp/2 grocery/scrap/rubble/cache/2 light/4 lot; t3-t10 =
   grocery/scrap/rubble/lot mixes, lot-heavy mid tiers, bags shrink
