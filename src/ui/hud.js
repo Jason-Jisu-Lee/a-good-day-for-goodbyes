@@ -19,9 +19,16 @@ m.set(key,(m.get(key)||0)+1);
 const lines=[...m.entries()].sort((a,b)=>parseInt(a[0])-parseInt(b[0])).map(([k,c])=>c+" X "+k);
 return {tot,n,lines};
 }
+let hudD={g:null,food:0,mats:0,light:0,pr:0};
+function tickHud(dt){
+if(!G){hudD.g=null;return;}
+if(hudD.g!==G){hudD.g=G;hudD.food=G.food;hudD.mats=G.mats;hudD.light=G.light||0;hudD.pr=G.pr||0;return;}
+const sp=Math.min(1,dt*7),tgt={food:G.food,mats:G.mats,light:G.light||0,pr:G.pr||0};
+for(const k in tgt){hudD[k]+=(tgt[k]-hudD[k])*sp;if(Math.abs(tgt[k]-hudD[k])<0.5)hudD[k]=tgt[k];}
+}
 function drawHUD(){
 const l=L();
-text7("FOOD "+Math.floor(G.food),16,l.hud,2);
+text7("FOOD "+Math.round(hudD.food),16,l.hud,2);
 const fi=rateInfo("grocery"),mi=rateInfo("scrap");
 const expn=G.survivors.length*FOOD_PER_SURV;
 uiButtons.push({id:"inc",x:14,y:l.hud+20,w:96,h:13,en:true});
@@ -31,12 +38,12 @@ text7("-"+expn+"/DAY",16,l.hud+36,1,null,FG);
 if(hover==="inc")tip(16,l.hud+52,["FOOD TILES "+fi.n,...fi.lines]);
 if(hover==="exp")tip(16,l.hud+52,["SURVIVORS "+G.survivors.length,G.survivors.length+" X "+FOOD_PER_SURV+"/DAY"]);
 if(G.matsSeen||G.mats>0){
-text7("MATERIAL "+Math.floor(G.mats),160,l.hud,2);
+text7("MATERIAL "+Math.round(hudD.mats),160,l.hud,2);
 uiButtons.push({id:"minc",x:158,y:l.hud+20,w:96,h:13,en:true});
 text7("+"+mi.tot+"/DAY",160,l.hud+22,1,null,FG);
 if(hover==="minc")tip(160,l.hud+38,["MATERIAL TILES "+mi.n,...mi.lines]);
 }
-if((G.light||0)>0)text7("LIGHT "+G.light,300,l.hud,2);
+if((G.light||0)>0)text7("LIGHT "+Math.round(hudD.light),300,l.hud,2);
 let ex=440;
 if(darkVisible()){
 let dx=300;
@@ -47,7 +54,7 @@ text7(ds,dx,l.hud,2,null,DANGER);
 cx.restore();
 ex=Math.max(ex,dx+tw7(ds,2)+16);
 }
-if(G.pr>0)text7("EMBER "+G.pr,ex,l.hud,2);
+if(G.pr>0)text7("EMBER "+Math.round(hudD.pr),ex,l.hud,2);
 if(G.items&&G.items.p1>0)text7("PLACEHOLDER1 "+G.items.p1,580,l.hud,1,null,MID);
 if(G.items&&G.items.p2>0)text7("PLACEHOLDER2 "+G.items.p2,580,l.hud+14,1,null,MID);
 const cap=G.tiles.filter(t=>t.state==="owned"&&(t.kind==="house"||t.kind==="house2")).length;

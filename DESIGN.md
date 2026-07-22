@@ -94,12 +94,14 @@ violations, volunteers improvements)
   Meta-upgraded +2/DAY tiles (t.b2) pay +2 passive instead.
 - GATHER (live, stationing): default tiles cap 1 slot; each
   stationed survivor adds +3/DAY on top. Interruptible (STOP).
-- Each survivor eats 2 FOOD per day. STARVATION (user-locked
-  07-21): if FOOD is 0 at end of day, one random survivor dies
-  (red STARVED beat); every day it stays 0, another dies. Net: you
-  must end each day with >=1 FOOD or someone starves. (Triggers on
-  FOOD==0 exactly, including breaking even to 0 - see Open/next for
-  the deficit-based alternative.)
+- Each survivor eats 2 FOOD per day. STARVATION (user-locked 07-21,
+  deficit-based): a survivor dies only when the meal cannot be
+  covered (food spent > food available; breaking even to exactly 0
+  is SAFE). ESCALATING: consecutive starving days kill 1, then 2,
+  then 3... (G.starveStreak, reset to 0 by any non-deficit day).
+  Deaths prefer NON-MC survivors; MARA dies only when she is the
+  last one left. Red STARVED beat per death (tile-less, at the
+  dying survivor).
 - SUPPLY CACHE reclaim = 2-5 MATERIAL or 2-5 FOOD (50/50 which,
   amount rolled; CACHE_ROLL).
 - RUBBLE: CLEAR costs 10 MATERIAL, takes 1-2 days (rolled per tile).
@@ -169,6 +171,18 @@ violations, volunteers improvements)
   (click-through guard, 07-20).
 
 ## Run end + META (07-19)
+- MC = MARA (mc flag, user 07-21). If MARA dies (combat or
+  last-one starvation) the run ends IMMEDIATELY regardless of other
+  survivors. Because her death ends the run, any lone survivor is
+  necessarily MARA.
+- SOLE-SURVIVOR STINGER (user 07-21): once the roster has ever
+  reached 4 (G.peak), the first time it falls to just MARA,
+  survivor_dies.mp3 plays ONCE (asset/soundtrack/, 112k mp3, raw in
+  ref/, music-slider volume) - the "only the MC remains, endgame is
+  near" beat. Never plays when MARA herself dies (that is plain
+  game over). G.peak / G.soleMusic persisted. OPEN: is the intended
+  roster exactly 4 (MC + 3)? Current cap is still 6 / recruit bag 5;
+  the stinger gates on peak>=4 so it works either way.
 - Run ends: last survivor dies, or blackout unmet. GAME OVER fades
   over the dying town (3s) -> EMBER UPGRADES shop -> CONTINUE ->
   main menu. Run save wiped; run embers bank to META on any end.
@@ -297,10 +311,15 @@ violations, volunteers improvements)
   gone) AND owned FOOD/MATERIAL tiles (GATHER button gone). Tapping
   an assigned survivor unassigns; CREW + PULL BACK + STOP buttons
   all removed (untick everyone = old pull back / stop, progress
-  reset unchanged). Attacked tiles still use the ILLUMINATE button
-  for now (see Open/next).
+  reset unchanged). Attacked tiles too (07-21): selecting one opens
+  the illuminate list directly, ILLUMINATE button removed - no verb
+  buttons remain anywhere.
 - Panel header (tile name / "?" / UNDER ATTACK) centered (user
   07-21).
+- HUD COUNTERS ANIMATE (user 07-21): FOOD / MATERIAL / LIGHT /
+  EMBER ease from old to new value after END DAY (tickHud, ~0.15s
+  to close) instead of snapping, so the cost of ending the day is
+  felt. Visibility gates + rate rows still use the real values.
   PLACEHOLDER RULES (Claude, need user verdict): adding crew
   mid-task never resets progress (days = min(current, recomputed));
   removing crew recomputes fresh (progress reset, same as PULL
@@ -447,13 +466,10 @@ violations, volunteers improvements)
   delete the folder once everything in it is locked.
 - TILES.md editing pass (user); TBD column kinds (24 slots); sync
   bags after.
-- Starvation triggers on FOOD==0 exactly (breaking even to 0 still
-  kills). Industry-standard alternative = deficit-based (die only
-  when income cannot cover the meal, i.e. FOOD would go negative);
-  user chose the exact-0 rule, flagged here if it feels harsh.
-- Attacked-tile ILLUMINATE button could fold into the same one-
-  click flow (defend is also the only action there); not done, not
-  asked.
+- Roster size intent: user talks in terms of "4 survivors" (MC +
+  3) but code cap is 6, recruit bag 5. Reconcile: cap to 4 + trim
+  recruit sources, or keep 6? Sole-survivor stinger already works
+  either way (peak>=4 gate).
 - Balance verdicts: housing gate; attack tuning
   (placeholder ladder); EMBER tile spawn %; run-skeleton depth
   re-pin (prestige/bunker tiers vs 0-10 board); pacing pass.

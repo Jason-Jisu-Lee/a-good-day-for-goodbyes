@@ -14,6 +14,7 @@ const face=G.faces.length?G.faces.shift():1;
 const p=tpos(t),d=DXY();
 const s={name,face,col:SURV_COLS[G.survivors.length%SURV_COLS.length],x:p.x,y:p.y+d.hh+4,task:null};
 G.survivors.push(s);
+G.peak=Math.max(G.peak||1,G.survivors.length);
 }
 function visual(dt){
 for(let i=0;i<G.survivors.length;i++){

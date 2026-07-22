@@ -32,8 +32,8 @@ if(t.state!=="owned")t.turnsLeft=baseDays(Math.max(1,tier));
 tiles.push(t);
 }
 const survivors=[
-{name:"MARA",face:0,col:SURV_COLS[0],x:0,y:0,task:null}
+{name:"MARA",face:0,col:SURV_COLS[0],x:0,y:0,task:null,mc:true}
 ];
-G={v:10,day:1,food:START_FOOD,mats:0,pr:0,light:0,boDay:0,boCount:0,boNeed:0,boFast:false,items:{p1:0,p2:0},tutDay:3+Math.floor(Math.random()*3),zoomTipSeen:false,matsSeen:false,opened:false,atkN:0,nextAtk:rollRange(ATK_FIRST),tiles,survivors,names:NAME_BAG.slice(),faces:[2,3,4]};
+G={v:10,day:1,food:START_FOOD,mats:0,pr:0,light:0,boDay:0,boCount:0,boNeed:0,boFast:false,items:{p1:0,p2:0},tutDay:3+Math.floor(Math.random()*3),zoomTipSeen:false,matsSeen:false,opened:false,atkN:0,nextAtk:rollRange(ATK_FIRST),peak:1,soleMusic:false,starveStreak:0,tiles,survivors,names:NAME_BAG.slice(),faces:[2,3,4]};
 for(let i=0;i<G.survivors.length;i++){const sp=idleSpot(G.survivors[i],i);G.survivors[i].x=sp.x;G.survivors[i].y=sp.y;}
 }

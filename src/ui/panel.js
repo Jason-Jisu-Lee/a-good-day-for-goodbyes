@@ -32,7 +32,7 @@ if(dark){
 if(extinguishable(t)){picker={type:"extinguish"};drawPicker(y);}
 return;
 }
-if(atk){btn("act_extinguish","ILLUMINATE",l.pnX+16,y,150,G.survivors.some(s=>!lockedS(s)));return;}
+if(atk){picker={type:"extinguish"};drawPicker(y);return;}
 if(t.kind==="rubble"){
 if(t.action==="clear"){text7(t.turnsLeft+(t.turnsLeft===1?" DAY LEFT":" DAYS LEFT"),l.pnX+16,y,1,null,MID);return;}
 btn("clear","CLEAR",l.pnX+16,y,120,G.mats>=RUBBLE_COST);

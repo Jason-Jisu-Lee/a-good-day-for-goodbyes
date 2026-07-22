@@ -106,8 +106,8 @@ const l=L();
 const inPanel=sel&&p.x>=l.pnX&&p.x<=l.pnX+l.pnW&&p.y>=l.pnY&&p.y<=l.pnY+l.pnH;
 if(t){
 sel=t;picker=null;
-if(t.action==="extinguish"||(t.state!=="owned"&&extinguishable(t)))picker={type:"extinguish"};
-else if(t.state==="owned"&&!t.atk&&(t.kind==="grocery"||t.kind==="scrap"))picker={type:"gather"};
+if(t.action==="extinguish"||t.atk||(t.state!=="owned"&&extinguishable(t)))picker={type:"extinguish"};
+else if(t.state==="owned"&&(t.kind==="grocery"||t.kind==="scrap"))picker={type:"gather"};
 }
 else if(!inPanel&&p.y>40){
 sel=null;picker=null;
@@ -134,10 +134,6 @@ return;
 }
 if(id==="volM"||id==="volF")return;
 if(id==="endturn"){if(beatsActive())return;sel=null;picker=null;endTurn();return;}
-if(id.startsWith("act_")){
-picker={type:id.slice(4)};
-return;
-}
 if(id.startsWith("pick_")){
 if(!picker||!sel)return;
 const s=G.survivors[parseInt(id.slice(5),10)];

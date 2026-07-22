@@ -38,6 +38,7 @@ if(overT>=0){overT+=dt;if(overT>=OVER_DUR){try{localStorage.removeItem("goodbyes
 updateBlackout(dt);
 if(mode==="game"&&G){
 beatsUpdate(dt);
+tickHud(dt);
 visual(dt);
 updateFloats(dt);
 hoverA+=((hoverTile?1:0)-hoverA)*Math.min(1,dt*10);

@@ -1,10 +1,19 @@
 const MUSIC=new Audio("asset/soundtrack/main_screen.mp3?v=1");
 MUSIC.loop=true;
 let musicPending=false;
+const DIES=new Audio("asset/soundtrack/survivor_dies.mp3?v=1");
+DIES.preload="none";
+function stopDies(){DIES.pause();try{DIES.currentTime=0;}catch(e){}}
+function playSoleSurvivor(){
+DIES.volume=OPT.mute?0:Math.min(1,Math.pow(OPT.volM,1.6));
+try{DIES.currentTime=0;}catch(e){}
+const p=DIES.play();if(p&&p.catch)p.catch(()=>{});
+}
 function musicVol(){
 MUSIC.volume=OPT.mute?0:Math.min(1,Math.pow(OPT.volM,1.6));
 }
 function menuMusic(on){
+stopDies();
 musicVol();
 if(on){
 const p=MUSIC.play();

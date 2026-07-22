@@ -2,5 +2,3 @@ CLAUDE.md
 .claude/settings.local.json
 ref/
 asset/tiles/ref_*.png
-
-/survivor_dies.mp3

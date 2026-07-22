@@ -67,11 +67,25 @@ if(t.kind==="grocery"){const r=tilePassive(t)+GATHER_BONUS*w;G.food+=r;spawnFloa
 else if(t.kind==="scrap"){const r=tilePassive(t)+GATHER_BONUS*w;G.mats+=r;spawnFloat(p.x,p.y-d.hh-4,"+"+r);}
 }
 }
-G.food=Math.max(0,G.food-FOOD_PER_SURV*G.survivors.length);
-if(G.food===0&&G.survivors.length>0){
-const s=G.survivors[Math.floor(Math.random()*G.survivors.length)];
+const spent=FOOD_PER_SURV*G.survivors.length;
+const deficit=spent>G.food;
+G.food=Math.max(0,G.food-spent);
+if(deficit&&G.survivors.length>0){
+G.starveStreak=(G.starveStreak||0)+1;
+let kills=Math.min(G.starveStreak,G.survivors.length);
+while(kills-->0&&G.survivors.length>0){
+const pool=G.survivors.filter(s=>!s.mc);
+const arr=pool.length?pool:G.survivors;
+const s=arr[Math.floor(Math.random()*arr.length)];
 beatStarve(s);
 killSurvivor(s);
+}
+}else G.starveStreak=0;
+for(const t of G.tiles){
+if(t.action==="extinguish"){
+const c=t.state==="owned"?defCrew(t):crew(t);
+if(c.length===0){if(t.state==="owned")t.action=null;else releaseCrew(t);}
+}
 }
 if(G.mats>0&&!G.matsSeen)G.matsSeen=true;
 G.day++;
@@ -97,7 +111,8 @@ if(G.boDay&&G.day>=G.boDay){
 G.boDay=0;
 if((G.light||0)<(G.boNeed||0))endRun();
 }
-if(G.survivors.length===0)endRun();
+if(!G.survivors.some(s=>s.mc))endRun();
+else if(G.survivors.length===1&&(G.peak||0)>=4&&!G.soleMusic){G.soleMusic=true;playSoleSurvivor();}
 beatsEnd(boFire);
 save();
 }
