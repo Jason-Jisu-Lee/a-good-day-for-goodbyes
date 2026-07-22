@@ -57,8 +57,7 @@ ex=Math.max(ex,dx+tw7(ds,2)+16);
 if(G.pr>0)text7("EMBER "+Math.round(hudD.pr),ex,l.hud,2);
 if(G.items&&G.items.p1>0)text7("PLACEHOLDER1 "+G.items.p1,580,l.hud,1,null,MID);
 if(G.items&&G.items.p2>0)text7("PLACEHOLDER2 "+G.items.p2,580,l.hud+14,1,null,MID);
-const cap=G.tiles.filter(t=>t.state==="owned"&&(t.kind==="house"||t.kind==="house2")).length;
-text7("SURVIVORS "+G.survivors.length+"/"+cap,160,l.hud+36,1,null,MID);
+text7("SURVIVORS "+G.survivors.length+"/"+SURV_CAP,160,l.hud+36,1,null,MID);
 text7("DAY "+G.day,16,H-24,1,null,MID);
 if(G.day>=G.tutDay&&!G.zoomTipSeen){
 const msg=("ontouchstart" in window)?"PINCH: ZOOM MAP":"MOUSE WHEEL: ZOOM MAP";

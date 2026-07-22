@@ -113,9 +113,9 @@ violations, volunteers improvements)
   the tile STAYS CAMPFIRE with its label, like FOOD/MATERIAL (user
   07-21). Exactly 3 campfires per run (tiers 1/2/3). ROSTER CAP = 4
   (SURV_CAP, user 07-22): MARA + 3 recruits. Future (not built):
-  CAMPFIRE can be CLEARED and re-used. HUD still shows current /
-  housing cap (owned house+apartment count); housing gate rule OPEN
-  and now separate from the roster cap (flag: HUD may want /4).
+  CAMPFIRE can be CLEARED and re-used. HUD shows current / SURV_CAP
+  ("SURVIVORS n/4", user 07-22; the old house-count housing cap was
+  never enforced, dropped from the readout).
 - LIGHT tile (2 in tier 2, the only light source yet): reclaim = +1
   LIGHT, tile becomes lot, "+LIGHT" float. HUD LIGHT counter appears
   at first point. More sources/tuning later.
@@ -467,9 +467,8 @@ violations, volunteers improvements)
   delete the folder once everything in it is locked.
 - TILES.md editing pass (user); TBD column kinds (24 slots); sync
   bags after.
-- Balance verdicts: housing gate (HUD shows /houses, roster cap is
-  now a separate hard 4 - decide if HUD should show /4); attack
-  tuning
+- Balance verdicts: housing gate (do houses still gate anything now
+  that the HUD shows /4 and shelter is unenforced?); attack tuning
   (placeholder ladder); EMBER tile spawn %; run-skeleton depth
   re-pin (prestige/bunker tiers vs 0-10 board); pacing pass.
 - EMPTY LOT REBUILD rules; PLACEHOLDER1/2 item identities; shop
