@@ -257,10 +257,13 @@ violations, volunteers improvements)
   jazz hi-hat/brush texture is ignored), each drum beat wakes one
   whole building, lit windows cast a faint reflection below the
   horizon, and silence puts the whole town to sleep (quiet gate).
-  Anti-always-on defenses (user: "feels on ALL the time"):
-  hat-band masking + per-band adaptive salience threshold +
-  260ms per-band cooldown + global budget ~5 lights/sec (scarcity
-  = readable rhythm). menuAudio() in audio.js = the event engine
+  v2 tuning (07-21, user: v1 read as random pops over darkness):
+  HYBRID = ambient occupancy layer (windows fill/empty with the
+  phrase loudness envelope, each window at its own threshold, so
+  the town visibly breathes with swells and is never dark while
+  music plays) + onset snaps (hat-band masked, adaptive salience,
+  180ms band cooldown, ~10 lights/sec budget) + BEAT = GLOBAL
+  brightness surge (the wake-one-building pop removed, illegible). menuAudio() in audio.js = the event engine
   (onsets/beat/quietK); menu.js renders. LOCAL CAVEAT: file://
   cannot analyse audio, shows sparse synthetic events; real
   reaction on http://localhost:8123 (dev-serve.js) or itch.

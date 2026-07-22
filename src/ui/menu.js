@@ -24,7 +24,7 @@ while(x<W-40){
 const tall=i%5===2;
 const w=24+((i*47)%30);
 const h=tall?58+((i*31)%42):24+((i*31)%36);
-VB.push({x,w,h,seed:i*13,ant:tall&&i%2?4+i%6:0,wl:[],wake:0});
+VB.push({x,w,h,seed:i*13,ant:tall&&i%2?4+i%6:0,wl:[]});
 x+=w+5;i++;
 }
 }
@@ -34,17 +34,14 @@ const now=performance.now();
 const dt=vizLast?Math.min(0.1,(now-vizLast)/1000):0.016;
 vizLast=now;
 const au=menuAudio(dt,now);
-vizBeatP=Math.max(0,vizBeatP-dt*4);
-if(au.beat){
-vizBeatP=1;
-VB[Math.floor(Math.random()*VB.length)].wake=1;
-}
+vizBeatP=Math.max(0,vizBeatP-dt*5);
+if(au.beat)vizBeatP=1;
 const hz=H-26,qa=au.quietK*(1-fade);
+const surge=1+vizBeatP*0.5;
 cx.save();
 cx.scale(S,S);
 cx.fillStyle=FG;
 for(const b of VB){
-b.wake=Math.max(0,b.wake-dt*1.5);
 cx.globalAlpha=0.09*qa;
 cx.fillRect(b.x,hz-b.h,b.w,1);
 cx.fillRect(b.x,hz-b.h,1,b.h);
@@ -56,18 +53,20 @@ for(let wx=b.x+4;wx<b.x+b.w-4;wx+=7){
 const k=(b.seed+wi*7)%MZ_N;
 if(b.wl[wi]===undefined)b.wl[wi]=0;
 if(au.on.indexOf(k)>=0)b.wl[wi]=1;
-b.wl[wi]*=Math.exp(-dt/1.05);
-const glow=Math.min(1,Math.max(b.wl[wi],b.wake))*qa;
-if(glow>0.05){
-cx.globalAlpha=glow*0.8;
+b.wl[wi]*=Math.exp(-dt/0.9);
+const r=((b.seed*31+wi*17)%97)/97;
+const base=Math.min(1,Math.max(0,(au.phrase*0.5-r*0.45)*6))*0.26;
+const glow=Math.min(1,Math.max(b.wl[wi]*0.85,base)*surge)*qa;
+if(glow>0.03){
+cx.globalAlpha=glow;
 cx.fillRect(wx,wy,3,4);
-cx.globalAlpha=glow*0.16;
+cx.globalAlpha=glow*0.2;
 cx.fillRect(wx,hz+Math.round((hz-wy)*0.22),3,2);
 }
 wi++;
 }
 }
-cx.globalAlpha=(0.05+vizBeatP*0.3)*qa;
+cx.globalAlpha=(0.05+vizBeatP*0.35)*qa;
 cx.fillRect(0,hz,W,1);
 cx.restore();
 cx.globalAlpha=1;
