@@ -1,12 +1,13 @@
-let beatQ=null,beatI=-1,beatT=0,beatCap=null,beatBo=false,beatAC=null;
+let beatQ=null,beatI=-1,beatT=0,beatCap=null,beatBo=false,beatAC=null,beatShown=null;
 function beatDwell(ev,i){
 const base=ev.dram?1.25:0.5;
 return Math.max(0.4,base*Math.max(0.6,1-i*0.06));
 }
 function beatsActive(){return beatQ!==null;}
-function beatsBegin(){beatCap=[];}
-function beatsClear(){beatQ=null;beatCap=null;beatBo=false;beatI=-1;}
-function beatEv(t){return {t,prev:{kind:t.kind,state:t.state,atk:!!t.atk},crew:crew(t).map(s=>({col:s.col})),floats:[],out:"work",label:"",au:"working",dram:false};}
+function zeroDelta(){return {food:0,mats:0,light:0,pr:0};}
+function beatsBegin(){beatCap=[];beatShown={food:G.food,mats:G.mats,light:G.light||0,pr:G.pr||0};}
+function beatsClear(){beatQ=null;beatCap=null;beatShown=null;beatBo=false;beatI=-1;}
+function beatEv(t){return {t,prev:{kind:t.kind,state:t.state,atk:!!t.atk},crew:crew(t).map(s=>({col:s.col})),floats:[],out:"work",label:"",au:"working",dram:false,delta:zeroDelta(),seq:0};}
 function beatOut(ev,t){
 if(ev.prev.atk){
 const lost=t.state==="dark";
@@ -30,20 +31,37 @@ ev.label=t.turnsLeft+(t.turnsLeft===1?" DAY LEFT":" DAYS LEFT");
 ev.au="working";
 beatCap.push(ev);
 }
+function beatIncome(t,res,amt){
+if(!beatCap||amt<=0)return;
+const p=tpos(t),d=DXY();
+const dl=zeroDelta();dl[res]=amt;
+beatCap.push({t,prev:{kind:t.kind,state:"owned",atk:false},crew:crew(t).filter(s=>s.task&&s.task.type==="gather").map(s=>({col:s.col})),floats:[{x:p.x,y:p.y-d.hh-4,txt:"+"+amt}],out:"income",label:"+"+amt,au:res==="food"?"food":"material",dram:false,delta:dl,seq:1});
+}
+function beatEat(amt){
+if(!beatCap||amt<=0)return;
+const q=tpos({gx:(OB0+OB1)/2,gy:(OB0+OB1)/2});
+const dl=zeroDelta();dl.food=-amt;
+beatCap.push({t:null,px:q.x,py:q.y,prev:null,crew:[],floats:[],out:"eat",label:"-"+amt+" FOOD",au:"working",dram:false,delta:dl,seq:2});
+}
 function beatStarve(s){
 if(!beatCap)return;
-beatCap.push({t:null,px:s.x,py:s.y,prev:null,crew:[{col:s.col}],floats:[],out:"starve",label:"STARVED",au:"taken",dram:true});
+beatCap.push({t:null,px:s.x,py:s.y,prev:null,crew:[{col:s.col}],floats:[],out:"starve",label:"STARVED",au:"taken",dram:true,delta:zeroDelta(),seq:3});
 }
 function beatsEnd(boFire){
 if(overT>=0){beatsClear();return;}
-if(!beatCap||beatCap.length===0){beatCap=null;if(boFire)boWordStart();return;}
-beatQ=shuffle(beatCap);
+if(!beatCap||beatCap.length===0){beatCap=null;beatShown=null;if(boFire)boWordStart();return;}
+const byq=[[],[],[],[]];
+for(const e of beatCap)byq[e.seq||0].push(e);
+beatQ=[...shuffle(byq[0]),...shuffle(byq[1]),...byq[2],...byq[3]];
 beatCap=null;beatBo=boFire;beatI=0;beatT=0;
 beatSfx(beatQ[0].au);
 }
-function beatSettle(ev){for(const f of ev.floats)spawnFloat(f.x,f.y,f.txt);}
+function beatSettle(ev){
+if(beatShown&&ev.delta){beatShown.food+=ev.delta.food;beatShown.mats+=ev.delta.mats;beatShown.light+=ev.delta.light;beatShown.pr+=ev.delta.pr;}
+for(const f of ev.floats)spawnFloat(f.x,f.y,f.txt);
+}
 function beatsFinish(){
-beatQ=null;beatI=-1;
+beatQ=null;beatI=-1;beatShown=null;
 if(beatBo){beatBo=false;boWordStart();}
 }
 function beatsSkipAll(){
@@ -78,6 +96,9 @@ if(ev.t){
 cx.save();
 if(ev.out==="done"){
 cx.globalAlpha=Math.min(1,0.35+0.75*p2);
+drawTileVisual(ev.t,q.x,q.y);
+}else if(ev.out==="income"){
+cx.globalAlpha=0.82+0.18*Math.sin(p2*Math.PI*4);
 drawTileVisual(ev.t,q.x,q.y);
 }else if(ev.out==="taken"){
 cx.globalAlpha=Math.max(0.25,1-p2*0.75);

@@ -27,13 +27,24 @@ const ev=beatEv(t);
 t.turnsLeft--;
 if(t.turnsLeft<=0){
 floatSink=ev.floats;
+const b4=[G.food,G.mats,G.light||0,G.pr||0];
 resolveReclaim(t);
+ev.delta={food:G.food-b4[0],mats:G.mats-b4[1],light:(G.light||0)-b4[2],pr:(G.pr||0)-b4[3]};
 floatSink=null;
 beatOut(ev,t);
 }else beatWork(ev,t);
 }else if(t.action==="clear"&&t.state==="owned"&&!t.atk){
 t.turnsLeft--;
-if(t.turnsLeft<=0)finishRubble(t);
+if(t.turnsLeft<=0){
+const ev=beatEv(t);
+floatSink=ev.floats;
+const b4=[G.food,G.mats];
+finishRubble(t);
+ev.delta.food=G.food-b4[0];ev.delta.mats=G.mats-b4[1];
+floatSink=null;
+ev.out="done";ev.label="CLEARED";ev.au="material";
+beatCap.push(ev);
+}
 }
 }
 for(const t of G.tiles){
@@ -61,15 +72,16 @@ spawnFloat(q.x,q.y-d.hh-4,"TAKEN");
 }
 for(const t of G.tiles){
 if(t.state==="owned"&&!t.atk){
-const p=tpos(t),d=DXY();
 const w=crew(t).filter(s=>s.task.type==="gather").length;
-if(t.kind==="grocery"){const r=tilePassive(t)+GATHER_BONUS*w;G.food+=r;spawnFloat(p.x,p.y-d.hh-4,"+"+r);}
-else if(t.kind==="scrap"){const r=tilePassive(t)+GATHER_BONUS*w;G.mats+=r;spawnFloat(p.x,p.y-d.hh-4,"+"+r);}
+if(t.kind==="grocery"){const r=tilePassive(t)+GATHER_BONUS*w;G.food+=r;beatIncome(t,"food",r);}
+else if(t.kind==="scrap"){const r=tilePassive(t)+GATHER_BONUS*w;G.mats+=r;beatIncome(t,"mats",r);}
 }
 }
 const spent=FOOD_PER_SURV*G.survivors.length;
 const deficit=spent>G.food;
+const foodPre=G.food;
 G.food=Math.max(0,G.food-spent);
+beatEat(foodPre-G.food);
 if(deficit&&G.survivors.length>0){
 G.starveStreak=(G.starveStreak||0)+1;
 let kills=Math.min(G.starveStreak,G.survivors.length);

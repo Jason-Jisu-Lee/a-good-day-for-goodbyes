@@ -22,9 +22,10 @@ return {tot,n,lines};
 let hudD={g:null,food:0,mats:0,light:0,pr:0};
 function tickHud(dt){
 if(!G){hudD.g=null;return;}
-if(hudD.g!==G){hudD.g=G;hudD.food=G.food;hudD.mats=G.mats;hudD.light=G.light||0;hudD.pr=G.pr||0;return;}
-const sp=Math.min(1,dt*7),tgt={food:G.food,mats:G.mats,light:G.light||0,pr:G.pr||0};
-for(const k in tgt){hudD[k]+=(tgt[k]-hudD[k])*sp;if(Math.abs(tgt[k]-hudD[k])<0.5)hudD[k]=tgt[k];}
+const tgt=(beatsActive()&&beatShown)?beatShown:{food:G.food,mats:G.mats,light:G.light||0,pr:G.pr||0};
+if(hudD.g!==G){hudD.g=G;hudD.food=tgt.food;hudD.mats=tgt.mats;hudD.light=tgt.light;hudD.pr=tgt.pr;return;}
+const sp=Math.min(1,dt*7);
+for(const k of ["food","mats","light","pr"]){hudD[k]+=(tgt[k]-hudD[k])*sp;if(Math.abs(tgt[k]-hudD[k])<0.5)hudD[k]=tgt[k];}
 }
 function drawHUD(){
 const l=L();

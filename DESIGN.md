@@ -260,10 +260,21 @@ violations, volunteers improvements)
 - AUDIO = WARM JAZZ BLIPS (user pick): procedural WebAudio per
   action: material thunk+resolve, food pluck, survivor rising
   3-note arp, cache coin blips, still-working muted low tick.
-- Beat events: illuminate complete (tile kindles + kind reveal),
-  survivor found, food/material tile, cache payout, still-working
-  (tile stays dark), defense HELD / TAKEN, all-crew-consumed FAIL,
-  STARVED (tile-less beat at the dying survivor).
+- Beat events, ordered by phase (seq): (0) illuminate complete
+  (tile kindles + kind reveal), survivor found, cache/light/ember
+  payout, rubble CLEARED, still-working, defense HELD/TAKEN,
+  all-crew-consumed FAIL; (1) INCOME - one beat per owned
+  food/material tile producing (+N, tile spotlit); (2) EAT - the
+  town eats (-N FOOD, at town center); (3) STARVED (tile-less, at
+  the dying survivor). Phase 0 shuffled, then income, then eat,
+  then starve = a clean economic arc.
+- COUNTERS SYNC TO BEATS (user 07-22): each beat carries a resource
+  delta; the HUD FOOD/MATERIAL/LIGHT/EMBER readouts show a DEFERRED
+  value (beatShown) that ticks up/down as each beat settles, instead
+  of jumping to the final total instantly. Deltas sum exactly to the
+  real change (verified); on skip/finish the readout snaps to truth.
+  So ending the day plays as: tiles resolve -> income climbs the
+  counter tile by tile -> eating drops it.
   Undefended falls + gather/passive floats stay instant (no crew =
   no beat). Resolution floats (+N, CONSUMED...) emit at each beat's
   end; resolved tiles keep their pre-END-DAY look until their beat
@@ -319,10 +330,12 @@ violations, volunteers improvements)
   buttons remain anywhere.
 - Panel header (tile name / "?" / UNDER ATTACK) centered (user
   07-21).
-- HUD COUNTERS ANIMATE (user 07-21): FOOD / MATERIAL / LIGHT /
-  EMBER ease from old to new value after END DAY (tickHud, ~0.15s
-  to close) instead of snapping, so the cost of ending the day is
-  felt. Visibility gates + rate rows still use the real values.
+- HUD COUNTERS ANIMATE (user 07-21, synced to beats 07-22): FOOD /
+  MATERIAL / LIGHT / EMBER ease toward a beat-driven value during
+  resolution (see END DAY beats), so they tick up/down in step with
+  each tile's beat rather than snapping. Outside resolution they
+  ease toward the real G value. Visibility gates + rate rows still
+  use the real values.
   PLACEHOLDER RULES (Claude, need user verdict): adding crew
   mid-task never resets progress (days = min(current, recomputed));
   removing crew recomputes fresh (progress reset, same as PULL
