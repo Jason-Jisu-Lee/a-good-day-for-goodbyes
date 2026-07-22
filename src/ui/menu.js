@@ -15,28 +15,59 @@ menuButtons.push({id:"DISCORD",label:"DISCORD",x:x0+g1+44-8,y:bs.dy-10,w:g2+16,h
 menuButtons.push({id:"MMUTE",x:W-40,y:8,w:32,h:32,mute:true});
 return bs;
 }
-let vizLast=0;
+let vizLast=0,vizW=0,vizBeatP=0,VB=[];
+function vizBuild(){
+VB=[];
+vizW=W;
+let x=4,i=0;
+while(x<W-40){
+const tall=i%5===2;
+const w=24+((i*47)%30);
+const h=tall?58+((i*31)%42):24+((i*31)%36);
+VB.push({x,w,h,seed:i*13,ant:tall&&i%2?4+i%6:0,wl:[],wake:0});
+x+=w+5;i++;
+}
+}
 function drawMenuViz(){
+if(vizW!==W)vizBuild();
 const now=performance.now();
 const dt=vizLast?Math.min(0.1,(now-vizLast)/1000):0.016;
 vizLast=now;
-const n=64,sp=menuSpectrum(n,dt);
-const hz=H-30,bw=W/n,maxH=42;
+const au=menuAudio(dt,now);
+vizBeatP=Math.max(0,vizBeatP-dt*4);
+if(au.beat){
+vizBeatP=1;
+VB[Math.floor(Math.random()*VB.length)].wake=1;
+}
+const hz=H-26,qa=au.quietK*(1-fade);
 cx.save();
 cx.scale(S,S);
 cx.fillStyle=FG;
-for(let i=0;i<n;i++){
-const h=Math.max(1,sp[i]*maxH);
-const x=i*bw+1,w=bw-2;
-cx.globalAlpha=0.22*(1-fade);
-cx.fillRect(x,hz-h,w,h);
-const rh=h*0.4;
-for(let yy=0;yy<rh;yy+=2){
-cx.globalAlpha=0.1*(1-yy/rh)*(1-fade);
-cx.fillRect(x,hz+3+yy,w,1);
+for(const b of VB){
+b.wake=Math.max(0,b.wake-dt*1.5);
+cx.globalAlpha=0.09*qa;
+cx.fillRect(b.x,hz-b.h,b.w,1);
+cx.fillRect(b.x,hz-b.h,1,b.h);
+cx.fillRect(b.x+b.w-1,hz-b.h,1,b.h);
+if(b.ant){cx.globalAlpha=0.14*qa;cx.fillRect(b.x+(b.w>>1),hz-b.h-b.ant,1,b.ant);}
+let wi=0;
+for(let wy=hz-b.h+5;wy<hz-5;wy+=8)
+for(let wx=b.x+4;wx<b.x+b.w-4;wx+=7){
+const k=(b.seed+wi*7)%MZ_N;
+if(b.wl[wi]===undefined)b.wl[wi]=0;
+if(au.on.indexOf(k)>=0)b.wl[wi]=1;
+b.wl[wi]*=Math.exp(-dt/1.05);
+const glow=Math.min(1,Math.max(b.wl[wi],b.wake))*qa;
+if(glow>0.05){
+cx.globalAlpha=glow*0.8;
+cx.fillRect(wx,wy,3,4);
+cx.globalAlpha=glow*0.16;
+cx.fillRect(wx,hz+Math.round((hz-wy)*0.22),3,2);
+}
+wi++;
 }
 }
-cx.globalAlpha=0.14*(1-fade);
+cx.globalAlpha=(0.05+vizBeatP*0.3)*qa;
 cx.fillRect(0,hz,W,1);
 cx.restore();
 cx.globalAlpha=1;

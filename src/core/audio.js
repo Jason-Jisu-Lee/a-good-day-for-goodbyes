@@ -30,31 +30,63 @@ try{
 AAC=new (window.AudioContext||window.webkitAudioContext)();
 AN=AAC.createAnalyser();
 AN.fftSize=1024;
-AN.smoothingTimeConstant=0.8;
+AN.smoothingTimeConstant=0.35;
 AN.connect(AAC.destination);
 const src=AAC.createMediaElementSource(MUSIC);
 src.connect(AN);
 ANF=new Uint8Array(AN.frequencyBinCount);
 }catch(e){AN=null;}
 }
-function menuSpectrum(n,dt){
-synthT+=dt;
-const out=new Array(n);
-let live=false;
+const MZ_N=24;
+const mzPrev=new Float32Array(MZ_N),mzThr=new Float32Array(MZ_N).fill(0.02),mzCool=new Float32Array(MZ_N),mzHist=new Float32Array(50);
+let mzHI=0,mzGm=0.2,mzLastBeat=0,mzQuietT=0,mzTok=3;
+function menuAudio(dt,tms){
+const out={on:[],beat:0,quietK:1,phrase:0};
+let live=false,lvl=0;
+for(let i=0;i<MZ_N;i++)mzCool[i]=Math.max(0,mzCool[i]-dt);
+mzTok=Math.min(3,mzTok+dt*5);
 if(AN&&!MUSIC.paused&&!OPT.mute){
 if(AAC.state==="suspended")AAC.resume();
 AN.getByteFrequencyData(ANF);
-let sum=0;
-for(let i=0;i<n;i++){
-const bin=Math.floor(Math.pow(i/n,1.7)*(ANF.length*0.68))+2;
-const v=ANF[bin]/255;
-out[i]=v;
-sum+=v;
+let s=0;for(let i=0;i<300;i++)s+=ANF[i];
+const raw=s/300/255;
+if(raw>0.008)live=true;
+mzGm=Math.max(mzGm*0.996,raw);
+const ag=0.9/Math.max(0.12,mzGm);
+lvl=Math.min(1,raw*ag);
+let fl=0;
+for(let i=0;i<MZ_N;i++){
+const bin=2+Math.floor(Math.pow(i/MZ_N,1.35)*138);
+const v=Math.min(1,Math.max(0,(ANF[bin]/255-0.04)*1.1)*ag);
+const f=Math.max(0,v-mzPrev[i]);
+mzPrev[i]=v;
+if(i<6)fl+=f;
+if(f>Math.max(0.05,mzThr[i]*3)&&mzCool[i]<=0&&mzTok>=1){
+out.on.push(i);
+mzCool[i]=0.26;
+mzTok-=1;
 }
-if(sum>0.5)live=true;
+mzThr[i]=mzThr[i]*0.97+f*0.03;
+}
+fl/=6;
+mzHist[mzHI]=fl;mzHI=(mzHI+1)%50;
+let m=0;for(let i=0;i<50;i++)m+=mzHist[i];
+m/=50;
+let sd=0;for(let i=0;i<50;i++)sd+=(mzHist[i]-m)*(mzHist[i]-m);
+sd=Math.sqrt(sd/50);
+if(fl>m+sd*1.7+0.012&&tms-mzLastBeat>200){mzLastBeat=tms;out.beat=1;}
 }
 if(!live){
-for(let i=0;i<n;i++)out[i]=0.10+0.07*Math.sin(synthT*0.7+i*0.37)+0.04*Math.sin(synthT*1.31+i*1.13);
+synthT+=dt;
+const q=(synthT%17)>14;
+lvl=q?0.02:0.3;
+if(!q){
+if(Math.random()<dt*2.2&&mzTok>=1){out.on.push(Math.floor(Math.random()*MZ_N));mzTok-=1;}
+if(synthT*1000-mzLastBeat>950){mzLastBeat=synthT*1000;out.beat=1;}
 }
+}
+if(lvl<0.05)mzQuietT+=dt;else mzQuietT=0;
+out.quietK=Math.max(0,1-Math.max(0,mzQuietT-0.25)*2.5);
+out.phrase=lvl;
 return out;
 }

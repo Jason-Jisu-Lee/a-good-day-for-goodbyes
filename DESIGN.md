@@ -250,14 +250,20 @@ violations, volunteers improvements)
   status (IDLE / RECLAIMING / DEFENDING / GATHERING). IDLE rows
   bright, busy rows dim, so all-dim = everyone occupied = ready to
   END DAY.
-- MENU VISUALIZER (user 07-21, SPECTRUM CITY pick, toned down):
-  64-bar skyline along the menu bottom (max 42px, 0.22 alpha) over
-  a faint horizon line, with a dithered reflection dissolving
-  downward into black = the town's light standing over the void.
-  Bars ride the menu jazz via a WebAudio analyser. LOCAL CAVEAT:
-  Chrome blocks analysing file:// audio, so local runs show a slow
-  synthetic breathing instead; real reaction appears on itch/https.
-  User wants it fancier later; this is the non-intrusive baseline.
+- MENU VISUALIZER = TOWN LIGHTS (user-locked 07-21 from
+  lab_menuviz8 v3, replaces the bar skyline; refine later): a dark
+  town along the menu bottom whose WINDOWS light only when a note
+  actually strikes (spectral-flux onsets, low/mid bands ONLY so
+  jazz hi-hat/brush texture is ignored), each drum beat wakes one
+  whole building, lit windows cast a faint reflection below the
+  horizon, and silence puts the whole town to sleep (quiet gate).
+  Anti-always-on defenses (user: "feels on ALL the time"):
+  hat-band masking + per-band adaptive salience threshold +
+  260ms per-band cooldown + global budget ~5 lights/sec (scarcity
+  = readable rhythm). menuAudio() in audio.js = the event engine
+  (onsets/beat/quietK); menu.js renders. LOCAL CAVEAT: file://
+  cannot analyse audio, shows sparse synthetic events; real
+  reaction on http://localhost:8123 (dev-serve.js) or itch.
 - HUD: FOOD + "+N/DAY" "-N/DAY" rows; MATERIAL once first seen;
   LIGHT when >0; BLACKOUT readout when armed; EMBER when >0;
   PLACEHOLDER1/2 item counts when owned; SURVIVORS n/cap; DAY
