@@ -265,13 +265,19 @@ violations, volunteers improvements)
   action: material thunk+resolve, food pluck, survivor rising
   3-note arp, cache coin blips, still-working muted low tick.
 - Beat events, ordered by phase (seq): (0) illuminate complete
-  (tile kindles + kind reveal), survivor found, cache/light/ember
-  payout, rubble CLEARED, still-working, defense HELD/TAKEN,
-  all-crew-consumed FAIL; (1) INCOME - one beat per owned
-  food/material tile producing (+N, tile spotlit); (2) EAT - the
-  town eats (-N FOOD, at town center); (3) STARVED (tile-less, at
-  the dying survivor). Phase 0 shuffled, then income, then eat,
-  then starve = a clean economic arc.
+  (tile kindles + kind reveal), survivor found, rubble CLEARED,
+  still-working, defense HELD/TAKEN, all-crew-consumed FAIL; (1)
+  INCOME; (2) EAT - the town eats (-N FOOD, at town center); (3)
+  STARVED (tile-less, at the dying survivor).
+- GROUPED BEATS (user 07-22): same-kind resolutions play in ONE
+  beat that spotlights ALL those tiles simultaneously - no more the
+  same tile type flashing over and over. Grouped by gkey: all FOOD
+  income together (+total), all MATERIAL income together, all cache
+  / all light / all ember together. Individual (never grouped):
+  survivor found, HELD/TAKEN/FAIL/STARVED, eat, still-working,
+  plain claims. Group delta = sum of members; render iterates
+  members, one label at the group centroid. Deltas still sum-verify
+  to truth.
 - COUNTERS SYNC TO BEATS (user 07-22): each beat carries a resource
   delta; the HUD FOOD/MATERIAL/LIGHT/EMBER readouts show a DEFERRED
   value (beatShown) that ticks up/down as each beat settles, instead

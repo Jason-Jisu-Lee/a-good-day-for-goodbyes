@@ -19,9 +19,9 @@ const k=ev.prev.kind;
 if(k==="camp"||k==="mysteryroll"){ev.label="SURVIVOR";ev.au="survivor";ev.dram=true;}
 else if(k==="grocery"){ev.label="FOOD";ev.au="food";}
 else if(k==="scrap"){ev.label="MATERIAL";ev.au="material";}
-else if(k==="cache"){ev.label="SUPPLY CACHE";ev.au="cache";}
-else if(k==="light"){ev.label="LIGHT";ev.au="cache";}
-else if(k==="pr"){ev.label="EMBER";ev.au="cache";}
+else if(k==="cache"){ev.label="SUPPLY CACHE";ev.au="cache";ev.gkey="gcache";}
+else if(k==="light"){ev.label="LIGHT";ev.au="cache";ev.gkey="glight";}
+else if(k==="pr"){ev.label="EMBER";ev.au="cache";ev.gkey="gember";}
 else{ev.label="ILLUMINATED";ev.au="material";}
 }else{ev.out="fail";ev.label="CONSUMED";ev.au="taken";ev.dram=true;}
 beatCap.push(ev);
@@ -36,7 +36,7 @@ function beatIncome(t,res,amt){
 if(!beatCap||amt<=0)return;
 const p=tpos(t),d=DXY();
 const dl=zeroDelta();dl[res]=amt;
-beatCap.push({t,prev:{kind:t.kind,state:"owned",atk:false},crew:crew(t).filter(s=>s.task&&s.task.type==="gather").map(s=>({col:s.col})),floats:[{x:p.x,y:p.y-d.hh-4,txt:"+"+amt}],out:"income",label:"+"+amt,au:res==="food"?"food":"material",dram:false,delta:dl,seq:1});
+beatCap.push({t,prev:{kind:t.kind,state:"owned",atk:false},crew:[],floats:[{x:p.x,y:p.y-d.hh-4,txt:"+"+amt}],out:"income",label:"+"+amt,au:res==="food"?"food":"material",dram:false,delta:dl,seq:1,gkey:"ginc-"+res});
 }
 function beatEat(amt){
 if(!beatCap||amt<=0)return;
@@ -48,11 +48,23 @@ function beatStarve(s){
 if(!beatCap)return;
 beatCap.push({t:null,px:s.x,py:s.y,prev:null,crew:[{col:s.col}],floats:[],out:"starve",label:"STARVED",au:"taken",dram:true,delta:zeroDelta(),seq:3});
 }
+function grpLabel(g){const m=g.members[0];if(m.out==="income")return "+"+(g.delta.food+g.delta.mats);return m.label;}
 function beatsEnd(boFire){
 if(overT>=0){beatsClear();return;}
 if(!beatCap||beatCap.length===0){beatCap=null;beatShown=null;if(boFire)boWordStart();return;}
+const groups={},merged=[];
+for(const e of beatCap){
+if(e.gkey){
+let g=groups[e.gkey];
+if(!g){g={group:true,members:[],au:e.au,dram:e.dram,seq:e.seq||0,delta:zeroDelta(),floats:[],label:""};groups[e.gkey]=g;merged.push(g);}
+g.members.push(e);
+g.delta.food+=e.delta.food;g.delta.mats+=e.delta.mats;g.delta.light+=e.delta.light;g.delta.pr+=e.delta.pr;
+for(const f of e.floats)g.floats.push(f);
+}else merged.push(e);
+}
+for(const k in groups)groups[k].label=grpLabel(groups[k]);
 const byq=[[],[],[],[]];
-for(const e of beatCap)byq[e.seq||0].push(e);
+for(const e of merged)byq[e.seq||0].push(e);
 beatQ=[...shuffle(byq[0]),...shuffle(byq[1]),...byq[2],...byq[3]];
 beatCap=null;beatBo=boFire;beatI=0;beatT=0;beatLead=BEAT_LEAD;
 }
@@ -82,7 +94,11 @@ else beatSfx(beatQ[beatI].au);
 }
 function beatPrevFor(t){
 if(!beatQ)return null;
-for(let i=beatI;i<beatQ.length;i++)if(beatQ[i].t===t)return beatQ[i];
+for(let i=beatI;i<beatQ.length;i++){
+const e=beatQ[i];
+if(e.group){for(const m of e.members)if(m.t===t)return m;}
+else if(e.t===t)return e;
+}
 return null;
 }
 function drawBeats(){
@@ -92,6 +108,21 @@ px(0,0,W,H,"rgba(0,0,0,0.5)");
 cx.save();
 cx.translate(Math.round(camX*S),Math.round(camY*S));
 const d=DXY(),l=L();
+if(ev.group){
+let sx=0,sy=0;
+for(const m of ev.members){
+const mq=tpos(m.t);sx+=mq.x;sy+=mq.y;
+cx.save();
+cx.globalAlpha=m.out==="income"?0.82+0.18*Math.sin(p2*Math.PI*4):Math.min(1,0.35+0.75*p2);
+drawTileVisual(m.t,mq.x,mq.y);
+cx.restore();
+}
+cx.globalAlpha=Math.min(1,p2*2.5);
+text7(ev.label,sx/ev.members.length,sy/ev.members.length-d.hh-30,2,"c",FG);
+cx.globalAlpha=1;
+cx.restore();
+return;
+}
 const q=ev.t?tpos(ev.t):{x:ev.px,y:ev.py};
 if(ev.t){
 cx.save();
