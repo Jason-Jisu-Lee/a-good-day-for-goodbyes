@@ -95,8 +95,8 @@ violations, volunteers improvements)
   pending.
 
 ## Turn economy (per END DAY; numbers verified in code 07-20)
-- Start: 20 FOOD, 0 MATERIAL, 1 LIGHT (origin light tile), 1
-  survivor (MARA), origin block.
+- Start: 20 FOOD, 0 MATERIAL, 1 LIGHT (origin light tile), 2
+  survivors (MARA + REED), origin block (user 07-22).
 - Each owned FOOD tile +1, each owned MATERIAL tile +1, passive.
   Meta-upgraded +2/DAY tiles (t.b2) pay +2 passive instead.
 - GATHER (live, stationing): default tiles cap 1 slot; each
@@ -108,19 +108,26 @@ violations, volunteers improvements)
   then 3... (G.starveStreak, reset to 0 by any non-deficit day).
   Deaths prefer NON-MC survivors; MARA dies only when she is the
   last one left. Red STARVED beat per death (tile-less, at the
-  dying survivor).
+  dying survivor). EATING has NO separate beat (user 07-22): it is
+  folded into the FOOD income beat, which shows the NET food change
+  (income - eaten), e.g. "+1", "-2", or "0".
 - SUPPLY CACHE illuminate = 2-3 MATERIAL or 2-3 FOOD (50/50 which,
   amount rolled 2-3 uniform; CACHE_ROLL, user 07-22 was 2-5).
-- RUBBLE: CLEAR costs 10 MATERIAL, takes 1-2 days (rolled per tile).
-  Finish pays 40% +5 FOOD / 30% PLACEHOLDER1 / 30% PLACEHOLDER2
-  (item identities TBD; counts shown in HUD once owned).
-- CAMPFIRE illuminate = recruit (bag REED JUNE OKON, fallback ASH);
-  the tile STAYS CAMPFIRE with its label, like FOOD/MATERIAL (user
-  07-21). Exactly 3 campfires per run (tiers 1/2/3). ROSTER CAP = 4
-  (SURV_CAP, user 07-22): MARA + 3 recruits. Future (not built):
-  CAMPFIRE can be CLEARED and re-used. HUD shows current / SURV_CAP
-  ("SURVIVORS n/4", user 07-22; the old house-count housing cap was
-  never enforced, dropped from the readout).
+- RUBBLE (user 07-22): a dark obstruction, NOT illuminatable. CLEAR
+  = pay 5 MATERIAL, removed IMMEDIATELY (no days, no survivors, no
+  payout) -> becomes an owned EMPTY LOT + opens the board. Panel on
+  a reachable dark rubble tile shows a CLEAR button.
+- EMPTY LOT BUILD (user 07-22, built): an owned lot can be built
+  into a FOOD or MATERIAL tile for 5 MATERIAL, takes 1 day (panel
+  shows FOOD / MATERIAL buttons under "BUILD 5 MATERIAL"). Completes
+  on END DAY and produces income that same turn.
+- CAMPFIRE illuminate = recruit (bag JUNE OKON, fallback ASH); the
+  tile STAYS CAMPFIRE labeled. RECRUIT DISTRIBUTION (user 07-22):
+  start with MARA + REED (2), then 1 CAMPFIRE in tier 2 and 1 in
+  tier 4 = 2 more found -> ROSTER CAP 4. Tiers 1/3 have NO campfire
+  (those slots are RUBBLE now). No survivor findable at tier 1.
+  Future (not built): CAMPFIRE can be CLEARED and re-used. The old
+  "SURVIVORS n/4" HUD line was removed (roster shows it).
 - LIGHT sources: the origin start tile (1) + LIGHT tiles in tiers
   3+ (illuminate = +1 LIGHT, tile becomes lot, "+LIGHT" float). HUD
   LIGHT counter shows from the start (origin light). Tuning/more
@@ -278,12 +285,14 @@ violations, volunteers improvements)
 - GROUPED BEATS (user 07-22): same-kind resolutions play in ONE
   beat that spotlights ALL those tiles simultaneously - no more the
   same tile type flashing over and over. Grouped by gkey: all FOOD
-  income together (+total), all MATERIAL income together, all cache
-  / all light / all ember together. Individual (never grouped):
-  survivor found, HELD/TAKEN/FAIL/STARVED, eat, still-working,
-  plain claims. Group delta = sum of members; render iterates
-  members, one label at the group centroid. Deltas still sum-verify
-  to truth.
+  income together (NET of eating), all MATERIAL income together, all
+  cache / all light / all ember together. Individual (never
+  grouped): survivor found, HELD/TAKEN/FAIL/STARVED, still-working,
+  plain claims, build-complete. Deltas still sum-verify to truth.
+- No per-tile income floats (removed 07-22); the group label +
+  counter carry it. During beat playback the real survivors are
+  HIDDEN (only the beat's crew dots show) so a working survivor is
+  not drawn twice (07-22 doubling fix, beatsRendering gate).
 - COUNTERS SYNC TO BEATS (user 07-22): each beat carries a resource
   delta; the HUD FOOD/MATERIAL/LIGHT/EMBER readouts show a DEFERRED
   value (beatShown) that ticks up/down as each beat settles, instead
@@ -330,10 +339,14 @@ violations, volunteers improvements)
   dim. END DAY button bottom-center (redesign in progress, see
   Open/next).
 - Selection = panel only, no map marker. Hover = LIFT (3px ease).
-  Panel: centered header ("?" for dark, tile name for owned, "UNDER
-  ATTACK" red for attacked); the ONLY verb button left is CLEAR
-  (rubble). Everything else opens the survivor list directly (see
-  one-click flow). Crew names, "N% RISK" red, "N DAYS LEFT".
+  Panel: centered header ("?" for dark, tile name for owned; an
+  ATTACKED tile shows its normal name in RED, not "UNDER ATTACK",
+  with an "ILLUMINATE" label so the action is clear - user 07-22).
+  Buttons: CLEAR (dark rubble), FOOD/MATERIAL (build a lot). Dark/
+  owned-resource/attacked tiles open the survivor list directly.
+  The "+N/DAY" rate is centered. Picker rows = improved checkbox
+  (16px, fills with the survivor's color when ticked) + name only,
+  one line, NO task text and NO "GATHER n/1" header (user 07-22).
 - LIVE CREW ASSIGN (user 07-20, replaces START button): clicking a
   survivor row assigns them to the tile's action INSTANTLY; more
   clicks add crew; clicking an assigned row removes them. No

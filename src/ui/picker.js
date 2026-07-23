@@ -7,22 +7,23 @@ function drawPicker(y){
 const l=L();
 const gather=picker.type==="gather";
 const set=pickSet();
-if(gather){text7("GATHER "+set.length+"/"+GATHER_SLOTS,l.pnX+16,y,1,null,MID);y+=18;}
+if(!gather&&sel.atk){text7("ILLUMINATE",l.pnX+l.pnW/2,y,1,"c",MID);y+=18;}
 const S=gather?0:(sel.state==="owned"?sel.atkS:tileStrength(sel));
 const capped=gather?set.length>=GATHER_SLOTS:!crewUseful(S,set.length);
 for(const s of G.survivors){
 const on=set.includes(s);
 const lk=!on&&(lockedS(s)||capped);
 const id="pick_"+G.survivors.indexOf(s);
+const rh=30;
 if(!lk){
-uiButtons.push({id,x:l.pnX+8,y:y-4,w:l.pnW-16,h:44,en:true});
-if(hover===id)px(l.pnX+8,y-4,l.pnW-16,44,"#141414");
+uiButtons.push({id,x:l.pnX+8,y,w:l.pnW-16,h:rh,en:true});
+if(hover===id)px(l.pnX+8,y,l.pnW-16,rh,"#141414");
 }
-edgeR(l.pnX+16,y+8,14,14,lk?DIM:(on?FG:MID));
-if(on){px(l.pnX+19,y+11,8,8,FG);}
-text7(s.name,l.pnX+42,y+6,1,null,lk?DIM:FG);
-text7(statusOf(s),l.pnX+42,y+20,1,null,lk?DIM:(s.task?s.col:MID));
-y+=48;
+const bx=l.pnX+16,by=y+7;
+edgeR(bx,by,16,16,lk?DIM:(on?s.col:MID));
+if(on){px(bx+3,by+3,10,10,s.col);}
+text7(s.name,l.pnX+42,by+4,1,null,lk?DIM:FG);
+y+=rh;
 }
 const n=set.length;
 if(!gather&&n>0&&n<minCrew(S)){

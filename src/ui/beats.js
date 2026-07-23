@@ -1,13 +1,14 @@
-let beatQ=null,beatI=-1,beatT=0,beatCap=null,beatBo=false,beatAC=null,beatShown=null,beatLead=0;
+let beatQ=null,beatI=-1,beatT=0,beatCap=null,beatBo=false,beatAC=null,beatShown=null,beatLead=0,beatEatPending=0;
 const BEAT_LEAD=0.5;
+function beatsRendering(){return beatQ!==null&&beatLead<=0&&beatI<beatQ.length;}
 function beatDwell(ev,i){
 const base=ev.dram?1.5:0.75;
 return Math.max(0.55,base*Math.max(0.6,1-i*0.06));
 }
 function beatsActive(){return beatQ!==null;}
 function zeroDelta(){return {food:0,mats:0,light:0,pr:0};}
-function beatsBegin(){beatCap=[];beatShown={food:G.food,mats:G.mats,light:G.light||0,pr:G.pr||0};}
-function beatsClear(){beatQ=null;beatCap=null;beatShown=null;beatBo=false;beatI=-1;beatLead=0;}
+function beatsBegin(){beatCap=[];beatShown={food:G.food,mats:G.mats,light:G.light||0,pr:G.pr||0};beatEatPending=0;}
+function beatsClear(){beatQ=null;beatCap=null;beatShown=null;beatBo=false;beatI=-1;beatLead=0;beatEatPending=0;}
 function beatEv(t){return {t,prev:{kind:t.kind,state:t.state,atk:!!t.atk},crew:crew(t).map(s=>({col:s.col})),floats:[],out:"work",label:"",au:"working",dram:false,delta:zeroDelta(),seq:0};}
 function beatOut(ev,t){
 if(ev.prev.atk){
@@ -34,24 +35,19 @@ beatCap.push(ev);
 }
 function beatIncome(t,res,amt){
 if(!beatCap||amt<=0)return;
-const p=tpos(t),d=DXY();
 const dl=zeroDelta();dl[res]=amt;
-beatCap.push({t,prev:{kind:t.kind,state:"owned",atk:false},crew:[],floats:[{x:p.x,y:p.y-d.hh-4,txt:"+"+amt}],out:"income",label:"+"+amt,au:res==="food"?"food":"material",dram:false,delta:dl,seq:1,gkey:"ginc-"+res});
-}
-function beatEat(amt){
-if(!beatCap||amt<=0)return;
-const q=tpos({gx:(OB0+OB1)/2,gy:(OB0+OB1)/2});
-const dl=zeroDelta();dl.food=-amt;
-beatCap.push({t:null,px:q.x,py:q.y,prev:null,crew:[],floats:[],out:"eat",label:"-"+amt+" FOOD",au:"working",dram:false,delta:dl,seq:2});
+beatCap.push({t,prev:{kind:t.kind,state:"owned",atk:false},crew:[],floats:[],out:"income",label:"+"+amt,au:res==="food"?"food":"material",dram:false,delta:dl,seq:1,gkey:"ginc-"+res});
 }
 function beatStarve(s){
 if(!beatCap)return;
 beatCap.push({t:null,px:s.x,py:s.y,prev:null,crew:[{col:s.col}],floats:[],out:"starve",label:"STARVED",au:"taken",dram:true,delta:zeroDelta(),seq:3});
 }
-function grpLabel(g){const m=g.members[0];if(m.out==="income")return "+"+(g.delta.food+g.delta.mats);return m.label;}
+function grpLabel(g){const m=g.members[0];if(m.out==="income"){const tot=g.delta.food+g.delta.mats;return tot>0?"+"+tot:(tot<0?""+tot:"0");}return m.label;}
 function beatsEnd(boFire){
 if(overT>=0){beatsClear();return;}
-if(!beatCap||beatCap.length===0){beatCap=null;beatShown=null;if(boFire)boWordStart();return;}
+const eat=beatEatPending;beatEatPending=0;
+if((!beatCap||beatCap.length===0)&&eat<=0){beatCap=null;beatShown=null;if(boFire)boWordStart();return;}
+if(!beatCap)beatCap=[];
 const groups={},merged=[];
 for(const e of beatCap){
 if(e.gkey){
@@ -62,7 +58,13 @@ g.delta.food+=e.delta.food;g.delta.mats+=e.delta.mats;g.delta.light+=e.delta.lig
 for(const f of e.floats)g.floats.push(f);
 }else merged.push(e);
 }
+if(eat>0){
+const fg=groups["ginc-food"];
+if(fg)fg.delta.food-=eat;
+else{const dl=zeroDelta();dl.food=-eat;const q=tpos({gx:(OB0+OB1)/2,gy:(OB0+OB1)/2});merged.push({t:null,px:q.x,py:q.y,prev:null,crew:[],floats:[],out:"eat",label:""+(-eat),au:"working",dram:false,delta:dl,seq:1});}
+}
 for(const k in groups)groups[k].label=grpLabel(groups[k]);
+if(merged.length===0){beatCap=null;beatShown=null;if(boFire)boWordStart();return;}
 const byq=[[],[],[],[]];
 for(const e of merged)byq[e.seq||0].push(e);
 beatQ=[...shuffle(byq[0]),...shuffle(byq[1]),...byq[2],...byq[3]];

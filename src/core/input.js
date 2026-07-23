@@ -106,7 +106,7 @@ const l=L();
 const inPanel=sel&&p.x>=l.pnX&&p.x<=l.pnX+l.pnW&&p.y>=l.pnY&&p.y<=l.pnY+l.pnH;
 if(t){
 sel=t;picker=null;
-if(t.action==="extinguish"||t.atk||(t.state!=="owned"&&extinguishable(t)))picker={type:"extinguish"};
+if(t.action==="extinguish"||t.atk||(t.state!=="owned"&&t.kind!=="rubble"&&extinguishable(t)))picker={type:"extinguish"};
 else if(t.state==="owned"&&(t.kind==="grocery"||t.kind==="scrap"))picker={type:"gather"};
 }
 else if(!inPanel&&p.y>40){
@@ -162,6 +162,8 @@ return;
 }
 if(id==="stop"){releaseCrew(sel);return;}
 if(id==="clear"){clearRubble(sel);return;}
+if(id==="build_food"){buildLot(sel,"grocery");return;}
+if(id==="build_mat"){buildLot(sel,"scrap");return;}
 }
 cv.addEventListener("pointercancel",e=>{
 ptrs.delete(e.pointerId);

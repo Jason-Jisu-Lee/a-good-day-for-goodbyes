@@ -15,19 +15,15 @@ t.turnsLeft=added&&was?Math.min(t.turnsLeft,fresh):fresh;
 }
 function releaseCrew(t){for(const s of crew(t))s.task=null;t.action=null;if(t.state!=="owned")t.turnsLeft=baseDays(tileStrength(t));}
 function clearRubble(t){
-if(t.kind!=="rubble"||t.state!=="owned"||t.action||G.mats<RUBBLE_COST)return;
+if(t.kind!=="rubble"||G.mats<RUBBLE_COST)return;
 G.mats-=RUBBLE_COST;
-t.action="clear";
-t.turnsLeft=t.clearD||1;
+t.kind="lot";t.state="owned";t.turnsLeft=0;t.action=null;
+G.opened=true;
 }
-function finishRubble(t){
-const p=tpos(t),d=DXY();
-const r=Math.random();
-if(r<0.4){G.food+=RUBBLE_FOOD;spawnFloat(p.x,p.y-d.hh-4,"+"+RUBBLE_FOOD);}
-else if(r<0.7){G.items.p1++;spawnFloat(p.x,p.y-d.hh-4,"PLACEHOLDER1");}
-else{G.items.p2++;spawnFloat(p.x,p.y-d.hh-4,"PLACEHOLDER2");}
-t.action=null;
-t.kind="lot";
+function buildLot(t,kind){
+if(t.kind!=="lot"||t.state!=="owned"||t.action||G.mats<BUILD_COST)return;
+G.mats-=BUILD_COST;
+t.action="build";t.build=kind;t.turnsLeft=1;
 }
 function finish(t){
 const c=crew(t);

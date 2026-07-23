@@ -34,16 +34,12 @@ ev.delta={food:G.food-b4[0],mats:G.mats-b4[1],light:(G.light||0)-b4[2],pr:(G.pr|
 floatSink=null;
 beatOut(ev,t);
 }else beatWork(ev,t);
-}else if(t.action==="clear"&&t.state==="owned"&&!t.atk){
+}else if(t.action==="build"&&t.state==="owned"){
 t.turnsLeft--;
 if(t.turnsLeft<=0){
 const ev=beatEv(t);
-floatSink=ev.floats;
-const b4=[G.food,G.mats];
-finishRubble(t);
-ev.delta.food=G.food-b4[0];ev.delta.mats=G.mats-b4[1];
-floatSink=null;
-ev.out="done";ev.label="CLEARED";ev.au="material";
+t.kind=t.build;t.build=null;t.action=null;
+ev.out="done";ev.label=t.kind==="grocery"?"FOOD":"MATERIAL";ev.au=t.kind==="grocery"?"food":"material";
 beatCap.push(ev);
 }
 }
@@ -82,7 +78,7 @@ const spent=FOOD_PER_SURV*G.survivors.length;
 const deficit=spent>G.food;
 const foodPre=G.food;
 G.food=Math.max(0,G.food-spent);
-beatEat(foodPre-G.food);
+beatEatPending=foodPre-G.food;
 if(deficit&&G.survivors.length>0){
 G.starveStreak=(G.starveStreak||0)+1;
 let kills=Math.min(G.starveStreak,G.survivors.length);

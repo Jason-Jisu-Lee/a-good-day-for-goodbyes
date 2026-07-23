@@ -3,7 +3,7 @@ uiButtons=[];
 cx.save();
 cx.translate(Math.round(camX*S),Math.round(camY*S));
 drawTiles();
-drawSurvivors();
+if(!beatsRendering())drawSurvivors();
 drawFloats();
 cx.restore();
 drawBeats();

@@ -88,12 +88,14 @@ A12   B11   C10   D9    E8   [F7]  [G6]   H5    I4    J3    K2    L1
   mostly resident/food/material (those stay the main ones).
 
 ## Survivors + recruit sources (user-locked 07-22)
-- ROSTER CAP = 4: MARA (MC, starts) + exactly 3 recruits.
-- Recruits come from CAMPFIRE tiles: EXACTLY 1 in tier 1, 1 in tier
-  2, 1 in tier 3. Zero campfires anywhere else.
-- Origin MYSTERY does NOT recruit (was the old "first survivor");
-  it resolves 50/50 to a MATERIAL or FOOD tile + opens the board.
-- Recruit names (placeholder): REED, JUNE, OKON. Faces 2/3/4.
+- ROSTER CAP = 4: START with MARA (MC) + REED (2), then 2 found.
+- Recruits come from CAMPFIRE tiles: EXACTLY 1 in tier 2 and 1 in
+  tier 4. NO campfire in tiers 1 or 3 (those slots are RUBBLE now).
+  No survivor findable at tier 1.
+- Origin MYSTERY does NOT recruit; resolves 50/50 to MATERIAL or
+  FOOD + opens the board.
+- Names: MARA + REED start; recruits (placeholder) JUNE, OKON.
+  Faces 0 (MARA), 2 (REED), 3/4 (recruits).
 
 ## Tier spawn spec (07-22; live in newgame.js TIER_SPEC)
 Each count ROLLS UNIFORM per board (a range = each value equally
@@ -104,10 +106,10 @@ pending. "-" = none.
 
 | TIER | SIZE | CAMP | FOOD | MATERIAL | CACHE | LIGHT | RUBBLE | EMBER | ~LOT |
 |------|------|------|------|----------|-------|-------|--------|-------|------|
-| 1    | 8    | 1    | 1    | 1        | 1     | -     | -      | -     | 4    |
+| 1    | 8    | -    | 1    | 1        | 1     | -     | 1      | -     | 4    |
 | 2    | 12   | 1    | 0-2  | 1        | 0-2   | -     | -      | -     | ~8   |
-| 3    | 16   | 1    | 1-2  | 1-2      | 1-2   | 0-1   | -      | -     | ~10  |
-| 4    | 20   | -    | 1-2  | 1-2      | 1-2   | 1-2   | 2      | 0-1   | ~11  |
+| 3    | 16   | -    | 1-2  | 1-2      | 1-2   | 0-1   | 1      | -     | ~10  |
+| 4    | 20   | 1    | 1-2  | 1-2      | 1-2   | 1-2   | 2      | 0-1   | ~10  |
 | 5    | 24   | -    | 1-3  | 1-3      | 1-2   | 1-2   | 2      | 1     | ~14  |
 | 6*   | 20   | -    | 2-3  | 2-3      | 1-2   | 1-2   | 2-3    | 0-1   | ~6   |
 | 7*   | 16   | -    | 1-2  | 2-3      | 1-2   | 1-2   | 2      | 0-1   | ~4   |
@@ -152,11 +154,13 @@ opens the board. No longer recruits, cap-4 change.)
   variant (10/20/30% chance).
 - MATERIAL: owned = +1 MATERIAL per day passive; STATION 1 survivor
   = +3 more (4 total). Same +2/day upgrade variant as FOOD.
-- RUBBLE: pay 10 MATERIAL upfront, clears in 1-2 days, becomes
-  EMPTY LOT. Finish roll: 40% +5 FOOD / 30% PLACEHOLDER1 / 30%
-  PLACEHOLDER2 (items pending design).
+- RUBBLE (07-22): dark obstruction, not illuminatable. CLEAR = pay
+  5 MATERIAL, removed IMMEDIATELY (no days, no payout) -> owned
+  EMPTY LOT. In tiers 1, 3, 4, 5 (where campfires were removed from
+  1/3).
 - CAMPFIRE: illuminate = 1 recruit joins; tile STAYS a labeled
-  CAMPFIRE (07-21). Exactly 3 per run (1 each in tiers 1/2/3).
+  CAMPFIRE (07-21). 1 in tier 2 + 1 in tier 4 (07-22; start already
+  has MARA+REED, so these 2 fill the roster to 4).
   Future: can be CLEARED and re-used as another tile (not built).
 - SUPPLY CACHE: illuminate = 2-3 MATERIAL or 2-3 FOOD (50/50 which,
   amount 2-3 uniform), becomes EMPTY LOT.
@@ -166,9 +170,9 @@ opens the board. No longer recruits, cap-4 change.)
   HUD shows LIGHT from the start (origin light).
 - EMBER: reclaim = +1 EMBER banked, becomes EMPTY LOT. Spawn 0 for
   now (percentage discussion pending).
-- EMPTY LOT: empty ground. REBUILD (user 07-19, not built yet):
-  a lot can be rebuilt into a FOOD, MATERIAL, or HOUSE tile.
-  Cost / time / rules pending.
+- EMPTY LOT: empty ground. BUILD (07-22, built): an owned lot can
+  be built into a FOOD or MATERIAL tile for 5 MATERIAL, takes 1 day
+  (panel = FOOD / MATERIAL buttons). HOUSE build TBD.
 - UNKNOWN (origin mystery): tutorial tile; illuminate = becomes a
   MATERIAL or FOOD tile (50/50) + opens the board (07-22: no longer
   recruits, cap 4).
