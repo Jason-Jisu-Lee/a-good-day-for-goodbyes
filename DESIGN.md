@@ -252,10 +252,11 @@ violations, volunteers improvements)
   before the first beat plays.
 - On END DAY, resolutions play as sequential BEATS, one per resolving
   task, random order. VARIABLE DWELL (user 07-21, industry-standard
-  two-tier): routine beats (resource illuminated, still-working)
-  ~0.5s, dramatic beats (SURVIVOR / CONSUMED / TAKEN / HELD /
-  STARVED) ~1.25s; each successive beat shaved ~6% (floor 60%) so
-  big turns do not drag. Click anywhere mid-sequence = skip all
+  two-tier): routine beats (resource illuminated, income,
+  still-working) ~0.75s, dramatic beats (SURVIVOR / CONSUMED /
+  TAKEN / HELD / STARVED) ~1.5s (user 07-22, slowed from 0.5/1.25);
+  each successive beat shaved ~6% (floor 60%, min 0.55s) so big
+  turns do not drag. Click anywhere mid-sequence = skip all
   (the confirm-all). Speed/skip preference toggle = deferred.
 - STYLE = SPOTLIGHT (user pick, "more obvious"): world dims like a
   small blackout, only the resolving tile stays bright, crew pulses

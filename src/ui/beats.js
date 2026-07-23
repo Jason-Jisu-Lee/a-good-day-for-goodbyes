@@ -1,8 +1,8 @@
 let beatQ=null,beatI=-1,beatT=0,beatCap=null,beatBo=false,beatAC=null,beatShown=null,beatLead=0;
 const BEAT_LEAD=0.5;
 function beatDwell(ev,i){
-const base=ev.dram?1.25:0.5;
-return Math.max(0.4,base*Math.max(0.6,1-i*0.06));
+const base=ev.dram?1.5:0.75;
+return Math.max(0.55,base*Math.max(0.6,1-i*0.06));
 }
 function beatsActive(){return beatQ!==null;}
 function zeroDelta(){return {food:0,mats:0,light:0,pr:0};}
