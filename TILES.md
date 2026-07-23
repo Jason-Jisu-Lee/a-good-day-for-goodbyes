@@ -157,8 +157,8 @@ opens the board. No longer recruits, 07-22 cap-4 change.)
 - CAMPFIRE: illuminate = 1 recruit joins; tile STAYS a labeled
   CAMPFIRE (07-21). Exactly 3 per run (1 each in tiers 1/2/3).
   Future: can be CLEARED and re-used as another tile (not built).
-- SUPPLY CACHE: reclaim = 2-5 MATERIAL or 2-5 FOOD (50/50),
-  becomes EMPTY LOT.
+- SUPPLY CACHE: illuminate = 2-3 MATERIAL or 2-3 FOOD (50/50 which,
+  amount 2-3 uniform), becomes EMPTY LOT.
 - LIGHT: reclaim = +1 LIGHT point, becomes EMPTY LOT. LIGHT is the
   blackout-survival currency (city needs LIGHT >= need or CONSUMED).
   2 per run in tier 2. HUD shows LIGHT once first point earned.

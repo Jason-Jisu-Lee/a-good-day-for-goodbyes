@@ -106,8 +106,8 @@ violations, volunteers improvements)
   Deaths prefer NON-MC survivors; MARA dies only when she is the
   last one left. Red STARVED beat per death (tile-less, at the
   dying survivor).
-- SUPPLY CACHE reclaim = 2-5 MATERIAL or 2-5 FOOD (50/50 which,
-  amount rolled; CACHE_ROLL).
+- SUPPLY CACHE illuminate = 2-3 MATERIAL or 2-3 FOOD (50/50 which,
+  amount rolled 2-3 uniform; CACHE_ROLL, user 07-22 was 2-5).
 - RUBBLE: CLEAR costs 10 MATERIAL, takes 1-2 days (rolled per tile).
   Finish pays 40% +5 FOOD / 30% PLACEHOLDER1 / 30% PLACEHOLDER2
   (item identities TBD; counts shown in HUD once owned).
