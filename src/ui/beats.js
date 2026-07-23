@@ -1,4 +1,5 @@
-let beatQ=null,beatI=-1,beatT=0,beatCap=null,beatBo=false,beatAC=null,beatShown=null;
+let beatQ=null,beatI=-1,beatT=0,beatCap=null,beatBo=false,beatAC=null,beatShown=null,beatLead=0;
+const BEAT_LEAD=0.5;
 function beatDwell(ev,i){
 const base=ev.dram?1.25:0.5;
 return Math.max(0.4,base*Math.max(0.6,1-i*0.06));
@@ -6,7 +7,7 @@ return Math.max(0.4,base*Math.max(0.6,1-i*0.06));
 function beatsActive(){return beatQ!==null;}
 function zeroDelta(){return {food:0,mats:0,light:0,pr:0};}
 function beatsBegin(){beatCap=[];beatShown={food:G.food,mats:G.mats,light:G.light||0,pr:G.pr||0};}
-function beatsClear(){beatQ=null;beatCap=null;beatShown=null;beatBo=false;beatI=-1;}
+function beatsClear(){beatQ=null;beatCap=null;beatShown=null;beatBo=false;beatI=-1;beatLead=0;}
 function beatEv(t){return {t,prev:{kind:t.kind,state:t.state,atk:!!t.atk},crew:crew(t).map(s=>({col:s.col})),floats:[],out:"work",label:"",au:"working",dram:false,delta:zeroDelta(),seq:0};}
 function beatOut(ev,t){
 if(ev.prev.atk){
@@ -53,15 +54,14 @@ if(!beatCap||beatCap.length===0){beatCap=null;beatShown=null;if(boFire)boWordSta
 const byq=[[],[],[],[]];
 for(const e of beatCap)byq[e.seq||0].push(e);
 beatQ=[...shuffle(byq[0]),...shuffle(byq[1]),...byq[2],...byq[3]];
-beatCap=null;beatBo=boFire;beatI=0;beatT=0;
-beatSfx(beatQ[0].au);
+beatCap=null;beatBo=boFire;beatI=0;beatT=0;beatLead=BEAT_LEAD;
 }
 function beatSettle(ev){
 if(beatShown&&ev.delta){beatShown.food+=ev.delta.food;beatShown.mats+=ev.delta.mats;beatShown.light+=ev.delta.light;beatShown.pr+=ev.delta.pr;}
 for(const f of ev.floats)spawnFloat(f.x,f.y,f.txt);
 }
 function beatsFinish(){
-beatQ=null;beatI=-1;beatShown=null;
+beatQ=null;beatI=-1;beatShown=null;beatLead=0;
 if(beatBo){beatBo=false;boWordStart();}
 }
 function beatsSkipAll(){
@@ -71,6 +71,7 @@ beatsFinish();
 }
 function beatsUpdate(dt){
 if(!beatQ)return;
+if(beatLead>0){beatLead-=dt;if(beatLead<=0){beatLead=0;beatSfx(beatQ[0].au);}return;}
 beatT+=dt;
 if(beatT>=beatDwell(beatQ[beatI],beatI)){
 beatSettle(beatQ[beatI]);
@@ -85,7 +86,7 @@ for(let i=beatI;i<beatQ.length;i++)if(beatQ[i].t===t)return beatQ[i];
 return null;
 }
 function drawBeats(){
-if(!beatQ||beatI>=beatQ.length)return;
+if(!beatQ||beatI>=beatQ.length||beatLead>0)return;
 const ev=beatQ[beatI],p2=Math.min(1,beatT/beatDwell(ev,beatI));
 px(0,0,W,H,"rgba(0,0,0,0.5)");
 cx.save();

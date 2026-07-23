@@ -247,6 +247,9 @@ violations, volunteers improvements)
 
 ## END DAY beats (user-locked 07-20 from lab/lab_endday.html; BUILT
 07-21, refinement pass later)
+- LEAD-IN (user 07-22): after END DAY, a 0.5s hold (board frozen at
+  its pre-resolution look, counters at old values, clicks swallowed)
+  before the first beat plays.
 - On END DAY, resolutions play as sequential BEATS, one per resolving
   task, random order. VARIABLE DWELL (user 07-21, industry-standard
   two-tier): routine beats (resource illuminated, still-working)
