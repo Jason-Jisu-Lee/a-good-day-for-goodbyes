@@ -162,7 +162,6 @@ return;
 }
 if(id==="stop"){releaseCrew(sel);return;}
 if(id==="clear"){clearRubble(sel);return;}
-if(id==="ztip"){G.zoomTipSeen=true;return;}
 }
 cv.addEventListener("pointercancel",e=>{
 ptrs.delete(e.pointerId);

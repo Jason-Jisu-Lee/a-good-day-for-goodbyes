@@ -1,9 +1,9 @@
-const META={emb:0,upMat:0,upFood:0};
+const META={emb:0,upMat:0,upFood:0,tutZoom:false};
 function metaSave(){try{localStorage.setItem("goodbyes_meta",JSON.stringify(META));}catch(e){}}
 function metaLoad(){
 try{
 const d=JSON.parse(localStorage.getItem("goodbyes_meta")||"null");
-if(d){META.emb=Math.max(0,d.emb|0);META.upMat=Math.min(3,Math.max(0,d.upMat|0));META.upFood=Math.min(3,Math.max(0,d.upFood|0));}
+if(d){META.emb=Math.max(0,d.emb|0);META.upMat=Math.min(3,Math.max(0,d.upMat|0));META.upFood=Math.min(3,Math.max(0,d.upFood|0));META.tutZoom=!!d.tutZoom;}
 const old=parseInt(localStorage.getItem("goodbyes_pr")||"0",10)||0;
 if(old){META.emb+=old;localStorage.removeItem("goodbyes_pr");metaSave();}
 }catch(e){}

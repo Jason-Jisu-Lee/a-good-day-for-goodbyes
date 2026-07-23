@@ -137,9 +137,10 @@ found somewhere in TIER 6. Details TBD; revisit when building tier
 it count for the sole-survivor / MC-death rules (probably not - it
 is a companion, not MARA-or-recruit).
 
-(Tier 0 = origin, fixed: 2 HOUSE + 1 FOOD + 1 MYSTERY. Mystery =
+(Tier 0 = origin, fixed 07-22: 1 HOUSE + 1 LIGHT + 1 FOOD + 1
+MYSTERY. The origin LIGHT tile gives 1 starting LIGHT. Mystery =
 tutorial first-illuminate: resolves 50/50 to MATERIAL or FOOD +
-opens the board. No longer recruits, 07-22 cap-4 change.)
+opens the board. No longer recruits, cap-4 change.)
 
 ## Full tile list (in game today; synced 07-19, turn-based)
 - HOUSE: origin building. Owned house = +1 to the HUD survivor cap.
@@ -159,9 +160,10 @@ opens the board. No longer recruits, 07-22 cap-4 change.)
   Future: can be CLEARED and re-used as another tile (not built).
 - SUPPLY CACHE: illuminate = 2-3 MATERIAL or 2-3 FOOD (50/50 which,
   amount 2-3 uniform), becomes EMPTY LOT.
-- LIGHT: reclaim = +1 LIGHT point, becomes EMPTY LOT. LIGHT is the
-  blackout-survival currency (city needs LIGHT >= need or CONSUMED).
-  2 per run in tier 2. HUD shows LIGHT once first point earned.
+- LIGHT: illuminate = +1 LIGHT point, becomes EMPTY LOT. LIGHT is
+  the blackout-survival currency (city needs LIGHT >= need or
+  CONSUMED). Sources: 1 at origin (start) + tier 3+ LIGHT tiles.
+  HUD shows LIGHT from the start (origin light).
 - EMBER: reclaim = +1 EMBER banked, becomes EMPTY LOT. Spawn 0 for
   now (percentage discussion pending).
 - EMPTY LOT: empty ground. REBUILD (user 07-19, not built yet):

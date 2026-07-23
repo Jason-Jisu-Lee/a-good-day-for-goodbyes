@@ -3,8 +3,8 @@
 TITLE LOCKED 07-11. Repo github.com/Jason-Jisu-Lee/a-good-day-for-goodbyes.
 All dates = 2026. 3rd game. Survival + incremental. 1-bit minimalist.
 960x540 16:9, desktop first, itch then Steam. Canonical file; updates
-with every design decision. Cleaned 07-20: superseded generations
-removed, all numbers re-verified against code.
+with every design decision. Last cleaned 07-22 (stale facts folded
+to current state; branch = m2/game_flow_test).
 
 ## Identity (TURN-BASED, user-locked 07-16)
 - Rebuild-shaped turn game. DAY = turn counter; END DAY button
@@ -70,10 +70,12 @@ violations, volunteers improvements)
   cache SUPPLY CACHE, light LIGHT, lot EMPTY LOT, pr EMBER (spawn 0
   for now, code kept; percentage discussion pending), mysteryroll
   UNKNOWN (origin only).
-- Origin bag: 2 house + 1 grocery + 1 mystery, shuffled; the three
-  non-mystery tiles start owned. Mystery illuminate = becomes a
-  MATERIAL or FOOD tile (50/50) + opens the board (user 07-22; no
-  longer recruits, for cap 4).
+- Origin bag (user 07-22): 1 house + 1 LIGHT + 1 grocery + 1
+  mystery, shuffled; the three non-mystery tiles start owned. The
+  origin LIGHT tile gives the player 1 starting LIGHT (G.light=1;
+  HUD shows LIGHT from frame one). Mystery illuminate = becomes a
+  MATERIAL or FOOD tile (50/50) + opens the board (no longer
+  recruits, for cap 4).
 - Tier spawn = SPEC-DRIVEN (newgame.js TIER_SPEC, user 07-22): per
   tier a set of kinds with fixed OR ranged counts (a range rolls
   UNIFORM per board), lots fill the remainder to tier size. Full
@@ -93,7 +95,8 @@ violations, volunteers improvements)
   pending.
 
 ## Turn economy (per END DAY; numbers verified in code 07-20)
-- Start: 20 FOOD, 0 MATERIAL, 1 survivor (MARA), origin block.
+- Start: 20 FOOD, 0 MATERIAL, 1 LIGHT (origin light tile), 1
+  survivor (MARA), origin block.
 - Each owned FOOD tile +1, each owned MATERIAL tile +1, passive.
   Meta-upgraded +2/DAY tiles (t.b2) pay +2 passive instead.
 - GATHER (live, stationing): default tiles cap 1 slot; each
@@ -118,9 +121,10 @@ violations, volunteers improvements)
   CAMPFIRE can be CLEARED and re-used. HUD shows current / SURV_CAP
   ("SURVIVORS n/4", user 07-22; the old house-count housing cap was
   never enforced, dropped from the readout).
-- LIGHT tile (2 in tier 2, the only light source yet): reclaim = +1
-  LIGHT, tile becomes lot, "+LIGHT" float. HUD LIGHT counter appears
-  at first point. More sources/tuning later.
+- LIGHT sources: the origin start tile (1) + LIGHT tiles in tiers
+  3+ (illuminate = +1 LIGHT, tile becomes lot, "+LIGHT" float). HUD
+  LIGHT counter shows from the start (origin light). Tuning/more
+  sources later. LIGHT is the blackout-survival currency.
 
 ## Illuminate + risk (UNIFIED SURVIVOR-DAY MATH, user-locked 07-17)
 - Verb = ILLUMINATE (user 07-21, replaces RECLAIM everywhere
@@ -165,12 +169,13 @@ violations, volunteers improvements)
   40% (user 07-20; was 7%/100%), rolled at the warning.
 - At the hit: LIGHT >= (n+1)(n+2)/2 (3/6/10/15/21/28...) or the run
   is CONSUMED. Meet or exceed = survive, nothing else happens.
+  Player starts with 1 LIGHT (origin tile); the first blackout
+  (needs 3) wants 2 more from tier-3 LIGHT tiles = the early goal.
 - DARK readout (retimed 07-21): "BLACKOUT N" all red next to LIGHT.
   Word fully fades -> 2s of nothing -> readout fades in VERY slowly
   (3.5s) at 1 -> counter accelerates 1 -> N over 1.3s. Shows
   through the lead window, clears on resolve. Takes the LIGHT slot
   if LIGHT = 0; EMBER shifts right on collision. Sound later.
-- No light source before tier 2 = runs can end day 12; INTENDED.
 - While the word is up, pointer down AND up are swallowed
   (click-through guard, 07-20).
 
@@ -189,8 +194,9 @@ violations, volunteers improvements)
 - Run ends: last survivor dies, or blackout unmet. GAME OVER fades
   over the dying town (3s) -> EMBER UPGRADES shop -> CONTINUE ->
   main menu. Run save wiped; run embers bank to META on any end.
-- META = localStorage goodbyes_meta {emb, upMat, upFood}; survives
-  save wipes; legacy goodbyes_pr key migrates in once.
+- META = localStorage goodbyes_meta {emb, upMat, upFood, tutZoom};
+  survives save wipes (incl. debug RESET); legacy goodbyes_pr key
+  migrates in once.
 - Shop categories: MATERIAL TILE / FOOD TILE / EMBER TILE / MISC.
   Live: first two = +10% chance per point that a spawned
   material/food tile is a +2/DAY tile (t.b2), cap 3 points = 30%.
@@ -297,9 +303,10 @@ violations, volunteers improvements)
 ## UI (current build)
 - SURVIVOR ROSTER (user 07-21): left side under the HUD block
   (src/ui/roster.js): one row per survivor, color dot + name +
-  status (IDLE / RECLAIMING / DEFENDING / GATHERING). IDLE rows
-  bright, busy rows dim, so all-dim = everyone occupied = ready to
-  END DAY.
+  status (IDLE / ILLUMINATING / GATHERING). IDLE rows bright, busy
+  rows dim, so all-dim = everyone occupied = ready to END DAY. This
+  roster IS the survivor readout - the old "SURVIVORS n/4" HUD line
+  was removed 07-22 (redundant, player can see the roster).
 - MENU VISUALIZER = TOWN LIGHTS (user-locked 07-21 from
   lab_menuviz8 v3, replaces the bar skyline; refine later): a dark
   town along the menu bottom whose WINDOWS light only when a note
@@ -318,13 +325,15 @@ violations, volunteers improvements)
   cannot analyse audio, shows sparse synthetic events; real
   reaction on http://localhost:8123 (dev-serve.js) or itch.
 - HUD: FOOD + "+N/DAY" "-N/DAY" rows; MATERIAL once first seen;
-  LIGHT when >0; BLACKOUT readout when armed; EMBER when >0;
-  PLACEHOLDER1/2 item counts when owned; SURVIVORS n/cap; DAY
-  bottom-left, dim. END DAY button bottom-center.
+  LIGHT (shows from start now); BLACKOUT readout when armed; EMBER
+  when >0; PLACEHOLDER1/2 item counts when owned; DAY bottom-left,
+  dim. END DAY button bottom-center (redesign in progress, see
+  Open/next).
 - Selection = panel only, no map marker. Hover = LIFT (3px ease).
-  Panel: DARKNESS + days estimate for dark tiles; RECLAIM / DEFEND /
-  CLEAR / GATHER / STOP / PULL BACK verbs; crew names, "N% RISK" in
-  red, "N DAYS LEFT".
+  Panel: centered header ("?" for dark, tile name for owned, "UNDER
+  ATTACK" red for attacked); the ONLY verb button left is CLEAR
+  (rubble). Everything else opens the survivor list directly (see
+  one-click flow). Crew names, "N% RISK" red, "N DAYS LEFT".
 - LIVE CREW ASSIGN (user 07-20, replaces START button): clicking a
   survivor row assigns them to the tile's action INSTANTLY; more
   clicks add crew; clicking an assigned row removes them. No
@@ -373,10 +382,13 @@ violations, volunteers improvements)
   still deselects. No hint; discoverability accepted.
 - Pan clamp: camera bounds = currently drawn tiles' bbox (margins
   160px X / 120px Y); bounds grow as tiles reveal.
-- Tutorials: ALL text tutorials deleted 07-20 except the zoom tip
-  (left side, vertically centered, appears day 3-5 until dismissed).
-  Tutorial visuals need a rework pass later (user: current style
-  sucks, direction unknown).
+- Tutorials (rules, user 07-22): ONE-TIME EVER (persistent, survive
+  save wipes) via META flags, NOT per-run. Trigger contextually
+  (when the thing first matters), and the message goes away when the
+  player ends the day. Only tutorial now = the zoom tip: appears
+  left-side when the first TIER-4 tile is reached (revealed), one
+  time across all runs (META.tutZoom), clears on the next END DAY.
+  Future tutorials follow this pattern. Visual style rework later.
 - Topbar: note (volume panel: music + SFX sliders, persisted) + gear
   (display mode cycler / MAIN MENU / ABANDON with 2-click confirm).
   Menu mute note top-right on the main menu.
@@ -481,15 +493,17 @@ violations, volunteers improvements)
   slice. Direction: fights resolve autonomously (prep is the game,
   fight is the exam); 2-3 weapons ~15 materials; stats after first
   combat playtest.
-- Tile visual design IN PROGRESS (m2/tiles_design branch).
-  OWNERSHIP READABILITY = FLOOR FILL, BUILT 07-20 (user pick from
-  lab/lab_ownership.html, scoped by user to EMPTY LOTS only since
-  other kinds get their own visuals later): owned lot = solid dark
-  floor (#20201e, diamond inset 3.5) under the tile stamp; all
-  other owned kinds unchanged; unowned stay hollow 0.4-alpha
-  wireframe. Town = solid ground, dark = hollow. Verified headless
-  (first load unchanged, forced-lots shot). Labs live in lab/;
-  delete the folder once everything in it is locked.
+- FLOOR FILL (BUILT 07-20, done): owned EMPTY LOT = solid dark floor
+  (#20201e, measured geometry) under the tile stamp; other owned
+  kinds unchanged; unowned stay hollow 0.4-alpha. Town = solid
+  ground, dark = hollow.
+- END DAY button redesign IN PROGRESS (user 07-22, "looks too
+  shitty"): 3 designs demoed in lab/lab_endday_btn.html - PLATED
+  (control-plate + corner ticks, invert+lift hover), DUSK (horizon
+  line + setting sun, on-theme, sun sinks on hover), PROMPT (stark
+  [ END DAY ] brackets that open on hover). User picking.
+- Labs live in lab/ (GITIGNORED, local-only since 07-22); delete
+  freely once locked.
 - TILES.md editing pass (user); TBD column kinds (24 slots); sync
   bags after.
 - DOG COMPANION (user 07-22, parked): a 5th survivor = a dog, found

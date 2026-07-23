@@ -58,16 +58,14 @@ ex=Math.max(ex,dx+tw7(ds,2)+16);
 if(G.pr>0)text7("EMBER "+Math.round(hudD.pr),ex,l.hud,2);
 if(G.items&&G.items.p1>0)text7("PLACEHOLDER1 "+G.items.p1,580,l.hud,1,null,MID);
 if(G.items&&G.items.p2>0)text7("PLACEHOLDER2 "+G.items.p2,580,l.hud+14,1,null,MID);
-text7("SURVIVORS "+G.survivors.length+"/"+SURV_CAP,160,l.hud+36,1,null,MID);
 text7("DAY "+G.day,16,H-24,1,null,MID);
-if(G.day>=G.tutDay&&!G.zoomTipSeen){
+if(!META.tutZoom&&G.tiles.some(t=>tierOf(t)===4&&drawnTile(t))){
 const msg=("ontouchstart" in window)?"PINCH: ZOOM MAP":"MOUSE WHEEL: ZOOM MAP";
 const tw=tw7(msg,1)+32;
 const bx=16,by=Math.round(H/2)-22;
 px(bx,by,tw,44,BG);
 edgeR(bx,by,tw,44,MID);
 text7(msg,bx+16,by+15,1,null,FG);
-uiButtons.push({id:"ztip",x:bx,y:by,w:tw,h:44,en:true});
 }
 if(zoomBarT>0){
 const a=Math.min(1,zoomBarT/0.3);

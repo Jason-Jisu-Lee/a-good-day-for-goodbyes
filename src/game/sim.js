@@ -19,6 +19,7 @@ if(alive>0)finish(t);
 else{t.action=null;t.turnsLeft=baseDays(tileStrength(t));}
 }
 function endTurn(){
+if(!META.tutZoom&&G.tiles.some(t=>tierOf(t)===4&&drawnTile(t))){META.tutZoom=true;metaSave();}
 beatsBegin();
 let boFire=false;
 for(const t of G.tiles){

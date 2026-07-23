@@ -14,7 +14,6 @@ const l=L(),r=nz/zoomS;
 if(G){
 for(const s of G.survivors){s.x=l.ox+(s.x-l.ox)*r;s.y=l.oy+(s.y-l.oy)*r;}
 for(const f of floats){f.x=l.ox+(f.x-l.ox)*r;f.y=l.oy+(f.y-l.oy)*r;}
-G.zoomTipSeen=true;
 }
 const wx=px2-camX,wy=py2-camY;
 zoomS=nz;
