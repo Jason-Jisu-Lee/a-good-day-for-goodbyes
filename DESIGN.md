@@ -189,8 +189,9 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   is the only survivor readout.
 - HUD: FOOD +N/-N per-day rows; MATERIAL once first seen; LIGHT;
   BLACKOUT readout; EMBER when >0; item placeholders; DAY
-  bottom-left. END DAY button bottom-center (redesign pick pending:
-  PLATED / DUSK / PROMPT in lab).
+  bottom-left. END DAY button = PROMPT style (locked): boxless
+  "[ END DAY ]", dim at idle; hover brightens and slides the
+  brackets open. Hit box stays 150x44.
 - Panel: centered header ("?" dark, name owned, RED name if
   attacked). Status line centered: days estimate (dark), "5
   MATERIAL" (dark rubble), "+N/DAY" (resource), "BUILD 5 MATERIAL"
@@ -219,10 +220,13 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   top-right, dead placeholders. Menu music loops (main_screen.mp3).
 - Menu visualizer = TOWN LIGHTS: dark skyline; windows light on note
   onsets (low/mid bands only, hi-hat masked); occupancy layer fills/
-  empties with loudness (expander tracks the track's own dynamic
-  range); drums surge the whole town; silence = sleep. file://
-  cannot analyse audio (shows synthetic events); real reaction on
-  http://localhost:8123 or itch.
+  empties with loudness. LOUDNESS = LOW/MID BANDS ONLY (the constant
+  hi-hat bed does not count as loudness), run through an expander
+  (^2.4 over the track's own min/max range): very quiet passages
+  crush toward near-dark, distinctly darker than mid-quiet; loud
+  sections blaze. Fast attack, brisk release. Drums surge the whole
+  town; silence = sleep. file:// cannot analyse audio (synthetic
+  events); real reaction on http://localhost:8123 or itch.
 - Debug (outside stage, backtick/#debug): +25 FOOD/MATS, +SURV,
   speed X1-X5/X20, stats, VIEW, RESET. #game skips menu.
 
@@ -267,7 +271,6 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
 - Crafting unlock verdict (user owes; library direction liked) ->
   first combat slice. Combat: fights resolve autonomously, prep is
   the game; 2-3 weapons ~15 materials; stats after first playtest.
-- END DAY button pick (PLATED/DUSK/PROMPT).
 - TILES.md TBD column kinds; tiers 6-10 spec finalize; ember spawn %.
 - Houses/apartments do nothing - purpose or decoration?; lot-build
   HOUSE option?; placeholder item identities; shop EMBER/MISC.

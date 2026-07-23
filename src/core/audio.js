@@ -57,8 +57,8 @@ mzTok=Math.min(12,mzTok+dt*25);
 if(AN&&!MUSIC.paused&&!OPT.mute){
 if(AAC.state==="suspended")AAC.resume();
 AN.getByteFrequencyData(ANF);
-let s=0;for(let i=0;i<300;i++)s+=ANF[i];
-raw=s/300/255;
+let s=0;for(let i=2;i<140;i++)s+=ANF[i];
+raw=s/138/255;
 if(raw>0.008)live=true;
 mzGm=Math.max(mzGm*0.996,raw);
 const ag=0.9/Math.max(0.12,mzGm);
@@ -95,11 +95,11 @@ if(Math.random()<dt*5&&mzTok>=1){out.on.push(Math.floor(Math.random()*MZ_N));mzT
 if(synthT*1000-mzLastBeat>950){mzLastBeat=synthT*1000;out.beat=1;}
 }
 }
-mzEmax=Math.max(raw,Math.max(0.12,mzEmax-dt*0.015));
+mzEmax=Math.max(raw,Math.max(0.1,mzEmax-dt*0.015));
 mzEmin=Math.min(raw,mzEmin+dt*0.015);
-let e=(raw-mzEmin)/Math.max(0.05,mzEmax-mzEmin);
-e=Math.pow(Math.max(0,Math.min(1,e)),1.7);
-mzE+=(e-mzE)*Math.min(1,e>mzE?dt*10:dt*2.5);
+let e=(raw-mzEmin)/Math.max(0.04,mzEmax-mzEmin);
+e=Math.pow(Math.max(0,Math.min(1,e)),2.4);
+mzE+=(e-mzE)*Math.min(1,e>mzE?dt*10:dt*3.5);
 out.energy=mzE;
 if(lvl<0.05)mzQuietT+=dt;else mzQuietT=0;
 out.quietK=Math.max(0,1-Math.max(0,mzQuietT-0.25)*2.5);

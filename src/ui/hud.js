@@ -84,5 +84,26 @@ px(bx-2,my-5,7,10,FG);
 cx.restore();
 }
 drawRoster();
-btn("endturn","END DAY",W/2-75,H-58,150);
+drawEndDay();
+}
+let edA=0;
+function drawEndDay(){
+const hov=hover==="endturn"&&!beatsActive();
+edA+=((hov?1:0)-edA)*0.18;
+uiButtons.push({id:"endturn",x:W/2-75,y:H-58,w:150,h:44,en:true});
+const cxx=W/2,cyy=H-36;
+const gap=13+edA*14;
+cx.save();
+cx.scale(S,S);
+cx.textAlign="center";
+cx.textBaseline="middle";
+cx.font="700 22px "+FONT_STACK;
+const tw=cx.measureText("END DAY").width;
+cx.fillStyle="rgba(242,242,240,"+(0.55+edA*0.45)+")";
+cx.fillText("END DAY",cxx,cyy);
+cx.font="300 30px "+FONT_STACK;
+cx.fillStyle="rgba(242,242,240,"+(0.35+edA*0.5)+")";
+cx.fillText("[",cxx-tw/2-gap,cyy+1);
+cx.fillText("]",cxx+tw/2+gap,cyy+1);
+cx.restore();
 }

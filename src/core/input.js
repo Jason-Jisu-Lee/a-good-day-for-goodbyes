@@ -160,7 +160,6 @@ s.task={type:"extinguish",tile:sel};
 recrewTile(sel,true);
 return;
 }
-if(id==="stop"){releaseCrew(sel);return;}
 if(id==="clear"){clearRubble(sel);return;}
 if(id==="build_food"){buildLot(sel,"grocery");return;}
 if(id==="build_mat"){buildLot(sel,"scrap");return;}
