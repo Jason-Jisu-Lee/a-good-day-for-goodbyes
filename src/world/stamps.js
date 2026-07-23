@@ -1,14 +1,14 @@
 const T_HOUSE=new Image();T_HOUSE.src="asset/tiles/smooth_house_only.png?v=2";
 const T_APT=new Image();T_APT.src="asset/tiles/smooth_apt_only.png?v=2";
 const T_TILE=new Image();T_TILE.src="asset/tiles/smooth_tile.png?v=2";
-const T_LAMP=new Image();T_LAMP.src="asset/tiles/streetlamp.png?v=1";
-const T_FOOD=new Image();T_FOOD.src="asset/tiles/food.png?v=1";
-const T_MAT=new Image();T_MAT.src="asset/tiles/material.png?v=1";
-const PROP_ART={light:{img:T_LAMP,h:48},grocery:{img:T_FOOD,h:38},scrap:{img:T_MAT,h:35}};
-function stampProp(img,x,y,h){
+const T_LAMP=new Image();T_LAMP.src="asset/tiles/streetlamp.png?v=2";
+const T_FOOD=new Image();T_FOOD.src="asset/tiles/food.png?v=2";
+const T_MAT=new Image();T_MAT.src="asset/tiles/material.png?v=2";
+const PROP_ART={light:{img:T_LAMP,w:60},grocery:{img:T_FOOD,w:66},scrap:{img:T_MAT,w:66}};
+function stampProp(img,x,y,w){
 const l=L();
-const w=h*img.width/img.height;
-smoothBlit(img,x-w/2*l.sc,y+(16-h)*l.sc,w*l.sc,h*l.sc);
+const h=w*img.height/img.width;
+smoothBlit(img,x-w/2*l.sc,y+(19-h)*l.sc,w*l.sc,h*l.sc);
 }
 function smoothBlit(img,x,y,w,h){
 cx.save();

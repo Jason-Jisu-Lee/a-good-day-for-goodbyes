@@ -23,7 +23,7 @@ else{
 if(t.kind==="lot")floorFill(x,y);
 stampTile(x,y,t.atk);
 const pa=PROP_ART[t.kind];
-if(pa&&pa.img.width)stampProp(pa.img,x,y,pa.h);
+if(pa&&pa.img.width)stampProp(pa.img,x,y,pa.w);
 else{const lb=KIND_LABEL[t.kind];if(lb)tileLabel(lb,x,y);}
 }
 cx.globalAlpha=1;
