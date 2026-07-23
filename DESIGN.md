@@ -252,6 +252,12 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   tails.
 - Text = vector Segoe UI stack (text7/text3); icons = canvas paths;
   BLACKOUT word = Tahoma bold. Tile labels centered in the diamond.
+- Tile art (user's, extracted): FOOD = barn+silo, MATERIAL =
+  warehouse+logs, LIGHT = streetlamp (stampProp, heights 38/35/48,
+  base at tile center +16; text-label fallback if an image fails).
+  LIGHTHOUSE asset ready for the future +2 LIGHT variant, not
+  wired. Text-label kinds remaining: RUBBLE CAMPFIRE CACHE EMBER.
+  Sources in ref/.
 - Display modes: WINDOWED 960x540 / BORDERLESS adaptive viewport
   (caps 1720x720) / FULLSCREEN. Never render fractional.
 - 1-bit dark, color earned slowly, red = danger only. Color plan

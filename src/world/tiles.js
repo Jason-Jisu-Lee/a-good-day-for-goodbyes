@@ -19,7 +19,13 @@ return;
 if(t.atk)cx.globalAlpha=0.25+0.7*(0.5+0.5*Math.sin(performance.now()/1200*Math.PI*2));
 if(t.kind==="house"){stampTile(x,y,t.atk);if(!stampHouse(x,y))tileLabel("HOUSE",x,y);}
 else if(t.kind==="house2"){stampTile(x,y,t.atk);if(!stampApt(x,y))tileLabel("APT",x,y);}
-else{if(t.kind==="lot")floorFill(x,y);stampTile(x,y,t.atk);const lb=KIND_LABEL[t.kind];if(lb)tileLabel(lb,x,y);}
+else{
+if(t.kind==="lot")floorFill(x,y);
+stampTile(x,y,t.atk);
+const pa=PROP_ART[t.kind];
+if(pa&&pa.img.width)stampProp(pa.img,x,y,pa.h);
+else{const lb=KIND_LABEL[t.kind];if(lb)tileLabel(lb,x,y);}
+}
 cx.globalAlpha=1;
 }
 function drawTiles(){

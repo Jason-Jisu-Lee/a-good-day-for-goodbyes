@@ -164,8 +164,10 @@ opens the board. No longer recruits, cap-4 change.)
   Future: can be CLEARED and re-used as another tile (not built).
 - SUPPLY CACHE: illuminate = 2-3 MATERIAL or 2-3 FOOD (50/50 which,
   amount 2-3 uniform), becomes EMPTY LOT.
-- LIGHT (lighthouse): illuminate = +1 LIGHT, tile STAYS a labeled
-  LIGHT structure (like CAMPFIRE, not converted to a lot). No daily
+- LIGHT (STREETLAMP art, live): illuminate = +1 LIGHT, tile STAYS a
+  persistent structure (like CAMPFIRE, not converted to a lot).
+  LIGHTHOUSE variant = +2 LIGHT, asset ready, NOT implemented yet
+  (user adds later). No daily
   production, nothing spends it. Tied to the tile: if that tile is
   taken by CREEP, LIGHT drops by 1. LIGHT is the blackout-survival
   currency. Sources: 1 at origin (pre-owned, never attacked) + tier
