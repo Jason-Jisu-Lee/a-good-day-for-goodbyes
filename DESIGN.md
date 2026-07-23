@@ -63,7 +63,13 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   clearable/re-usable (not built).
 - SUPPLY CACHE: illuminate = 2-3 MATERIAL or 2-3 FOOD (50/50) ->
   lot.
-- LIGHT: illuminate = +1 LIGHT -> lot.
+- LIGHT (lighthouse): illuminate = +1 LIGHT, tile stays as a
+  persistent LIGHT structure (does not convert to a lot) - like
+  CAMPFIRE. No daily production, no decay, nothing spends it while
+  the tile is owned. The +1 is tied to that specific tile surviving:
+  if CREEP takes it (defended-but-lost or undefended), LIGHT drops
+  by 1 for that tile. This makes LIGHT tiles a real target - losing
+  one to an attack costs you blackout-survival, not just a tile.
 - EMBER: illuminate = +1 EMBER banked -> lot.
 - RUBBLE: dark obstruction, not illuminatable. CLEAR button (when
   reachable) = 5 MATERIAL, removed instantly -> owned EMPTY LOT.
@@ -132,8 +138,9 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   "CONSUMED IN 1 DAY" when undefended.
 
 ## Blackout + LIGHT
-- LIGHT = blackout-survival currency. Sources: origin start (1) +
-  tier 3+ LIGHT tiles.
+- LIGHT = blackout-survival currency. Sources: origin start (1,
+  pre-owned, never at risk since tier 0 is never attacked) + tier 3+
+  LIGHT tiles (illuminated, and AT RISK - see Tiles).
 - Every 10 days the word BLACKOUT fills the screen (94% width,
   Tahoma bold, world-dim 0.5; in 0.72s / hold to 2.16s / out 1.2s;
   click after fully in = 0.3s dismiss). Yellow #e3c15c; a FAST

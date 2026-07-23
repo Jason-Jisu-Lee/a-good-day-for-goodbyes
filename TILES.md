@@ -164,10 +164,13 @@ opens the board. No longer recruits, cap-4 change.)
   Future: can be CLEARED and re-used as another tile (not built).
 - SUPPLY CACHE: illuminate = 2-3 MATERIAL or 2-3 FOOD (50/50 which,
   amount 2-3 uniform), becomes EMPTY LOT.
-- LIGHT: illuminate = +1 LIGHT point, becomes EMPTY LOT. LIGHT is
-  the blackout-survival currency (city needs LIGHT >= need or
-  CONSUMED). Sources: 1 at origin (start) + tier 3+ LIGHT tiles.
-  HUD shows LIGHT from the start (origin light).
+- LIGHT (lighthouse): illuminate = +1 LIGHT, tile STAYS a labeled
+  LIGHT structure (like CAMPFIRE, not converted to a lot). No daily
+  production, nothing spends it. Tied to the tile: if that tile is
+  taken by CREEP, LIGHT drops by 1. LIGHT is the blackout-survival
+  currency. Sources: 1 at origin (pre-owned, never attacked) + tier
+  3+ LIGHT tiles (illuminated, and now a real attack target). HUD
+  shows LIGHT from the start.
 - EMBER: reclaim = +1 EMBER banked, becomes EMPTY LOT. Spawn 0 for
   now (percentage discussion pending).
 - EMPTY LOT: empty ground. BUILD (07-22, built): an owned lot can

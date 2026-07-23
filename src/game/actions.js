@@ -34,7 +34,7 @@ G.opened=true;
 if(t.kind==="mysteryroll"){t.kind=Math.random()<0.5?"scrap":"grocery";}
 else if(t.kind==="camp"){recruit(t);}
 else if(t.kind==="cache"){const n=rollRange(CACHE_ROLL);if(Math.random()<0.5)G.mats+=n;else G.food+=n;t.kind="lot";}
-else if(t.kind==="light"){G.light=(G.light||0)+1;const p=tpos(t),d=DXY();spawnFloat(p.x,p.y-d.hh-4,"+LIGHT");t.kind="lot";}
+else if(t.kind==="light"){G.light=(G.light||0)+1;const p=tpos(t),d=DXY();spawnFloat(p.x,p.y-d.hh-4,"+LIGHT");}
 else if(t.kind==="pr"){G.pr=(G.pr||0)+1;t.kind="lot";}
 for(const s of c)s.task=null;
 }

@@ -56,12 +56,17 @@ floatSink=ev.floats;
 const alive=rollConsumed(t.atkS,c,q,d);
 t.atk=false;t.atkS=0;releaseCrew(t);
 if(alive>0)spawnFloat(q.x,q.y-d.hh-4,"HELD");
-else{t.state="dark";t.turnsLeft=baseDays(tileStrength(t));spawnFloat(q.x,q.y-d.hh-4,"TAKEN");}
+else{
+t.state="dark";t.turnsLeft=baseDays(tileStrength(t));
+if(t.kind==="light"){G.light=Math.max(0,(G.light||0)-1);ev.delta.light=-1;}
+spawnFloat(q.x,q.y-d.hh-4,"TAKEN");
+}
 floatSink=null;
 beatOut(ev,t);
 }else beatWork(ev,t);
 }else{
 t.atk=false;t.atkS=0;t.state="dark";t.turnsLeft=baseDays(tileStrength(t));
+if(t.kind==="light")G.light=Math.max(0,(G.light||0)-1);
 releaseCrew(t);
 spawnFloat(q.x,q.y-d.hh-4,"TAKEN");
 }
