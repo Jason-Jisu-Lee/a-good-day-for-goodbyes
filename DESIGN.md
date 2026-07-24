@@ -46,10 +46,10 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   opens the board.
 - Tier spawns: TIER_SPEC in newgame.js; per tier fixed or ranged
   counts (ranges roll uniform per board), EMPTY LOTs fill the rest.
-  Table + percentages in TILES.md. Campfires: 1 in tier 2 + 1 in
-  tier 4, nowhere else. LIGHT tiles tier 3+. RUBBLE 1 each in tiers
-  1/3, 2 in tiers 4-5. EMBER tier 4+. Tiers 1-5 user-locked; 6-10
-  Claude draft pending playtest.
+  Table + percentages in TILES.md. No campfires anywhere. LIGHT
+  tiles tier 3+. RUBBLE 1 each in tiers 1/3, 2 in tiers 4-5. EMBER
+  tier 4+. Tiers 1-5 user-locked; 6-10 Claude draft pending
+  playtest.
 - Reveal: undiscovered = pure black, unclickable. Drawn = owned +
   origin + (once opened) edge-adjacent to owned. Unowned drawn = dim
   stamp, 0.4 alpha.
@@ -89,9 +89,9 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
 - Watch equilibrium after every economy change.
 
 ## Survivors
-- ROSTER CAP 4: MARA (MC) + REED start; JUNE + OKON found at the
-  tier-2 and tier-4 campfires (fallback name ASH). No survivor in
-  tier 1.
+- ROSTER CAP 4, ALL START: MARA (MC) + REED + JUNE + OKON from day
+  one. No recruiting; CAMPFIRE tiles removed from all spawns (their
+  slots fill as EMPTY LOT for now; campfire code kept dormant).
 - MC: if MARA dies, run ends immediately regardless of roster. So a
   lone survivor is always MARA.
 - SOLE-SURVIVOR STINGER: once roster has hit 4, the first time it
