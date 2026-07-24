@@ -5,59 +5,49 @@ px(x,y,w+12,lines.length*14+8,BG);
 edgeR(x,y,w+12,lines.length*14+8,DIM);
 for(let i=0;i<lines.length;i++)text7(lines[i],x+6,y+5+i*14,1);
 }
-function rateInfo(kind){
+function rateInfo(){
 const m=new Map();
 let tot=0,n=0;
 for(const t of G.tiles){
-if(t.state!=="owned"||t.kind!==kind)continue;
-const w=crew(t).filter(s=>s.task.type==="gather").length;
-const r=tilePassive(t)+GATHER_BONUS*w;
+if(t.state!=="owned"||t.kind!=="scrap")continue;
+const r=tilePassive(t);
 tot+=r;n++;
-const key=r+"/DAY"+(w?" WORKED":"");
+const key=r+"/DAY";
 m.set(key,(m.get(key)||0)+1);
 }
 const lines=[...m.entries()].sort((a,b)=>parseInt(a[0])-parseInt(b[0])).map(([k,c])=>c+" X "+k);
 return {tot,n,lines};
 }
-let hudD={g:null,food:0,mats:0,light:0,pr:0};
+let hudD={g:null,mats:0,light:0,pr:0};
 function tickHud(dt){
 if(!G){hudD.g=null;return;}
-const tgt=(beatsActive()&&beatShown)?beatShown:{food:G.food,mats:G.mats,light:G.light||0,pr:G.pr||0};
-if(hudD.g!==G){hudD.g=G;hudD.food=tgt.food;hudD.mats=tgt.mats;hudD.light=tgt.light;hudD.pr=tgt.pr;return;}
+const tgt=(beatsActive()&&beatShown)?beatShown:{mats:G.mats,light:G.light||0,pr:G.pr||0};
+if(hudD.g!==G){hudD.g=G;hudD.mats=tgt.mats;hudD.light=tgt.light;hudD.pr=tgt.pr;return;}
 const sp=Math.min(1,dt*7);
-for(const k of ["food","mats","light","pr"]){hudD[k]+=(tgt[k]-hudD[k])*sp;if(Math.abs(tgt[k]-hudD[k])<0.5)hudD[k]=tgt[k];}
+for(const k of ["mats","light","pr"]){hudD[k]+=(tgt[k]-hudD[k])*sp;if(Math.abs(tgt[k]-hudD[k])<0.5)hudD[k]=tgt[k];}
 }
 function drawHUD(){
 const l=L();
-text7("FOOD "+Math.round(hudD.food),16,l.hud,2);
-const fi=rateInfo("grocery"),mi=rateInfo("scrap");
-const expn=G.survivors.length*FOOD_PER_SURV;
-uiButtons.push({id:"inc",x:14,y:l.hud+20,w:96,h:13,en:true});
-uiButtons.push({id:"exp",x:14,y:l.hud+34,w:96,h:13,en:true});
-text7("+"+fi.tot+"/DAY",16,l.hud+22,1,null,FG);
-text7("-"+expn+"/DAY",16,l.hud+36,1,null,FG);
-if(hover==="inc")tip(16,l.hud+52,["FOOD TILES "+fi.n,...fi.lines]);
-if(hover==="exp")tip(16,l.hud+52,["SURVIVORS "+G.survivors.length,G.survivors.length+" X "+FOOD_PER_SURV+"/DAY"]);
+let x=16;
 if(G.matsSeen||G.mats>0){
-text7("MATERIAL "+Math.round(hudD.mats),160,l.hud,2);
-uiButtons.push({id:"minc",x:158,y:l.hud+20,w:96,h:13,en:true});
-text7("+"+mi.tot+"/DAY",160,l.hud+22,1,null,FG);
-if(hover==="minc")tip(160,l.hud+38,["MATERIAL TILES "+mi.n,...mi.lines]);
+text7("MATERIAL "+Math.round(hudD.mats),x,l.hud,2);
+const mi=rateInfo();
+uiButtons.push({id:"minc",x:x-2,y:l.hud+20,w:96,h:13,en:true});
+text7("+"+mi.tot+"/DAY",x,l.hud+22,1,null,FG);
+if(hover==="minc")tip(x,l.hud+38,["MATERIAL TILES "+mi.n,...mi.lines]);
+x+=tw7("MATERIAL "+Math.round(hudD.mats),2)+24;
 }
-if((G.light||0)>0)text7("LIGHT "+Math.round(hudD.light),300,l.hud,2);
-let ex=440;
+const lx=x;
+text7("LIGHT "+Math.round(hudD.light),lx,l.hud,2);
+let ex=lx+tw7("LIGHT "+Math.round(hudD.light),2)+24;
 if(darkVisible()){
-let dx=300;
-if((G.light||0)>0)dx=300+tw7("LIGHT "+G.light,2)+16;
 const ds="BLACKOUT "+darkShown();
 cx.save();cx.globalAlpha=darkAlpha();
-text7(ds,dx,l.hud,2,null,DANGER);
+text7(ds,ex,l.hud,2,null,DANGER);
 cx.restore();
-ex=Math.max(ex,dx+tw7(ds,2)+16);
+ex+=tw7(ds,2)+24;
 }
 if(G.pr>0)text7("EMBER "+Math.round(hudD.pr),ex,l.hud,2);
-if(G.items&&G.items.p1>0)text7("PLACEHOLDER1 "+G.items.p1,580,l.hud,1,null,MID);
-if(G.items&&G.items.p2>0)text7("PLACEHOLDER2 "+G.items.p2,580,l.hud+14,1,null,MID);
 text7("DAY "+G.day,16,H-24,1,null,MID);
 if(!META.tutZoom&&G.tiles.some(t=>tierOf(t)===4&&drawnTile(t))){
 const msg=("ontouchstart" in window)?"PINCH: ZOOM MAP":"MOUSE WHEEL: ZOOM MAP";

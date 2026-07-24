@@ -95,36 +95,27 @@ A12   B11   C10   D9    E8   [F7]  [G6]   H5    I4    J3    K2    L1
   board.
 - Faces 0/2/3/4.
 
-## Tier spawn spec (07-22; live in newgame.js TIER_SPEC)
-Each count ROLLS UNIFORM per board (a range = each value equally
-likely). The rest of the tier fills with EMPTY LOT. RUBBLE tiers
-1/3/4/5+; LIGHT starts tier 3; CAMP = none (all survivors start).
+## Tier spawn spec (07-23; live in newgame.js TIER_SPEC)
+Each count ROLLS UNIFORM per board. Rest of the tier = EMPTY LOT.
 Tiers 1-5 = USER-LOCKED. Tiers 6-10 = CLAUDE DRAFT (*), playtest
 pending. "-" = none.
 
-| TIER | SIZE | CAMP | FOOD | MATERIAL | CACHE | LIGHT | RUBBLE | EMBER | ~LOT |
-|------|------|------|------|----------|-------|-------|--------|-------|------|
-| 1    | 8    | -    | 1    | 1        | 1     | -     | 1      | -     | 4    |
-| 2    | 12   | -    | 0-2  | 1        | 0-2   | -     | -      | -     | ~8   |
-| 3    | 16   | -    | 1-2  | 1-2      | 1-2   | 0-1   | 1      | -     | ~10  |
-| 4    | 20   | -    | 1-2  | 1-2      | 1-2   | 1-2   | 2      | 0-1   | ~10  |
-| 5    | 24   | -    | 1-3  | 1-3      | 1-2   | 1-2   | 2      | 1     | ~14  |
-| 6*   | 20   | -    | 2-3  | 2-3      | 1-2   | 1-2   | 2-3    | 0-1   | ~6   |
-| 7*   | 16   | -    | 1-2  | 2-3      | 1-2   | 1-2   | 2      | 0-1   | ~4   |
-| 8*   | 12   | -    | 1-2  | 2-3      | 1     | 0-1   | 2      | 0-1   | ~2   |
-| 9*   | 8    | -    | 1    | 1-2      | 1     | 0-1   | 1      | 0-1   | ~1   |
-| 10*  | 4    | -    | 1    | 1        | -     | 0-1   | -      | 0-1   | ~0-2 |
+| TIER | SIZE | MATERIAL | STREETLAMP | LIGHTHOUSE | EMBER | ~LOT |
+|------|------|----------|------------|------------|-------|------|
+| 1    | 8    | 1        | 0-1        | -          | -     | ~6   |
+| 2    | 12   | 1        | 1-2        | -          | -     | ~9   |
+| 3    | 16   | 1-2      | 1-2        | -          | -     | ~12  |
+| 4    | 20   | 1-2      | 2          | -          | 0-1   | ~16  |
+| 5    | 24   | 1-3      | 1          | 1          | 1     | ~19  |
+| 6*   | 20   | 2-3      | 1-2        | -          | 0-1   | ~15  |
+| 7*   | 16   | 2-3      | 1-2        | -          | 0-1   | ~11  |
+| 8*   | 12   | 2-3      | 0-1        | -          | 0-1   | ~8   |
+| 9*   | 8    | 1-2      | 0-1        | -          | 0-1   | ~5   |
+| 10*  | 4    | 1        | 0-1        | -          | 0-1   | ~2   |
 
-Range percentages (uniform roll, each value equally likely):
-- 0-1 = 50% / 50%        (avg 0.5)
-- 0-2 = 33% / 33% / 33%  (avg 1.0)
-- 1-2 = 50% / 50%        (avg 1.5)
-- 1-3 = 33% / 33% / 33%  (avg 2.0)
-- 2-3 = 50% / 50%        (avg 2.5)
-- a fixed number (e.g. RUBBLE 2) = 100% that count.
-~LOT = whatever's left after the rolled tiles fill to SIZE (so it
-also varies board to board). Verified over 500 boards: tier averages
-match these ranges.
+Ranges: 0-1 = 50/50 (avg .5); 1-2 = 50/50 (avg 1.5); 1-3 = 33/33/33
+(avg 2); 2-3 = 50/50 (avg 2.5); fixed = 100%. Verified over 300
+boards.
 
 BALANCE FLAG (Claude): LIGHT now first appears tier 3 (was tier 2)
 and only 0-1 there. First BLACKOUT (day 10) needs LIGHT >= 3, so a
@@ -137,96 +128,23 @@ found somewhere in TIER 6. Details TBD; revisit when building tier
 it count for the sole-survivor / MC-death rules (probably not - it
 is a companion, not MARA-or-recruit).
 
-(Tier 0 = origin, fixed 07-22: 1 HOUSE + 1 LIGHT + 1 FOOD + 1
-MYSTERY. The origin LIGHT tile gives 1 starting LIGHT. Mystery =
-tutorial first-illuminate: resolves 50/50 to MATERIAL or FOOD +
-opens the board. No longer recruits, cap-4 change.)
+(Tier 0 = origin, fixed 07-23: 1 APARTMENT + 1 LIGHTHOUSE + 2 EMPTY
+LOTS, all owned from the start. Lighthouse = 1 starting LIGHT. Board
+starts open; MYSTERY tile removed from the game.)
 
-## Full tile list (in game today; synced 07-19, turn-based)
-- HOUSE: origin building. Owned house = +1 to the HUD survivor cap.
-- APARTMENT: exists in code, +1 cap like HOUSE (2 designed, not
-  wired). FLAG: spawns NOWHERE right now (not in origin, not in any
-  tier bag).
-- FOOD: owned = +1 FOOD per day passive; STATION 1 survivor = +3
-  more (4 total). EMBER UPGRADE can make one spawn as a +2/day
-  variant (10/20/30% chance).
-- MATERIAL: owned = +1 MATERIAL per day passive; STATION 1 survivor
-  = +3 more (4 total). Same +2/day upgrade variant as FOOD.
-- RUBBLE (07-22): dark obstruction, not illuminatable. CLEAR = pay
-  5 MATERIAL, removed IMMEDIATELY (no days, no payout) -> owned
-  EMPTY LOT. In tiers 1, 3, 4, 5 (where campfires were removed from
-  1/3).
-- CAMPFIRE: illuminate = 1 recruit joins; tile STAYS a labeled
-  CAMPFIRE (07-21). 1 in tier 2 + 1 in tier 4 (07-22; start already
-  has MARA+REED, so these 2 fill the roster to 4).
-  Future: can be CLEARED and re-used as another tile (not built).
-- SUPPLY CACHE: illuminate = 2-3 MATERIAL or 2-3 FOOD (50/50 which,
-  amount 2-3 uniform), becomes EMPTY LOT.
-- LIGHT (STREETLAMP art, live): illuminate = +1 LIGHT, tile STAYS a
-  persistent structure (like CAMPFIRE, not converted to a lot).
-  LIGHTHOUSE variant = +2 LIGHT, asset ready, NOT implemented yet
-  (user adds later). No daily
-  production, nothing spends it. Tied to the tile: if that tile is
-  taken by CREEP, LIGHT drops by 1. LIGHT is the blackout-survival
-  currency. Sources: 1 at origin (pre-owned, never attacked) + tier
-  3+ LIGHT tiles (illuminated, and now a real attack target). HUD
-  shows LIGHT from the start.
-- EMBER: reclaim = +1 EMBER banked, becomes EMPTY LOT. Spawn 0 for
-  now (percentage discussion pending).
-- EMPTY LOT: empty ground. BUILD (07-22, built): an owned lot can
-  be built into a FOOD or MATERIAL tile for 5 MATERIAL, takes 1 day
-  (panel = FOOD / MATERIAL buttons). HOUSE build TBD.
-- UNKNOWN (origin mystery): tutorial tile; illuminate = becomes a
-  MATERIAL or FOOD tile (50/50) + opens the board (07-22: no longer
-  recruits, cap 4).
+## Full tile list (in game today; synced 07-23)
+- MATERIAL: owned = +1/day passive (b2 upgrade variant +2/day).
+  PERMANENT, NOT ACTIONABLE: no stationing, no tasks, no buttons.
+- STREETLAMP: illuminate = +1 LIGHT; stays a persistent structure.
+  Lost to CREEP = -1 LIGHT.
+- LIGHTHOUSE: same as streetlamp; currently +1 LIGHT (+2 intended
+  later, user adds). 1 pre-owned at origin, 1 spawns tier 5.
+- EMBER: illuminate = +1 EMBER banked, becomes EMPTY LOT.
+- EMPTY LOT: owned lot can BUILD a MATERIAL tile (5 MATERIAL,
+  1 day).
+- APARTMENT: origin building, art live, no mechanics yet.
+- REMOVED from the game 07-23: FOOD, CAMPFIRE, SUPPLY CACHE,
+  RUBBLE, MYSTERY, HOUSE.
 
 ## Tiles (designed, not built yet)
 - HOSPITAL: health (sickness, medication), arrives mid game.
-
-## Shelter (partially wired)
-- HUD shows SURVIVORS n/cap; cap = owned HOUSE + APARTMENT count
-  (each +1 today). Designed: house 1, apartment 2. Cap not enforced
-  on recruiting yet.
-
-## Origin 2x2 (user 07-12)
-- 2 HOUSE + 1 FOOD + 1 MYSTERY, arrangement random.
-- RUBBLE out of the origin (spawns in tiers 1-9 per the table).
-
-## Tile candidates (Claude brainstorm 07-12; user picks, names
-placeholder)
-- Blueprint chain: WORKSHOP (craft site, weapons made here) /
-  LIBRARY (slow safe blueprint via research) / HARDWARE STORE
-  (blueprint + small materials) / POLICE STATION (finished weapon,
-  danger-guarded) / RADIO TOWER (pings a far tile) / SCHOOL (+1
-  stat training).
-- Risk + variance: LOCKED SHELTER (pay materials, random big
-  payout) / HIDEOUT (recruit + personal item) / COLLAPSED STORE
-  (rubble in front of a fat cache).
-- Utility, one each: WATER TOWER (slows food drain) / WATCHTOWER
-  (danger hints on neighbors) / GENERATOR (power, bunker prereq).
-- Tone: CHURCH (happiness later) / CEMETERY (goodbye place for dead
-  survivors).
-
-## Combat direction (user deliberating 07-12)
-- Identity stays: FIGHTING IS THE EXAM, PREPARATION IS THE GAME.
-  Player never executes fights; prepares (weapons, crew, timing) and
-  watches autonomous resolution (locked control-loss encounters).
-- 2-3 basic weapons, ~15 materials each, huge chunky buff vs fists.
-  No inventory/durability/ammo sprawl; an item lives ON a survivor.
-- Stat system: decide AFTER the first combat playtest (armed vs
-  fists first).
-- Crafting unlock (07-12): blueprint-per-scout REJECTED (annoying,
-  busywork). Wants minimal + real-life-ish. Workshop-only = too
-  cheap; LIBRARY research direction liked. Being designed in a
-  separate session (handoff-combat.txt).
-
-## Future tile ideas (parked, mentioned in earlier passes)
-- Defense: military facility.
-- Medical: clinic (small hospital variant).
-- Nature: park, forest.
-- The bunker tile (endgame, one per run).
-
-## UI note
-- Floating text live: one-time payouts (rubble finish roll) and
-  CONSUMED pop above the tile. Cache payout has NO float yet
-  (flagged; random food-or-material outcome is invisible).

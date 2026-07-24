@@ -9,5 +9,5 @@ if(old){META.emb+=old;localStorage.removeItem("goodbyes_pr");metaSave();}
 }catch(e){}
 }
 function metaBank(){if(G&&G.pr){META.emb+=G.pr;metaSave();}}
-function b2Chance(kind){return (kind==="grocery"?META.upFood:kind==="scrap"?META.upMat:0)*0.1;}
+function b2Chance(kind){return (kind==="scrap"?META.upMat:0)*0.1;}
 metaLoad();

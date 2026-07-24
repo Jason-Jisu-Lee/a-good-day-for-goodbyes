@@ -28,9 +28,9 @@ const ev=beatEv(t);
 t.turnsLeft--;
 if(t.turnsLeft<=0){
 floatSink=ev.floats;
-const b4=[G.food,G.mats,G.light||0,G.pr||0];
+const b4=[G.mats,G.light||0,G.pr||0];
 resolveReclaim(t);
-ev.delta={food:G.food-b4[0],mats:G.mats-b4[1],light:(G.light||0)-b4[2],pr:(G.pr||0)-b4[3]};
+ev.delta={mats:G.mats-b4[0],light:(G.light||0)-b4[1],pr:(G.pr||0)-b4[2]};
 floatSink=null;
 beatOut(ev,t);
 }else beatWork(ev,t);
@@ -39,7 +39,7 @@ t.turnsLeft--;
 if(t.turnsLeft<=0){
 const ev=beatEv(t);
 t.kind=t.build;t.build=null;t.action=null;
-ev.out="done";ev.label=t.kind==="grocery"?"FOOD":"MATERIAL";ev.au=t.kind==="grocery"?"food":"material";
+ev.out="done";ev.label="MATERIAL";ev.au="material";
 beatCap.push(ev);
 }
 }
@@ -58,7 +58,7 @@ t.atk=false;t.atkS=0;releaseCrew(t);
 if(alive>0)spawnFloat(q.x,q.y-d.hh-4,"HELD");
 else{
 t.state="dark";t.turnsLeft=baseDays(tileStrength(t));
-if(t.kind==="light"){G.light=Math.max(0,(G.light||0)-1);ev.delta.light=-1;}
+if(t.kind==="light"||t.kind==="light2"){G.light=Math.max(0,(G.light||0)-1);ev.delta.light=-1;}
 spawnFloat(q.x,q.y-d.hh-4,"TAKEN");
 }
 floatSink=null;
@@ -66,35 +66,19 @@ beatOut(ev,t);
 }else beatWork(ev,t);
 }else{
 t.atk=false;t.atkS=0;t.state="dark";t.turnsLeft=baseDays(tileStrength(t));
-if(t.kind==="light")G.light=Math.max(0,(G.light||0)-1);
+if(t.kind==="light"||t.kind==="light2")G.light=Math.max(0,(G.light||0)-1);
 releaseCrew(t);
 spawnFloat(q.x,q.y-d.hh-4,"TAKEN");
 }
 }
 }
 for(const t of G.tiles){
-if(t.state==="owned"&&!t.atk){
-const w=crew(t).filter(s=>s.task.type==="gather").length;
-if(t.kind==="grocery"){const r=tilePassive(t)+GATHER_BONUS*w;G.food+=r;beatIncome(t,"food",r);}
-else if(t.kind==="scrap"){const r=tilePassive(t)+GATHER_BONUS*w;G.mats+=r;beatIncome(t,"mats",r);}
+if(t.state==="owned"&&!t.atk&&t.kind==="scrap"){
+const r=tilePassive(t);
+G.mats+=r;
+beatIncome(t,"mats",r);
 }
 }
-const spent=FOOD_PER_SURV*G.survivors.length;
-const deficit=spent>G.food;
-const foodPre=G.food;
-G.food=Math.max(0,G.food-spent);
-beatEatPending=foodPre-G.food;
-if(deficit&&G.survivors.length>0){
-G.starveStreak=(G.starveStreak||0)+1;
-let kills=Math.min(G.starveStreak,G.survivors.length);
-while(kills-->0&&G.survivors.length>0){
-const pool=G.survivors.filter(s=>!s.mc);
-const arr=pool.length?pool:G.survivors;
-const s=arr[Math.floor(Math.random()*arr.length)];
-beatStarve(s);
-killSurvivor(s);
-}
-}else G.starveStreak=0;
 for(const t of G.tiles){
 if(t.action==="extinguish"){
 const c=t.state==="owned"?defCrew(t):crew(t);

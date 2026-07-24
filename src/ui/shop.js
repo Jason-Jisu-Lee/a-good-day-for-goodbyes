@@ -1,4 +1,4 @@
-const SHOP_CATS=[["MATERIAL TILE","upMat"],["FOOD TILE","upFood"],["EMBER TILE",null],["MISC",null]];
+const SHOP_CATS=[["MATERIAL TILE","upMat"],["EMBER TILE",null],["MISC",null]];
 function drawShop(){
 uiButtons=[];
 const port=H>W;

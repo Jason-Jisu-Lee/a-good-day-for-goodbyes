@@ -3,9 +3,7 @@ function idleSpot(s,i){const l=L(),d=DXY();const cx0=l.ox,cy0=l.oy+(OB0+OB1)*d.d
 function crew(t){return G.survivors.filter(s=>s.task&&s.task.tile===t);}
 function killSurvivor(s){const i=G.survivors.indexOf(s);if(i<0)return;s.task=null;G.survivors.splice(i,1);}
 function statusOf(s){
-if(!s.task)return "IDLE";
-if(s.task.type==="extinguish")return "ILLUMINATING";
-return s.task.type.toUpperCase()+"ING";
+return s.task?"ILLUMINATING":"IDLE";
 }
 function recruit(t){
 if(G.survivors.length>=SURV_CAP)return;

@@ -40,16 +40,15 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
 - 12x12 grid, chess names A-L x 1-12, origin 2x2 F6 G6 F7 G7. Tiers
   0-10 = Manhattan ring distance from origin block (sizes
   4/8/12/16/20/24/20/16/12/8/4). Maps + tier table = TILES.md.
-- Origin (tier 0): 1 HOUSE + 1 LIGHT + 1 FOOD + 1 MYSTERY, shuffled;
-  the three non-mystery start owned; the light tile = 1 starting
-  LIGHT. Mystery illuminate = becomes MATERIAL or FOOD (50/50) +
-  opens the board.
-- Tier spawns: TIER_SPEC in newgame.js; per tier fixed or ranged
-  counts (ranges roll uniform per board), EMPTY LOTs fill the rest.
-  Table + percentages in TILES.md. No campfires anywhere. LIGHT
-  tiles tier 3+. RUBBLE 1 each in tiers 1/3, 2 in tiers 4-5. EMBER
-  tier 4+. Tiers 1-5 user-locked; 6-10 Claude draft pending
-  playtest.
+- Origin (tier 0): 1 APARTMENT + 1 LIGHTHOUSE + 2 EMPTY LOTS, all
+  owned; the lighthouse = 1 starting LIGHT. Board starts open (no
+  mystery gateway).
+- Tier spawns (TIER_SPEC): lamps + material + ember only. STREETLAMP
+  0-1 in t1, 1-2 in t2, 1-2 in t3, 2 in t4; t5 = 1 streetlamp + 1
+  LIGHTHOUSE. MATERIAL 1 to 1-3 rising through t1-5. EMBER 0-1 t4+,
+  1 in t5. Tiers 6-10 Claude draft (material/lamps/ember pattern).
+  Ranges roll uniform; EMPTY LOTs fill the rest. Tiers 1-5
+  user-locked.
 - Reveal: undiscovered = pure black, unclickable. Drawn = owned +
   origin + (once opened) edge-adjacent to owned. Unowned drawn = dim
   stamp, 0.4 alpha.
@@ -57,41 +56,36 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   anywhere. Not-knowing is the point.
 
 ## Tiles
-- FOOD / MATERIAL: owned = +1/day passive (+2 if b2 meta-upgrade
-  variant). Station 1 survivor (GATHER, 1 slot) = +3/day more.
-- CAMPFIRE: illuminate = recruit joins; tile stays, labeled. Future:
-  clearable/re-usable (not built).
-- SUPPLY CACHE: illuminate = 2-3 MATERIAL or 2-3 FOOD (50/50) ->
-  lot.
-- LIGHT (lighthouse): illuminate = +1 LIGHT, tile stays as a
-  persistent LIGHT structure (does not convert to a lot) - like
-  CAMPFIRE. No daily production, no decay, nothing spends it while
-  the tile is owned. The +1 is tied to that specific tile surviving:
-  if CREEP takes it (defended-but-lost or undefended), LIGHT drops
-  by 1 for that tile. This makes LIGHT tiles a real target - losing
-  one to an attack costs you blackout-survival, not just a tile.
+- MATERIAL: owned = +1/day passive (+2 if b2 meta-upgrade variant).
+  PERMANENT + NOT ACTIONABLE: no stationing, no survivor tasks, no
+  buttons; pure passive income. (GATHER is dead.)
+- STREETLAMP: illuminate = +1 LIGHT; tile stays as a persistent
+  structure. No daily production, no decay, nothing spends it while
+  the tile lives. If CREEP takes it (defended-loss or undefended),
+  LIGHT drops by 1.
+- LIGHTHOUSE: same as streetlamp, currently +1 LIGHT (intended +2
+  later, user adds). One pre-owned at origin; one spawns in tier 5.
 - EMBER: illuminate = +1 EMBER banked -> lot.
-- RUBBLE: dark obstruction, not illuminatable. CLEAR button (when
-  reachable) = 5 MATERIAL, removed instantly -> owned EMPTY LOT.
-- EMPTY LOT: owned lot can BUILD a FOOD or MATERIAL tile: 5
-  MATERIAL, 1 day. Renders with FLOOR FILL (solid dark floor
-  #20201e under the stamp); all other owned kinds unchanged.
-- HOUSE / APARTMENT: no mechanical effect currently (open item).
+- EMPTY LOT: owned lot can BUILD a MATERIAL tile: 5 MATERIAL, 1 day
+  (single button). Renders with FLOOR FILL (#20201e).
+- APARTMENT: origin building, no mechanical effect (open item).
+- Removed from the game: FOOD, CAMPFIRE, SUPPLY CACHE, RUBBLE,
+  MYSTERY, HOUSE (origin uses APARTMENT now).
 - HOSPITAL: designed, not built (health, mid game).
 
 ## Economy (per END DAY)
-- Start: 20 FOOD, 0 MATERIAL, 1 LIGHT, 2 survivors (MARA + REED).
-- Each survivor eats 2 FOOD.
-- STARVATION: deficit-based; someone dies only if the meal cannot be
-  covered (spend > available; exactly 0 after eating is safe).
-  Consecutive starving days kill 1, then 2, then 3... (streak resets
-  on any covered day). Deaths prefer non-MC; MARA only when alone.
+- Start: 0 MATERIAL, 1 LIGHT, 4 survivors, origin block.
+- NO FOOD SYSTEM: nothing eats, nothing starves. The survival
+  pressure axis = LIGHT (blackouts; light-burn upkeep design in
+  progress - user picked "the dark burns lamps", escalation + UI
+  indicator options pending).
+- Income: each owned MATERIAL tile +1/day (b2 +2), grouped into one
+  income beat.
 - Watch equilibrium after every economy change.
 
 ## Survivors
-- ROSTER CAP 4, ALL START: MARA (MC) + REED + JUNE + OKON from day
-  one. No recruiting; CAMPFIRE tiles removed from all spawns (their
-  slots fill as EMPTY LOT for now; campfire code kept dormant).
+- ROSTER 4, ALL START: MARA (MC) + REED + JUNE + OKON. No
+  recruiting in-run (debug +SURV only).
 - MC: if MARA dies, run ends immediately regardless of roster. So a
   lone survivor is always MARA.
 - SOLE-SURVIVOR STINGER: once roster has hit 4, the first time it
@@ -138,9 +132,9 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   "CONSUMED IN 1 DAY" when undefended.
 
 ## Blackout + LIGHT
-- LIGHT = blackout-survival currency. Sources: origin start (1,
-  pre-owned, never at risk since tier 0 is never attacked) + tier 3+
-  LIGHT tiles (illuminated, and AT RISK - see Tiles).
+- LIGHT = blackout-survival currency. Sources: origin lighthouse (1,
+  tier 0 is never attacked) + streetlamps/lighthouses in tiers 1+
+  (illuminated, and AT RISK - see Tiles).
 - Every 10 days the word BLACKOUT fills the screen (94% width,
   Tahoma bold, world-dim 0.5; in 0.72s / hold to 2.16s / out 1.2s;
   click after fully in = 0.3s dismiss). Yellow #e3c15c; a FAST
@@ -162,10 +156,10 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   bank to META.
 - META = localStorage goodbyes_meta {emb, upMat, upFood, tutZoom};
   survives wipes.
-- Shop: MATERIAL TILE / FOOD TILE / EMBER TILE / MISC. Live: first
-  two, +10%/point chance a spawned tile is +2/day (b2), cap 3.
+- Shop: MATERIAL TILE / EMBER TILE / MISC. Live: material only,
+  +10%/point chance a spawned tile is +2/day (b2), cap 3.
   Placeholders: cost 1 EMBER, row label, MISC name.
-- Save v10 single slot (goodbyes_save); other versions discarded.
+- Save v11 single slot (goodbyes_save); other versions discarded.
   Autosave: 10s + visibilitychange + END DAY + menu exit; wipe gags
   autosave until reload.
 
@@ -180,13 +174,11 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   pre-END-DAY look until their beat plays.
 - Audio = warm jazz blips, procedural WebAudio per event type, SFX
   slider volume.
-- Order: task resolutions (shuffled) -> income -> STARVED. Grouped
-  same-kind: all FOOD income one beat (label = NET food after
-  eating), all MATERIAL income one beat, caches/lights/embers
-  grouped by kind. Individual: survivor found, HELD/TAKEN/FAIL/
-  STARVED, still-working, plain claims, build-complete. No separate
-  eating beat; no per-tile income floats.
-- HUD counters (FOOD/MATERIAL/LIGHT/EMBER) tick in sync with the
+- Order: task resolutions (shuffled) -> income. Grouped: all
+  MATERIAL income = one beat (all tiles spotlit, +total). Individual:
+  HELD/TAKEN/FAIL, still-working, claims, build-complete, lamp
+  claims. Deltas sum-verify to truth; no per-tile income floats.
+- HUD counters (MATERIAL/LIGHT/EMBER) tick in sync with the
   beats (deferred value, settles per beat; snaps to truth on skip).
   Blackout word waits for the last beat. Run end = no beats.
 
@@ -194,9 +186,8 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
 - Roster: left side, one row per survivor: color dot + name +
   status (IDLE bright, busy dim). All-dim = ready to END DAY. This
   is the only survivor readout.
-- HUD: FOOD +N/-N per-day rows; MATERIAL once first seen; LIGHT;
-  BLACKOUT readout; EMBER when >0; item placeholders; DAY
-  bottom-left. END DAY button = PROMPT style (locked): boxless
+- HUD: MATERIAL once first seen (+N/DAY row + tooltip); LIGHT;
+  BLACKOUT readout; EMBER when >0; DAY bottom-left. END DAY button = PROMPT style (locked): boxless
   "[ END DAY ]", dim at idle; hover brightens and slides the
   brackets open. Hit box stays 150x44.
 - Panel: centered header ("?" dark, name owned, RED name if
@@ -204,10 +195,18 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   MATERIAL" (dark rubble), "+N/DAY" (resource), "BUILD 5 MATERIAL"
   (lot), "CONSUMED IN 1 DAY" (undefended, red). Attacked adds an
   ILLUMINATE label over the list.
-- One-click flow: selecting any tile whose action is obvious opens
-  the survivor list directly - dark tiles, resource tiles, attacked
-  tiles. Buttons exist only where there is a choice: CLEAR (dark
-  rubble), FOOD/MATERIAL (lot build).
+- DRAG ASSIGN (primary, user 07-23): hovering a survivor dot shows a
+  ring highlight + grab cursor. Press and drag = a thin curved line
+  from the survivor that SNAPS to the center of the nearest
+  actionable tile (dark illuminatable or attacked; material/lamps/
+  lots are not drag targets), stopping at the tile border. The
+  snapped tile gets the hover LIFT + a soft white glow fill.
+  Release = survivor assigned to that tile (reassigns from any
+  previous task); panel opens on the target. Release on nothing =
+  cancel.
+- One-click flow (still works): selecting a dark/attacked tile opens
+  the survivor list directly; tap names to assign/unassign. The only
+  button: MATERIAL (lot build).
 - Picker rows: 16px checkbox (fills with the survivor's color when
   ticked) + name, one line. Live assign: tap = assign, tap again =
   unassign; untick everyone = pull back (progress reset). Below the
@@ -234,8 +233,8 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   sections blaze. Fast attack, brisk release. Drums surge the whole
   town; silence = sleep. file:// cannot analyse audio (synthetic
   events); real reaction on http://localhost:8123 or itch.
-- Debug (outside stage, backtick/#debug): +25 FOOD/MATS, +SURV,
-  speed X1-X5/X20, stats, VIEW, RESET. #game skips menu.
+- Debug (outside stage, backtick/#debug): +25 MATS, +5 LIGHT,
+  +SURV, speed X1-X5/X20, stats, VIEW, RESET. #game skips menu.
 
 ## Visual language (locked)
 - Diamond lattice, military projection, pitch (48,24) true 2:1.
@@ -252,12 +251,11 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   tails.
 - Text = vector Segoe UI stack (text7/text3); icons = canvas paths;
   BLACKOUT word = Tahoma bold. Tile labels centered in the diamond.
-- Tile art (user's, extracted): FOOD = barn+silo, MATERIAL =
-  warehouse+logs, LIGHT = streetlamp (stampProp, heights 38/35/48,
-  base at tile center +16; text-label fallback if an image fails).
-  LIGHTHOUSE asset ready for the future +2 LIGHT variant, not
-  wired. Text-label kinds remaining: RUBBLE CAMPFIRE CACHE EMBER.
-  Sources in ref/.
+- Tile art (user originals, verbatim, bg transparency only):
+  STREETLAMP + LIGHTHOUSE + MATERIAL (warehouse+logs), width-anchored
+  (60/64/66) so the drawn ground plates sit inside the game tile;
+  text-label fallback if an image fails. Unused: food.png (kind
+  removed). EMBER = text label. Sources in ref/.
 - Display modes: WINDOWED 960x540 / BORDERLESS adaptive viewport
   (caps 1720x720) / FULLSCREEN. Never render fractional.
 - 1-bit dark, color earned slowly, red = danger only. Color plan
@@ -288,7 +286,7 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
 - Houses/apartments do nothing - purpose or decoration?; lot-build
   HOUSE option?; placeholder item identities; shop EMBER/MISC.
 - Attack tuning; defender re-crew pinning rule; crew-rule verdicts;
-  run-skeleton depths; pacing pass; starvation feel check.
+  run-skeleton depths; pacing pass.
 - Survivor markers; tile icons; naming (void, MISC); story lock;
   stat system; permadeath.
 - Tutorial visuals; SETTINGS handler; WISHLIST/DISCORD links; SFX +

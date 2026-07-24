@@ -3,7 +3,7 @@ uiButtons=[];
 cx.save();
 cx.translate(Math.round(camX*S),Math.round(camY*S));
 drawTiles();
-if(!beatsRendering())drawSurvivors();
+if(!beatsRendering()){drawSurvivors();drawDrag();}
 drawFloats();
 cx.restore();
 drawBeats();
@@ -47,7 +47,7 @@ if(zoomBarT>0)zoomBarT=Math.max(0,zoomBarT-dt);
 frames++;fpsT+=dt;if(fpsT>=1){fps=frames;frames=0;fpsT=0;}
 if(!dbg.hidden){
 let line="win "+innerWidth+"x"+innerHeight+" | dpr "+dpr+" | scr "+screen.width+"x"+screen.height+" | S "+S+" | k "+k.toFixed(2);
-if(G)line+=" | fps "+fps+" | day "+G.day+" | food "+G.food+" | mats "+G.mats+" | pop "+G.survivors.length;
+if(G)line+=" | fps "+fps+" | day "+G.day+" | mats "+G.mats+" | light "+(G.light||0)+" | pop "+G.survivors.length;
 document.getElementById("dbgstat").textContent=line;
 }
 draw();

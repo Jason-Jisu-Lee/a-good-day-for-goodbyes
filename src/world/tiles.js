@@ -39,6 +39,7 @@ const lift=t===hoverTile?hoverA*3*Math.max(l.sc,0.5):0;
 const bp=beatPrevFor(t);
 const vt=bp?{kind:bp.prev.kind,state:bp.prev.state,atk:false}:t;
 drawTileVisual(vt,p.x,p.y-lift);
+if(t===dragT)dragGlow(p.x,p.y-lift);
 if(!bp&&t.action&&t.turnsLeft>0&&(t.state!=="owned"||t.atk||t.action==="build")){
 const d=DXY();
 text7(t.turnsLeft+"D",p.x,p.y-d.hh-12,1,"c",FG);
