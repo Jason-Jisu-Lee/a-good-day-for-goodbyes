@@ -42,6 +42,9 @@ tickHud(dt);
 visual(dt);
 updateFloats(dt);
 hoverA+=((hoverTile?1:0)-hoverA)*Math.min(1,dt*10);
+const hsv=dragS||hoverSurv;
+if(hsv!==hoverSurvLast){hoverSurvA=0;hoverSurvLast=hsv;}
+hoverSurvA+=((hsv?1:0)-hoverSurvA)*Math.min(1,dt*14);
 if(zoomBarT>0)zoomBarT=Math.max(0,zoomBarT-dt);
 }
 frames++;fpsT+=dt;if(fpsT>=1){fps=frames;frames=0;fpsT=0;}

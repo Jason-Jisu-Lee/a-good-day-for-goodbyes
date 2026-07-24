@@ -195,15 +195,17 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   MATERIAL" (dark rubble), "+N/DAY" (resource), "BUILD 5 MATERIAL"
   (lot), "CONSUMED IN 1 DAY" (undefended, red). Attacked adds an
   ILLUMINATE label over the list.
-- DRAG ASSIGN (primary, user 07-23): hovering a survivor dot shows a
-  ring highlight + grab cursor. Press and drag = a thin curved line
-  from the survivor that SNAPS to the center of the nearest
-  actionable tile (dark illuminatable or attacked; material/lamps/
-  lots are not drag targets), stopping at the tile border. The
-  snapped tile gets the hover LIFT + a soft white glow fill.
-  Release = survivor assigned to that tile (reassigns from any
-  previous task); panel opens on the target. Release on nothing =
-  cancel.
+- DRAG ASSIGN (primary, user 07-23): hovering a survivor dot pops
+  it (eased ~90ms): dot lifts 3px, white contact ring around the
+  dot, iso ground ring settles under it, name label above, grab
+  cursor. Press and drag = a thin straight line from the survivor
+  to the pointer. A tile captures ONLY while the pointer is inside
+  its diamond (actionable only: dark illuminatable or attacked;
+  material/lamps/lots are not drag targets); while captured the
+  line stops at the tile border and the tile gets the hover LIFT +
+  a soft white glow fill. Release on a captured tile = survivor
+  assigned (reassigns from any previous task); panel opens on the
+  target. Release on nothing = cancel.
 - One-click flow (still works): selecting a dark/attacked tile opens
   the survivor list directly; tap names to assign/unassign. The only
   button: MATERIAL (lot build).
@@ -253,11 +255,15 @@ Steam. Canonical design doc: CURRENT STATE ONLY, no history.
   BLACKOUT word = Tahoma bold. Tile labels centered in the diamond.
 - Tile art (user originals, verbatim, bg transparency only):
   STREETLAMP + LIGHTHOUSE + MATERIAL (warehouse+logs), width-anchored
-  (60/64/66) so the drawn ground plates sit inside the game tile;
-  text-label fallback if an image fails. Unused: food.png (kind
-  removed). EMBER = text label. Sources in ref/.
-- Display modes: WINDOWED 960x540 / BORDERLESS adaptive viewport
-  (caps 1720x720) / FULLSCREEN. Never render fractional.
+  (60/64/66). Streetlamp keeps its drawn ground plate inside the
+  game tile; lighthouse uses lighthouse_only.png (baked plate
+  stripped, the game tile is the only outline); text-label fallback
+  if an image fails. Unused: food.png (kind removed). EMBER = text
+  label. Sources in ref/.
+- Display modes: WINDOWED 960x540 logical, scales up to the window
+  (integer render scale, CSS fit, letterbox; pixel-exact at
+  960x540) / BORDERLESS adaptive viewport (caps 1720x720) /
+  FULLSCREEN. Never render fractional.
 - 1-bit dark, color earned slowly, red = danger only. Color plan
   60-30-10 with per-category muted hues later (proposal: color
   arrives on illuminate). Tone: classy jazz vs playful minimal art,

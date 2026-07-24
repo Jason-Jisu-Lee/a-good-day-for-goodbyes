@@ -12,16 +12,15 @@ PORT=innerHeight>innerWidth;
 const bw=PORT?540:960,bh=PORT?960:540;
 const cw=PORT?720:1720,ch=PORT?1280:720;
 let kp=Math.min(innerWidth*dpr/bw,innerHeight*dpr/bh);
-if(kp>=1)kp=Math.floor(kp);
 if(OPT.disp==="win"){
-kp=Math.min(kp,dpr);
+kp=Math.max(1,Math.ceil(kp));
 W=bw;H=bh;
 }else{
+if(kp>=1)kp=Math.floor(kp);
 W=Math.max(bw,Math.min(cw,Math.floor(innerWidth*dpr/kp)));
 H=Math.max(bh,Math.min(ch,Math.floor(innerHeight*dpr/kp)));
 }
 let kf=Math.min(innerWidth/W,innerHeight/H);
-if(OPT.disp==="win")kf=Math.min(kf,1);
 k=kf;
 S=kp;
 cv.style.width=W*kf+"px";cv.style.height=H*kf+"px";

@@ -13,21 +13,8 @@ cx.fill();
 cx.restore();
 }
 function drawDrag(){
-if(!G)return;
+if(!G||!dragS||!dragPt)return;
 const l=L();
-const hs=dragS||hoverSurv;
-if(hs){
-cx.save();
-cx.scale(S,S);
-cx.strokeStyle=FG;
-cx.lineWidth=1.5;
-cx.globalAlpha=0.9;
-cx.beginPath();
-cx.arc(hs.x,hs.y,9.5*Math.max(l.sc,0.8),0,Math.PI*2);
-cx.stroke();
-cx.restore();
-}
-if(!dragS||!dragPt)return;
 let ex=dragPt.x,ey=dragPt.y,snapped=false;
 if(dragT){
 const q=tpos(dragT);
@@ -39,17 +26,13 @@ else return;
 }
 cx.save();
 cx.scale(S,S);
-const mx=(dragS.x+ex)/2,my=(dragS.y+ey)/2;
-let nx=-(ey-dragS.y),ny=ex-dragS.x;
-const nl=Math.hypot(nx,ny)||1;
-const cxp=mx+nx/nl*10*l.sc,cyp=my+ny/nl*10*l.sc;
 cx.strokeStyle=FG;
 cx.lineWidth=1.5;
 cx.lineCap="round";
 cx.globalAlpha=snapped?0.9:0.4;
 cx.beginPath();
 cx.moveTo(dragS.x,dragS.y);
-cx.quadraticCurveTo(cxp,cyp,ex,ey);
+cx.lineTo(ex,ey);
 cx.stroke();
 cx.fillStyle=FG;
 cx.beginPath();

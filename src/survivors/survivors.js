@@ -23,14 +23,44 @@ if(d>1){const step=Math.min(d,SPEED*dt*ts);s.x+=(target.x-s.x)/d*step;s.y+=(targ
 }
 }
 function drawSurvivors(){
-const l=L();
+const l=L(),hs=dragS||hoverSurv,es=Math.max(l.sc,0.8);
+const list=hs?[...G.survivors.filter(s=>s!==hs),hs]:G.survivors;
 cx.save();
 cx.scale(S,S);
-for(const s of G.survivors){
+for(const s of list){
+const a=s===hs?hoverSurvA:0;
+const lift=a*3*es;
+if(a>0.01){
+const rx=(12-2.5*a)*es,ry=rx*0.5;
+cx.beginPath();
+cx.ellipse(s.x,s.y+6*es,rx,ry,0,0,Math.PI*2);
+cx.fillStyle=FG;
+cx.globalAlpha=0.1*a;
+cx.fill();
+cx.strokeStyle=FG;
+cx.lineWidth=1.5;
+cx.globalAlpha=0.35+0.55*a;
+cx.stroke();
+cx.globalAlpha=1;
+}
 cx.fillStyle=s.col;
 cx.beginPath();
-cx.arc(s.x,s.y,6*l.sc,0,Math.PI*2);
+cx.arc(s.x,s.y-lift,6*l.sc,0,Math.PI*2);
 cx.fill();
+if(a>0.01){
+cx.strokeStyle=FG;
+cx.lineWidth=1.5;
+cx.globalAlpha=0.9*a;
+cx.beginPath();
+cx.arc(s.x,s.y-lift,6*l.sc+2,0,Math.PI*2);
+cx.stroke();
+cx.globalAlpha=1;
+}
 }
 cx.restore();
+if(hs&&hoverSurvA>0.05){
+cx.globalAlpha=Math.min(1,hoverSurvA*1.2);
+text7(hs.name,hs.x,hs.y-hoverSurvA*3*es-6*l.sc-14*es,1,"c",FG);
+cx.globalAlpha=1;
+}
 }

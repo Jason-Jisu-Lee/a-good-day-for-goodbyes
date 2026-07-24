@@ -2,7 +2,7 @@ const T_HOUSE=new Image();T_HOUSE.src="asset/tiles/smooth_house_only.png?v=2";
 const T_APT=new Image();T_APT.src="asset/tiles/smooth_apt_only.png?v=2";
 const T_TILE=new Image();T_TILE.src="asset/tiles/smooth_tile.png?v=2";
 const T_LAMP=new Image();T_LAMP.src="asset/tiles/streetlamp.png?v=2";
-const T_LH=new Image();T_LH.src="asset/tiles/lighthouse.png?v=1";
+const T_LH=new Image();T_LH.src="asset/tiles/lighthouse_only.png?v=1";
 const T_MAT=new Image();T_MAT.src="asset/tiles/material.png?v=3";
 const PROP_ART={light:{img:T_LAMP,w:60},light2:{img:T_LH,w:64},scrap:{img:T_MAT,w:66}};
 function stampProp(img,x,y,w){

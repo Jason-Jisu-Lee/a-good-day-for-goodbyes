@@ -42,15 +42,13 @@ if(ds){dragS=ds;dragPt={x:wx,y:wy};dragT=null;return;}
 panDrag={sx:p.x,sy:p.y,cx0:camX,cy0:camY,moved:false};
 });
 function dragSnap(wx,wy){
-const l=L();
-let best=null,bd=1e9;
+const l=L(),hw=35.5*l.sc,hh=17.5*l.sc;
 for(const t of G.tiles){
 if(!actionableT(t)||!drawnTile(t))continue;
 const q=tpos(t);
-const dd=Math.hypot(wx-q.x,wy-(q.y+3*l.sc));
-if(dd<52*l.sc&&dd<bd){best=t;bd=dd;}
+if(Math.abs(wx-q.x)/hw+Math.abs(wy-q.y-3*l.sc)/hh<=1)return t;
 }
-return best;
+return null;
 }
 cv.addEventListener("pointermove",e=>{
 const p=toLogical(e);
