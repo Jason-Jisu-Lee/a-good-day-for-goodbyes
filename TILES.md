@@ -97,8 +97,8 @@ A12   B11   C10   D9    E8   [F7]  [G6]   H5    I4    J3    K2    L1
 
 ## Tier spawn spec (07-22; live in newgame.js TIER_SPEC)
 Each count ROLLS UNIFORM per board (a range = each value equally
-likely). The rest of the tier fills with EMPTY LOT. RUBBLE starts
-tier 4; LIGHT starts tier 3; CAMP only tiers 1-3 (the 3 recruits).
+likely). The rest of the tier fills with EMPTY LOT. RUBBLE tiers
+1/3/4/5+; LIGHT starts tier 3; CAMP = none (all survivors start).
 Tiers 1-5 = USER-LOCKED. Tiers 6-10 = CLAUDE DRAFT (*), playtest
 pending. "-" = none.
 
